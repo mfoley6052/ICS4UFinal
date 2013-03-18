@@ -1,396 +1,245 @@
 VERSION 5.00
 Begin VB.Form frmMain 
-   Caption         =   "RTS"
+   AutoRedraw      =   -1  'True
+   Caption         =   "Form1"
    ClientHeight    =   9000
-   ClientLeft      =   120
-   ClientTop       =   450
+   ClientLeft      =   4695
+   ClientTop       =   1350
    ClientWidth     =   12000
    LinkTopic       =   "Form1"
    ScaleHeight     =   600
    ScaleMode       =   3  'Pixel
    ScaleWidth      =   800
-   StartUpPosition =   3  'Windows Default
-   Begin VB.Timer tmrSelAnim 
-      Index           =   0
-      Interval        =   150
-      Left            =   11520
-      Top             =   120
+   Begin VB.Timer tmrTileDraw 
+      Interval        =   1
+      Left            =   6360
+      Top             =   4560
    End
-   Begin VB.Label lblTest 
-      Caption         =   "Label1"
-      Height          =   255
+   Begin VB.PictureBox picSelMask 
+      Height          =   810
       Index           =   4
-      Left            =   10920
-      TabIndex        =   4
-      Top             =   4080
-      Width           =   975
+      Left            =   8040
+      Picture         =   "frmMain.frx":0000
+      ScaleHeight     =   50
+      ScaleMode       =   3  'Pixel
+      ScaleWidth      =   100
+      TabIndex        =   15
+      Top             =   2640
+      Visible         =   0   'False
+      Width           =   1560
    End
-   Begin VB.Label lblTest 
-      Caption         =   "Label1"
-      Height          =   255
+   Begin VB.PictureBox picSelMask 
+      Height          =   810
       Index           =   3
-      Left            =   10920
-      TabIndex        =   3
-      Top             =   3840
-      Width           =   975
+      Left            =   6480
+      Picture         =   "frmMain.frx":013D
+      ScaleHeight     =   50
+      ScaleMode       =   3  'Pixel
+      ScaleWidth      =   100
+      TabIndex        =   14
+      Top             =   2640
+      Visible         =   0   'False
+      Width           =   1560
    End
-   Begin VB.Label lblTest 
-      Caption         =   "Label1"
-      Height          =   255
+   Begin VB.PictureBox picSelMask 
+      Height          =   810
       Index           =   2
-      Left            =   10920
-      TabIndex        =   2
-      Top             =   3480
-      Width           =   975
+      Left            =   4920
+      Picture         =   "frmMain.frx":027C
+      ScaleHeight     =   50
+      ScaleMode       =   3  'Pixel
+      ScaleWidth      =   100
+      TabIndex        =   13
+      Top             =   2640
+      Visible         =   0   'False
+      Width           =   1560
    End
-   Begin VB.Label lblTest 
-      Caption         =   "Label1"
-      Height          =   255
+   Begin VB.PictureBox picSelMask 
+      Height          =   810
       Index           =   1
-      Left            =   10920
-      TabIndex        =   1
-      Top             =   3120
-      Width           =   975
+      Left            =   3360
+      Picture         =   "frmMain.frx":03BD
+      ScaleHeight     =   50
+      ScaleMode       =   3  'Pixel
+      ScaleWidth      =   100
+      TabIndex        =   12
+      Top             =   2640
+      Visible         =   0   'False
+      Width           =   1560
    End
-   Begin VB.Label lblTest 
-      Caption         =   "Label1"
-      Height          =   255
+   Begin VB.PictureBox picSelMask 
+      Height          =   810
       Index           =   0
-      Left            =   10920
+      Left            =   1800
+      Picture         =   "frmMain.frx":0500
+      ScaleHeight     =   50
+      ScaleMode       =   3  'Pixel
+      ScaleWidth      =   100
+      TabIndex        =   11
+      Top             =   2640
+      Visible         =   0   'False
+      Width           =   1560
+   End
+   Begin VB.PictureBox picSelB 
+      AutoRedraw      =   -1  'True
+      Height          =   810
+      Index           =   4
+      Left            =   8040
+      Picture         =   "frmMain.frx":0642
+      ScaleHeight     =   50
+      ScaleMode       =   3  'Pixel
+      ScaleWidth      =   100
+      TabIndex        =   10
+      Top             =   1800
+      Visible         =   0   'False
+      Width           =   1560
+   End
+   Begin VB.PictureBox picSelB 
+      AutoRedraw      =   -1  'True
+      Height          =   810
+      Index           =   3
+      Left            =   6480
+      Picture         =   "frmMain.frx":07B6
+      ScaleHeight     =   50
+      ScaleMode       =   3  'Pixel
+      ScaleWidth      =   100
+      TabIndex        =   9
+      Top             =   1800
+      Visible         =   0   'False
+      Width           =   1560
+   End
+   Begin VB.PictureBox picSelB 
+      AutoRedraw      =   -1  'True
+      Height          =   810
+      Index           =   2
+      Left            =   4920
+      Picture         =   "frmMain.frx":0944
+      ScaleHeight     =   50
+      ScaleMode       =   3  'Pixel
+      ScaleWidth      =   100
+      TabIndex        =   8
+      Top             =   1800
+      Visible         =   0   'False
+      Width           =   1560
+   End
+   Begin VB.PictureBox picSelB 
+      AutoRedraw      =   -1  'True
+      Height          =   810
+      Index           =   1
+      Left            =   3360
+      Picture         =   "frmMain.frx":0AAF
+      ScaleHeight     =   50
+      ScaleMode       =   3  'Pixel
+      ScaleWidth      =   100
+      TabIndex        =   7
+      Top             =   1800
+      Visible         =   0   'False
+      Width           =   1560
+   End
+   Begin VB.PictureBox picSelB 
+      AutoRedraw      =   -1  'True
+      Height          =   810
+      Index           =   0
+      Left            =   1800
+      Picture         =   "frmMain.frx":0C0E
+      ScaleHeight     =   50
+      ScaleMode       =   3  'Pixel
+      ScaleWidth      =   100
+      TabIndex        =   6
+      Top             =   1800
+      Visible         =   0   'False
+      Width           =   1560
+   End
+   Begin VB.PictureBox picScene 
+      AutoRedraw      =   -1  'True
+      Height          =   1500
+      Index           =   2
+      Left            =   240
+      Picture         =   "frmMain.frx":0D70
+      ScaleHeight     =   96
+      ScaleMode       =   3  'Pixel
+      ScaleWidth      =   96
+      TabIndex        =   5
+      Top             =   1800
+      Visible         =   0   'False
+      Width           =   1500
+   End
+   Begin VB.PictureBox picScene 
+      AutoRedraw      =   -1  'True
+      Height          =   1500
+      Index           =   1
+      Left            =   240
+      Picture         =   "frmMain.frx":158D
+      ScaleHeight     =   96
+      ScaleMode       =   3  'Pixel
+      ScaleWidth      =   96
+      TabIndex        =   4
+      Top             =   3360
+      Visible         =   0   'False
+      Width           =   1500
+   End
+   Begin VB.Timer tmrSel 
+      Interval        =   125
+      Left            =   5400
+      Top             =   4320
+   End
+   Begin VB.PictureBox picBuffer 
+      AutoRedraw      =   -1  'True
+      Height          =   1500
+      Left            =   3480
+      ScaleHeight     =   96
+      ScaleMode       =   3  'Pixel
+      ScaleWidth      =   96
+      TabIndex        =   2
+      Top             =   240
+      Visible         =   0   'False
+      Width           =   1500
+   End
+   Begin VB.PictureBox picMask 
+      AutoRedraw      =   -1  'True
+      Height          =   1500
+      Left            =   1800
+      Picture         =   "frmMain.frx":2803
+      ScaleHeight     =   96
+      ScaleMode       =   3  'Pixel
+      ScaleWidth      =   96
+      TabIndex        =   1
+      Top             =   240
+      Visible         =   0   'False
+      Width           =   1500
+   End
+   Begin VB.PictureBox picScene 
+      AutoRedraw      =   -1  'True
+      Height          =   1500
+      Index           =   0
+      Left            =   240
+      Picture         =   "frmMain.frx":291A
+      ScaleHeight     =   96
+      ScaleMode       =   3  'Pixel
+      ScaleWidth      =   96
       TabIndex        =   0
-      Top             =   2760
-      Width           =   975
+      Top             =   240
+      Visible         =   0   'False
+      Width           =   1500
+   End
+   Begin VB.PictureBox picBackground 
+      AutoRedraw      =   -1  'True
+      Height          =   9015
+      Left            =   0
+      ScaleHeight     =   597
+      ScaleMode       =   3  'Pixel
+      ScaleWidth      =   797
+      TabIndex        =   3
+      Top             =   0
+      Visible         =   0   'False
+      Width           =   12015
    End
    Begin VB.Image imgSel 
       Enabled         =   0   'False
       Height          =   1500
-      Left            =   1440
-      Picture         =   "frmMain.frx":0000
-      Top             =   0
-      Width           =   1500
-   End
-   Begin VB.Image imgTile 
-      Enabled         =   0   'False
-      Height          =   1500
-      Index           =   36
-      Left            =   0
-      Picture         =   "frmMain.frx":016A
-      Top             =   0
-      Width           =   1500
-   End
-   Begin VB.Image imgTile 
-      Enabled         =   0   'False
-      Height          =   1500
-      Index           =   35
-      Left            =   0
-      Picture         =   "frmMain.frx":0368
-      Top             =   0
-      Width           =   1500
-   End
-   Begin VB.Image imgTile 
-      Enabled         =   0   'False
-      Height          =   1500
-      Index           =   34
-      Left            =   0
-      Picture         =   "frmMain.frx":0566
-      Top             =   0
-      Width           =   1500
-   End
-   Begin VB.Image imgTile 
-      Enabled         =   0   'False
-      Height          =   1500
-      Index           =   33
-      Left            =   0
-      Picture         =   "frmMain.frx":0764
-      Top             =   0
-      Width           =   1500
-   End
-   Begin VB.Image imgTile 
-      Enabled         =   0   'False
-      Height          =   1500
-      Index           =   32
-      Left            =   0
-      Picture         =   "frmMain.frx":0962
-      Top             =   0
-      Width           =   1500
-   End
-   Begin VB.Image imgTile 
-      Enabled         =   0   'False
-      Height          =   1500
-      Index           =   31
-      Left            =   0
-      Picture         =   "frmMain.frx":0B60
-      Top             =   0
-      Width           =   1500
-   End
-   Begin VB.Image imgTile 
-      Enabled         =   0   'False
-      Height          =   1500
-      Index           =   30
-      Left            =   0
-      Picture         =   "frmMain.frx":0D5E
-      Top             =   0
-      Width           =   1500
-   End
-   Begin VB.Image imgTile 
-      Enabled         =   0   'False
-      Height          =   1500
-      Index           =   29
-      Left            =   0
-      Picture         =   "frmMain.frx":0F5C
-      Top             =   0
-      Width           =   1500
-   End
-   Begin VB.Image imgTile 
-      Enabled         =   0   'False
-      Height          =   1500
-      Index           =   28
-      Left            =   0
-      Picture         =   "frmMain.frx":115A
-      Top             =   0
-      Width           =   1500
-   End
-   Begin VB.Image imgTile 
-      Enabled         =   0   'False
-      Height          =   1500
-      Index           =   27
-      Left            =   0
-      Picture         =   "frmMain.frx":1358
-      Top             =   0
-      Width           =   1500
-   End
-   Begin VB.Image imgTile 
-      Enabled         =   0   'False
-      Height          =   1500
-      Index           =   26
-      Left            =   0
-      Picture         =   "frmMain.frx":1556
-      Top             =   0
-      Width           =   1500
-   End
-   Begin VB.Image imgTile 
-      Enabled         =   0   'False
-      Height          =   1500
-      Index           =   25
-      Left            =   0
-      Picture         =   "frmMain.frx":1754
-      Top             =   0
-      Width           =   1500
-   End
-   Begin VB.Image imgTile 
-      Enabled         =   0   'False
-      Height          =   1500
-      Index           =   24
-      Left            =   0
-      Picture         =   "frmMain.frx":1952
-      Top             =   0
-      Width           =   1500
-   End
-   Begin VB.Image imgTile 
-      Enabled         =   0   'False
-      Height          =   1500
-      Index           =   23
-      Left            =   0
-      Picture         =   "frmMain.frx":1B50
-      Top             =   0
-      Width           =   1500
-   End
-   Begin VB.Image imgTile 
-      Enabled         =   0   'False
-      Height          =   1500
-      Index           =   22
-      Left            =   0
-      Picture         =   "frmMain.frx":1D4E
-      Top             =   0
-      Width           =   1500
-   End
-   Begin VB.Image imgTile 
-      Enabled         =   0   'False
-      Height          =   1500
-      Index           =   21
-      Left            =   0
-      Picture         =   "frmMain.frx":1F4C
-      Top             =   0
-      Width           =   1500
-   End
-   Begin VB.Image imgTile 
-      Enabled         =   0   'False
-      Height          =   1500
-      Index           =   20
-      Left            =   0
-      Picture         =   "frmMain.frx":214A
-      Top             =   0
-      Width           =   1500
-   End
-   Begin VB.Image imgTile 
-      Enabled         =   0   'False
-      Height          =   1500
-      Index           =   19
-      Left            =   0
-      Picture         =   "frmMain.frx":2348
-      Top             =   0
-      Width           =   1500
-   End
-   Begin VB.Image imgTile 
-      Enabled         =   0   'False
-      Height          =   1500
-      Index           =   18
-      Left            =   0
-      Picture         =   "frmMain.frx":2546
-      Top             =   0
-      Width           =   1500
-   End
-   Begin VB.Image imgTile 
-      Enabled         =   0   'False
-      Height          =   1500
-      Index           =   17
-      Left            =   0
-      Picture         =   "frmMain.frx":2744
-      Top             =   0
-      Width           =   1500
-   End
-   Begin VB.Image imgTile 
-      Enabled         =   0   'False
-      Height          =   1500
-      Index           =   16
-      Left            =   0
-      Picture         =   "frmMain.frx":2942
-      Top             =   0
-      Width           =   1500
-   End
-   Begin VB.Image imgTile 
-      Enabled         =   0   'False
-      Height          =   1500
-      Index           =   15
-      Left            =   0
-      Picture         =   "frmMain.frx":2B40
-      Top             =   0
-      Width           =   1500
-   End
-   Begin VB.Image imgTile 
-      Enabled         =   0   'False
-      Height          =   1500
-      Index           =   14
-      Left            =   0
-      Picture         =   "frmMain.frx":2D3E
-      Top             =   0
-      Width           =   1500
-   End
-   Begin VB.Image imgTile 
-      Enabled         =   0   'False
-      Height          =   1500
-      Index           =   13
-      Left            =   0
-      Picture         =   "frmMain.frx":2F3C
-      Top             =   0
-      Width           =   1500
-   End
-   Begin VB.Image imgTile 
-      Enabled         =   0   'False
-      Height          =   1500
-      Index           =   12
-      Left            =   0
-      Picture         =   "frmMain.frx":313A
-      Top             =   0
-      Width           =   1500
-   End
-   Begin VB.Image imgTile 
-      Enabled         =   0   'False
-      Height          =   1500
-      Index           =   11
-      Left            =   0
-      Picture         =   "frmMain.frx":3338
-      Top             =   0
-      Width           =   1500
-   End
-   Begin VB.Image imgTile 
-      Enabled         =   0   'False
-      Height          =   1500
-      Index           =   10
-      Left            =   0
-      Picture         =   "frmMain.frx":3536
-      Top             =   0
-      Width           =   1500
-   End
-   Begin VB.Image imgTile 
-      Enabled         =   0   'False
-      Height          =   1500
-      Index           =   9
-      Left            =   0
-      Picture         =   "frmMain.frx":3734
-      Top             =   0
-      Width           =   1500
-   End
-   Begin VB.Image imgTile 
-      Enabled         =   0   'False
-      Height          =   1500
-      Index           =   8
-      Left            =   0
-      Picture         =   "frmMain.frx":3932
-      Top             =   0
-      Width           =   1500
-   End
-   Begin VB.Image imgTile 
-      Enabled         =   0   'False
-      Height          =   1500
-      Index           =   7
-      Left            =   0
-      Picture         =   "frmMain.frx":3B30
-      Top             =   0
-      Width           =   1500
-   End
-   Begin VB.Image imgTile 
-      Enabled         =   0   'False
-      Height          =   1500
-      Index           =   6
-      Left            =   0
-      Picture         =   "frmMain.frx":3D2E
-      Top             =   0
-      Width           =   1500
-   End
-   Begin VB.Image imgTile 
-      Enabled         =   0   'False
-      Height          =   1500
-      Index           =   5
-      Left            =   0
-      Picture         =   "frmMain.frx":3F2C
-      Top             =   0
-      Width           =   1500
-   End
-   Begin VB.Image imgTile 
-      Enabled         =   0   'False
-      Height          =   1500
-      Index           =   4
-      Left            =   0
-      Picture         =   "frmMain.frx":412A
-      Top             =   0
-      Width           =   1500
-   End
-   Begin VB.Image imgTile 
-      Enabled         =   0   'False
-      Height          =   1500
-      Index           =   3
-      Left            =   0
-      Picture         =   "frmMain.frx":4328
-      Top             =   0
-      Width           =   1500
-   End
-   Begin VB.Image imgTile 
-      Enabled         =   0   'False
-      Height          =   1500
-      Index           =   2
-      Left            =   0
-      Picture         =   "frmMain.frx":4526
-      Top             =   0
-      Width           =   1500
-   End
-   Begin VB.Image imgTile 
-      Enabled         =   0   'False
-      Height          =   1500
-      Index           =   1
-      Left            =   0
-      Picture         =   "frmMain.frx":4724
-      Top             =   0
+      Left            =   3480
+      Picture         =   "frmMain.frx":308D
+      Top             =   1920
       Width           =   1500
    End
 End
@@ -399,122 +248,151 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-Dim dbTile(0 To 2) As String
-Dim mapData(0, 1 To 24, 1 To 24) As Integer
-Dim intFieldSize As Integer
-Dim u(0 To 1) As Integer
-Dim intSelTile As Integer
-Dim strSelType As String
-Dim frmWidthRatio As Single
-Dim frmHeightRatio As Single
+Dim selType As String
+Dim picCount As Integer
+Dim intTileXinit As Integer
+Dim intTileYinit As Integer
+Dim intTileX As Integer
+Dim intTileY As Integer
+
+Private Sub Form_KeyUp(KeyCode As Integer, Shift As Integer)
+If KeyCode = 123 Then 'F12
+    If frmDbg.Visible = False Then
+        frmDbg.Visible = True
+        frmDbg.Show
+        Me.SetFocus
+    Else
+        frmDbg.Visible = False
+        frmDbg.Hide
+    End If
+End If
+End Sub
 
 Private Sub Form_Load()
-frmWidthRatio = 15.3
-frmHeightRatio = 15.95
-u(0) = 50
-dbTile(0) = "Plain"
-strSelType = "R"
-'0 - Terrain
-'1 - Height
-'2 - Effect
-'Call defineMaps
-u(1) = 100
-dbTile(0) = "Plain"
-strSelType = "R"
-'0 - Terrain
-'1 - Height
-'2 - Effect
-'Call defineMaps
-Call getField
-End Sub
-
-Private Sub defineMaps()
-'mapData(0, 1, 1)
-'mapData(0, 1, 1)
-End Sub
-
-Private Sub getField()
-Dim intMap As Integer
-intMap = 0
-If intMap = 0 Then
-    intFieldSize = 6
-End If
-For Y = 1 To intFieldSize
-    For X = 1 To intFieldSize
-        imgTile(X + (intFieldSize * (Y - 1))).Top = (((Y - 1) * u(0)) / 2)
-        imgTile(X + (intFieldSize * (Y - 1))).Left = ((X - 1) * u(1)) + ((u(1) * (Y Mod 2)) / 2)
-    Next X
-Next Y
+Call DrawMap(1)
+selType = "B"
+frmBg.Show
 End Sub
 
 Private Sub Form_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
-intSelTile = -1
-lblTest(0).Caption = X
-Dim intSelTileTemp As Integer
-intSelTileTemp = Int((X + 50) / u(1)) + Int(Y / ((u(0) / 2))) * intFieldSize
-lblTest(1).Caption = Int((intSelTileTemp - 1) / intFieldSize) Mod 2
-lblTest(2).Caption = (((X + 50) + (u(1) / 2)) - (u(1) * Int(((X + 50) + (u(1) / 2)) / u(1)))) / 2
-lblTest(3).Caption = ((X - 50) + (u(1) / 2)) - (u(1) * Int(((X - 50) + (u(1) / 2)) / u(1)))
-lblTest(4).Caption = (Y + (50 * (Int(Y / ((u(0) / 2))) / 2))) - (u(0) * Int(Y / (u(0) / 2)))
-'lblTest(3).Caption = ((X + (u(1) / 2)) - (u(1) * Int((X + (u(1) / 2)) / u(1))) - 50) / 2
-'lblTest(4).Caption = Y - (u(0) * Int(Y / (u(0) / 2)))
-'lblTest(4).Caption = (Y + 100) - (u(0) * Int(Y / (u(0) / 2)))
-If Int((intSelTileTemp - 1) / intFieldSize) Mod 2 = 0 Then
-    If (X + (u(1) / 2)) - (u(1) * Int((X + (u(1) / 2)) / u(1))) < 50 Then
-        If ((X + (u(1) / 2)) - (u(1) * Int((X + (u(1) / 2)) / u(1))) - 50) / -2 >= (Y + (50 * (Int(Y / ((u(0) / 2))) / 2))) - (u(0) * Int(Y / (u(0) / 2))) Then
-            intSelTile = intSelTileTemp - intFieldSize
-        End If
-    Else
-        If ((X + (u(1) / 2)) - (u(1) * Int((X + (u(1) / 2)) / u(1))) - 50) / 2 >= (Y + (50 * (Int(Y / ((u(0) / 2))) / 2))) - (u(0) * Int(Y / (u(0) / 2))) Then
-            intSelTile = (intSelTileTemp + 1) - intFieldSize
-        End If
-    End If
-Else
-    If ((X - 50) + (u(1) / 2)) - (u(1) * Int(((X - 50) + (u(1) / 2)) / u(1))) < 50 Then
-        intSelTileTemp = intSelTileTemp + 1
-        If (((X + 50) + (u(1) / 2)) - (u(1) * Int(((X + 50) + (u(1) / 2)) / u(1)))) / 2 < (Y + (50 * (Int(Y / ((u(0) / 2))) / 2))) - (u(0) * Int(Y / (u(0) / 2))) Then
-            intSelTile = (intSelTileTemp - 1) - intFieldSize
-        End If
-    Else
-        If ((X + (u(1) / 2)) - (u(1) * Int((X + (u(1) / 2)) / u(1)))) / 2 >= (Y + (50 * (Int(Y / ((u(0) / 2))) / 2))) - (u(0) * Int(Y / (u(0) / 2))) Then
-            intSelTile = intSelTileTemp - intFieldSize
-        End If
-    End If
-End If
-If intSelTile >= 0 Then
-    strSelType = "B"
-    imgSel.Top = imgTile(intSelTile).Top
-    imgSel.Left = imgTile(intSelTile).Left
-Else
-    strSelType = "R"
-    imgSel.Top = imgTile(intSelTileTemp).Top
-    imgSel.Left = imgTile(intSelTileTemp).Left
-End If
+intTileXinit = Int(X / 100)
+intTileYinit = Int(Y / 50)
 End Sub
 
-Private Sub imgTile_MouseMove(Index As Integer, Button As Integer, Shift As Integer, X As Single, Y As Single)
-Dim intSelTileTemp As Integer
-intSelTileTemp = Int(X / u(1)) + Int((Y / u(0)) * intFieldSize)
-'Y - (intSelTileTemp * u(0))
-
-
+Private Sub cmdCancelTextBox_Click()
+'flTextBox.Visible = False
+'cmdCancelTextBox.Visible = False
 End Sub
 
-Private Sub tmrSelAnim_Timer(Index As Integer)
-Static count As Integer
+Private Sub Form_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+selType = "O"
+'flTextBox.Visible = True
+'cmdCancelTextBox.Visible = True
+'flTextBox.Movie = App.Path + "\Images\GUI\TextBoxB.swf"
+End Sub
+
+Private Sub Form_Resize()
+Call DrawMap(1)
+End Sub
+
+
+Private Sub tmrSel_Timer()
 Static blnRev As Boolean
+Call PaintSelector(picCount)
 If blnRev = False Then
-    count = count + 1
+    picCount = picCount + 1
 End If
-imgSel.Picture = LoadPicture(App.Path & "\Tile\Sel\Sel" & strSelType & count & ".gif")
 If blnRev = True Then
-    count = count - 1
+    picCount = picCount - 1
 End If
-If count >= 5 Or count <= 0 Then
+If picCount >= 4 Or picCount <= 0 Then
     If blnRev = False Then
         blnRev = True
     Else
         blnRev = False
     End If
 End If
+End Sub
+
+Private Function PaintSelector(ByVal imgIndex As Integer) As Integer
+    'frmMain.PaintPicture picBackground.Image, Tile(intTileX, 0).oldX, Tile(0, intTileY).oldY, 100, 100, 0, 0, 100, 100, vbSrcCopy
+    
+    'frmMain.PaintPicture picBuffer.Image, Tile(intTileXinit, 0).X, Tile(0, intTileYinit).Y, 100, 100, 0, 0, 100, 100, vbSrcCopy
+    picBuffer.PaintPicture picBackground.Image, Tile(intTileXinit, 0).X, Tile(0, intTileYinit).Y, 100, 100, 0, 0, 100, 100, vbSrcCopy
+    frmMain.PaintPicture picSelMask(imgIndex).Image, Tile(intTileXinit, 0).X, Tile(0, intTileYinit).Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
+    frmMain.PaintPicture picSelB(imgIndex).Image, Tile(intTileXinit, 0).X, Tile(0, intTileYinit).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
+
+    'Tile(intTileX, intTileY).oldX = Tile(intTileX, intTileY).X
+    'Tile(intTileX, intTileY).oldY = Tile(intTileX, intTileY).Y
+End Function
+
+Private Sub tmrTileDraw_Timer()
+Dim curTile As String
+Static oldTile As String
+'Debug Form
+frmDbg.txtSelType = "SelType: " & selType
+frmDbg.txtX.Text = "X: " & X
+frmDbg.txtxMod.Text = X Mod 100
+frmDbg.txtYMod.Text = Y Mod 100
+frmDbg.txtXd100 = X / 100
+frmDbg.txtYd50 = Y / 50
+frmDbg.txtY.Text = "Y: " & Y
+frmDbg.txtTest(0) = Int((X Mod 50) / 2)
+frmDbg.txtTest(1) = Y Mod 50
+frmDbg.txtSelectable.Text = "Tile(" & intTileXinit & "," & intTileYinit & "): " & Tile(intTileXinit, intTileYinit).selectable
+curTile = "(" & intTileX & "," & intTileY & ")"
+'If Not (curTile = oldTile) Then
+    If Tile(intTileXinit, intTileYinit).selectable = True Then
+    
+        'Tile Selection
+        'imgSel.Top = Tile(0, intTileY).Y
+        'imgSel.Left = Tile(intTileX, 0).X
+        'Top half of odd tile
+        If Y Mod 50 < 25 Then
+            'Left half of odd tile
+            If X Mod 100 < 50 Then
+                If 25 - Int((X Mod 50) / 2) >= Y Mod 50 Then
+                    'imgSel.Top = Tile(0, intTileY).Y - 25
+                    'imgSel.Left = Tile(intTileX, 0).X - 50
+                    'Call PaintSelector(picCount, Tile(intTileX, 0).X - 50, Tile(0, intTileY).Y - 25)
+                    intTileX = Tile(intTileXinit, 0).X - 50
+                    intTileY = Tile(0, intTileYinit).Y - 25
+                    
+                End If
+            'Right half of odd tile
+            ElseIf X Mod 100 >= 50 Then
+                If Int((X Mod 50) / 2) >= Y Mod 50 Then
+                    'imgSel.Top = Tile(0, intTileY).Y - 25
+                    'imgSel.Left = Tile(intTileX, 0).X + 50
+                    'Call PaintSelector(picCount, Tile(intTileX, 0).X + 50, Tile(0, intTileY).Y - 25)
+                    intTileX = Tile(intTileXinit, 0).X + 50
+                    intTileY = Tile(0, intTileYinit).Y - 25
+                End If
+            End If
+        'Bottom half of even tile
+        ElseIf Y Mod 50 >= 25 Then
+            'Left half of odd tile
+            If X Mod 100 < 50 Then
+                If 25 + Int((X Mod 50) / 2) < Y Mod 50 Then
+                    'imgSel.Top = Tile(0, intTileY).Y + 25
+                    'imgSel.Left = Tile(intTileX, 0).X - 50
+                    'Call PaintSelector(picCount, Tile(intTileX, 0).X - 50, Tile(0, intTileY).Y + 25)
+                    intTileX = Tile(intTileXinit, 0).X - 50
+                    intTileY = Tile(0, intTileYinit).Y + 25
+                End If
+            'Right half of odd tile
+            ElseIf X Mod 100 >= 50 Then
+                If 50 - Int((X Mod 50) / 2) < Y Mod 50 Then
+                    'imgSel.Top = Tile(0, intTileY).Y + 25
+                    'imgSel.Left = Tile(intTileX, 0).X + 50
+                    'Call PaintSelector(picCount, Tile(intTileX, 0).X + 50, Tile(0, intTileY).Y + 25)
+                    intTileX = Tile(intTileXinit, 0).X + 50
+                    intTileY = Tile(0, intTileYinit).Y + 25
+                End If
+            End If
+        End If
+    End If
+'End If
+oldTile = curTile
+
 End Sub
