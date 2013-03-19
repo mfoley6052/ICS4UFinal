@@ -339,7 +339,6 @@ frmDbg.txtYd50 = Y / 50
 frmDbg.txtY.Text = "Y: " & Y
 frmDbg.txtTest(0) = Int((X Mod 50) / 2)
 frmDbg.txtTest(1) = Y Mod 50
-frmDbg.txtSelectable.Text = "Tile(" & intTileXinit & "," & intTileYinit & "): " & Tile(intTileXinit, intTileYinit).selectable
 curTile = "(" & intTileX & "," & intTileY & ")"
 'If Not (curTile = oldTile) Then
     If Tile(intTileXinit, intTileYinit).selectable = True Then
@@ -357,7 +356,9 @@ curTile = "(" & intTileX & "," & intTileY & ")"
                     'Call PaintSelector(picCount, Tile(intTileX, 0).X - 50, Tile(0, intTileY).Y - 25)
                     intTileX = Tile(intTileXinit, 0).X - 50
                     intTileY = Tile(0, intTileYinit).Y - 25
-                    
+                    frmDbg.txtSelectable.Text = "Tile(" & limitVal(True, (Tile(intTileXinit, 0).X / 50) + 1) & "," & limitVal(False, (Tile(0, intTileYinit).Y / 50) - 1) & "): " & Tile(limitVal(True, (Tile(intTileXinit, 0).X / 50) + 1), limitVal(False, (Tile(0, intTileYinit).Y / 50) - 1)).selectable
+                Else
+                    frmDbg.txtSelectable.Text = "Tile(" & limitVal(True, (Tile(intTileXinit, 0).X / 50)) & "," & limitVal(False, (Tile(0, intTileYinit).Y / 50)) & "): " & Tile(limitVal(True, (Tile(intTileXinit, 0).X / 50)), limitVal(False, (Tile(0, intTileYinit).Y / 50))).selectable
                 End If
             'Right half of odd tile
             ElseIf X Mod 100 >= 50 Then
@@ -367,6 +368,9 @@ curTile = "(" & intTileX & "," & intTileY & ")"
                     'Call PaintSelector(picCount, Tile(intTileX, 0).X + 50, Tile(0, intTileY).Y - 25)
                     intTileX = Tile(intTileXinit, 0).X + 50
                     intTileY = Tile(0, intTileYinit).Y - 25
+                    frmDbg.txtSelectable.Text = "Tile(" & limitVal(True, (Tile(intTileXinit, 0).X / 50)) & "," & limitVal(False, (Tile(0, intTileYinit).Y / 50) - 1) & "): " & Tile(limitVal(True, (Tile(intTileXinit, 0).X / 50)), limitVal(False, (Tile(0, intTileYinit).Y / 50) - 1)).selectable
+                Else
+                    frmDbg.txtSelectable.Text = "Tile(" & limitVal(True, (Tile(intTileXinit, 0).X / 50)) & "," & limitVal(False, (Tile(0, intTileYinit).Y / 50) - 1) & "): " & Tile(limitVal(True, (Tile(intTileXinit, 0).X / 50)), limitVal(False, (Tile(0, intTileYinit).Y / 50) - 1)).selectable
                 End If
             End If
         'Bottom half of even tile
@@ -379,6 +383,9 @@ curTile = "(" & intTileX & "," & intTileY & ")"
                     'Call PaintSelector(picCount, Tile(intTileX, 0).X - 50, Tile(0, intTileY).Y + 25)
                     intTileX = Tile(intTileXinit, 0).X - 50
                     intTileY = Tile(0, intTileYinit).Y + 25
+                    frmDbg.txtSelectable.Text = "Tile(" & limitVal(True, (Tile(intTileXinit, 0).X / 50) - 1) & "," & limitVal(False, (Tile(0, intTileYinit).Y / 50)) & "): " & Tile(limitVal(True, (Tile(intTileXinit, 0).X / 50) - 1), limitVal(False, (Tile(0, intTileYinit).Y / 50))).selectable
+                Else
+                    frmDbg.txtSelectable.Text = "Tile(" & limitVal(True, (Tile(intTileXinit, 0).X / 50)) & "," & limitVal(False, (Tile(0, intTileYinit).Y / 50)) & "): " & Tile(limitVal(True, (Tile(intTileXinit, 0).X / 50)), limitVal(False, (Tile(0, intTileYinit).Y / 50))).selectable
                 End If
             'Right half of odd tile
             ElseIf X Mod 100 >= 50 Then
@@ -388,6 +395,9 @@ curTile = "(" & intTileX & "," & intTileY & ")"
                     'Call PaintSelector(picCount, Tile(intTileX, 0).X + 50, Tile(0, intTileY).Y + 25)
                     intTileX = Tile(intTileXinit, 0).X + 50
                     intTileY = Tile(0, intTileYinit).Y + 25
+                    frmDbg.txtSelectable.Text = "Tile(" & limitVal(True, (Tile(intTileXinit, 0).X / 50) + 1) & "," & limitVal(False, (Tile(0, intTileYinit).Y / 50)) & "): " & Tile(limitVal(True, (Tile(intTileXinit, 0).X / 50) + 1), limitVal(False, (Tile(0, intTileYinit).Y / 50))).selectable
+                Else
+                    frmDbg.txtSelectable.Text = "Tile(" & limitVal(True, (Tile(intTileXinit, 0).X / 50)) & "," & limitVal(False, (Tile(0, intTileYinit).Y / 50)) & "): " & Tile(limitVal(True, (Tile(intTileXinit, 0).X / 50)), limitVal(False, (Tile(0, intTileYinit).Y / 50))).selectable
                 End If
             End If
         End If
@@ -396,3 +406,19 @@ curTile = "(" & intTileX & "," & intTileY & ")"
 oldTile = curTile
 
 End Sub
+
+Private Function limitVal(ByVal useX As Boolean, ByVal intCoord As Integer) As Integer
+If useX = True Then
+    If intCoord < 0 Then
+        limitVal = 0
+    Else
+        limitVal = intCoord
+    End If
+Else
+    If intCoord < 0 Then
+        limitVal = 0
+    Else
+        limitVal = intCoord
+    End If
+End If
+End Function
