@@ -21,23 +21,16 @@ Public Function DrawMap(ByVal mapNum As Integer) As Boolean
     mapWidth = 2 * (frmMain.ScaleWidth / frmMain.picScene(0).Width)
     For Y = 0 To frmMain.ScaleHeight Step (frmMain.picScene(0).Height / 4)
         If (Y + 50) Mod 50 = 0 Then
-            xStart = 50
-        Else
             xStart = 0
+        Else
+            xStart = 50
         End If
         For X = xStart To frmMain.ScaleWidth Step frmMain.picScene(0).Width
             rand = Int(Rnd() * 2)
-            If (Y + 50) Mod 50 = 0 Then
-                frmMain.PaintPicture frmMain.picMask.Picture, X, Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
-                frmMain.PaintPicture frmMain.picScene(rand).Picture, X, Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
-                frmMain.picBackground.PaintPicture frmMain.picMask.Picture, X, Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
-                frmMain.picBackground.PaintPicture frmMain.picScene(rand).Picture, X, Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
-            Else
-                frmMain.PaintPicture frmMain.picMask.Picture, X, Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
-                frmMain.PaintPicture frmMain.picScene(rand).Picture, X, Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
-                frmMain.picBackground.PaintPicture frmMain.picMask.Picture, X, Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
-                frmMain.picBackground.PaintPicture frmMain.picScene(rand).Picture, X, Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
-            End If
+            frmMain.PaintPicture frmMain.picMask.Picture, X, Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
+            frmMain.PaintPicture frmMain.picScene(rand).Picture, X, Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
+            frmMain.picBackground.PaintPicture frmMain.picMask.Picture, X, Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
+            frmMain.picBackground.PaintPicture frmMain.picScene(rand).Picture, X, Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
             
             ReDim Preserve Tile(mapWidth, mapHeight) As terrain
             
