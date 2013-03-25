@@ -320,10 +320,10 @@ End Sub
 Private Function PaintSelector(ByVal imgIndex As Integer) As Integer
     'frmMain.PaintPicture picBackground.Image, Tile(intTileX, 0).oldX, Tile(0, intTileY).oldY, 100, 100, 0, 0, 100, 100, vbSrcCopy
     
-    'frmMain.PaintPicture picBuffer.Image, Tile(intTileXinit / 100, 0).X, Tile(0, intTileYinit / 50).Y, 100, 100, 0, 0, 100, 100, vbSrcCopy
-    picBuffer.PaintPicture picBackground.Image, Tile(intTileXinit / 100, 0).X, Tile(0, intTileYinit / 50).Y, 100, 100, 0, 0, 100, 100, vbSrcCopy
-    frmMain.PaintPicture picSelMask(imgIndex).Image, Tile(intTileXinit / 100, 0).X, Tile(0, intTileYinit / 50).Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
-    frmMain.PaintPicture picSelB(imgIndex).Image, Tile(intTileXinit / 100, 0).X, Tile(0, intTileYinit / 50).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
+    'frmMain.PaintPicture picBuffer.Image, Tile(int(intTileXinit / 100), 0).X, Tile(0,int(intTileYinit / 50)).Y, 100, 100, 0, 0, 100, 100, vbSrcCopy
+    picBuffer.PaintPicture picBackground.Image, Tile(limitVal(True, intTileX), limitVal(False, intTileY)).X, Tile(limitVal(True, intTileX), limitVal(False, intTileY)).Y, 100, 100, 0, 0, 100, 100, vbSrcCopy
+    frmMain.PaintPicture picSelMask(imgIndex).Image, Tile(limitVal(True, intTileX), limitVal(False, intTileY)).X, Tile(limitVal(True, intTileX), limitVal(False, intTileY)).Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
+    frmMain.PaintPicture picSelB(imgIndex).Image, Tile(limitVal(True, intTileX), limitVal(False, intTileY)).X, Tile(limitVal(True, intTileX), limitVal(False, intTileY)).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
 
     'Tile(intTileX, intTileY).oldX = Tile(intTileX, intTileY).X
     'Tile(intTileX, intTileY).oldY = Tile(intTileX, intTileY).Y
@@ -332,91 +332,69 @@ End Function
 Private Sub tmrTileDraw_Timer()
 Dim curTile As String
 Static oldTile As String
-Dim xStart As Integer
 'Debug Form
 frmDbg.txtSelType = "SelType: " & selType
 frmDbg.txtX.Text = "X: " & intTileXinit
 frmDbg.txtxMod.Text = intTileXinit Mod 100
 frmDbg.txtYMod.Text = intTileYinit Mod 100
+frmDbg.txtxMod2.Text = intTileXinit Mod 50
+frmDbg.txtYMod2.Text = intTileYinit Mod 50
 frmDbg.txtXd100 = intTileXinit / 100
 frmDbg.txtYd50 = intTileYinit / 100
 frmDbg.txtY.Text = "Y: " & intTileYinit
-frmDbg.txtTest(0) = Int((intTileXinit Mod 50) / 2)
+frmDbg.txtTest(0) = 25 - Int((intTileXinit Mod 50) / 2)
 frmDbg.txtTest(1) = intTileYinit Mod 50
-curTile = "(" & intTileX & "," & intTileY & ")"
 'If Not (curTile = oldTile) Then
-    If Tile(intTileXinit / 100, intTileYinit / 50).selectable = True Then
+    If Tile(Int(intTileXinit / 100), intTileYinit / 50).selectable = True Then
     
         'Tile Selection
-        'imgSel.Top = Tile(0, intTileY).Y
-        'imgSel.Left = Tile(intTileX, 0).X
         'Top half of odd tile
         If intTileYinit Mod 50 < 25 Then
             'Left half of odd tile
-            If intTileXinit Mod 100 < 50 Then
-                If 25 - Int((intTileXinit Mod 50) / 2) >= intTileYinit Mod 50 Then
-                    'imgSel.Top = Tile(0, intTileY).Y - 25
-                    'imgSel.Left = Tile(intTileX, 0).X - 50
-                    'Call PaintSelector(picCount, Tile(intTileX, 0).X - 50, Tile(0, intTileY).Y - 25)
-                    intTileX = Tile(intTileXinit / 100, 0).X - 50
-                    intTileY = Tile(0, intTileYinit / 50).Y - 25
-                    xStart = 0
-                    frmDbg.txtSelectable.Text = "Tile(" & limitVal(True, (Tile(intTileXinit / 100, 0).X / 50) + 1) & "," & limitVal(False, (Tile(0, intTileYinit / 50).Y / 50) - 1) & "): " & Tile(limitVal(True, (Tile(intTileXinit / 100, 0).X / 50) + 1), limitVal(False, (Tile(0, intTileYinit / 50).Y / 50) - 1)).selectable
+            If 25 - intTileXinit Mod 100 < 50 Then
+                If Int((intTileXinit Mod 50) / 2) > intTileYinit Mod 50 Then
+                    intTileX = limitVal(True, Int(intTileXinit / 100) - 1)
+                    intTileY = limitVal(False, (Int(intTileYinit / 25)) - 1)
                 Else
-                    xStart = 50
-                    frmDbg.txtSelectable.Text = "Tile(" & limitVal(True, (Tile(intTileXinit / 100, 0).X / 50)) & "," & limitVal(False, (Tile(0, intTileYinit / 50).Y / 50)) & "): " & Tile(limitVal(True, (Tile(intTileXinit / 100, 0).X / 50)), limitVal(False, (Tile(0, intTileYinit / 50).Y / 50))).selectable
+                    intTileX = limitVal(True, Int(intTileXinit / 100))
+                    intTileY = limitVal(False, (Int(intTileYinit / 25)) + 1)
                 End If
             'Right half of odd tile
             ElseIf intTileXinit Mod 100 >= 50 Then
-                If Int((intTileXinit Mod 50) / 2) >= intTileYinit Mod 50 Then
-                    'imgSel.Top = Tile(0, intTileY).Y - 25
-                    'imgSel.Left = Tile(intTileX, 0).X + 50
-                    'Call PaintSelector(picCount, Tile(intTileX, 0).X + 50, Tile(0, intTileY).Y - 25)
-                    intTileX = Tile(intTileXinit / 100, 0).X + 50
-                    intTileY = Tile(0, intTileYinit / 50).Y - 25
-                    xStart = 0
-                    frmDbg.txtSelectable.Text = "Tile(" & limitVal(True, (Tile(intTileXinit / 100, 0).X / 50)) & "," & limitVal(False, (Tile(0, intTileYinit / 50).Y / 50) - 1) & "): " & Tile(limitVal(True, (Tile(intTileXinit / 100, 0).X / 50)), limitVal(False, (Tile(0, intTileYinit / 50).Y / 50) - 1)).selectable
+                If Int((intTileXinit Mod 50) / 2) > intTileYinit Mod 50 Then
+                    intTileX = limitVal(True, Int(intTileXinit / 100))
+                    intTileY = limitVal(False, (Int(intTileYinit / 25)) - 1)
                 Else
-                    xStart = 50
-                    frmDbg.txtSelectable.Text = "Tile(" & limitVal(True, (Tile(intTileXinit / 100, 0).X / 50)) & "," & limitVal(False, (Tile(0, intTileYinit / 50).Y / 50) - 1) & "): " & Tile(limitVal(True, (Tile(intTileXinit / 100, 0).X / 50)), limitVal(False, (Tile(0, intTileYinit / 50).Y / 50) - 1)).selectable
+                    intTileX = limitVal(True, Int(intTileXinit / 100))
+                    intTileY = limitVal(False, (Int(intTileYinit / 25)) - 1)
                 End If
             End If
         'Bottom half of even tile
         ElseIf intTileYinit Mod 50 >= 25 Then
             'Left half of odd tile
             If intTileXinit Mod 100 < 50 Then
-                If 25 + Int((intTileXinit Mod 50) / 2) < intTileYinit Mod 50 Then
-                    'imgSel.Top = Tile(0, intTileY).Y + 25
-                    'imgSel.Left = Tile(intTileX, 0).X - 50
-                    'Call PaintSelector(picCount, Tile(intTileX, 0).X - 50, Tile(0, intTileY).Y + 25)
-                    intTileX = Tile(intTileXinit / 100, 0).X - 50
-                    intTileY = Tile(0, intTileYinit / 50).Y + 25
-                    xStart = 50
-                    frmDbg.txtSelectable.Text = "Tile(" & limitVal(True, (Tile(intTileXinit / 100, 0).X / 50) - 1) & "," & limitVal(False, (Tile(0, intTileYinit / 50).Y / 50)) & "): " & Tile(limitVal(True, (Tile(intTileXinit / 100, 0).X / 50) - 1), limitVal(False, (Tile(0, intTileYinit / 50).Y / 50))).selectable
+                If 25 + Int((intTileXinit Mod 50) / 2) <= intTileYinit Mod 50 Then
+                    intTileX = limitVal(True, Int(intTileXinit / 100) - 1)
+                    intTileY = limitVal(False, (Int(intTileYinit / 25)))
                 Else
-                    xStart = 0
-                    frmDbg.txtSelectable.Text = "Tile(" & limitVal(True, (Tile(intTileXinit / 100, 0).X / 50)) & "," & limitVal(False, (Tile(0, intTileYinit / 50).Y / 50)) & "): " & Tile(limitVal(True, (Tile(intTileXinit / 100, 0).X / 50)), limitVal(False, (Tile(0, intTileYinit / 50).Y / 50))).selectable
+                    intTileX = limitVal(True, Int(intTileXinit / 100))
+                    intTileY = limitVal(False, (Int(intTileYinit / 25)) - 1)
                 End If
             'Right half of odd tile
             ElseIf intTileXinit Mod 100 >= 50 Then
-                If 50 - Int((intTileXinit Mod 50) / 2) < intTileYinit Mod 50 Then
-                    'imgSel.Top = Tile(0, intTileY).Y + 25
-                    'imgSel.Left = Tile(intTileX, 0).X + 50
-                    'Call PaintSelector(picCount, Tile(intTileX, 0).X + 50, Tile(0, intTileY).Y + 25)
-                    intTileX = Tile(intTileXinit / 100, 0).X + 50
-                    intTileY = Tile(0, intTileYinit / 50).Y + 25
-                    xStart = 50
-                    frmDbg.txtSelectable.Text = "Tile(" & limitVal(True, (Tile(intTileXinit / 100, 0).X / 50) + 1) & "," & limitVal(False, (Tile(0, intTileYinit / 50).Y / 50)) & "): " & Tile(limitVal(True, (Tile(intTileXinit / 100, 0).X / 50) + 1), limitVal(False, (Tile(0, intTileYinit / 50).Y / 50))).selectable
+                If 50 - Int((intTileXinit Mod 50) / 2) <= intTileYinit Mod 50 Then
+                    intTileX = limitVal(True, Int(intTileXinit / 100))
+                    intTileY = limitVal(False, (Int(intTileYinit / 25)))
                 Else
-                    xStart = 0
-                    frmDbg.txtSelectable.Text = "Tile(" & limitVal(True, (Tile(intTileXinit / 100, 0).X / 50)) & "," & limitVal(False, (Tile(0, intTileYinit / 50).Y / 50)) & "): " & Tile(limitVal(True, (Tile(intTileXinit / 100, 0).X / 50)), limitVal(False, (Tile(0, intTileYinit / 50).Y / 50))).selectable
+                    intTileX = limitVal(True, Int(intTileXinit / 100))
+                    intTileY = limitVal(False, (Int(intTileYinit / 25)) - 1)
                 End If
             End If
         End If
     End If
+    curTile = limitVal(True, intTileX) & "," & limitVal(False, intTileY)
+    frmDbg.txtSelectable.Text = "Tile(" & curTile & "): " & Tile(limitVal(True, intTileX), limitVal(False, intTileY)).selectable
 'End If
-oldTile = curTile
-
 End Sub
 
 Private Function limitVal(ByVal useX As Boolean, ByVal intCoord As Integer) As Integer

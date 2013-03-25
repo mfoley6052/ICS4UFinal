@@ -25,7 +25,7 @@ Public Function DrawMap(ByVal mapNum As Integer) As Boolean
         Else
             xStart = 50
         End If
-        For X = xStart To frmMain.ScaleWidth Step frmMain.picScene(0).Width
+        For X = xStart To frmMain.ScaleWidth + xStart Step frmMain.picScene(0).Width
             rand = Int(Rnd() * 2)
             frmMain.PaintPicture frmMain.picMask.Picture, X, Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
             frmMain.PaintPicture frmMain.picScene(rand).Picture, X, Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
@@ -35,47 +35,14 @@ Public Function DrawMap(ByVal mapNum As Integer) As Boolean
             ReDim Preserve Tile(mapWidth, mapHeight) As terrain
             
             If rand = 0 Then
-                Tile(Int(X / 100), Int(Y / 50)).pic = "0" '0 = grass
+                Tile(Int((X - xStart) / 100), Int(Y / 25)).pic = "0" '0 = grass
             ElseIf rand = 1 Then
-                Tile(Int(X / 100), Int(Y / 50)).pic = "0A" '0 = grass
+                Tile(Int((X - xStart) / 100), Int(Y / 25)).pic = "0A" '0 = grass
             End If
-            Tile(Int(X / 100), Int(Y / 50)).X = X
-            Tile(Int(X / 100), Int(Y / 50)).Y = Y
-            'Top half of odd tile
-            If Y Mod 50 < 25 Then
-                'Left half of odd tile
-                If X Mod 100 < 50 Then
-                    If 25 - Int((X Mod 50) / 2) >= Y Mod 50 Then
-                    Tile(Int(X / 100), Int(Y / 50)).Y = Y '- 25
-                    Tile(Int(X / 100), Int(Y / 50)).X = X '- 50
-                    End If
-                'Right half of odd tile
-                ElseIf X Mod 100 >= 50 Then
-                    If Int((X Mod 50) / 2) >= Y Mod 50 Then
-                     Tile(Int(X / 100), Int(Y / 50)).Y = Y '- 25
-                     Tile(Int(X / 100), Int(Y / 50)).X = X '+ 50
-        
-                    End If
-                End If
-            'Bottom half of even tile
-            ElseIf Y Mod 50 >= 25 Then
-                'Left half of odd tile
-                If X Mod 100 < 50 Then
-                    If 25 + Int((X Mod 50) / 2) < Y Mod 50 Then
-                        Tile(Int(X / 100), Int(Y / 50)).Y = Y + 25
-                        Tile(Int(X / 100), Int(Y / 50)).X = X - 50
-                    End If
-                'Right half of odd tile
-                ElseIf X Mod 100 >= 50 Then
-                    If 50 - Int((X Mod 50) / 2) < Y Mod 50 Then
-                        Tile(Int(X / 100), Int(Y / 50)).Y = Y + 25
-                        Tile(Int(X / 100), Int(Y / 50)).X = X + 50
-                    End If
-                End If
-            End If
-  
-            Tile(Int(X / 100), Int(Y / 50)).selectable = True
-            frmDbg.lstMap.AddItem ("(" & Tile(Int(X / 100), Int(Y / 50)).X & "," & Tile(Int(X / 100), Int(Y / 50)).Y & ")" & vbTab)
+            Tile(Int((X - xStart) / 100), Int(Y / 25)).X = X
+            Tile(Int((X - xStart) / 100), Int(Y / 25)).Y = Y
+            Tile(Int((X - xStart) / 100), Int(Y / 25)).selectable = True
+            frmDbg.lstMap.AddItem ("(" & Tile(Int((X - xStart) / 100), Int(Y / 25)).X & "," & Tile(Int((X - xStart) / 100), Int(Y / 25)).Y & ")" & vbTab)
         Next X
     Next Y
 End Function
