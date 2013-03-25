@@ -11,7 +11,7 @@ Begin VB.Form frmMain
    ScaleMode       =   3  'Pixel
    ScaleWidth      =   800
    Begin VB.Timer tmrTileDraw 
-      Interval        =   1
+      Interval        =   25
       Left            =   6360
       Top             =   4560
    End
@@ -320,8 +320,13 @@ End Sub
 Private Function PaintSelector(ByVal imgIndex As Integer) As Integer
     'frmMain.PaintPicture picBackground.Image, Tile(intTileX, 0).oldX, Tile(0, intTileY).oldY, 100, 100, 0, 0, 100, 100, vbSrcCopy
     
-    'frmMain.PaintPicture picBuffer.Image, Tile(int(intTileXinit / 100), 0).X, Tile(0,int(intTileYinit / 50)).Y, 100, 100, 0, 0, 100, 100, vbSrcCopy
-    picBuffer.PaintPicture picBackground.Image, Tile(limitVal(True, intTileX), limitVal(False, intTileY)).X, Tile(limitVal(True, intTileX), limitVal(False, intTileY)).Y, 100, 100, 0, 0, 100, 100, vbSrcCopy
+    picBuffer.PaintPicture picMask.Image, 0, 0, 100, 100, 0, 0, 100, 100, vbSrcAnd
+    picBuffer.PaintPicture picScene(0).Image, 0, 0, 100, 100, 0, 0, 100, 100, vbSrcPaint
+    'frmMain.PaintPicture picBuffer.Image, Tile(limitVal(True, intTileX), limitVal(False, intTileY)).X, Tile(limitVal(True, intTileX), limitVal(False, intTileY)).Y, 100, 100, 0, 0, 100, 100, vbSrcCopy
+    'frmMain.PaintPicture picBuffer.Image, Tile(limitVal(True, intTileX), limitVal(False, intTileY + 1)).X, Tile(limitVal(True, intTileX), limitVal(False, intTileY + 1)).Y, 100, 100, 0, 0, 100, 100, vbSrcCopy
+    'frmMain.PaintPicture picBuffer.Image, Tile(limitVal(True, intTileX + 1), limitVal(False, intTileY + 1)).X, Tile(limitVal(True, intTileX + 1), limitVal(False, intTileY + 1)).Y, 100, 100, 0, 0, 100, 100, vbSrcCopy
+    'frmMain.PaintPicture picBuffer.Image, Tile(limitVal(True, intTileX), limitVal(False, intTileY + 2)).X, Tile(limitVal(True, intTileX), limitVal(False, intTileY + 2)).Y, 100, 100, 0, 0, 100, 100, vbSrcCopy
+    picBuffer.PaintPicture picBackground.Image, Tile(limitVal(True, intTileX), limitVal(False, intTileY)).X, Tile(limitVal(True, intTileX), limitVal(False, intTileY)).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
     frmMain.PaintPicture picSelMask(imgIndex).Image, Tile(limitVal(True, intTileX), limitVal(False, intTileY)).X, Tile(limitVal(True, intTileX), limitVal(False, intTileY)).Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
     frmMain.PaintPicture picSelB(imgIndex).Image, Tile(limitVal(True, intTileX), limitVal(False, intTileY)).X, Tile(limitVal(True, intTileX), limitVal(False, intTileY)).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
 
@@ -351,13 +356,13 @@ frmDbg.txtTest(1) = intTileYinit Mod 50
         'Top half of odd tile
         If intTileYinit Mod 50 < 25 Then
             'Left half of odd tile
-            If 25 - intTileXinit Mod 100 < 50 Then
-                If Int((intTileXinit Mod 50) / 2) > intTileYinit Mod 50 Then
+            If intTileXinit Mod 100 < 50 Then
+                If 25 - Int((intTileXinit Mod 50) / 2) > intTileYinit Mod 50 Then
                     intTileX = limitVal(True, Int(intTileXinit / 100) - 1)
                     intTileY = limitVal(False, (Int(intTileYinit / 25)) - 1)
                 Else
                     intTileX = limitVal(True, Int(intTileXinit / 100))
-                    intTileY = limitVal(False, (Int(intTileYinit / 25)) + 1)
+                    intTileY = limitVal(False, (Int(intTileYinit / 25)))
                 End If
             'Right half of odd tile
             ElseIf intTileXinit Mod 100 >= 50 Then
@@ -366,7 +371,7 @@ frmDbg.txtTest(1) = intTileYinit Mod 50
                     intTileY = limitVal(False, (Int(intTileYinit / 25)) - 1)
                 Else
                     intTileX = limitVal(True, Int(intTileXinit / 100))
-                    intTileY = limitVal(False, (Int(intTileYinit / 25)) - 1)
+                    intTileY = limitVal(False, (Int(intTileYinit / 25)))
                 End If
             End If
         'Bottom half of even tile
