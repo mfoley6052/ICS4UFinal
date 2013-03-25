@@ -1,15 +1,31 @@
 VERSION 5.00
 Begin VB.Form frmDbg 
    Caption         =   "Form1"
-   ClientHeight    =   9510
+   ClientHeight    =   10590
    ClientLeft      =   7695
    ClientTop       =   1095
    ClientWidth     =   12195
    LinkTopic       =   "Form1"
-   ScaleHeight     =   634
+   ScaleHeight     =   706
    ScaleMode       =   3  'Pixel
    ScaleWidth      =   813
    ShowInTaskbar   =   0   'False
+   Begin VB.TextBox txtYMod2 
+      Height          =   495
+      Left            =   3960
+      TabIndex        =   14
+      Text            =   "Text1"
+      Top             =   9720
+      Width           =   1095
+   End
+   Begin VB.TextBox txtxMod2 
+      Height          =   495
+      Left            =   2760
+      TabIndex        =   13
+      Text            =   "Text1"
+      Top             =   9720
+      Width           =   1095
+   End
    Begin VB.TextBox txtSelectable 
       Height          =   495
       Left            =   3960
@@ -99,6 +115,14 @@ Begin VB.Form frmDbg
       TabIndex        =   0
       Top             =   120
       Width           =   12000
+   End
+   Begin VB.Label Label3 
+      Caption         =   "mod 50"
+      Height          =   255
+      Left            =   2760
+      TabIndex        =   15
+      Top             =   9480
+      Width           =   2295
    End
    Begin VB.Label Label2 
       Caption         =   "/100"
