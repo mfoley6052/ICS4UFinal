@@ -38,9 +38,8 @@ Public Function DrawMap(ByVal mapNum As Integer) As Boolean
             'ElseIf rand = 1 Then
                 'Tile(Int((X - xStart) / 100), Int(Y / 25)).pic = "0A" '0 = grass
             'End If
-            Tile(Int(X / 100), Int(Y / 100)).X = X
-            Tile(Int(X / 100), Int(Y / 100)).Y = Y
-            Tile(Int(X / 100), Int(Y / 100)).selectable = True
+            Tile(Int((X + (50 - xStart)) / frmMain.picScene(0).Width), Int(Y / (frmMain.picScene(0).Height * 0.75))).X = X
+            Tile(Int((X + (50 - xStart)) / frmMain.picScene(0).Width), Int(Y / (frmMain.picScene(0).Height * 0.75))).Y = Y
             'frmDbg.lstMap.AddItem ("(" & Tile(Int((X - xStart) / 100), Int(Y / 25)).X & "," & Tile(Int((X - xStart) / 100), Int(Y / 25)).Y & ")" & vbTab)
         Next X
     Next Y
