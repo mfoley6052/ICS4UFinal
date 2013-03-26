@@ -19,7 +19,7 @@ Public Function DrawMap(ByVal mapNum As Integer) As Boolean
     frmDbg.lstMap.Clear
     mapHeight = 5
     mapWidth = 5
-    For Y = 0 To mapHeight * (frmMain.picScene(0).Height) Step 0.75 * frmMain.picScene(0).Height
+    For Y = 0 To (mapHeight - 1) * (frmMain.picScene(0).Height * 0.75) Step 0.75 * frmMain.picScene(0).Height
         For X = (50 - xStart) To (mapWidth * frmMain.picScene(0).Width) + xStart Step frmMain.picScene(0).Width
             'rand = Int(Rnd() * 2)
             If (Y + 75) Mod 150 = 0 Then
@@ -29,8 +29,7 @@ Public Function DrawMap(ByVal mapNum As Integer) As Boolean
             End If
             frmMain.PaintPicture frmMain.picMask.Picture, X, Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
             frmMain.PaintPicture frmMain.picScene(0).Picture, X, Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
-            frmMain.picBackground.PaintPicture frmMain.picMask.Picture, X, Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
-            frmMain.picBackground.PaintPicture frmMain.picScene(0).Picture, X, Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
+            frmMain.picBackground.PaintPicture frmMain.picScene(0).Picture, X, Y, 100, 100, 0, 0, 100, 100, vbSrcCopy
             
             ReDim Preserve Tile(mapWidth, mapHeight) As terrain
             
