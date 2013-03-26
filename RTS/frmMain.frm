@@ -24,7 +24,7 @@ Begin VB.Form frmMain
    End
    Begin VB.Timer tmrJump 
       Index           =   1
-      Interval        =   250
+      Interval        =   100
       Left            =   7560
       Top             =   3480
    End
@@ -293,64 +293,68 @@ If KeyCode = 37 Then 'Left
 ElseIf KeyCode = 38 Then 'Up
     If evalMove("U") = True Then
         dirJump(0) = "U"
-    tmrJump(0).Enabled = True
+        tmrJump(0).Enabled = True
     End If
 ElseIf KeyCode = 39 Then 'Right
     If evalMove("R") = True Then
         dirJump(0) = "R"
-    tmrJump(0).Enabled = True
+        tmrJump(0).Enabled = True
     End If
 ElseIf KeyCode = 40 Then 'Down
     If evalMove("D") = True Then
         dirJump(0) = "D"
-    tmrJump(0).Enabled = True
+        tmrJump(0).Enabled = True
     End If
 End If
 End Sub
 
 Private Function evalMove(ByVal strDir As String) As Boolean
 If strDir = "L" Then
-    If curY + 1 Mod 2 = 0 Then
+    If (curY + 1) Mod 2 = 0 Then
         If curX = 0 Then
             evalMove = False
         ElseIf curY < mapWidth Then
             evalMove = True
+        Else
+            evalMove = False
         End If
-    ElseIf curY < mapWidth And curX > 0 Then
+    ElseIf curY > 0 Then
         evalMove = True
     Else
         evalMove = False
     End If
 ElseIf strDir = "U" Then
-    If curY + 1 Mod 2 = 0 Then
-        If curX > 0 Then
+    If (curY + 1) Mod 2 = 0 Then
+        If curX < mapWidth Then
             evalMove = True
         Else
             evalMove = False
         End If
-    ElseIf curX > 0 And curY > 0 Then
+    ElseIf curX < (mapWidth) And curY > 0 Then
         evalMove = True
     Else
         evalMove = False
     End If
 ElseIf strDir = "R" Then
-    If curY + 1 Mod 2 = 0 Then
+    If (curY + 1) Mod 2 = 0 Then
         If curX = mapWidth Then
             evalMove = False
         ElseIf curY > 0 Then
             evalMove = True
         End If
+    ElseIf curY < (mapWidth - 1) And curX < mapWidth Then
+        evalMove = True
     Else
         evalMove = False
     End If
 ElseIf strDir = "D" Then
-    If curY + 1 Mod 2 = 0 Then
+    If (curY + 1) Mod 2 = 0 Then
         If curX > 0 And curY < mapHeight Then
             evalMove = True
         Else
             evalMove = False
         End If
-    ElseIf curX < mapWidth And curY < mapHeight Then
+    ElseIf curY < (mapHeight - 1) Then
         evalMove = True
     Else
         evalMove = False
@@ -361,26 +365,27 @@ End Function
 Private Sub tmrJump_Timer(Index As Integer)
 If Index = 0 Then
     If dirJump(Index) = "L" Then
-        If curY + 1 Mod 2 = 0 Then
+        If (curY + 1) Mod 2 = 0 Then
             curX = curX - 1
         End If
         curY = curY - 1
     ElseIf dirJump(Index) = "U" Then
-        If curY + 1 Mod 2 = 0 Then
-            curX = curX - 1
+        If (curY + 1) Mod 2 = 1 Then
+            curX = curX + 1
         End If
-        curY = curY + 1
+        curY = curY - 1
     ElseIf dirJump(Index) = "R" Then
-        If curY + 1 Mod 2 = 1 Then
+        If (curY + 1) Mod 2 = 1 Then
             curX = curX + 1
         End If
         curY = curY + 1
     ElseIf dirJump(Index) = "D" Then
-        If curY + 1 Mod 2 = 1 Then
-            curX = curX + 1
+        If (curY + 1) Mod 2 = 0 Then
+            curX = curX - 1
         End If
-        curY = curY - 1
+        curY = curY + 1
     End If
+    tmrJump(0).Enabled = False
 End If
 End Sub
 
@@ -431,23 +436,7 @@ Private Function PaintSelector(ByVal imgIndex As Integer) As Integer
     'picBuffer.PaintPicture picBackground.Image, Tile(curX,curY).X, Tile(curX,curY).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
     frmMain.PaintPicture picSelMask(imgIndex).Image, Tile(curX, curY).X, Tile(curX, curY).Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
     frmMain.PaintPicture picSelB(imgIndex).Image, Tile(curX, curY).X, Tile(curX, curY).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
-
+    frmDbg.txtTest(0).Text = "(" & curX & ", " & curY & ")"
     'Tile(intTileX, intTileY).oldX = Tile(intTileX, intTileY).X
     'Tile(intTileX, intTileY).oldY = Tile(intTileX, intTileY).Y
-End Function
-
-Private Function limitVal(ByVal useX As Boolean, ByVal intCoord As Integer) As Integer
-If useX = True Then
-    If intCoord < 0 Then
-        limitVal = 0
-    Else
-        limitVal = intCoord
-    End If
-Else
-    If intCoord < 0 Then
-        limitVal = 0
-    Else
-        limitVal = intCoord
-    End If
-End If
 End Function
