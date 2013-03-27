@@ -10,6 +10,12 @@ Begin VB.Form frmMain
    ScaleHeight     =   600
    ScaleMode       =   3  'Pixel
    ScaleWidth      =   800
+   Begin VB.Timer tmrTileAnim 
+      Enabled         =   0   'False
+      Interval        =   100
+      Left            =   8280
+      Top             =   360
+   End
    Begin VB.Timer tmrScoreCheck 
       Interval        =   250
       Left            =   5040
@@ -19,34 +25,34 @@ Begin VB.Form frmMain
       Enabled         =   0   'False
       Index           =   3
       Interval        =   250
-      Left            =   7920
+      Left            =   7680
       Top             =   360
    End
    Begin VB.Timer tmrJump 
       Enabled         =   0   'False
       Index           =   2
       Interval        =   250
-      Left            =   7440
+      Left            =   7200
       Top             =   360
    End
    Begin VB.Timer tmrJump 
       Enabled         =   0   'False
       Index           =   1
       Interval        =   100
-      Left            =   6960
+      Left            =   6720
       Top             =   360
    End
    Begin VB.Timer tmrJump 
       Enabled         =   0   'False
       Index           =   0
       Interval        =   250
-      Left            =   6480
+      Left            =   6240
       Top             =   360
    End
    Begin VB.Timer tmrSel 
       Enabled         =   0   'False
       Interval        =   125
-      Left            =   5760
+      Left            =   5640
       Top             =   360
    End
    Begin VB.PictureBox picBackground 
@@ -519,3 +525,27 @@ Private Function PaintSelector(ByVal imgIndex As Integer) As Integer
     frmMain.PaintPicture picSelB(imgIndex).Image, Tile(curX, curY).X, Tile(curX, curY).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
     frmDbg.txtTest(0).Text = "(" & curX & ", " & curY & ")"
 End Function
+
+Private Function getTileAnim(ByVal intFrame As Integer, ByVal intX As Integer, ByVal intY As Integer)
+PaintPicture frmMain.picMask.Picture, intX, intY, 100, 100, 0, 0, 100, 100, vbSrcAnd
+PaintPicture frmMain.picScene(0).Picture, intX, intY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+'terTile.Y = terTile.Y - (Tile(mapWidth - ((mapHeight + 1) Mod 2), mapHeight).Top + 100)
+End Function
+
+Private Sub tmrTileAnim_Timer()
+Static intCounter As Integer
+Static intX As Integer
+Static intY As Integer
+For z = Abs(intCounter - 15) To intCounter - Abs(intCounter - ((mapWidth * mapHeight) + (Abs(mapHeight / 2)) - 1))
+    frmDbg.lstMap.AddItem (z & ", " & Abs(intCounter - 15) & ", " & intCounter - Abs(intCounter - ((mapWidth * mapHeight) + (Abs(mapHeight / 2)) - 1)))
+    Call getTileAnim(intCounter - z, intX, intY)
+Next z
+If intX = mapWidth - ((intY + 1) Mod 2) Then
+    intY = intY + 1
+ElseIf intY = mapHeight - 1 And intX = mapWidth - ((intY + 1) Mod 2) Then
+    tmrTileAnim.Enabled = False
+Else
+    intX = intX + 1
+End If
+intCounter = intCounter + 1
+End Sub

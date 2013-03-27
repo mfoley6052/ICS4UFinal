@@ -43,4 +43,5 @@ Public Function DrawMap(ByVal mapNum As Integer) As Boolean
             'frmDbg.lstMap.AddItem ("(" & Tile(Int((X - xStart) / 100), Int(Y / 25)).X & "," & Tile(Int((X - xStart) / 100), Int(Y / 25)).Y & ")" & vbTab)
         Next X
     Next Y
+tmrTileAnim.Enabled = True
 End Function
