@@ -11,10 +11,14 @@ Begin VB.Form frmBg
    ScaleWidth      =   800
    StartUpPosition =   3  'Windows Default
    Begin VB.PictureBox pictest 
+      Appearance      =   0  'Flat
+      BackColor       =   &H80000005&
+      BorderStyle     =   0  'None
+      ForeColor       =   &H80000008&
       Height          =   9015
       Left            =   0
-      ScaleHeight     =   8955
-      ScaleWidth      =   11955
+      ScaleHeight     =   9015
+      ScaleWidth      =   12015
       TabIndex        =   0
       Top             =   0
       Width           =   12015

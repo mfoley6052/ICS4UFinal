@@ -10,9 +10,15 @@ Begin VB.Form frmMain
    ScaleHeight     =   600
    ScaleMode       =   3  'Pixel
    ScaleWidth      =   800
+   Begin VB.Timer tmrTileAnimDelay 
+      Enabled         =   0   'False
+      Interval        =   125
+      Left            =   8880
+      Top             =   360
+   End
    Begin VB.Timer tmrTileAnim 
       Enabled         =   0   'False
-      Interval        =   100
+      Interval        =   25
       Left            =   8280
       Top             =   360
    End
@@ -56,12 +62,15 @@ Begin VB.Form frmMain
       Top             =   360
    End
    Begin VB.PictureBox picBackground 
+      Appearance      =   0  'Flat
       AutoRedraw      =   -1  'True
+      BorderStyle     =   0  'None
+      ForeColor       =   &H80000008&
       Height          =   9015
       Left            =   0
-      ScaleHeight     =   597
+      ScaleHeight     =   601
       ScaleMode       =   3  'Pixel
-      ScaleWidth      =   749
+      ScaleWidth      =   753
       TabIndex        =   0
       Top             =   0
       Visible         =   0   'False
@@ -70,14 +79,15 @@ Begin VB.Form frmMain
          Appearance      =   0  'Flat
          AutoRedraw      =   -1  'True
          BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
          ForeColor       =   &H80000008&
          Height          =   1500
          Index           =   0
          Left            =   1800
          Picture         =   "frmMain.frx":0000
-         ScaleHeight     =   98
+         ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
-         ScaleWidth      =   98
+         ScaleWidth      =   100
          TabIndex        =   15
          Top             =   1800
          Visible         =   0   'False
@@ -87,14 +97,15 @@ Begin VB.Form frmMain
          Appearance      =   0  'Flat
          AutoRedraw      =   -1  'True
          BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
          ForeColor       =   &H80000008&
          Height          =   1500
          Index           =   1
          Left            =   3360
          Picture         =   "frmMain.frx":0162
-         ScaleHeight     =   98
+         ScaleHeight     =   100
          ScaleMode       =   0  'User
-         ScaleWidth      =   102.083
+         ScaleWidth      =   104.166
          TabIndex        =   14
          Top             =   3360
          Visible         =   0   'False
@@ -104,14 +115,15 @@ Begin VB.Form frmMain
          Appearance      =   0  'Flat
          AutoRedraw      =   -1  'True
          BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
          ForeColor       =   &H80000008&
          Height          =   1500
          Index           =   2
          Left            =   4920
          Picture         =   "frmMain.frx":02C1
-         ScaleHeight     =   98
+         ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
-         ScaleWidth      =   98
+         ScaleWidth      =   100
          TabIndex        =   13
          Top             =   1800
          Visible         =   0   'False
@@ -121,14 +133,15 @@ Begin VB.Form frmMain
          Appearance      =   0  'Flat
          AutoRedraw      =   -1  'True
          BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
          ForeColor       =   &H80000008&
          Height          =   1500
          Index           =   3
          Left            =   6480
          Picture         =   "frmMain.frx":042C
-         ScaleHeight     =   98
+         ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
-         ScaleWidth      =   98
+         ScaleWidth      =   100
          TabIndex        =   12
          Top             =   1800
          Visible         =   0   'False
@@ -138,14 +151,15 @@ Begin VB.Form frmMain
          Appearance      =   0  'Flat
          AutoRedraw      =   -1  'True
          BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
          ForeColor       =   &H80000008&
          Height          =   1500
          Index           =   4
          Left            =   8040
          Picture         =   "frmMain.frx":05BA
-         ScaleHeight     =   98
+         ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
-         ScaleWidth      =   98
+         ScaleWidth      =   100
          TabIndex        =   11
          Top             =   1800
          Visible         =   0   'False
@@ -154,14 +168,15 @@ Begin VB.Form frmMain
       Begin VB.PictureBox picSelMask 
          Appearance      =   0  'Flat
          BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
          ForeColor       =   &H80000008&
          Height          =   1500
          Index           =   0
          Left            =   1800
          Picture         =   "frmMain.frx":072E
-         ScaleHeight     =   98
+         ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
-         ScaleWidth      =   98
+         ScaleWidth      =   100
          TabIndex        =   10
          Top             =   3360
          Visible         =   0   'False
@@ -170,14 +185,15 @@ Begin VB.Form frmMain
       Begin VB.PictureBox picSelMask 
          Appearance      =   0  'Flat
          BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
          ForeColor       =   &H80000008&
          Height          =   1500
          Index           =   1
          Left            =   3360
          Picture         =   "frmMain.frx":0870
-         ScaleHeight     =   98
+         ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
-         ScaleWidth      =   98
+         ScaleWidth      =   100
          TabIndex        =   9
          Top             =   1800
          Visible         =   0   'False
@@ -186,14 +202,15 @@ Begin VB.Form frmMain
       Begin VB.PictureBox picSelMask 
          Appearance      =   0  'Flat
          BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
          ForeColor       =   &H80000008&
          Height          =   1500
          Index           =   2
          Left            =   4920
          Picture         =   "frmMain.frx":09B3
-         ScaleHeight     =   98
+         ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
-         ScaleWidth      =   98
+         ScaleWidth      =   100
          TabIndex        =   8
          Top             =   3360
          Visible         =   0   'False
@@ -202,14 +219,15 @@ Begin VB.Form frmMain
       Begin VB.PictureBox picSelMask 
          Appearance      =   0  'Flat
          BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
          ForeColor       =   &H80000008&
          Height          =   1500
          Index           =   3
          Left            =   6480
          Picture         =   "frmMain.frx":0AF4
-         ScaleHeight     =   98
+         ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
-         ScaleWidth      =   98
+         ScaleWidth      =   100
          TabIndex        =   7
          Top             =   3360
          Visible         =   0   'False
@@ -218,14 +236,15 @@ Begin VB.Form frmMain
       Begin VB.PictureBox picSelMask 
          Appearance      =   0  'Flat
          BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
          ForeColor       =   &H80000008&
          Height          =   1500
          Index           =   4
          Left            =   8040
          Picture         =   "frmMain.frx":0C33
-         ScaleHeight     =   98
+         ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
-         ScaleWidth      =   98
+         ScaleWidth      =   100
          TabIndex        =   6
          Top             =   3360
          Visible         =   0   'False
@@ -235,14 +254,15 @@ Begin VB.Form frmMain
          Appearance      =   0  'Flat
          AutoRedraw      =   -1  'True
          BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
          ForeColor       =   &H80000008&
          Height          =   1500
          Index           =   1
          Left            =   240
          Picture         =   "frmMain.frx":0D70
-         ScaleHeight     =   98
+         ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
-         ScaleWidth      =   98
+         ScaleWidth      =   100
          TabIndex        =   5
          Top             =   3360
          Visible         =   0   'False
@@ -252,14 +272,15 @@ Begin VB.Form frmMain
          Appearance      =   0  'Flat
          AutoRedraw      =   -1  'True
          BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
          ForeColor       =   &H80000008&
          Height          =   1500
          Index           =   2
          Left            =   240
          Picture         =   "frmMain.frx":1FE6
-         ScaleHeight     =   98
+         ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
-         ScaleWidth      =   98
+         ScaleWidth      =   100
          TabIndex        =   4
          Top             =   1800
          Visible         =   0   'False
@@ -269,14 +290,15 @@ Begin VB.Form frmMain
          Appearance      =   0  'Flat
          AutoRedraw      =   -1  'True
          BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
          ForeColor       =   &H80000008&
          Height          =   1500
          Index           =   0
          Left            =   240
          Picture         =   "frmMain.frx":2803
-         ScaleHeight     =   98
+         ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
-         ScaleWidth      =   98
+         ScaleWidth      =   100
          TabIndex        =   3
          Top             =   240
          Visible         =   0   'False
@@ -286,12 +308,13 @@ Begin VB.Form frmMain
          Appearance      =   0  'Flat
          AutoRedraw      =   -1  'True
          BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
          ForeColor       =   &H80000008&
          Height          =   1500
          Left            =   3375
-         ScaleHeight     =   98
+         ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
-         ScaleWidth      =   98
+         ScaleWidth      =   100
          TabIndex        =   2
          Top             =   240
          Width           =   1500
@@ -300,13 +323,14 @@ Begin VB.Form frmMain
          Appearance      =   0  'Flat
          AutoRedraw      =   -1  'True
          BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
          ForeColor       =   &H80000008&
          Height          =   1500
          Left            =   1800
          Picture         =   "frmMain.frx":2F76
-         ScaleHeight     =   98
+         ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
-         ScaleWidth      =   98
+         ScaleWidth      =   100
          TabIndex        =   1
          Top             =   240
          Width           =   1500
@@ -343,6 +367,7 @@ Dim curX As Integer
 Dim curY As Integer
 Dim prevX As Integer
 Dim prevY As Integer
+Dim tileSwitch(0 To 100) As Boolean
 
 Private Sub Form_KeyUp(KeyCode As Integer, Shift As Integer)
 If KeyCode = 123 Then 'F12
@@ -469,14 +494,16 @@ Private Sub Form_Load()
 Call DrawMap(1)
 curX = 2
 curY = 2
-tmrSel.Enabled = True
+For t = 0 To 100
+    tileSwitch(t) = False
+Next t
 End Sub
 
 Private Sub addScore(ByVal intAdd As Integer)
 intScore = intScore + intAdd
 End Sub
 
-Private Sub Form_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub Form_MouseUp(Button As Integer, Shift As Integer, x As Single, Y As Single)
 selType = "O"
 'flTextBox.Visible = True
 'cmdCancelTextBox.Visible = True
@@ -511,41 +538,111 @@ End Sub
 
 Private Function PaintSelector(ByVal imgIndex As Integer) As Integer
     'paint over last sel
-    picBackground.PaintPicture frmMain.picScene(0).Image, Tile(prevX, prevY).X, Tile(prevX, prevY).Y, 100, 100, 0, 0, 100, 100, vbSrcCopy
+    picBackground.PaintPicture frmMain.picScene(0).Image, Tile(prevX, prevY).x, Tile(prevX, prevY).Y, 100, 100, 0, 0, 100, 100, vbSrcCopy
     picBuffer.PaintPicture frmMain.picScene(0).Image, 0, 0, 100, 100, 0, 0, 100, 100, vbSrcCopy
-    frmMain.PaintPicture frmMain.picMask.Image, Tile(prevX, prevY).X, Tile(prevX, prevY).Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
-    frmMain.PaintPicture picBuffer.Image, Tile(prevX, prevY).X, Tile(prevX, prevY).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
+    frmMain.PaintPicture frmMain.picMask.Image, Tile(prevX, prevY).x, Tile(prevX, prevY).Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
+    frmMain.PaintPicture picBuffer.Image, Tile(prevX, prevY).x, Tile(prevX, prevY).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
     'paint over frame
-    picBackground.PaintPicture frmMain.picScene(0).Image, Tile(curX, curY).X, Tile(curX, curY).Y, 100, 100, 0, 0, 100, 100, vbSrcCopy
+    picBackground.PaintPicture frmMain.picScene(0).Image, Tile(curX, curY).x, Tile(curX, curY).Y, 100, 100, 0, 0, 100, 100, vbSrcCopy
     picBuffer.PaintPicture frmMain.picScene(0).Image, 0, 0, 100, 100, 0, 0, 100, 100, vbSrcCopy
-    frmMain.PaintPicture frmMain.picMask.Image, Tile(curX, curY).X, Tile(curX, curY).Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
-    frmMain.PaintPicture picBuffer.Image, Tile(curX, curY).X, Tile(curX, curY).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
+    frmMain.PaintPicture frmMain.picMask.Image, Tile(curX, curY).x, Tile(curX, curY).Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
+    frmMain.PaintPicture picBuffer.Image, Tile(curX, curY).x, Tile(curX, curY).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
     'paint sel
-    frmMain.PaintPicture picSelMask(imgIndex).Image, Tile(curX, curY).X, Tile(curX, curY).Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
-    frmMain.PaintPicture picSelB(imgIndex).Image, Tile(curX, curY).X, Tile(curX, curY).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
+    frmMain.PaintPicture picSelMask(imgIndex).Image, Tile(curX, curY).x, Tile(curX, curY).Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
+    frmMain.PaintPicture picSelB(imgIndex).Image, Tile(curX, curY).x, Tile(curX, curY).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
     frmDbg.txtTest(0).Text = "(" & curX & ", " & curY & ")"
 End Function
 
-Private Function getTileAnim(ByVal intFrame As Integer, ByVal intX As Integer, ByVal intY As Integer)
-PaintPicture frmMain.picMask.Picture, intX, intY, 100, 100, 0, 0, 100, 100, vbSrcAnd
-PaintPicture frmMain.picScene(0).Picture, intX, intY, 100, 100, 0, 0, 100, 100, vbSrcPaint
-'terTile.Y = terTile.Y - (Tile(mapWidth - ((mapHeight + 1) Mod 2), mapHeight).Top + 100)
+Private Function getTileAnim(ByVal intFrame As Integer, ByVal intX As Integer, ByVal intY As Integer, ByVal counter As Integer)
+'picBackground.PaintPicture frmMain.picScene(0).Image, Tile(prevX, prevY).X, Tile(prevX, prevY).Y, 100, 100, 0, 0, 100, 100, vbSrcCopy
+picBuffer.PaintPicture frmMain.picBackground.Image, 0, 0, 100, 100, 0, 0, 100, 100, vbSrcCopy
+'frmMain.PaintPicture frmMain.picMask.Image, Tile(prevX, prevY).X, Tile(prevX, prevY).Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
+frmMain.PaintPicture picBuffer.Image, Tile(intX, intY).x, (Tile(intX, intY).Y - 200) + (intFrame - 1) * 25, 100, 100, 0, 0, 100, 100, vbSrcCopy
+For x = 0 To ((mapWidth * mapHeight) + (Int(mapHeight / 2))) - 1
+    If tileSwitch(x) = True And counter - (4 * x) > 8 Then
+        PaintPicture frmMain.picMask.Picture, Tile(getTileFromInt(True, x), getTileFromInt(False, x)).x, Tile(getTileFromInt(True, x), getTileFromInt(False, x)).Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
+        PaintPicture frmMain.picScene(0).Picture, Tile(getTileFromInt(True, x), getTileFromInt(False, x)).x, Tile(getTileFromInt(True, x), getTileFromInt(False, x)).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
+    End If
+Next x
+'paint tile with new y
+PaintPicture frmMain.picMask.Picture, Tile(intX, intY).x, (Tile(intX, intY).Y - 200) + intFrame * 25, 100, 100, 0, 0, 100, 100, vbSrcAnd
+PaintPicture frmMain.picScene(0).Picture, Tile(intX, intY).x, (Tile(intX, intY).Y - 200) + intFrame * 25, 100, 100, 0, 0, 100, 100, vbSrcPaint
 End Function
 
 Private Sub tmrTileAnim_Timer()
 Static intCounter As Integer
+frmDbg.txtTest(1).Text = intCounter
+For x = 0 To ((mapWidth * mapHeight) + (Int(mapHeight / 2))) - 1
+    If tileSwitch(x) = True And intCounter - (4 * x) <= 8 Then
+        Call getTileAnim(intCounter - (4 * x), getTileFromInt(True, x), getTileFromInt(False, x), intCounter)
+    End If
+Next x
+intCounter = intCounter + 1
+If intCounter = 6 * (((mapWidth * mapHeight) + (Int(mapHeight / 2))) - 1) Then
+    'MsgBox (intCounter)
+    tmrTileAnim.Enabled = False
+    tmrSel.Enabled = True
+End If
+End Sub
+
+Private Sub tmrTileAnimDelay_Timer()
+Static intCounter As Integer
 Static intX As Integer
 Static intY As Integer
-For z = Abs(intCounter - 15) To intCounter - Abs(intCounter - ((mapWidth * mapHeight) + (Abs(mapHeight / 2)) - 1))
-    frmDbg.lstMap.AddItem (z & ", " & Abs(intCounter - 15) & ", " & intCounter - Abs(intCounter - ((mapWidth * mapHeight) + (Abs(mapHeight / 2)) - 1)))
-    Call getTileAnim(intCounter - z, intX, intY)
+frmMain.tmrTileAnim.Enabled = True
+For z = 0 To intCounter - getAbs(intCounter - ((mapWidth * mapHeight) + (Int(mapHeight / 2))) - 1)
+    tileSwitch(z) = True
 Next z
+frmDbg.lstMap.AddItem (intCounter & ": " & z - 1 & ", " & getAbs(intCounter - 15) & ", " & intCounter - getAbs(intCounter - (((mapWidth * mapHeight) + (Int(mapHeight / 2)))) - 1))
 If intX = mapWidth - ((intY + 1) Mod 2) Then
     intY = intY + 1
-ElseIf intY = mapHeight - 1 And intX = mapWidth - ((intY + 1) Mod 2) Then
-    tmrTileAnim.Enabled = False
-Else
+    intX = 0
+ElseIf intX < mapWidth + ((mapHeight + 1) Mod 2) Then
     intX = intX + 1
+End If
+If intCounter >= ((mapWidth * mapHeight) + (Int(mapHeight / 2))) - 1 Then
+    tmrTileAnimDelay.Enabled = False
 End If
 intCounter = intCounter + 1
 End Sub
+
+Private Function getTileFromInt(ByVal blnX As Boolean, ByVal intInput As Integer) As Integer
+If blnX = True Then
+    If intInput >= mapWidth Then
+        If intInput >= (mapWidth * 2) + 1 Then
+            Dim a As Integer
+            a = 2
+            Do Until intInput < (mapWidth * a) + Int(a / 2)
+                a = a + 1
+            Loop
+            getTileFromInt = intInput - ((mapWidth * (a - 1)) + Int((a - 1) / 2))
+        Else
+            getTileFromInt = intInput - mapWidth
+        End If
+    Else
+        getTileFromInt = intInput
+    End If
+ElseIf blnX = False Then
+    If intInput >= mapWidth Then
+        If intInput >= (mapWidth * 2) + 1 Then
+            Dim b As Integer
+            a = 2
+            Do Until intInput < (mapWidth * b) + Int(b / 2)
+                b = b + 1
+            Loop
+            getTileFromInt = b - 1
+        Else
+            getTileFromInt = 1
+        End If
+    Else
+        getTileFromInt = 0
+    End If
+End If
+End Function
+
+Private Function getAbs(ByVal valInput As Single) As Integer
+If valInput < 0 Then
+    valInput = 0
+End If
+getAbs = valInput
+End Function
