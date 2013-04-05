@@ -10,6 +10,12 @@ Begin VB.Form frmMain
    ScaleHeight     =   600
    ScaleMode       =   3  'Pixel
    ScaleWidth      =   800
+   Begin VB.Timer tmrRandomEvent 
+      Enabled         =   0   'False
+      Interval        =   2000
+      Left            =   9480
+      Top             =   360
+   End
    Begin VB.PictureBox picSparkleMask 
       Appearance      =   0  'Flat
       AutoRedraw      =   -1  'True
@@ -281,6 +287,7 @@ Begin VB.Form frmMain
       Width           =   270
    End
    Begin VB.Timer tmrCoin 
+      Enabled         =   0   'False
       Interval        =   66
       Left            =   5040
       Top             =   840
@@ -1128,6 +1135,8 @@ Dim curX As Integer
 Dim curY As Integer
 Dim prevX As Integer
 Dim prevY As Integer
+Dim coinTileCount As Integer
+Dim blnClearPrevTile As Boolean
 Dim tileSwitch(0 To 100) As Boolean
 
 Private Sub Form_KeyUp(KeyCode As Integer, Shift As Integer)
@@ -1247,6 +1256,13 @@ If Index = 0 Then
         curY = curY + 1
     End If
     tmrJump(0).Enabled = False
+    blnClearPrevTile = True
+    If Tile(curX, curY).coinEnabled = True Then
+        'play coin sound
+        addScore (100)
+        Tile(curX, curY).coinEnabled = False
+        coinTileCount = coinTileCount - 1
+    End If
     Call addScore(10)
 End If
 End Sub
@@ -1255,6 +1271,7 @@ Private Sub Form_Load()
 Call DrawMap(1)
 curX = 2
 curY = 2
+blnClearPrevTile = False
 For t = 0 To 100
     tileSwitch(t) = False
 Next t
@@ -1284,13 +1301,10 @@ Static frameCount As Integer
 For c = 0 To tileCount - 1
     If Tile(getTileFromInt(True, c), getTileFromInt(False, c)).coinEnabled = True Then
         Call PaintCoin("G", frameCount, getTileFromInt(True, c), getTileFromInt(False, c))
-        If intFrame > 12 And intFrame < 20 Then
-            Call PaintCoin("G", frameCount, getTileFromInt(True, c), getTileFromInt(False, c))
-        End If
     End If
 Next c
 frameCount = frameCount + 1
-If frameCount = 27 Then
+If frameCount = 28 Then
     frameCount = 0
 End If
 End Sub
@@ -1298,10 +1312,11 @@ End Sub
 Private Function PaintCoin(ByVal strType As String, ByVal intFrame As Integer, ByVal intCoinX As Integer, ByVal intCoinY As Integer)
 Dim intXOffset As Integer
 Dim intYOffset As Integer
+Dim intFrameOffset As Integer
 intXOffset = 41
-intYOffset = -9
-If strType <> "S" And intFrame > 13 Then
-    intFrame = intFrame - 14
+intYOffset = -1
+If intFrame > 13 Then
+    intFrameOffset = -14
 End If
 'paint over last coin
 picBackground.PaintPicture frmMain.picScene(0).Image, Tile(intCoinX, intCoinY).X, Tile(intCoinX, intCoinY).Y, 100, 100, 0, 0, 100, 100, vbSrcCopy
@@ -1314,12 +1329,12 @@ picBuffer.PaintPicture frmMain.picScene(0).Image, 0, 0, 100, 100, 0, 0, 100, 100
 frmMain.PaintPicture frmMain.picMask.Image, Tile(intCoinX, intCoinY).X, Tile(intCoinX, intCoinY).Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
 frmMain.PaintPicture picBuffer.Image, Tile(intCoinX, intCoinY).X, Tile(intCoinX, intCoinY).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
 'paint coin
-If strType <> "S" Then
-    frmMain.PaintPicture picCoinMask(intFrame).Image, Tile(intCoinX, intCoinY).X + intXOffset, Tile(intCoinX, intCoinY).Y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcAnd
-    frmMain.PaintPicture picCoinG(intFrame).Image, Tile(intCoinX, intCoinY).X + intXOffset, Tile(intCoinX, intCoinY).Y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcPaint
-Else
-    frmMain.PaintPicture picSparkleMask(intFrame).Image, Tile(intCoinX, intCoinY).X + intXOffset, Tile(intCoinX, intCoinY).Y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcAnd
-    frmMain.PaintPicture picSparkle(intFrame).Image, Tile(intCoinX, intCoinY).X + intXOffset, Tile(intCoinX, intCoinY).Y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcPaint
+frmMain.PaintPicture picCoinMask(intFrame + intFrameOffset).Image, Tile(intCoinX, intCoinY).X + intXOffset, Tile(intCoinX, intCoinY).Y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcAnd
+frmMain.PaintPicture picCoinG(intFrame + intFrameOffset).Image, Tile(intCoinX, intCoinY).X + intXOffset, Tile(intCoinX, intCoinY).Y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcPaint
+'paint sparkle
+If intFrame > 12 And intFrame < 20 Then
+    frmMain.PaintPicture picSparkleMask(intFrame - 13).Image, Tile(intCoinX, intCoinY).X + intXOffset, Tile(intCoinX, intCoinY).Y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcAnd
+    frmMain.PaintPicture picSparkle(intFrame - 13).Image, Tile(intCoinX, intCoinY).X + intXOffset, Tile(intCoinX, intCoinY).Y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcPaint
 End If
 End Function
 
@@ -1343,10 +1358,13 @@ End Sub
 
 Private Function PaintSelector(ByVal imgIndex As Integer) As Integer
 'paint over last sel
-picBackground.PaintPicture frmMain.picScene(0).Image, Tile(prevX, prevY).X, Tile(prevX, prevY).Y, 100, 100, 0, 0, 100, 100, vbSrcCopy
-picBuffer.PaintPicture frmMain.picScene(0).Image, 0, 0, 100, 100, 0, 0, 100, 100, vbSrcCopy
-frmMain.PaintPicture frmMain.picMask.Image, Tile(prevX, prevY).X, Tile(prevX, prevY).Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
-frmMain.PaintPicture picBuffer.Image, Tile(prevX, prevY).X, Tile(prevX, prevY).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
+If blnClearPrevTile = True Then
+    picBackground.PaintPicture frmMain.picScene(0).Image, Tile(prevX, prevY).X, Tile(prevX, prevY).Y, 100, 100, 0, 0, 100, 100, vbSrcCopy
+    picBuffer.PaintPicture frmMain.picScene(0).Image, 0, 0, 100, 100, 0, 0, 100, 100, vbSrcCopy
+    frmMain.PaintPicture frmMain.picMask.Image, Tile(prevX, prevY).X, Tile(prevX, prevY).Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
+    frmMain.PaintPicture picBuffer.Image, Tile(prevX, prevY).X, Tile(prevX, prevY).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
+    blnClearPrevTile = False
+End If
 'paint over frame
 picBackground.PaintPicture frmMain.picScene(0).Image, Tile(curX, curY).X, Tile(curX, curY).Y, 100, 100, 0, 0, 100, 100, vbSrcCopy
 picBuffer.PaintPicture frmMain.picScene(0).Image, 0, 0, 100, 100, 0, 0, 100, 100, vbSrcCopy
@@ -1386,6 +1404,8 @@ intCounter = intCounter + 1
 If intCounter = 6 * (((mapWidth * mapHeight) + (Int(mapHeight / 2))) - 1) Then
     tmrTileAnim.Enabled = False
     tmrSel.Enabled = True
+    tmrRandomEvent.Enabled = True
+    tmrCoin.Enabled = True
     Tile(2, 0).coinEnabled = True
 End If
 End Sub
@@ -1452,9 +1472,17 @@ End If
 getAbs = valInput
 End Function
 
-Private Sub RandomEvent()
+Private Sub tmrRandomEvent_Timer()
 Dim intRand As Integer
 intRand = Int(Rnd() * 10)
 If intRand <= 3 Then
+    If coinTileCount < tileCount - 2 Then
+        intRand = Int(Rnd() * tileCount)
+        Do While (Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).X = Tile(curX, curY).X And Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).Y = Tile(curX, curY).Y) Or Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).coinEnabled = True
+            intRand = Int(Rnd() * tileCount)
+        Loop
+        Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).coinEnabled = True
+        coinTileCount = coinTileCount + 1
+    End If
 End If
 End Sub
