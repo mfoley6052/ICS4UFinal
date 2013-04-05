@@ -1763,7 +1763,7 @@ If Index = 0 Then
     blnClearPrevTile = True
     If Tile(curX, curY).coinEnabled = True Then
         'play coin sound
-        If Tile(curX, curY).coinType = "G" Then
+        If Tile(curX, curY).coinType = "Y" Then
             addScore (100)
         ElseIf Tile(curX, curY).coinType = "R" Then
             addScore (250)
@@ -1840,8 +1840,8 @@ frmMain.PaintPicture frmMain.picMask.Image, Tile(intCoinX, intCoinY).X, Tile(int
 frmMain.PaintPicture picBuffer.Image, Tile(intCoinX, intCoinY).X, Tile(intCoinX, intCoinY).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
 'paint coin
 frmMain.PaintPicture picCoinMask(intFrame + intFrameOffset).Image, Tile(intCoinX, intCoinY).X + intXOffset, Tile(intCoinX, intCoinY).Y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcAnd
-If strType = "G" Then
-    frmMain.PaintPicture picCoinG(intFrame + intFrameOffset).Image, Tile(intCoinX, intCoinY).X + intXOffset, Tile(intCoinX, intCoinY).Y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcPaint
+If strType = "Y" Then
+    frmMain.PaintPicture picCoinY(intFrame + intFrameOffset).Image, Tile(intCoinX, intCoinY).X + intXOffset, Tile(intCoinX, intCoinY).Y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcPaint
 ElseIf strType = "R" Then
     frmMain.PaintPicture picCoinR(intFrame + intFrameOffset).Image, Tile(intCoinX, intCoinY).X + intXOffset, Tile(intCoinX, intCoinY).Y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcPaint
 ElseIf strType = "B" Then
@@ -2002,7 +2002,7 @@ If coinTileCount < tileCount - 1 Then
     Dim intType As Integer
     intType = randInt(1, 100)
     If intType <= 65 Then
-        Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).coinType = "G"
+        Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).coinType = "Y"
     ElseIf intType > 65 And intType <= 90 Then
         Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).coinType = "R"
     ElseIf intType > 90 Then
