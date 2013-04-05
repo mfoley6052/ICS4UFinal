@@ -1830,7 +1830,7 @@ For c = 0 To tileCount - 1
         Call PaintCoin(Tile(getTileFromInt(True, c), getTileFromInt(False, c)).coinType, frameCount, getTileFromInt(True, c), getTileFromInt(False, c))
         'Activate new timer for specific coin
         Tile(getTileFromInt(True, c), getTileFromInt(False, c)).coinCount = c
-        Call coinDestroy(Tile(getTileFromInt(True, c), getTileFromInt(False, c)).coinCount)
+        Call coinDestroy(c)
     End If
 Next c
 frameCount = frameCount + 1
@@ -2034,11 +2034,22 @@ End Sub
 
 Private Function coinDestroy(ByVal ndex As Integer) As Boolean
 Static loaded() As Boolean
+Static numCoins As Integer
 'Left off here
-    If ndex <> 0 And Not (loaded(ndex)) Then
-        Load tmrCoinDestroy(ndex)
+On Error GoTo getRid
+ReDim Preserve loaded(ndex) As Boolean
+    If loaded(ndex) = False Then
+        If ndex <> 0 Then
+            Load tmrCoinDestroy(ndex)
+            loaded(ndex) = True
+        End If
+        tmrCoinDestroy(ndex).Enabled = True
+        numCoins = numCoins + 1
     End If
-    tmrCoinDestroy(ndex).Enabled = True
-    
+Exit Function
+getRid:
+Call tmrCoinDestroy_Timer(ndex)
+'Unload tmrCoinDestroy(ndex)
+
 End Function
 
