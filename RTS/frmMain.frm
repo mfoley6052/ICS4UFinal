@@ -105,6 +105,13 @@ Begin VB.Form frmMain
       Top             =   0
       Visible         =   0   'False
       Width           =   11295
+      Begin VB.Timer tmrCoinDestroy 
+         Enabled         =   0   'False
+         Index           =   0
+         Interval        =   1
+         Left            =   6360
+         Top             =   8160
+      End
       Begin VB.PictureBox picCoinB 
          Appearance      =   0  'Flat
          AutoRedraw      =   -1  'True
@@ -1734,6 +1741,16 @@ ElseIf strDir = "D" Then
 End If
 End Function
 
+Private Sub tmrCoinDestroy_Timer(Index As Integer)
+Dim curTime As Long
+If curTime < 1500 Then
+    curTime = curTime + 1
+Else
+     Tile(getTileFromInt(True, Index), getTileFromInt(False, Index)).coinEnabled = False
+     Unload tmrCoinDestroy(Index)
+End If
+End Sub
+
 Private Sub tmrJump_Timer(Index As Integer)
 If Index = 0 Then
     prevX = curX
@@ -1811,6 +1828,9 @@ Static frameCount As Integer
 For c = 0 To tileCount - 1
     If Tile(getTileFromInt(True, c), getTileFromInt(False, c)).coinEnabled = True Then
         Call PaintCoin(Tile(getTileFromInt(True, c), getTileFromInt(False, c)).coinType, frameCount, getTileFromInt(True, c), getTileFromInt(False, c))
+        'Activate new timer for specific coin
+        Tile(getTileFromInt(True, c), getTileFromInt(False, c)).coinCount = c
+        Call coinDestroy(Tile(getTileFromInt(True, c), getTileFromInt(False, c)).coinCount)
     End If
 Next c
 frameCount = frameCount + 1
@@ -2011,3 +2031,14 @@ If coinTileCount < tileCount - 1 Then
     coinTileCount = coinTileCount + 1
 End If
 End Sub
+
+Private Function coinDestroy(ByVal ndex As Integer) As Boolean
+Static loaded() As Boolean
+'Left off here
+    If ndex <> 0 And Not (loaded(ndex)) Then
+        Load tmrCoinDestroy(ndex)
+    End If
+    tmrCoinDestroy(ndex).Enabled = True
+    
+End Function
+
