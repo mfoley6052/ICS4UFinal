@@ -18,13 +18,13 @@ Begin VB.Form frmMain
       ForeColor       =   &H80000008&
       Height          =   525
       Index           =   4
-      Left            =   9240
+      Left            =   6720
       Picture         =   "frmMain.frx":0000
       ScaleHeight     =   35
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   18
       TabIndex        =   56
-      Top             =   4920
+      Top             =   5520
       Visible         =   0   'False
       Width           =   270
    End
@@ -358,13 +358,13 @@ Begin VB.Form frmMain
          ForeColor       =   &H80000008&
          Height          =   525
          Index           =   6
-         Left            =   9960
+         Left            =   7440
          Picture         =   "frmMain.frx":34CA
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
          TabIndex        =   58
-         Top             =   4920
+         Top             =   5520
          Visible         =   0   'False
          Width           =   270
       End
@@ -376,13 +376,13 @@ Begin VB.Form frmMain
          ForeColor       =   &H80000008&
          Height          =   525
          Index           =   5
-         Left            =   9600
+         Left            =   7080
          Picture         =   "frmMain.frx":381D
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
          TabIndex        =   57
-         Top             =   4920
+         Top             =   5520
          Visible         =   0   'False
          Width           =   270
       End
@@ -484,13 +484,13 @@ Begin VB.Form frmMain
          ForeColor       =   &H80000008&
          Height          =   525
          Index           =   0
-         Left            =   7800
+         Left            =   5280
          Picture         =   "frmMain.frx":4C4E
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
          TabIndex        =   50
-         Top             =   4920
+         Top             =   5520
          Visible         =   0   'False
          Width           =   270
       End
@@ -502,13 +502,13 @@ Begin VB.Form frmMain
          ForeColor       =   &H80000008&
          Height          =   525
          Index           =   1
-         Left            =   8160
+         Left            =   5640
          Picture         =   "frmMain.frx":4FA1
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
          TabIndex        =   49
-         Top             =   4920
+         Top             =   5520
          Visible         =   0   'False
          Width           =   270
       End
@@ -520,13 +520,13 @@ Begin VB.Form frmMain
          ForeColor       =   &H80000008&
          Height          =   525
          Index           =   3
-         Left            =   8880
+         Left            =   6360
          Picture         =   "frmMain.frx":52FB
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
          TabIndex        =   48
-         Top             =   4920
+         Top             =   5520
          Visible         =   0   'False
          Width           =   270
       End
@@ -538,13 +538,13 @@ Begin VB.Form frmMain
          ForeColor       =   &H80000008&
          Height          =   525
          Index           =   2
-         Left            =   8520
+         Left            =   6000
          Picture         =   "frmMain.frx":565B
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
          TabIndex        =   47
-         Top             =   4920
+         Top             =   5520
          Visible         =   0   'False
          Width           =   270
       End
@@ -1279,7 +1279,49 @@ Private Sub tmrScoreCheck_Timer()
 lblScore = "Score " & Format(intScore, "0000000")
 End Sub
 
+Private Sub tmrCoin_Timer()
+Static frameCount As Integer
+For c = 0 To tileCount - 1
+    If Tile(getTileFromInt(True, c), getTileFromInt(False, c)).coinEnabled = True Then
+        Call PaintCoin("G", frameCount, getTileFromInt(True, c), getTileFromInt(False, c))
+        If intFrame > 12 And intFrame < 20 Then
+            Call PaintCoin("G", frameCount, getTileFromInt(True, c), getTileFromInt(False, c))
+        End If
+    End If
+Next c
+frameCount = frameCount + 1
+If frameCount = 27 Then
+    frameCount = 0
+End If
+End Sub
 
+Private Function PaintCoin(ByVal strType As String, ByVal intFrame As Integer, ByVal intCoinX As Integer, ByVal intCoinY As Integer)
+Dim intXOffset As Integer
+Dim intYOffset As Integer
+intXOffset = 41
+intYOffset = -9
+If strType <> "S" And intFrame > 13 Then
+    intFrame = intFrame - 14
+End If
+'paint over last coin
+picBackground.PaintPicture frmMain.picScene(0).Image, Tile(intCoinX, intCoinY).X, Tile(intCoinX, intCoinY).Y, 100, 100, 0, 0, 100, 100, vbSrcCopy
+picBuffer.PaintPicture frmMain.picScene(0).Image, 0, 0, 100, 100, 0, 0, 100, 100, vbSrcCopy
+frmMain.PaintPicture frmMain.picMask.Image, Tile(intCoinX, intCoinY).X, Tile(intCoinX, intCoinY).Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
+frmMain.PaintPicture picBuffer.Image, Tile(intCoinX, intCoinY).X, Tile(intCoinX, intCoinY).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
+'paint over frame
+picBackground.PaintPicture frmMain.picScene(0).Image, Tile(intCoinX, intCoinY).X, Tile(intCoinX, intCoinY).Y, 100, 100, 0, 0, 100, 100, vbSrcCopy
+picBuffer.PaintPicture frmMain.picScene(0).Image, 0, 0, 100, 100, 0, 0, 100, 100, vbSrcCopy
+frmMain.PaintPicture frmMain.picMask.Image, Tile(intCoinX, intCoinY).X, Tile(intCoinX, intCoinY).Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
+frmMain.PaintPicture picBuffer.Image, Tile(intCoinX, intCoinY).X, Tile(intCoinX, intCoinY).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
+'paint coin
+If strType <> "S" Then
+    frmMain.PaintPicture picCoinMask(intFrame).Image, Tile(intCoinX, intCoinY).X + intXOffset, Tile(intCoinX, intCoinY).Y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcAnd
+    frmMain.PaintPicture picCoinG(intFrame).Image, Tile(intCoinX, intCoinY).X + intXOffset, Tile(intCoinX, intCoinY).Y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcPaint
+Else
+    frmMain.PaintPicture picSparkleMask(intFrame).Image, Tile(intCoinX, intCoinY).X + intXOffset, Tile(intCoinX, intCoinY).Y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcAnd
+    frmMain.PaintPicture picSparkle(intFrame).Image, Tile(intCoinX, intCoinY).X + intXOffset, Tile(intCoinX, intCoinY).Y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcPaint
+End If
+End Function
 
 Private Sub tmrSel_Timer()
 Static blnRev As Boolean
@@ -1300,20 +1342,20 @@ End If
 End Sub
 
 Private Function PaintSelector(ByVal imgIndex As Integer) As Integer
-    'paint over last sel
-    picBackground.PaintPicture frmMain.picScene(0).Image, Tile(prevX, prevY).X, Tile(prevX, prevY).Y, 100, 100, 0, 0, 100, 100, vbSrcCopy
-    picBuffer.PaintPicture frmMain.picScene(0).Image, 0, 0, 100, 100, 0, 0, 100, 100, vbSrcCopy
-    frmMain.PaintPicture frmMain.picMask.Image, Tile(prevX, prevY).X, Tile(prevX, prevY).Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
-    frmMain.PaintPicture picBuffer.Image, Tile(prevX, prevY).X, Tile(prevX, prevY).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
-    'paint over frame
-    picBackground.PaintPicture frmMain.picScene(0).Image, Tile(curX, curY).X, Tile(curX, curY).Y, 100, 100, 0, 0, 100, 100, vbSrcCopy
-    picBuffer.PaintPicture frmMain.picScene(0).Image, 0, 0, 100, 100, 0, 0, 100, 100, vbSrcCopy
-    frmMain.PaintPicture frmMain.picMask.Image, Tile(curX, curY).X, Tile(curX, curY).Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
-    frmMain.PaintPicture picBuffer.Image, Tile(curX, curY).X, Tile(curX, curY).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
-    'paint sel
-    frmMain.PaintPicture picSelMask(imgIndex).Image, Tile(curX, curY).X, Tile(curX, curY).Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
-    frmMain.PaintPicture picSelB(imgIndex).Image, Tile(curX, curY).X, Tile(curX, curY).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
-    frmDbg.txtTest(0).Text = "(" & curX & ", " & curY & ")"
+'paint over last sel
+picBackground.PaintPicture frmMain.picScene(0).Image, Tile(prevX, prevY).X, Tile(prevX, prevY).Y, 100, 100, 0, 0, 100, 100, vbSrcCopy
+picBuffer.PaintPicture frmMain.picScene(0).Image, 0, 0, 100, 100, 0, 0, 100, 100, vbSrcCopy
+frmMain.PaintPicture frmMain.picMask.Image, Tile(prevX, prevY).X, Tile(prevX, prevY).Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
+frmMain.PaintPicture picBuffer.Image, Tile(prevX, prevY).X, Tile(prevX, prevY).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
+'paint over frame
+picBackground.PaintPicture frmMain.picScene(0).Image, Tile(curX, curY).X, Tile(curX, curY).Y, 100, 100, 0, 0, 100, 100, vbSrcCopy
+picBuffer.PaintPicture frmMain.picScene(0).Image, 0, 0, 100, 100, 0, 0, 100, 100, vbSrcCopy
+frmMain.PaintPicture frmMain.picMask.Image, Tile(curX, curY).X, Tile(curX, curY).Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
+frmMain.PaintPicture picBuffer.Image, Tile(curX, curY).X, Tile(curX, curY).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
+'paint sel
+frmMain.PaintPicture picSelMask(imgIndex).Image, Tile(curX, curY).X, Tile(curX, curY).Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
+frmMain.PaintPicture picSelB(imgIndex).Image, Tile(curX, curY).X, Tile(curX, curY).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
+frmDbg.txtTest(0).Text = "(" & curX & ", " & curY & ")"
 End Function
 
 Private Function getTileAnim(ByVal intFrame As Integer, ByVal intX As Integer, ByVal intY As Integer, ByVal counter As Integer)
@@ -1335,16 +1377,16 @@ End Function
 Private Sub tmrTileAnim_Timer()
 Static intCounter As Integer
 frmDbg.txtTest(1).Text = intCounter
-For X = 0 To ((mapWidth * mapHeight) + (Int(mapHeight / 2))) - 1
+For X = 0 To tileCount - 1
     If tileSwitch(X) = True And intCounter - (4 * X) <= 8 Then
         Call getTileAnim(intCounter - (4 * X), getTileFromInt(True, X), getTileFromInt(False, X), intCounter)
     End If
 Next X
 intCounter = intCounter + 1
 If intCounter = 6 * (((mapWidth * mapHeight) + (Int(mapHeight / 2))) - 1) Then
-    'MsgBox (intCounter)
     tmrTileAnim.Enabled = False
     tmrSel.Enabled = True
+    Tile(2, 0).coinEnabled = True
 End If
 End Sub
 
@@ -1409,3 +1451,10 @@ If valInput < 0 Then
 End If
 getAbs = valInput
 End Function
+
+Private Sub RandomEvent()
+Dim intRand As Integer
+intRand = Int(Rnd() * 10)
+If intRand <= 3 Then
+End If
+End Sub

@@ -12,13 +12,13 @@ Public Type npc 'Data type for all characters in game
 End Type
 
 Public Type terrain ' data type for different terrains
-    walkSpeed As Single
     pic As String
     X As Single
     Y As Single
     selectable As Boolean
     oldX As Single
     oldY As Single
+    coinEnabled As Boolean
 End Type
 
 
