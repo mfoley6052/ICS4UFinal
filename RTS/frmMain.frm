@@ -10,9 +10,9 @@ Begin VB.Form frmMain
    ScaleHeight     =   600
    ScaleMode       =   3  'Pixel
    ScaleWidth      =   800
-   Begin VB.Timer tmrRandomEvent 
+   Begin VB.Timer tmrCoinEvent 
       Enabled         =   0   'False
-      Interval        =   2000
+      Interval        =   1500
       Left            =   9480
       Top             =   360
    End
@@ -29,259 +29,7 @@ Begin VB.Form frmMain
       ScaleHeight     =   35
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   18
-      TabIndex        =   56
-      Top             =   5520
-      Visible         =   0   'False
-      Width           =   270
-   End
-   Begin VB.PictureBox picCoinMask 
-      Appearance      =   0  'Flat
-      AutoRedraw      =   -1  'True
-      BackColor       =   &H80000005&
-      BorderStyle     =   0  'None
-      ForeColor       =   &H80000008&
-      Height          =   525
-      Index           =   13
-      Left            =   4920
-      Picture         =   "frmMain.frx":0363
-      ScaleHeight     =   35
-      ScaleMode       =   3  'Pixel
-      ScaleWidth      =   18
-      TabIndex        =   44
-      Top             =   5520
-      Visible         =   0   'False
-      Width           =   270
-   End
-   Begin VB.PictureBox picCoinMask 
-      Appearance      =   0  'Flat
-      AutoRedraw      =   -1  'True
-      BackColor       =   &H80000005&
-      BorderStyle     =   0  'None
-      ForeColor       =   &H80000008&
-      Height          =   525
-      Index           =   12
-      Left            =   4560
-      Picture         =   "frmMain.frx":06EA
-      ScaleHeight     =   35
-      ScaleMode       =   3  'Pixel
-      ScaleWidth      =   18
-      TabIndex        =   43
-      Top             =   5520
-      Visible         =   0   'False
-      Width           =   270
-   End
-   Begin VB.PictureBox picCoinMask 
-      Appearance      =   0  'Flat
-      AutoRedraw      =   -1  'True
-      BackColor       =   &H80000005&
-      BorderStyle     =   0  'None
-      ForeColor       =   &H80000008&
-      Height          =   525
-      Index           =   11
-      Left            =   4200
-      Picture         =   "frmMain.frx":0A76
-      ScaleHeight     =   35
-      ScaleMode       =   3  'Pixel
-      ScaleWidth      =   18
       TabIndex        =   42
-      Top             =   5520
-      Visible         =   0   'False
-      Width           =   270
-   End
-   Begin VB.PictureBox picCoinMask 
-      Appearance      =   0  'Flat
-      AutoRedraw      =   -1  'True
-      BackColor       =   &H80000005&
-      BorderStyle     =   0  'None
-      ForeColor       =   &H80000008&
-      Height          =   525
-      Index           =   10
-      Left            =   3840
-      Picture         =   "frmMain.frx":0E00
-      ScaleHeight     =   35
-      ScaleMode       =   3  'Pixel
-      ScaleWidth      =   18
-      TabIndex        =   41
-      Top             =   5520
-      Visible         =   0   'False
-      Width           =   270
-   End
-   Begin VB.PictureBox picCoinMask 
-      Appearance      =   0  'Flat
-      AutoRedraw      =   -1  'True
-      BackColor       =   &H80000005&
-      BorderStyle     =   0  'None
-      ForeColor       =   &H80000008&
-      Height          =   525
-      Index           =   9
-      Left            =   3480
-      Picture         =   "frmMain.frx":1189
-      ScaleHeight     =   35
-      ScaleMode       =   3  'Pixel
-      ScaleWidth      =   18
-      TabIndex        =   40
-      Top             =   5520
-      Visible         =   0   'False
-      Width           =   270
-   End
-   Begin VB.PictureBox picCoinMask 
-      Appearance      =   0  'Flat
-      AutoRedraw      =   -1  'True
-      BackColor       =   &H80000005&
-      BorderStyle     =   0  'None
-      ForeColor       =   &H80000008&
-      Height          =   525
-      Index           =   8
-      Left            =   3120
-      Picture         =   "frmMain.frx":150E
-      ScaleHeight     =   35
-      ScaleMode       =   3  'Pixel
-      ScaleWidth      =   18
-      TabIndex        =   39
-      Top             =   5520
-      Visible         =   0   'False
-      Width           =   270
-   End
-   Begin VB.PictureBox picCoinMask 
-      Appearance      =   0  'Flat
-      AutoRedraw      =   -1  'True
-      BackColor       =   &H80000005&
-      BorderStyle     =   0  'None
-      ForeColor       =   &H80000008&
-      Height          =   525
-      Index           =   7
-      Left            =   2760
-      Picture         =   "frmMain.frx":1893
-      ScaleHeight     =   35
-      ScaleMode       =   3  'Pixel
-      ScaleWidth      =   18
-      TabIndex        =   38
-      Top             =   5520
-      Visible         =   0   'False
-      Width           =   270
-   End
-   Begin VB.PictureBox picCoinMask 
-      Appearance      =   0  'Flat
-      AutoRedraw      =   -1  'True
-      BackColor       =   &H80000005&
-      BorderStyle     =   0  'None
-      ForeColor       =   &H80000008&
-      Height          =   525
-      Index           =   6
-      Left            =   2400
-      Picture         =   "frmMain.frx":1C19
-      ScaleHeight     =   35
-      ScaleMode       =   3  'Pixel
-      ScaleWidth      =   18
-      TabIndex        =   37
-      Top             =   5520
-      Visible         =   0   'False
-      Width           =   270
-   End
-   Begin VB.PictureBox picCoinMask 
-      Appearance      =   0  'Flat
-      AutoRedraw      =   -1  'True
-      BackColor       =   &H80000005&
-      BorderStyle     =   0  'None
-      ForeColor       =   &H80000008&
-      Height          =   525
-      Index           =   5
-      Left            =   2040
-      Picture         =   "frmMain.frx":1FA0
-      ScaleHeight     =   35
-      ScaleMode       =   3  'Pixel
-      ScaleWidth      =   18
-      TabIndex        =   36
-      Top             =   5520
-      Visible         =   0   'False
-      Width           =   270
-   End
-   Begin VB.PictureBox picCoinMask 
-      Appearance      =   0  'Flat
-      AutoRedraw      =   -1  'True
-      BackColor       =   &H80000005&
-      BorderStyle     =   0  'None
-      ForeColor       =   &H80000008&
-      Height          =   525
-      Index           =   4
-      Left            =   1680
-      Picture         =   "frmMain.frx":2326
-      ScaleHeight     =   35
-      ScaleMode       =   3  'Pixel
-      ScaleWidth      =   18
-      TabIndex        =   35
-      Top             =   5520
-      Visible         =   0   'False
-      Width           =   270
-   End
-   Begin VB.PictureBox picCoinMask 
-      Appearance      =   0  'Flat
-      AutoRedraw      =   -1  'True
-      BackColor       =   &H80000005&
-      BorderStyle     =   0  'None
-      ForeColor       =   &H80000008&
-      Height          =   525
-      Index           =   3
-      Left            =   1320
-      Picture         =   "frmMain.frx":26B0
-      ScaleHeight     =   35
-      ScaleMode       =   3  'Pixel
-      ScaleWidth      =   18
-      TabIndex        =   34
-      Top             =   5520
-      Visible         =   0   'False
-      Width           =   270
-   End
-   Begin VB.PictureBox picCoinMask 
-      Appearance      =   0  'Flat
-      AutoRedraw      =   -1  'True
-      BackColor       =   &H80000005&
-      BorderStyle     =   0  'None
-      ForeColor       =   &H80000008&
-      Height          =   525
-      Index           =   2
-      Left            =   960
-      Picture         =   "frmMain.frx":2A37
-      ScaleHeight     =   35
-      ScaleMode       =   3  'Pixel
-      ScaleWidth      =   18
-      TabIndex        =   33
-      Top             =   5520
-      Visible         =   0   'False
-      Width           =   270
-   End
-   Begin VB.PictureBox picCoinMask 
-      Appearance      =   0  'Flat
-      AutoRedraw      =   -1  'True
-      BackColor       =   &H80000005&
-      BorderStyle     =   0  'None
-      ForeColor       =   &H80000008&
-      Height          =   525
-      Index           =   1
-      Left            =   600
-      Picture         =   "frmMain.frx":2DC1
-      ScaleHeight     =   35
-      ScaleMode       =   3  'Pixel
-      ScaleWidth      =   18
-      TabIndex        =   32
-      Top             =   5520
-      Visible         =   0   'False
-      Width           =   270
-   End
-   Begin VB.PictureBox picCoinMask 
-      Appearance      =   0  'Flat
-      AutoRedraw      =   -1  'True
-      BackColor       =   &H80000005&
-      BorderStyle     =   0  'None
-      ForeColor       =   &H80000008&
-      Height          =   525
-      Index           =   0
-      Left            =   240
-      Picture         =   "frmMain.frx":3149
-      ScaleHeight     =   35
-      ScaleMode       =   3  'Pixel
-      ScaleWidth      =   18
-      TabIndex        =   31
       Top             =   5520
       Visible         =   0   'False
       Width           =   270
@@ -357,6 +105,762 @@ Begin VB.Form frmMain
       Top             =   0
       Visible         =   0   'False
       Width           =   11295
+      Begin VB.PictureBox picCoinB 
+         Appearance      =   0  'Flat
+         AutoRedraw      =   -1  'True
+         BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H80000008&
+         Height          =   525
+         Index           =   0
+         Left            =   240
+         Picture         =   "frmMain.frx":0363
+         ScaleHeight     =   35
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   18
+         TabIndex        =   86
+         Top             =   6720
+         Visible         =   0   'False
+         Width           =   270
+      End
+      Begin VB.PictureBox picCoinB 
+         Appearance      =   0  'Flat
+         AutoRedraw      =   -1  'True
+         BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H80000008&
+         Height          =   525
+         Index           =   1
+         Left            =   600
+         Picture         =   "frmMain.frx":0731
+         ScaleHeight     =   35
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   18
+         TabIndex        =   85
+         Top             =   6720
+         Visible         =   0   'False
+         Width           =   270
+      End
+      Begin VB.PictureBox picCoinB 
+         Appearance      =   0  'Flat
+         AutoRedraw      =   -1  'True
+         BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H80000008&
+         Height          =   525
+         Index           =   2
+         Left            =   960
+         Picture         =   "frmMain.frx":0B00
+         ScaleHeight     =   35
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   18
+         TabIndex        =   84
+         Top             =   6720
+         Visible         =   0   'False
+         Width           =   270
+      End
+      Begin VB.PictureBox picCoinB 
+         Appearance      =   0  'Flat
+         AutoRedraw      =   -1  'True
+         BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H80000008&
+         Height          =   525
+         Index           =   3
+         Left            =   1320
+         Picture         =   "frmMain.frx":0EC5
+         ScaleHeight     =   35
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   18
+         TabIndex        =   83
+         Top             =   6720
+         Visible         =   0   'False
+         Width           =   270
+      End
+      Begin VB.PictureBox picCoinB 
+         Appearance      =   0  'Flat
+         AutoRedraw      =   -1  'True
+         BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H80000008&
+         Height          =   525
+         Index           =   4
+         Left            =   1680
+         Picture         =   "frmMain.frx":1283
+         ScaleHeight     =   35
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   18
+         TabIndex        =   82
+         Top             =   6720
+         Visible         =   0   'False
+         Width           =   270
+      End
+      Begin VB.PictureBox picCoinB 
+         Appearance      =   0  'Flat
+         AutoRedraw      =   -1  'True
+         BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H80000008&
+         Height          =   525
+         Index           =   5
+         Left            =   2040
+         Picture         =   "frmMain.frx":163A
+         ScaleHeight     =   35
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   18
+         TabIndex        =   81
+         Top             =   6720
+         Visible         =   0   'False
+         Width           =   270
+      End
+      Begin VB.PictureBox picCoinB 
+         Appearance      =   0  'Flat
+         AutoRedraw      =   -1  'True
+         BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H80000008&
+         Height          =   525
+         Index           =   6
+         Left            =   2400
+         Picture         =   "frmMain.frx":19DF
+         ScaleHeight     =   35
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   18
+         TabIndex        =   80
+         Top             =   6720
+         Visible         =   0   'False
+         Width           =   270
+      End
+      Begin VB.PictureBox picCoinB 
+         Appearance      =   0  'Flat
+         AutoRedraw      =   -1  'True
+         BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H80000008&
+         Height          =   525
+         Index           =   7
+         Left            =   2760
+         Picture         =   "frmMain.frx":1D78
+         ScaleHeight     =   35
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   18
+         TabIndex        =   79
+         Top             =   6720
+         Visible         =   0   'False
+         Width           =   270
+      End
+      Begin VB.PictureBox picCoinB 
+         Appearance      =   0  'Flat
+         AutoRedraw      =   -1  'True
+         BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H80000008&
+         Height          =   525
+         Index           =   8
+         Left            =   3120
+         Picture         =   "frmMain.frx":211C
+         ScaleHeight     =   35
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   18
+         TabIndex        =   78
+         Top             =   6720
+         Visible         =   0   'False
+         Width           =   270
+      End
+      Begin VB.PictureBox picCoinB 
+         Appearance      =   0  'Flat
+         AutoRedraw      =   -1  'True
+         BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H80000008&
+         Height          =   525
+         Index           =   9
+         Left            =   3480
+         Picture         =   "frmMain.frx":24B6
+         ScaleHeight     =   35
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   18
+         TabIndex        =   77
+         Top             =   6720
+         Visible         =   0   'False
+         Width           =   270
+      End
+      Begin VB.PictureBox picCoinB 
+         Appearance      =   0  'Flat
+         AutoRedraw      =   -1  'True
+         BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H80000008&
+         Height          =   525
+         Index           =   10
+         Left            =   3840
+         Picture         =   "frmMain.frx":2859
+         ScaleHeight     =   35
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   18
+         TabIndex        =   76
+         Top             =   6720
+         Visible         =   0   'False
+         Width           =   270
+      End
+      Begin VB.PictureBox picCoinB 
+         Appearance      =   0  'Flat
+         AutoRedraw      =   -1  'True
+         BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H80000008&
+         Height          =   525
+         Index           =   11
+         Left            =   4200
+         Picture         =   "frmMain.frx":2C0A
+         ScaleHeight     =   35
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   18
+         TabIndex        =   75
+         Top             =   6720
+         Visible         =   0   'False
+         Width           =   270
+      End
+      Begin VB.PictureBox picCoinB 
+         Appearance      =   0  'Flat
+         AutoRedraw      =   -1  'True
+         BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H80000008&
+         Height          =   525
+         Index           =   12
+         Left            =   4560
+         Picture         =   "frmMain.frx":2FC8
+         ScaleHeight     =   35
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   18
+         TabIndex        =   74
+         Top             =   6720
+         Visible         =   0   'False
+         Width           =   270
+      End
+      Begin VB.PictureBox picCoinB 
+         Appearance      =   0  'Flat
+         AutoRedraw      =   -1  'True
+         BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H80000008&
+         Height          =   525
+         Index           =   13
+         Left            =   4920
+         Picture         =   "frmMain.frx":3391
+         ScaleHeight     =   35
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   18
+         TabIndex        =   73
+         Top             =   6720
+         Visible         =   0   'False
+         Width           =   270
+      End
+      Begin VB.PictureBox picCoinMask 
+         Appearance      =   0  'Flat
+         AutoRedraw      =   -1  'True
+         BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H80000008&
+         Height          =   525
+         Index           =   0
+         Left            =   240
+         Picture         =   "frmMain.frx":375A
+         ScaleHeight     =   35
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   18
+         TabIndex        =   72
+         Top             =   5520
+         Visible         =   0   'False
+         Width           =   270
+      End
+      Begin VB.PictureBox picCoinMask 
+         Appearance      =   0  'Flat
+         AutoRedraw      =   -1  'True
+         BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H80000008&
+         Height          =   525
+         Index           =   1
+         Left            =   600
+         Picture         =   "frmMain.frx":3ADB
+         ScaleHeight     =   35
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   18
+         TabIndex        =   71
+         Top             =   5520
+         Visible         =   0   'False
+         Width           =   270
+      End
+      Begin VB.PictureBox picCoinMask 
+         Appearance      =   0  'Flat
+         AutoRedraw      =   -1  'True
+         BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H80000008&
+         Height          =   525
+         Index           =   2
+         Left            =   960
+         Picture         =   "frmMain.frx":3E63
+         ScaleHeight     =   35
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   18
+         TabIndex        =   70
+         Top             =   5520
+         Visible         =   0   'False
+         Width           =   270
+      End
+      Begin VB.PictureBox picCoinMask 
+         Appearance      =   0  'Flat
+         AutoRedraw      =   -1  'True
+         BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H80000008&
+         Height          =   525
+         Index           =   3
+         Left            =   1320
+         Picture         =   "frmMain.frx":41ED
+         ScaleHeight     =   35
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   18
+         TabIndex        =   69
+         Top             =   5520
+         Visible         =   0   'False
+         Width           =   270
+      End
+      Begin VB.PictureBox picCoinMask 
+         Appearance      =   0  'Flat
+         AutoRedraw      =   -1  'True
+         BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H80000008&
+         Height          =   525
+         Index           =   4
+         Left            =   1680
+         Picture         =   "frmMain.frx":4574
+         ScaleHeight     =   35
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   18
+         TabIndex        =   68
+         Top             =   5520
+         Visible         =   0   'False
+         Width           =   270
+      End
+      Begin VB.PictureBox picCoinMask 
+         Appearance      =   0  'Flat
+         AutoRedraw      =   -1  'True
+         BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H80000008&
+         Height          =   525
+         Index           =   5
+         Left            =   2040
+         Picture         =   "frmMain.frx":48FE
+         ScaleHeight     =   35
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   18
+         TabIndex        =   67
+         Top             =   5520
+         Visible         =   0   'False
+         Width           =   270
+      End
+      Begin VB.PictureBox picCoinMask 
+         Appearance      =   0  'Flat
+         AutoRedraw      =   -1  'True
+         BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H80000008&
+         Height          =   525
+         Index           =   6
+         Left            =   2400
+         Picture         =   "frmMain.frx":4C84
+         ScaleHeight     =   35
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   18
+         TabIndex        =   66
+         Top             =   5520
+         Visible         =   0   'False
+         Width           =   270
+      End
+      Begin VB.PictureBox picCoinMask 
+         Appearance      =   0  'Flat
+         AutoRedraw      =   -1  'True
+         BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H80000008&
+         Height          =   525
+         Index           =   7
+         Left            =   2760
+         Picture         =   "frmMain.frx":500B
+         ScaleHeight     =   35
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   18
+         TabIndex        =   65
+         Top             =   5520
+         Visible         =   0   'False
+         Width           =   270
+      End
+      Begin VB.PictureBox picCoinMask 
+         Appearance      =   0  'Flat
+         AutoRedraw      =   -1  'True
+         BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H80000008&
+         Height          =   525
+         Index           =   8
+         Left            =   3120
+         Picture         =   "frmMain.frx":5391
+         ScaleHeight     =   35
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   18
+         TabIndex        =   64
+         Top             =   5520
+         Visible         =   0   'False
+         Width           =   270
+      End
+      Begin VB.PictureBox picCoinMask 
+         Appearance      =   0  'Flat
+         AutoRedraw      =   -1  'True
+         BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H80000008&
+         Height          =   525
+         Index           =   9
+         Left            =   3480
+         Picture         =   "frmMain.frx":5716
+         ScaleHeight     =   35
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   18
+         TabIndex        =   63
+         Top             =   5520
+         Visible         =   0   'False
+         Width           =   270
+      End
+      Begin VB.PictureBox picCoinMask 
+         Appearance      =   0  'Flat
+         AutoRedraw      =   -1  'True
+         BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H80000008&
+         Height          =   525
+         Index           =   10
+         Left            =   3840
+         Picture         =   "frmMain.frx":5A9B
+         ScaleHeight     =   35
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   18
+         TabIndex        =   62
+         Top             =   5520
+         Visible         =   0   'False
+         Width           =   270
+      End
+      Begin VB.PictureBox picCoinMask 
+         Appearance      =   0  'Flat
+         AutoRedraw      =   -1  'True
+         BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H80000008&
+         Height          =   525
+         Index           =   11
+         Left            =   4200
+         Picture         =   "frmMain.frx":5E24
+         ScaleHeight     =   35
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   18
+         TabIndex        =   61
+         Top             =   5520
+         Visible         =   0   'False
+         Width           =   270
+      End
+      Begin VB.PictureBox picCoinMask 
+         Appearance      =   0  'Flat
+         AutoRedraw      =   -1  'True
+         BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H80000008&
+         Height          =   525
+         Index           =   12
+         Left            =   4560
+         Picture         =   "frmMain.frx":61AE
+         ScaleHeight     =   35
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   18
+         TabIndex        =   60
+         Top             =   5520
+         Visible         =   0   'False
+         Width           =   270
+      End
+      Begin VB.PictureBox picCoinMask 
+         Appearance      =   0  'Flat
+         AutoRedraw      =   -1  'True
+         BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H80000008&
+         Height          =   525
+         Index           =   13
+         Left            =   4920
+         Picture         =   "frmMain.frx":653A
+         ScaleHeight     =   35
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   18
+         TabIndex        =   59
+         Top             =   5520
+         Visible         =   0   'False
+         Width           =   270
+      End
+      Begin VB.PictureBox picCoinR 
+         Appearance      =   0  'Flat
+         AutoRedraw      =   -1  'True
+         BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H80000008&
+         Height          =   525
+         Index           =   0
+         Left            =   240
+         Picture         =   "frmMain.frx":68C1
+         ScaleHeight     =   35
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   18
+         TabIndex        =   58
+         Top             =   6120
+         Visible         =   0   'False
+         Width           =   270
+      End
+      Begin VB.PictureBox picCoinR 
+         Appearance      =   0  'Flat
+         AutoRedraw      =   -1  'True
+         BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H80000008&
+         Height          =   525
+         Index           =   1
+         Left            =   600
+         Picture         =   "frmMain.frx":6C8F
+         ScaleHeight     =   35
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   18
+         TabIndex        =   57
+         Top             =   6120
+         Visible         =   0   'False
+         Width           =   270
+      End
+      Begin VB.PictureBox picCoinR 
+         Appearance      =   0  'Flat
+         AutoRedraw      =   -1  'True
+         BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H80000008&
+         Height          =   525
+         Index           =   2
+         Left            =   960
+         Picture         =   "frmMain.frx":705E
+         ScaleHeight     =   35
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   18
+         TabIndex        =   56
+         Top             =   6120
+         Visible         =   0   'False
+         Width           =   270
+      End
+      Begin VB.PictureBox picCoinR 
+         Appearance      =   0  'Flat
+         AutoRedraw      =   -1  'True
+         BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H80000008&
+         Height          =   525
+         Index           =   3
+         Left            =   1320
+         Picture         =   "frmMain.frx":7423
+         ScaleHeight     =   35
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   18
+         TabIndex        =   55
+         Top             =   6120
+         Visible         =   0   'False
+         Width           =   270
+      End
+      Begin VB.PictureBox picCoinR 
+         Appearance      =   0  'Flat
+         AutoRedraw      =   -1  'True
+         BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H80000008&
+         Height          =   525
+         Index           =   4
+         Left            =   1680
+         Picture         =   "frmMain.frx":77E1
+         ScaleHeight     =   35
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   18
+         TabIndex        =   54
+         Top             =   6120
+         Visible         =   0   'False
+         Width           =   270
+      End
+      Begin VB.PictureBox picCoinR 
+         Appearance      =   0  'Flat
+         AutoRedraw      =   -1  'True
+         BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H80000008&
+         Height          =   525
+         Index           =   5
+         Left            =   2040
+         Picture         =   "frmMain.frx":7B98
+         ScaleHeight     =   35
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   18
+         TabIndex        =   53
+         Top             =   6120
+         Visible         =   0   'False
+         Width           =   270
+      End
+      Begin VB.PictureBox picCoinR 
+         Appearance      =   0  'Flat
+         AutoRedraw      =   -1  'True
+         BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H80000008&
+         Height          =   525
+         Index           =   6
+         Left            =   2400
+         Picture         =   "frmMain.frx":7F3D
+         ScaleHeight     =   35
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   18
+         TabIndex        =   52
+         Top             =   6120
+         Visible         =   0   'False
+         Width           =   270
+      End
+      Begin VB.PictureBox picCoinR 
+         Appearance      =   0  'Flat
+         AutoRedraw      =   -1  'True
+         BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H80000008&
+         Height          =   525
+         Index           =   7
+         Left            =   2760
+         Picture         =   "frmMain.frx":82D6
+         ScaleHeight     =   35
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   18
+         TabIndex        =   51
+         Top             =   6120
+         Visible         =   0   'False
+         Width           =   270
+      End
+      Begin VB.PictureBox picCoinR 
+         Appearance      =   0  'Flat
+         AutoRedraw      =   -1  'True
+         BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H80000008&
+         Height          =   525
+         Index           =   8
+         Left            =   3120
+         Picture         =   "frmMain.frx":867A
+         ScaleHeight     =   35
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   18
+         TabIndex        =   50
+         Top             =   6120
+         Visible         =   0   'False
+         Width           =   270
+      End
+      Begin VB.PictureBox picCoinR 
+         Appearance      =   0  'Flat
+         AutoRedraw      =   -1  'True
+         BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H80000008&
+         Height          =   525
+         Index           =   9
+         Left            =   3480
+         Picture         =   "frmMain.frx":8A14
+         ScaleHeight     =   35
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   18
+         TabIndex        =   49
+         Top             =   6120
+         Visible         =   0   'False
+         Width           =   270
+      End
+      Begin VB.PictureBox picCoinR 
+         Appearance      =   0  'Flat
+         AutoRedraw      =   -1  'True
+         BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H80000008&
+         Height          =   525
+         Index           =   10
+         Left            =   3840
+         Picture         =   "frmMain.frx":8DB7
+         ScaleHeight     =   35
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   18
+         TabIndex        =   48
+         Top             =   6120
+         Visible         =   0   'False
+         Width           =   270
+      End
+      Begin VB.PictureBox picCoinR 
+         Appearance      =   0  'Flat
+         AutoRedraw      =   -1  'True
+         BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H80000008&
+         Height          =   525
+         Index           =   11
+         Left            =   4200
+         Picture         =   "frmMain.frx":9168
+         ScaleHeight     =   35
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   18
+         TabIndex        =   47
+         Top             =   6120
+         Visible         =   0   'False
+         Width           =   270
+      End
+      Begin VB.PictureBox picCoinR 
+         Appearance      =   0  'Flat
+         AutoRedraw      =   -1  'True
+         BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H80000008&
+         Height          =   525
+         Index           =   12
+         Left            =   4560
+         Picture         =   "frmMain.frx":9526
+         ScaleHeight     =   35
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   18
+         TabIndex        =   46
+         Top             =   6120
+         Visible         =   0   'False
+         Width           =   270
+      End
+      Begin VB.PictureBox picCoinR 
+         Appearance      =   0  'Flat
+         AutoRedraw      =   -1  'True
+         BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H80000008&
+         Height          =   525
+         Index           =   13
+         Left            =   4920
+         Picture         =   "frmMain.frx":98EF
+         ScaleHeight     =   35
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   18
+         TabIndex        =   45
+         Top             =   6120
+         Visible         =   0   'False
+         Width           =   270
+      End
       Begin VB.PictureBox picSparkleMask 
          Appearance      =   0  'Flat
          AutoRedraw      =   -1  'True
@@ -366,11 +870,11 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   6
          Left            =   7440
-         Picture         =   "frmMain.frx":34CA
+         Picture         =   "frmMain.frx":9CB8
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   58
+         TabIndex        =   44
          Top             =   5520
          Visible         =   0   'False
          Width           =   270
@@ -384,11 +888,11 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   5
          Left            =   7080
-         Picture         =   "frmMain.frx":381D
+         Picture         =   "frmMain.frx":A00B
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   57
+         TabIndex        =   43
          Top             =   5520
          Visible         =   0   'False
          Width           =   270
@@ -402,11 +906,11 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   4
          Left            =   6720
-         Picture         =   "frmMain.frx":3B76
+         Picture         =   "frmMain.frx":A364
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   55
+         TabIndex        =   41
          Top             =   4920
          Visible         =   0   'False
          Width           =   270
@@ -420,11 +924,11 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   6
          Left            =   7440
-         Picture         =   "frmMain.frx":3EDA
+         Picture         =   "frmMain.frx":A6C8
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   54
+         TabIndex        =   40
          Top             =   4920
          Visible         =   0   'False
          Width           =   270
@@ -438,11 +942,11 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   5
          Left            =   7080
-         Picture         =   "frmMain.frx":422D
+         Picture         =   "frmMain.frx":AA1B
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   53
+         TabIndex        =   39
          Top             =   4920
          Visible         =   0   'False
          Width           =   270
@@ -456,11 +960,11 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   3
          Left            =   6360
-         Picture         =   "frmMain.frx":4588
+         Picture         =   "frmMain.frx":AD76
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   52
+         TabIndex        =   38
          Top             =   4920
          Visible         =   0   'False
          Width           =   270
@@ -474,11 +978,11 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   2
          Left            =   6000
-         Picture         =   "frmMain.frx":48EA
+         Picture         =   "frmMain.frx":B0D8
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   51
+         TabIndex        =   37
          Top             =   4920
          Visible         =   0   'False
          Width           =   270
@@ -492,11 +996,11 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   0
          Left            =   5280
-         Picture         =   "frmMain.frx":4C4E
+         Picture         =   "frmMain.frx":B43C
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   50
+         TabIndex        =   36
          Top             =   5520
          Visible         =   0   'False
          Width           =   270
@@ -510,11 +1014,11 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   1
          Left            =   5640
-         Picture         =   "frmMain.frx":4FA1
+         Picture         =   "frmMain.frx":B78F
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   49
+         TabIndex        =   35
          Top             =   5520
          Visible         =   0   'False
          Width           =   270
@@ -528,11 +1032,11 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   3
          Left            =   6360
-         Picture         =   "frmMain.frx":52FB
+         Picture         =   "frmMain.frx":BAE9
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   48
+         TabIndex        =   34
          Top             =   5520
          Visible         =   0   'False
          Width           =   270
@@ -546,11 +1050,11 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   2
          Left            =   6000
-         Picture         =   "frmMain.frx":565B
+         Picture         =   "frmMain.frx":BE49
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   47
+         TabIndex        =   33
          Top             =   5520
          Visible         =   0   'False
          Width           =   270
@@ -564,11 +1068,11 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   1
          Left            =   5640
-         Picture         =   "frmMain.frx":59BC
+         Picture         =   "frmMain.frx":C1AA
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   46
+         TabIndex        =   32
          Top             =   4920
          Visible         =   0   'False
          Width           =   270
@@ -582,11 +1086,11 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   0
          Left            =   5280
-         Picture         =   "frmMain.frx":5D16
+         Picture         =   "frmMain.frx":C504
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   45
+         TabIndex        =   31
          Top             =   4920
          Visible         =   0   'False
          Width           =   270
@@ -600,7 +1104,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   13
          Left            =   4920
-         Picture         =   "frmMain.frx":6069
+         Picture         =   "frmMain.frx":C857
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -618,7 +1122,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   12
          Left            =   4560
-         Picture         =   "frmMain.frx":643E
+         Picture         =   "frmMain.frx":CC2C
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -636,7 +1140,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   11
          Left            =   4200
-         Picture         =   "frmMain.frx":6807
+         Picture         =   "frmMain.frx":CFF5
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -654,7 +1158,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   10
          Left            =   3840
-         Picture         =   "frmMain.frx":6BC5
+         Picture         =   "frmMain.frx":D3B3
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -672,7 +1176,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   9
          Left            =   3480
-         Picture         =   "frmMain.frx":6F76
+         Picture         =   "frmMain.frx":D764
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -690,7 +1194,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   8
          Left            =   3120
-         Picture         =   "frmMain.frx":7319
+         Picture         =   "frmMain.frx":DB07
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -708,7 +1212,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   7
          Left            =   2760
-         Picture         =   "frmMain.frx":76B3
+         Picture         =   "frmMain.frx":DEA1
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -726,7 +1230,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   6
          Left            =   2400
-         Picture         =   "frmMain.frx":7A57
+         Picture         =   "frmMain.frx":E245
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -744,7 +1248,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   5
          Left            =   2040
-         Picture         =   "frmMain.frx":7DF0
+         Picture         =   "frmMain.frx":E5DE
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -762,7 +1266,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   4
          Left            =   1680
-         Picture         =   "frmMain.frx":8195
+         Picture         =   "frmMain.frx":E983
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -780,7 +1284,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   3
          Left            =   1320
-         Picture         =   "frmMain.frx":854C
+         Picture         =   "frmMain.frx":ED3A
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -798,7 +1302,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   2
          Left            =   960
-         Picture         =   "frmMain.frx":890A
+         Picture         =   "frmMain.frx":F0F8
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -816,7 +1320,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   1
          Left            =   600
-         Picture         =   "frmMain.frx":8CCF
+         Picture         =   "frmMain.frx":F4BD
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -834,7 +1338,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   0
          Left            =   240
-         Picture         =   "frmMain.frx":909E
+         Picture         =   "frmMain.frx":F88C
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -852,7 +1356,7 @@ Begin VB.Form frmMain
          Height          =   1500
          Index           =   0
          Left            =   1800
-         Picture         =   "frmMain.frx":946C
+         Picture         =   "frmMain.frx":FC5A
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
@@ -870,7 +1374,7 @@ Begin VB.Form frmMain
          Height          =   1500
          Index           =   1
          Left            =   3360
-         Picture         =   "frmMain.frx":95CE
+         Picture         =   "frmMain.frx":FDBC
          ScaleHeight     =   100
          ScaleMode       =   0  'User
          ScaleWidth      =   104.166
@@ -888,7 +1392,7 @@ Begin VB.Form frmMain
          Height          =   1500
          Index           =   2
          Left            =   4920
-         Picture         =   "frmMain.frx":972D
+         Picture         =   "frmMain.frx":FF1B
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
@@ -906,7 +1410,7 @@ Begin VB.Form frmMain
          Height          =   1500
          Index           =   3
          Left            =   6480
-         Picture         =   "frmMain.frx":9898
+         Picture         =   "frmMain.frx":10086
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
@@ -924,7 +1428,7 @@ Begin VB.Form frmMain
          Height          =   1500
          Index           =   4
          Left            =   8040
-         Picture         =   "frmMain.frx":9A26
+         Picture         =   "frmMain.frx":10214
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
@@ -941,7 +1445,7 @@ Begin VB.Form frmMain
          Height          =   1500
          Index           =   0
          Left            =   1800
-         Picture         =   "frmMain.frx":9B9A
+         Picture         =   "frmMain.frx":10388
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
@@ -958,7 +1462,7 @@ Begin VB.Form frmMain
          Height          =   1500
          Index           =   1
          Left            =   3360
-         Picture         =   "frmMain.frx":9CDC
+         Picture         =   "frmMain.frx":104CA
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
@@ -975,7 +1479,7 @@ Begin VB.Form frmMain
          Height          =   1500
          Index           =   2
          Left            =   4920
-         Picture         =   "frmMain.frx":9E1F
+         Picture         =   "frmMain.frx":1060D
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
@@ -992,7 +1496,7 @@ Begin VB.Form frmMain
          Height          =   1500
          Index           =   3
          Left            =   6480
-         Picture         =   "frmMain.frx":9F60
+         Picture         =   "frmMain.frx":1074E
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
@@ -1009,7 +1513,7 @@ Begin VB.Form frmMain
          Height          =   1500
          Index           =   4
          Left            =   8040
-         Picture         =   "frmMain.frx":A09F
+         Picture         =   "frmMain.frx":1088D
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
@@ -1027,7 +1531,7 @@ Begin VB.Form frmMain
          Height          =   1500
          Index           =   1
          Left            =   240
-         Picture         =   "frmMain.frx":A1DC
+         Picture         =   "frmMain.frx":109CA
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
@@ -1045,7 +1549,7 @@ Begin VB.Form frmMain
          Height          =   1500
          Index           =   2
          Left            =   240
-         Picture         =   "frmMain.frx":B452
+         Picture         =   "frmMain.frx":11C40
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
@@ -1063,7 +1567,7 @@ Begin VB.Form frmMain
          Height          =   1500
          Index           =   0
          Left            =   240
-         Picture         =   "frmMain.frx":BC6F
+         Picture         =   "frmMain.frx":1245D
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
@@ -1095,7 +1599,7 @@ Begin VB.Form frmMain
          ForeColor       =   &H80000008&
          Height          =   1500
          Left            =   1800
-         Picture         =   "frmMain.frx":C3E2
+         Picture         =   "frmMain.frx":12BD0
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
@@ -1259,7 +1763,13 @@ If Index = 0 Then
     blnClearPrevTile = True
     If Tile(curX, curY).coinEnabled = True Then
         'play coin sound
-        addScore (100)
+        If Tile(curX, curY).coinType = "G" Then
+            addScore (100)
+        ElseIf Tile(curX, curY).coinType = "R" Then
+            addScore (250)
+        ElseIf Tile(curX, curY).coinType = "B" Then
+            addScore (500)
+        End If
         Tile(curX, curY).coinEnabled = False
         coinTileCount = coinTileCount - 1
     End If
@@ -1300,7 +1810,7 @@ Private Sub tmrCoin_Timer()
 Static frameCount As Integer
 For c = 0 To tileCount - 1
     If Tile(getTileFromInt(True, c), getTileFromInt(False, c)).coinEnabled = True Then
-        Call PaintCoin("G", frameCount, getTileFromInt(True, c), getTileFromInt(False, c))
+        Call PaintCoin(Tile(getTileFromInt(True, c), getTileFromInt(False, c)).coinType, frameCount, getTileFromInt(True, c), getTileFromInt(False, c))
     End If
 Next c
 frameCount = frameCount + 1
@@ -1330,7 +1840,13 @@ frmMain.PaintPicture frmMain.picMask.Image, Tile(intCoinX, intCoinY).X, Tile(int
 frmMain.PaintPicture picBuffer.Image, Tile(intCoinX, intCoinY).X, Tile(intCoinX, intCoinY).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
 'paint coin
 frmMain.PaintPicture picCoinMask(intFrame + intFrameOffset).Image, Tile(intCoinX, intCoinY).X + intXOffset, Tile(intCoinX, intCoinY).Y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcAnd
-frmMain.PaintPicture picCoinG(intFrame + intFrameOffset).Image, Tile(intCoinX, intCoinY).X + intXOffset, Tile(intCoinX, intCoinY).Y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcPaint
+If strType = "G" Then
+    frmMain.PaintPicture picCoinG(intFrame + intFrameOffset).Image, Tile(intCoinX, intCoinY).X + intXOffset, Tile(intCoinX, intCoinY).Y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcPaint
+ElseIf strType = "R" Then
+    frmMain.PaintPicture picCoinR(intFrame + intFrameOffset).Image, Tile(intCoinX, intCoinY).X + intXOffset, Tile(intCoinX, intCoinY).Y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcPaint
+ElseIf strType = "B" Then
+    frmMain.PaintPicture picCoinB(intFrame + intFrameOffset).Image, Tile(intCoinX, intCoinY).X + intXOffset, Tile(intCoinX, intCoinY).Y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcPaint
+End If
 'paint sparkle
 If intFrame > 12 And intFrame < 20 Then
     frmMain.PaintPicture picSparkleMask(intFrame - 13).Image, Tile(intCoinX, intCoinY).X + intXOffset, Tile(intCoinX, intCoinY).Y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcAnd
@@ -1404,9 +1920,8 @@ intCounter = intCounter + 1
 If intCounter = 6 * (((mapWidth * mapHeight) + (Int(mapHeight / 2))) - 1) Then
     tmrTileAnim.Enabled = False
     tmrSel.Enabled = True
-    tmrRandomEvent.Enabled = True
+    tmrCoinEvent.Enabled = True
     tmrCoin.Enabled = True
-    Tile(2, 0).coinEnabled = True
 End If
 End Sub
 
@@ -1472,17 +1987,27 @@ End If
 getAbs = valInput
 End Function
 
-Private Sub tmrRandomEvent_Timer()
+Private Function randInt(ByVal min As Integer, ByVal max As Integer) As Integer
+randInt = Int(Rnd() * max) + min
+End Function
+
+Private Sub tmrCoinEvent_Timer()
 Dim intRand As Integer
-intRand = Int(Rnd() * 10)
-If intRand <= 3 Then
-    If coinTileCount < tileCount - 2 Then
-        intRand = Int(Rnd() * tileCount)
-        Do While (Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).X = Tile(curX, curY).X And Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).Y = Tile(curX, curY).Y) Or Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).coinEnabled = True
-            intRand = Int(Rnd() * tileCount)
-        Loop
-        Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).coinEnabled = True
-        coinTileCount = coinTileCount + 1
+If coinTileCount < tileCount - 1 Then
+    intRand = Int(Rnd() * tileCount)
+    Do While (Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).X = Tile(curX, curY).X And Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).Y = Tile(curX, curY).Y) Or Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).coinEnabled = True
+        intRand = randInt(0, tileCount - 1)
+    Loop
+    Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).coinEnabled = True
+    Dim intType As Integer
+    intType = randInt(1, 100)
+    If intType <= 65 Then
+        Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).coinType = "G"
+    ElseIf intType > 65 And intType <= 90 Then
+        Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).coinType = "R"
+    ElseIf intType > 90 Then
+        Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).coinType = "B"
     End If
+    coinTileCount = coinTileCount + 1
 End If
 End Sub

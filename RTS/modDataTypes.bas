@@ -19,6 +19,7 @@ Public Type terrain ' data type for different terrains
     oldX As Single
     oldY As Single
     coinEnabled As Boolean
+    coinType As String
 End Type
 
 
