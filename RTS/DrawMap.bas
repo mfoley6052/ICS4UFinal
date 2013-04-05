@@ -6,6 +6,7 @@ Attribute VB_Name = "Module1"
 'form named as frmMain
 Public mapHeight As Integer
 Public mapWidth As Integer
+Public tileCount As Integer
 Public Tile() As terrain
 
 Public Function DrawMap(ByVal mapNum As Integer) As Boolean
@@ -20,7 +21,7 @@ Public Function DrawMap(ByVal mapNum As Integer) As Boolean
     mapHeight = 5
     mapWidth = 5
     For Y = 0 To (mapHeight - 1) * (frmMain.picScene(0).Height * 0.75) Step 0.75 * frmMain.picScene(0).Height
-        For x = (50 - xStart) To (mapWidth * frmMain.picScene(0).Width) + xStart Step frmMain.picScene(0).Width
+        For X = (50 - xStart) To (mapWidth * frmMain.picScene(0).Width) + xStart Step frmMain.picScene(0).Width
             'rand = Int(Rnd() * 2)
             If (Y + 75) Mod 150 = 0 Then
                 xStart = 0
@@ -38,10 +39,12 @@ Public Function DrawMap(ByVal mapNum As Integer) As Boolean
             'ElseIf rand = 1 Then
                 'Tile(Int((X - xStart) / 100), Int(Y / 25)).pic = "0A" '0 = grass
             'End If
-            Tile(Int((x + (50 - xStart)) / frmMain.picScene(0).Width), Int(Y / (frmMain.picScene(0).Height * 0.75))).x = x
-            Tile(Int((x + (50 - xStart)) / frmMain.picScene(0).Width), Int(Y / (frmMain.picScene(0).Height * 0.75))).Y = Y
+            Tile(Int((X + (50 - xStart)) / frmMain.picScene(0).Width), Int(Y / (frmMain.picScene(0).Height * 0.75))).X = X
+            Tile(Int((X + (50 - xStart)) / frmMain.picScene(0).Width), Int(Y / (frmMain.picScene(0).Height * 0.75))).Y = Y
+            Tile(Int((X + (50 - xStart)) / frmMain.picScene(0).Width), Int(Y / (frmMain.picScene(0).Height * 0.75))).coinEnabled = False
             'frmDbg.lstMap.AddItem ("(" & Tile(Int((X - xStart) / 100), Int(Y / 25)).X & "," & Tile(Int((X - xStart) / 100), Int(Y / 25)).Y & ")" & vbTab)
-        Next x
+        Next X
     Next Y
 frmMain.tmrTileAnimDelay.Enabled = True
+tileCount = ((mapWidth * mapHeight) + (Int(mapHeight / 2)))
 End Function
