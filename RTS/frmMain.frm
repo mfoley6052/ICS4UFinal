@@ -2035,7 +2035,7 @@ End Sub
 Private Function coinDestroy(ByVal ndex As Integer) As Boolean
 Static loaded() As Boolean
 Static numCoins As Integer
-'Left off here
+'Not very nice way to do it
 On Error GoTo getRid
 ReDim Preserve loaded(ndex) As Boolean
     If loaded(ndex) = False Then
@@ -2047,9 +2047,9 @@ ReDim Preserve loaded(ndex) As Boolean
         numCoins = numCoins + 1
     End If
 Exit Function
+'basically overlooks fact that more than one coin is on a tile
 getRid:
 Call tmrCoinDestroy_Timer(ndex)
-'Unload tmrCoinDestroy(ndex)
 
 End Function
 
