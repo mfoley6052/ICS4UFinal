@@ -20,7 +20,7 @@ Public Type terrain ' data type for different terrains
     oldY As Single
     coinEnabled As Boolean
     coinType As String
-    coinCount As Long
+    coinTimer As Long
 End Type
 
 
