@@ -1742,6 +1742,7 @@ End If
 End Function
 
 Private Sub tmrJump_Timer(Index As Integer)
+Dim pScore As Integer
 If Index = 0 Then
     prevX = curX
     prevY = curY
@@ -1771,17 +1772,19 @@ If Index = 0 Then
     If Tile(curX, curY).coinEnabled = True Then
         'play coin sound
         If Tile(curX, curY).coinType = "Y" Then
-            addScore (100)
+            pScore = 100
         ElseIf Tile(curX, curY).coinType = "R" Then
-            addScore (250)
+            pScore = 250
         ElseIf Tile(curX, curY).coinType = "B" Then
-            addScore (500)
+            pScore = 500
         End If
         Tile(curX, curY).coinEnabled = False
         Tile(curX, curY).coinTimer = 0
         coinTileCount = coinTileCount - 1
+    Else
+        pScore = 10
     End If
-    Call addScore(10)
+    Call addScore(pScore)
 End If
 End Sub
 
@@ -1816,7 +1819,9 @@ End Sub
 
 Private Sub tmrCoin_Timer()
 Static frameCount As Integer
+frmDbg.lstCoin.Clear
 For c = 0 To tileCount - 1
+    frmDbg.lstCoin.AddItem (c & ": " & Tile(getTileFromInt(True, c), getTileFromInt(False, c)).coinEnabled & ", " & Tile(getTileFromInt(True, c), getTileFromInt(False, c)).coinTimer)
     If Tile(getTileFromInt(True, c), getTileFromInt(False, c)).coinEnabled = True Then
         Call PaintCoin(Tile(getTileFromInt(True, c), getTileFromInt(False, c)).coinType, frameCount, getTileFromInt(True, c), getTileFromInt(False, c))
         'If coinTimer (frame advancements on coin) is under 120, add 1 to it
@@ -1827,6 +1832,7 @@ For c = 0 To tileCount - 1
             Tile(getTileFromInt(True, c), getTileFromInt(False, c)).coinTimer = 0
             Tile(getTileFromInt(True, c), getTileFromInt(False, c)).coinEnabled = False
             Call clearTile(getTileFromInt(True, c), getTileFromInt(False, c))
+            coinTileCount = coinTileCount - 1
         End If
     End If
 Next c

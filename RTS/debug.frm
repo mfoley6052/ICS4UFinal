@@ -10,6 +10,13 @@ Begin VB.Form frmDbg
    ScaleMode       =   3  'Pixel
    ScaleWidth      =   813
    ShowInTaskbar   =   0   'False
+   Begin VB.ListBox lstCoin 
+      Height          =   8835
+      Left            =   5400
+      TabIndex        =   3
+      Top             =   120
+      Width           =   4095
+   End
    Begin VB.TextBox txtTest 
       Height          =   495
       Index           =   1
@@ -34,7 +41,7 @@ Begin VB.Form frmDbg
       Left            =   120
       TabIndex        =   0
       Top             =   120
-      Width           =   12000
+      Width           =   4920
    End
 End
 Attribute VB_Name = "frmDbg"
