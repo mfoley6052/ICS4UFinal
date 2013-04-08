@@ -10,6 +10,27 @@ Begin VB.Form frmMain
    ScaleHeight     =   600
    ScaleMode       =   3  'Pixel
    ScaleWidth      =   800
+   Begin VB.Timer tmrHurt 
+      Enabled         =   0   'False
+      Index           =   3
+      Interval        =   500
+      Left            =   9960
+      Top             =   1560
+   End
+   Begin VB.Timer tmrHurt 
+      Enabled         =   0   'False
+      Index           =   2
+      Interval        =   500
+      Left            =   9960
+      Top             =   1080
+   End
+   Begin VB.Timer tmrHurt 
+      Enabled         =   0   'False
+      Index           =   1
+      Interval        =   500
+      Left            =   9960
+      Top             =   600
+   End
    Begin VB.Timer tmrSel 
       Enabled         =   0   'False
       Index           =   3
@@ -1852,6 +1873,7 @@ Attribute VB_Exposed = False
 Dim selType(0 To 3) As String
 Dim picCount(0 To 3) As Integer
 Dim dirJump(0 To 3) As String
+Dim blnPlayerMoveable As Boolean
 Dim counterLimit(1 To 3) As Integer
 Dim intScore As Integer
 Dim curX(0 To 3) As Integer
@@ -1881,21 +1903,23 @@ tmrJump(index).Enabled = True
 End Function
 
 Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
-If KeyCode = 37 Then 'Left
-    If evalMove(0, "L") = True Then
-        Call getJump(0, "L")
-    End If
-ElseIf KeyCode = 38 Then 'Up
-    If evalMove(0, "U") = True Then
-        Call getJump(0, "U")
-    End If
-ElseIf KeyCode = 39 Then 'Right
-    If evalMove(0, "R") = True Then
-        Call getJump(0, "R")
-    End If
-ElseIf KeyCode = 40 Then 'Down
-    If evalMove(0, "D") = True Then
-        Call getJump(0, "D")
+If blnPlayerMoveable = True Then
+    If KeyCode = 37 Then 'Left
+        If evalMove(0, "L") = True Then
+            Call getJump(0, "L")
+        End If
+    ElseIf KeyCode = 38 Then 'Up
+        If evalMove(0, "U") = True Then
+            Call getJump(0, "U")
+        End If
+    ElseIf KeyCode = 39 Then 'Right
+        If evalMove(0, "R") = True Then
+            Call getJump(0, "R")
+        End If
+    ElseIf KeyCode = 40 Then 'Down
+        If evalMove(0, "D") = True Then
+            Call getJump(0, "D")
+        End If
     End If
 End If
 End Sub
@@ -1954,11 +1978,27 @@ ElseIf strDir = "D" Then
 End If
 End Function
 
+Private Sub tmrHurt_Timer(index As Integer)
+Call getHurt(index)
+curX(index) = prevX(index)
+curY(index) = prevY(index)
+playerMoveable = True
+tmrHurt(index).Enabled = False
+End Sub
+
+Private Sub getHurt(ByVal enemyIndex As Integer)
+MsgBox ("You got hurt.")
+End Sub
+
 Private Sub tmrCPUMove_Timer(index As Integer)
 Static intCounter As Integer
+'if counter limit is not reached by counter
 If intCounter < counterLimit(index) Then
+    'increase counter
     intCounter = intCounter + 1
+'if counter limit is reached
 Else
+    'initiate cpu movement
     Call cpuAI(index)
     intCounter = 0
 End If
@@ -2062,6 +2102,13 @@ ElseIf dirJump(index) = "D" Then
     End If
     curY(index) = curY(index) + 1
 End If
+If index > 0 Then
+    If curX(index) = curX(0) And curY(index) = curY(0) Then
+        playerMoveable = False
+        tmrHurt(index).Enabled = True
+    End If
+Else
+End If
 If index = 0 Then
     If Tile(curX(0), curY(0)).coinEnabled = True Then
         'play coin sound
@@ -2094,7 +2141,9 @@ curX(1) = 0
 curY(1) = 0
 blnClearPrevTile(0) = False
 blnClearPrevTile(1) = False
-counterLimit(1) = 2
+blnPlayerMoveable = False
+'cpu 1 moves every (counterLimit + 1) seconds
+counterLimit(1) = 1
 For t = 0 To 100
     tileSwitch(t) = False
 Next t
@@ -2251,6 +2300,7 @@ If intCounter = 6 * (((mapWidth * mapHeight) + (Int(mapHeight / 2))) - 1) Then
     tmrTileAnim.Enabled = False
     tmrSel(0).Enabled = True
     tmrSel(1).Enabled = True
+    blnPlayerMoveable = True
     tmrCoinEvent.Enabled = True
     tmrCoin.Enabled = True
     tmrCPUMove(1).Enabled = True
