@@ -105,7 +105,7 @@ Begin VB.Form frmMain
    End
    Begin VB.Timer tmrTileAnimDelay 
       Enabled         =   0   'False
-      Interval        =   100
+      Interval        =   25
       Left            =   8880
       Top             =   360
    End
@@ -2137,15 +2137,9 @@ End Sub
 
 Private Sub Form_Load()
 Call DrawMap(1)
-curX(0) = 2
-curY(0) = 2
-curX(1) = 0
-curY(1) = 0
 blnClearPrevTile(0) = False
 blnClearPrevTile(1) = False
 blnPlayerMoveable = False
-'cpu 1 moves every (counterLimit + 1) seconds
-counterLimit(1) = 1
 For t = 0 To 100
     tileSwitch(t) = False
 Next t
@@ -2273,22 +2267,24 @@ frmMain.PaintPicture picSel(imgIndex + 5 * index).Image, Tile(curX(index), curY(
 frmDbg.txtTest(0).Text = "(" & curX(0) & ", " & curY(0) & ")"
 End Function
 
-Private Function getTileAnim(ByVal intFrame As Integer, ByVal intX As Integer, ByVal intY As Integer, ByVal counter As Integer)
-'picBackground.PaintPicture frmMain.picScene(0).Image, Tile(prevX(index), prevY(index)).X, Tile(prevX(index), prevY(index)).Y, 100, 100, 0, 0, 100, 100, vbSrcCopy
+Private Function getTileAnim(ByVal intFrame As Integer, ByVal intX As Integer, ByVal intY As Integer)
 picBuffer.PaintPicture frmMain.picBackground.Image, 0, 0, 100, 100, 0, 0, 100, 100, vbSrcCopy
-'frmMain.PaintPicture frmMain.picMask.Image, Tile(prevX(index), prevY(index)).X, Tile(prevX(index), prevY(index)).Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
-frmMain.PaintPicture picBuffer.Image, Tile(intX, intY).X, (Tile(intX, intY).Y - 200) + (intFrame - 1) * 25, 100, 100, 0, 0, 100, 100, vbSrcCopy
+frmMain.PaintPicture picBuffer.Image, Tile(intX, intY).X, (Tile(intX, intY).Y - 400) + (intFrame - 1) * 50, 100, 100, 0, 0, 100, 100, vbSrcCopy
+'paint tile mask with new y
+PaintPicture frmMain.picMask.Picture, Tile(intX, intY).X, (Tile(intX, intY).Y - 400) + intFrame * 50, 100, 100, 0, 0, 100, 100, vbSrcAnd
 'paint tile with new y
-PaintPicture frmMain.picMask.Picture, Tile(intX, intY).X, (Tile(intX, intY).Y - 200) + intFrame * 25, 100, 100, 0, 0, 100, 100, vbSrcAnd
-PaintPicture frmMain.picScene(0).Picture, Tile(intX, intY).X, (Tile(intX, intY).Y - 200) + intFrame * 25, 100, 100, 0, 0, 100, 100, vbSrcPaint
+PaintPicture frmMain.picScene(0).Picture, Tile(intX, intY).X, (Tile(intX, intY).Y - 400) + intFrame * 50, 100, 100, 0, 0, 100, 100, vbSrcPaint
+If intFrame >= 8 And intX = 0 And intY = 0 Then
+    Call gameStart
+    tmrTileAnim.Enabled = False
+End If
 End Function
 
 Private Sub tmrTileAnim_Timer()
 Static intCounter As Integer
-frmDbg.txtTest(1).Text = intCounter
 For X = 0 To tileCount - 1
-    If tileSwitch(X) = True And intCounter - (4 * ((tileCount - 1) - X)) <= 8 Then
-        Call getTileAnim(intCounter - (4 * ((tileCount - 1) - X)), getTileFromInt(True, X), getTileFromInt(False, X), intCounter)
+    If tileSwitch(X) = True And intCounter - (1 * ((tileCount - 1) - X)) <= 8 Then
+        Call getTileAnim(intCounter - (1 * ((tileCount - 1) - X)), getTileFromInt(True, X), getTileFromInt(False, X))
     End If
 Next X
 intCounter = intCounter + 1
@@ -2381,11 +2377,16 @@ End If
 End Sub
 
 Private Sub gameStart()
-tmrTileAnim.Enabled = False
 tmrSel(0).Enabled = True
 tmrSel(1).Enabled = True
 blnPlayerMoveable = True
 tmrCoinEvent.Enabled = True
 tmrCoin.Enabled = True
 tmrCPUMove(1).Enabled = True
+curX(0) = (mapWidth - 1) \ 2
+curY(0) = (mapHeight - 1) \ 2
+curX(1) = 0
+curY(1) = 0
+'cpu 1 moves every (counterLimit + 1) seconds
+counterLimit(1) = 1
 End Sub
