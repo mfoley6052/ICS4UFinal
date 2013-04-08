@@ -18,8 +18,8 @@ Public Function DrawMap(ByVal mapNum As Integer) As Boolean
     Dim xStart As Integer
     Randomize Timer
     frmDbg.lstMap.Clear
-    mapHeight = 5
-    mapWidth = 5
+    mapHeight = 7
+    mapWidth = 7
     For Y = 0 To (mapHeight - 1) * (frmMain.picScene(0).Height * 0.75) Step 0.75 * frmMain.picScene(0).Height
         For X = (50 - xStart) To (mapWidth * frmMain.picScene(0).Width) + xStart Step frmMain.picScene(0).Width
             'rand = Int(Rnd() * 2)
