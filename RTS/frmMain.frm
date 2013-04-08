@@ -10,6 +10,27 @@ Begin VB.Form frmMain
    ScaleHeight     =   600
    ScaleMode       =   3  'Pixel
    ScaleWidth      =   800
+   Begin VB.Timer tmrCPUMove 
+      Enabled         =   0   'False
+      Index           =   2
+      Interval        =   1000
+      Left            =   10440
+      Top             =   1560
+   End
+   Begin VB.Timer tmrCPUMove 
+      Enabled         =   0   'False
+      Index           =   1
+      Interval        =   1000
+      Left            =   10440
+      Top             =   1080
+   End
+   Begin VB.Timer tmrCPUMove 
+      Enabled         =   0   'False
+      Index           =   0
+      Interval        =   1000
+      Left            =   10440
+      Top             =   600
+   End
    Begin VB.Timer tmrCoinEvent 
       Enabled         =   0   'False
       Interval        =   1500
@@ -105,13 +126,6 @@ Begin VB.Form frmMain
       Top             =   0
       Visible         =   0   'False
       Width           =   11295
-      Begin VB.Timer tmrCoinDestroy 
-         Enabled         =   0   'False
-         Index           =   0
-         Interval        =   1
-         Left            =   6360
-         Top             =   8160
-      End
       Begin VB.PictureBox picCoinB 
          Appearance      =   0  'Flat
          AutoRedraw      =   -1  'True
@@ -1663,26 +1677,27 @@ If KeyCode = 123 Then 'F12
 End If
 End Sub
 
+Private Function getJump(ByVal index As Integer, ByVal strDir As String)
+dirJump(index) = strDir
+tmrJump(index).Enabled = True
+End Function
+
 Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
 If KeyCode = 37 Then 'Left
     If evalMove("L") = True Then
-        dirJump(0) = "L"
-        tmrJump(0).Enabled = True
+        Call getJump(0, "L")
     End If
 ElseIf KeyCode = 38 Then 'Up
     If evalMove("U") = True Then
-        dirJump(0) = "U"
-        tmrJump(0).Enabled = True
+        Call getJump(0, "U")
     End If
 ElseIf KeyCode = 39 Then 'Right
     If evalMove("R") = True Then
-        dirJump(0) = "R"
-        tmrJump(0).Enabled = True
+        Call getJump(0, "R")
     End If
 ElseIf KeyCode = 40 Then 'Down
     If evalMove("D") = True Then
-        dirJump(0) = "D"
-        tmrJump(0).Enabled = True
+        Call getJump(0, "D")
     End If
 End If
 End Sub
@@ -1741,27 +1756,35 @@ ElseIf strDir = "D" Then
 End If
 End Function
 
-Private Sub tmrJump_Timer(Index As Integer)
+Private Sub tmrCPUMove_Timer()
+Call getJump(index, cpuAI)
+End Sub
+
+Private Function cpuAI()
+
+End Function
+
+Private Sub tmrJump_Timer(index As Integer)
 Dim pScore As Integer
-If Index = 0 Then
+If index = 0 Then
     prevX = curX
     prevY = curY
-    If dirJump(Index) = "L" Then
+    If dirJump(index) = "L" Then
         If (curY + 1) Mod 2 = 0 Then
             curX = curX - 1
         End If
         curY = curY - 1
-    ElseIf dirJump(Index) = "U" Then
+    ElseIf dirJump(index) = "U" Then
         If (curY + 1) Mod 2 = 1 Then
             curX = curX + 1
         End If
         curY = curY - 1
-    ElseIf dirJump(Index) = "R" Then
+    ElseIf dirJump(index) = "R" Then
         If (curY + 1) Mod 2 = 1 Then
             curX = curX + 1
         End If
         curY = curY + 1
-    ElseIf dirJump(Index) = "D" Then
+    ElseIf dirJump(index) = "D" Then
         If (curY + 1) Mod 2 = 0 Then
             curX = curX - 1
         End If
@@ -1803,7 +1826,7 @@ intScore = intScore + intAdd
 End Sub
 
 Private Sub Form_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
-selType = "O"
+'selType = "O"
 'flTextBox.Visible = True
 'cmdCancelTextBox.Visible = True
 'flTextBox.Movie = App.Path + "\Images\GUI\TextBoxB.swf"
@@ -1825,7 +1848,7 @@ For c = 0 To tileCount - 1
     If Tile(getTileFromInt(True, c), getTileFromInt(False, c)).coinEnabled = True Then
         Call PaintCoin(Tile(getTileFromInt(True, c), getTileFromInt(False, c)).coinType, frameCount, getTileFromInt(True, c), getTileFromInt(False, c))
         'If coinTimer (frame advancements on coin) is under 120, add 1 to it
-        If Tile(getTileFromInt(True, c), getTileFromInt(False, c)).coinTimer < 120 Then
+        If Tile(getTileFromInt(True, c), getTileFromInt(False, c)).coinTimer < 80 Then
             Tile(getTileFromInt(True, c), getTileFromInt(False, c)).coinTimer = Tile(getTileFromInt(True, c), getTileFromInt(False, c)).coinTimer + 1
         'if coinTimer is 120 (or greater), disable coin and clear tile
         Else
