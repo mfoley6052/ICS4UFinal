@@ -105,7 +105,7 @@ Begin VB.Form frmMain
    End
    Begin VB.Timer tmrTileAnimDelay 
       Enabled         =   0   'False
-      Interval        =   125
+      Interval        =   100
       Left            =   8880
       Top             =   360
    End
@@ -2278,12 +2278,6 @@ Private Function getTileAnim(ByVal intFrame As Integer, ByVal intX As Integer, B
 picBuffer.PaintPicture frmMain.picBackground.Image, 0, 0, 100, 100, 0, 0, 100, 100, vbSrcCopy
 'frmMain.PaintPicture frmMain.picMask.Image, Tile(prevX(index), prevY(index)).X, Tile(prevX(index), prevY(index)).Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
 frmMain.PaintPicture picBuffer.Image, Tile(intX, intY).X, (Tile(intX, intY).Y - 200) + (intFrame - 1) * 25, 100, 100, 0, 0, 100, 100, vbSrcCopy
-For X = 0 To ((mapWidth * mapHeight) + (Int(mapHeight / 2))) - 1
-    If tileSwitch(X) = True And counter - (4 * X) > 8 Then
-        PaintPicture frmMain.picMask.Picture, Tile(getTileFromInt(True, X), getTileFromInt(False, X)).X, Tile(getTileFromInt(True, X), getTileFromInt(False, X)).Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
-        PaintPicture frmMain.picScene(0).Picture, Tile(getTileFromInt(True, X), getTileFromInt(False, X)).X, Tile(getTileFromInt(True, X), getTileFromInt(False, X)).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
-    End If
-Next X
 'paint tile with new y
 PaintPicture frmMain.picMask.Picture, Tile(intX, intY).X, (Tile(intX, intY).Y - 200) + intFrame * 25, 100, 100, 0, 0, 100, 100, vbSrcAnd
 PaintPicture frmMain.picScene(0).Picture, Tile(intX, intY).X, (Tile(intX, intY).Y - 200) + intFrame * 25, 100, 100, 0, 0, 100, 100, vbSrcPaint
@@ -2293,20 +2287,11 @@ Private Sub tmrTileAnim_Timer()
 Static intCounter As Integer
 frmDbg.txtTest(1).Text = intCounter
 For X = 0 To tileCount - 1
-    If tileSwitch(X) = True And intCounter - (4 * X) <= 8 Then
-        Call getTileAnim(intCounter - (4 * X), getTileFromInt(True, X), getTileFromInt(False, X), intCounter)
+    If tileSwitch(X) = True And intCounter - (4 * ((tileCount - 1) - X)) <= 8 Then
+        Call getTileAnim(intCounter - (4 * ((tileCount - 1) - X)), getTileFromInt(True, X), getTileFromInt(False, X), intCounter)
     End If
 Next X
 intCounter = intCounter + 1
-If intCounter = 6 * (((mapWidth * mapHeight) + (Int(mapHeight / 2))) - 1) Then
-    tmrTileAnim.Enabled = False
-    tmrSel(0).Enabled = True
-    tmrSel(1).Enabled = True
-    blnPlayerMoveable = True
-    tmrCoinEvent.Enabled = True
-    tmrCoin.Enabled = True
-    tmrCPUMove(1).Enabled = True
-End If
 End Sub
 
 Private Sub tmrTileAnimDelay_Timer()
@@ -2315,9 +2300,8 @@ Static intX As Integer
 Static intY As Integer
 frmMain.tmrTileAnim.Enabled = True
 For z = 0 To intCounter - getAbs(intCounter - ((mapWidth * mapHeight) + (Int(mapHeight / 2))) - 1)
-    tileSwitch(z) = True
+    tileSwitch((tileCount - 1) - z) = True
 Next z
-frmDbg.lstMap.AddItem (intCounter & ": " & z - 1 & ", " & getAbs(intCounter - 15) & ", " & intCounter - getAbs(intCounter - (((mapWidth * mapHeight) + (Int(mapHeight / 2)))) - 1))
 If intX = mapWidth - ((intY + 1) Mod 2) Then
     intY = intY + 1
     intX = 0
@@ -2394,4 +2378,14 @@ If coinTileCount < tileCount - 1 Then
     End If
     coinTileCount = coinTileCount + 1
 End If
+End Sub
+
+Private Sub gameStart()
+tmrTileAnim.Enabled = False
+tmrSel(0).Enabled = True
+tmrSel(1).Enabled = True
+blnPlayerMoveable = True
+tmrCoinEvent.Enabled = True
+tmrCoin.Enabled = True
+tmrCPUMove(1).Enabled = True
 End Sub
