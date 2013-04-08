@@ -1963,23 +1963,6 @@ End Function
 
 Private Sub tmrJump_Timer(Index As Integer)
 Dim pScore As Integer
-If Index = 0 Then
-    If Tile(curX(0), curY(0)).coinEnabled = True Then
-        'play coin sound
-        If Tile(curX(0), curY(0)).coinType = "Y" Then
-            pScore = 100
-        ElseIf Tile(curX(0), curY(0)).coinType = "R" Then
-            pScore = 250
-        ElseIf Tile(curX(0), curY(0)).coinType = "B" Then
-            pScore = 500
-        End If
-    Else
-            pScore = 10
-    End If
-    Tile(curX(Index), curY(Index)).coinEnabled = False
-    Tile(curX(Index), curY(Index)).coinTimer = 0
-    coinTileCount = coinTileCount - 1
-End If
 prevX(Index) = curX(Index)
 prevY(Index) = curY(Index)
 If dirJump(Index) = "L" Then
@@ -2002,6 +1985,26 @@ ElseIf dirJump(Index) = "D" Then
         curX(Index) = curX(Index) - 1
     End If
     curY(Index) = curY(Index) + 1
+End If
+If Index = 0 Then
+    If Tile(curX(0), curY(0)).coinEnabled = True Then
+        'play coin sound
+        If Tile(curX(0), curY(0)).coinType = "Y" Then
+            pScore = 100
+        ElseIf Tile(curX(0), curY(0)).coinType = "R" Then
+            pScore = 250
+        ElseIf Tile(curX(0), curY(0)).coinType = "B" Then
+            pScore = 500
+        End If
+    Else
+            pScore = 10
+    End If
+    addScore (pScore)
+End If
+If Tile(curX(Index), curY(Index)).coinEnabled = True Then
+    Tile(curX(Index), curY(Index)).coinEnabled = False
+    Tile(curX(Index), curY(Index)).coinTimer = 0
+    coinTileCount = coinTileCount - 1
 End If
 tmrJump(Index).Enabled = False
 blnClearPrevTile(Index) = True
@@ -2246,7 +2249,7 @@ Private Sub tmrCoinEvent_Timer()
 Dim intRand As Integer
 If coinTileCount < tileCount - 1 Then
     intRand = Int(Rnd() * tileCount)
-    Do While (Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).X = Tile(curX(Index), curY(Index)).X And Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).Y = Tile(curX(Index), curY(Index)).Y) Or Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).coinEnabled = True
+    Do While (Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).X = Tile(curX(0), curY(0)).X And Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).Y = Tile(curX(0), curY(0)).Y) Or (Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).X = Tile(curX(1), curY(1)).X And Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).Y = Tile(curX(1), curY(1)).Y) Or (Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).X = Tile(curX(2), curY(2)).X And Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).Y = Tile(curX(2), curY(2)).Y) Or (Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).X = Tile(curX(3), curY(3)).X And Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).Y = Tile(curX(3), curY(3)).Y) Or Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).coinEnabled = True
         intRand = randInt(0, tileCount - 1)
     Loop
     Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).coinEnabled = True
