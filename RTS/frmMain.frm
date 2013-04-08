@@ -1982,7 +1982,7 @@ Private Sub tmrHurt_Timer(index As Integer)
 Call getHurt(index)
 curX(index) = prevX(index)
 curY(index) = prevY(index)
-playerMoveable = True
+blnPlayerMoveable = True
 tmrHurt(index).Enabled = False
 End Sub
 
@@ -2077,34 +2077,36 @@ Private Sub tmrJump_Timer(index As Integer)
 Dim pScore As Integer
 prevX(index) = curX(index)
 prevY(index) = curY(index)
-If dirJump(index) = "L" Then
-    'if y row is odd
-    If (curY(index) + 1) Mod 2 = 0 Then
-        curX(index) = curX(index) - 1
+If (index = 0 And blnPlayerMoveable = True) Or index > 0 Then
+    If dirJump(index) = "L" Then
+        'if y row is odd
+        If (curY(index) + 1) Mod 2 = 0 Then
+            curX(index) = curX(index) - 1
+        End If
+        curY(index) = curY(index) - 1
+    ElseIf dirJump(index) = "U" Then
+        'if y row is even
+        If (curY(index) + 1) Mod 2 = 1 Then
+            curX(index) = curX(index) + 1
+        End If
+        curY(index) = curY(index) - 1
+    ElseIf dirJump(index) = "R" Then
+        'if y row is even
+        If (curY(index) + 1) Mod 2 = 1 Then
+            curX(index) = curX(index) + 1
+        End If
+        curY(index) = curY(index) + 1
+    ElseIf dirJump(index) = "D" Then
+        'if y row is odd
+        If (curY(index) + 1) Mod 2 = 0 Then
+            curX(index) = curX(index) - 1
+        End If
+        curY(index) = curY(index) + 1
     End If
-    curY(index) = curY(index) - 1
-ElseIf dirJump(index) = "U" Then
-    'if y row is even
-    If (curY(index) + 1) Mod 2 = 1 Then
-        curX(index) = curX(index) + 1
-    End If
-    curY(index) = curY(index) - 1
-ElseIf dirJump(index) = "R" Then
-    'if y row is even
-    If (curY(index) + 1) Mod 2 = 1 Then
-        curX(index) = curX(index) + 1
-    End If
-    curY(index) = curY(index) + 1
-ElseIf dirJump(index) = "D" Then
-    'if y row is odd
-    If (curY(index) + 1) Mod 2 = 0 Then
-        curX(index) = curX(index) - 1
-    End If
-    curY(index) = curY(index) + 1
 End If
 If index > 0 Then
     If curX(index) = curX(0) And curY(index) = curY(0) Then
-        playerMoveable = False
+        blnPlayerMoveable = False
         tmrHurt(index).Enabled = True
     End If
 Else
