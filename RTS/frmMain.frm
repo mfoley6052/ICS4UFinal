@@ -1886,6 +1886,8 @@ Dim coinTileCount As Integer
 Dim blnClearPrevTile(0 To 3) As Boolean
 Dim tileSwitch(0 To 100) As Boolean
 Dim limswitch As Long
+Dim smallestX As Integer
+Dim smallestY As Integer
 
 Private Sub Form_KeyUp(KeyCode As Integer, Shift As Integer)
 If KeyCode = 123 Then 'F12
@@ -2007,22 +2009,24 @@ Else
 End If
 End Sub
 Private Function nearestCoin(ByVal index As Integer) As Long
-Dim smallest As Integer
+smallestX = 0
+smallestY = 0
 For X = 0 To mapWidth
     For Y = 0 To mapHeight
     'if the tile has a coin then check if it is closer than the closest one, if it is make it the closest one
         If Tile(X, Y).coinEnabled = True Then
-            If Abs(curX(index) - Tile(X, Y).X) < smallest Then
-                smallest = Abs(curX(index) - Tile(X, Y).X)
+            If Abs(curX(index) - Tile(X, Y).X) < smallestX And Abs(curY(index) - Tile(X, Y).Y) < smallestY Then
+                smallestX = Abs(curX(index) - Tile(X, Y).X)
+                smallestY = Abs(curY(index) - Tile(X, Y).Y)
             End If
         End If
     Next Y
 Next X
-nearestCoin = smallest
 End Function
 Private Function aiDecideMove(ByVal index As Integer) As Integer
 'is it better to get rid of coins or chase player
-If Abs(curX(index) - curX(0)) >= Abs(curX(index) - nearestCoin(index)) Then
+Call nearestCoin(index)
+If Abs(curX(index) - curX(0)) >= Abs(curX(index) - smallestX) And Abs(curY(index) - curY(0)) >= Abs(curY(index) - smallestY) Then
     aiDecideMove = 1
 Else
     aiDecideMove = 0
@@ -2033,21 +2037,17 @@ Private Function cpuAI(ByVal index As Integer)
 'if the player score is over a certain amount(set in Form_load) then activate smart ai
 'could add code to enable more modes based on different limits
 If intScore >= limswitch Then
-    mode = aiDecideMove
+    mode = aiDecideMove(index)
 Else
     mode = 1
 End If
+frmDbg.txtAiMode(index).Text = mode
 'chase player
 If mode = 1 Then
     'player x further than cpu x
     If curX(index) < curX(0) Then
         'player y lower than cpu y
-        If curY(index) < curY(0) Then
-            If evalMove(index, "R") = True Then
-                Call getJump(index, "R")
-            End If
-        'player y matches cpu y
-        ElseIf curY(index) = curY(0) Then
+        If curY(index) <= curY(0) Then
             If evalMove(index, "R") = True Then
                 Call getJump(index, "R")
             End If
@@ -2059,7 +2059,7 @@ If mode = 1 Then
         End If
     'cpu x matches player x
     ElseIf curX(index) = curX(0) Then
-        'player y lower than cpu y
+        'ai y lower than player y
         If curY(index) < curY(0) Then
             'if y row is even
             If (curY(index) + 1) Mod 2 = 1 Then
@@ -2089,12 +2089,7 @@ If mode = 1 Then
     'cpu x further than player x
     ElseIf curX(index) > curX(0) Then
         'player y lower than cpu y
-        If curY(index) < curY(0) Then
-            If evalMove(index, "D") = True Then
-                Call getJump(index, "D")
-            End If
-        'player y matches cpu y
-        ElseIf curY(index) = curY(0) Then
+        If curY(index) <= curY(0) Then
             If evalMove(index, "D") = True Then
                 Call getJump(index, "D")
             End If
@@ -2107,6 +2102,43 @@ If mode = 1 Then
     End If
 'stomp nearest coin
 ElseIf mode = 0 Then
+    If curX(index) < smallestX Then
+        If curY(index) <= smallestY Then
+            If evalMove(index, "R") Then
+                Call getJump(index, "R")
+            End If
+        ElseIf curY(index) > smallestY Then
+            If evalMove(index, "U") Then
+                Call getJump(index, "U")
+            End If
+        End If
+    ElseIf curX(index) = smallestX Then
+        If curY(index) < smallestY Then
+            'if y row is even
+            If (curY(index) + 1) Mod 2 = 1 Then
+                If evalMove(index, "D") = True Then
+                    Call getJump(index, "D")
+                End If
+            'if y row is odd
+            Else
+                If evalMove(index, "R") = True Then
+                    Call getJump(index, "R")
+                End If
+            End If
+        End If
+    ElseIf curX(index) > smallestX Then
+        If curY(index) <= smallestY Then
+            If evalMove(index, "D") = True Then
+                Call getJump(index, "D")
+            End If
+        'cpu y lower than coin
+        ElseIf curY(index) > smallestY Then
+            If evalMove(index, "L") = True Then
+                Call getJump(index, "L")
+            End If
+        End If
+    End If
+End If
 End Function
 
 Private Sub tmrJump_Timer(index As Integer)
