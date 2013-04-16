@@ -10,34 +10,6 @@ Begin VB.Form frmMain
    ScaleHeight     =   600
    ScaleMode       =   3  'Pixel
    ScaleWidth      =   800
-   Begin VB.Timer tmrChar 
-      Enabled         =   0   'False
-      Index           =   3
-      Interval        =   50
-      Left            =   6720
-      Top             =   960
-   End
-   Begin VB.Timer tmrChar 
-      Enabled         =   0   'False
-      Index           =   2
-      Interval        =   50
-      Left            =   6720
-      Top             =   1440
-   End
-   Begin VB.Timer tmrChar 
-      Enabled         =   0   'False
-      Index           =   1
-      Interval        =   50
-      Left            =   7200
-      Top             =   1440
-   End
-   Begin VB.Timer tmrChar 
-      Enabled         =   0   'False
-      Index           =   0
-      Interval        =   50
-      Left            =   7680
-      Top             =   1440
-   End
    Begin VB.PictureBox picCharMaskI 
       Appearance      =   0  'Flat
       AutoRedraw      =   -1  'True
@@ -75,24 +47,24 @@ Begin VB.Form frmMain
       Left            =   9960
       Top             =   600
    End
-   Begin VB.Timer tmrSel 
+   Begin VB.Timer tmrChar 
       Enabled         =   0   'False
       Index           =   3
-      Interval        =   125
+      Interval        =   50
       Left            =   6120
       Top             =   1320
    End
-   Begin VB.Timer tmrSel 
+   Begin VB.Timer tmrChar 
       Enabled         =   0   'False
       Index           =   2
-      Interval        =   125
+      Interval        =   50
       Left            =   5640
       Top             =   1320
    End
-   Begin VB.Timer tmrSel 
+   Begin VB.Timer tmrChar 
       Enabled         =   0   'False
       Index           =   1
-      Interval        =   125
+      Interval        =   50
       Left            =   5640
       Top             =   840
    End
@@ -167,35 +139,35 @@ Begin VB.Form frmMain
    Begin VB.Timer tmrJump 
       Enabled         =   0   'False
       Index           =   3
-      Interval        =   500
+      Interval        =   750
       Left            =   7680
       Top             =   360
    End
    Begin VB.Timer tmrJump 
       Enabled         =   0   'False
       Index           =   2
-      Interval        =   500
+      Interval        =   750
       Left            =   7200
       Top             =   360
    End
    Begin VB.Timer tmrJump 
       Enabled         =   0   'False
       Index           =   1
-      Interval        =   500
+      Interval        =   750
       Left            =   6720
       Top             =   360
    End
    Begin VB.Timer tmrJump 
       Enabled         =   0   'False
       Index           =   0
-      Interval        =   500
+      Interval        =   750
       Left            =   6240
       Top             =   360
    End
-   Begin VB.Timer tmrSel 
+   Begin VB.Timer tmrChar 
       Enabled         =   0   'False
       Index           =   0
-      Interval        =   125
+      Interval        =   50
       Left            =   5640
       Top             =   360
    End
@@ -2109,6 +2081,8 @@ Dim blnPlayerMoveable As Boolean
 Dim counterLimit(1 To 3) As Integer
 Dim strState(0 To 3) As String
 Dim intScore As Integer
+Dim spriteX(0 To 3) As Integer
+Dim spriteY(0 To 3) As Integer
 Dim curX(0 To 3) As Integer
 Dim curY(0 To 3) As Integer
 Dim prevX(0 To 3) As Integer
@@ -2136,7 +2110,6 @@ End Sub
 Private Function getJump(ByVal Index As Integer, ByVal strDir As String)
 dirJump(Index) = strDir
 tmrJump(Index).Enabled = True
-tmrChar(Index).Enabled = True
 End Function
 
 Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
@@ -2526,9 +2499,150 @@ If intFrame > 12 And intFrame < 20 Then
 End If
 End Function
 
-Private Sub tmrSel_Timer(Index As Integer)
+Private Function PaintSelector(ByVal Index As Integer, ByVal imgIndex As Integer) As Integer
+'paint over last sel
+If blnClearPrevTile(Index) = True Then
+    'prevX, prevX
+    Call clearTile(prevX(Index), prevY(Index))
+    If prevY(Index) > 0 Then
+        'prevX, prevY - 1
+        Call clearTile(prevX(Index), prevY(Index) - 1)
+        'even y
+        If prevX(Index) > 0 And prevY(Index) + 1 Mod 2 = 1 Then
+            'prevX - 1, prevY - 1
+            Call clearTile(prevX(Index) - 1, prevY(Index) - 1)
+        'odd y
+        ElseIf prevX(Index) < mapWidth And prevY(Index) + 1 Mod 2 = 0 Then
+            'prevX + 1, prevY - 1
+            Call clearTile(prevX(Index) + 1, prevY(Index) - 1)
+        End If
+    End If
+End If
+'paint over frame
+Call clearTile(curX(Index), curY(Index))
+If curY(Index) > 0 Then
+    If curX(Index) > 0 Then
+        'curX - 1, curY - 1
+        Call clearTile(curX(Index) - 1, curY(Index) - 1)
+    End If
+    'curX, curY - 1
+    Call clearTile(curX(Index), curY(Index) - 1)
+    'odd y
+    If curY(Index) + 1 Mod 2 = 1 Then
+        If curX(Index) < mapWidth - 1 Then
+            'curX + 1, curY - 1
+            Call clearTile(curX(Index) + 1, curY(Index) - 1)
+        End If
+    'even y
+    Else
+        If curX(Index) < mapWidth Then
+            'curX + 1, curY - 1
+            Call clearTile(curX(Index) + 1, curY(Index) - 1)
+        End If
+    End If
+End If
+
+If curY(Index) < mapHeight - 1 Then
+    If curX(Index) > 0 Then
+        'curX - 1, curY + 1
+        Call clearTile(curX(Index) - 1, curY(Index) + 1)
+    End If
+    'curX, curY + 1
+    Call clearTile(curX(Index), curY(Index) + 1)
+    'odd y
+    If curY(Index) + 1 Mod 2 = 1 Then
+        If curX(Index) < mapWidth - 1 Then
+            'curX + 1, curY + 1
+            Call clearTile(curX(Index) + 1, curY(Index) + 1)
+        End If
+    'even y
+    Else
+        If curX(Index) < mapWidth Then
+            'curX + 1, curY + 1
+            Call clearTile(curX(Index) + 1, curY(Index) + 1)
+        End If
+    End If
+End If
+'paint sel
+frmMain.PaintPicture picSelMask(imgIndex + 5 * Index).Image, Tile(curX(Index), curY(Index)).X, Tile(curX(Index), curY(Index)).Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
+frmMain.PaintPicture picSel(imgIndex + 5 * Index).Image, Tile(curX(Index), curY(Index)).X, Tile(curX(Index), curY(Index)).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
+'Call PaintCharSprite(Index, Tile(curX(Index), curY(Index)).X + 25, Tile(curX(Index), curY(Index)).Y - 15)
+Call PaintCharSprite(Index, spriteX(Index), spriteY(Index))
+End Function
+
+Private Sub PaintCharSprite(ByVal Index As Integer, ByVal charX As Integer, ByVal charY As Integer)
+Static counterC As Integer
+Static counterJ As Integer
+If strState(Index) = "I" Then
+    counterJ = 0
+    frmMain.PaintPicture picCharMaskI.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
+    If Index = 0 Then
+        frmMain.PaintPicture picP1I.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+    ElseIf Index > 0 Then
+        frmMain.PaintPicture picP1I.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+    End If
+ElseIf strState(Index) = "C" Then
+    If counterC < 3 Then
+        counterC = counterC + 1
+    End If
+    frmMain.PaintPicture picCharMaskC(counterC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
+    If Index = 0 Then
+        frmMain.PaintPicture picP1C(counterC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+    ElseIf Index > 0 Then
+        frmMain.PaintPicture picP1C(counterC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+    End If
+ElseIf strState(Index) = "J" Then
+    counterC = 0
+    If counterJ < 2 Then
+        counterJ = counterJ + 1
+    End If
+    frmMain.PaintPicture picCharMaskJ(counterJ).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
+    If Index = 0 Then
+        frmMain.PaintPicture picP1J(counterJ).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+    ElseIf Index > 0 Then
+        frmMain.PaintPicture picP1J(counterJ).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+    End If
+End If
+End Sub
+
+Private Sub tmrChar_Timer(Index As Integer)
+'reverse boolean for select
 Static blnRev(0 To 3) As Boolean
+Static intFrame(0 To 3) As Integer
+Static frameLimit(0 To 3) As Integer
+'call selection paint
 Call PaintSelector(Index, picCount(Index))
+'if jump timer is started
+If tmrJump(Index).Enabled = True Then
+    'show each jump frame for p1
+    'If Index = 0 Then
+        'MsgBox (intFrame(0))
+    'End If
+    intFrame(Index) = intFrame(Index) + 1
+    If dirJump(Index) = "L" Then
+        Call getCharJumpAnim(Index, intFrame(Index), Tile(curX(Index), curY(Index)).X - 25, Tile(curX(Index), curY(Index)).Y - 115, Tile(curX(Index), curY(Index)).X + 25, Tile(curX(Index), curY(Index)).Y - 15)
+    ElseIf dirJump(Index) = "R" Then
+        Call getCharJumpAnim(Index, intFrame(Index), Tile(curX(Index), curY(Index)).X + 75, Tile(curX(Index), curY(Index)).Y + 85, Tile(curX(Index), curY(Index)).X + 25, Tile(curX(Index), curY(Index)).Y - 15)
+    ElseIf dirJump(Index) = "U" Then
+        Call getCharJumpAnim(Index, intFrame(Index), Tile(curX(Index), curY(Index)).X + 75, Tile(curX(Index), curY(Index)).Y - 115, Tile(curX(Index), curY(Index)).X + 25, Tile(curX(Index), curY(Index)).Y - 15)
+    ElseIf dirJump(Index) = "D" Then
+        Call getCharJumpAnim(Index, intFrame(Index), Tile(curX(Index), curY(Index)).X - 25, Tile(curX(Index), curY(Index)).Y + 85, Tile(curX(Index), curY(Index)).X + 25, Tile(curX(Index), curY(Index)).Y - 15)
+    End If
+    If intFrame(Index) = 1 Then
+        strState(Index) = "C"
+    ElseIf intFrame(Index) = 5 Then
+        strState(Index) = "J"
+    ElseIf intFrame(Index) = 10 Then
+        strState(Index) = "I"
+        intFrame(Index) = 0
+    End If
+Else
+    strState(Index) = "I"
+    intFrame(Index) = 0
+    spriteX(Index) = Tile(curX(Index), curY(Index)).X + 25
+    spriteY(Index) = Tile(curX(Index), curY(Index)).Y - 15
+    'Call PaintCharSprite(Index, Tile(curX(Index), curY(Index)).X + 25, Tile(curX(Index), curY(Index)).Y - 15)
+End If
 If blnRev(Index) = False Then
     picCount(Index) = picCount(Index) + 1
 End If
@@ -2544,103 +2658,14 @@ If picCount(Index) >= 4 Or picCount(Index) <= 0 Then
 End If
 End Sub
 
-Private Function PaintSelector(ByVal Index As Integer, ByVal imgIndex As Integer) As Integer
-'paint over last sel
-If blnClearPrevTile(Index) = True Then
-    picBackground.PaintPicture frmMain.picScene(0).Image, Tile(prevX(Index), prevY(Index)).X, Tile(prevX(Index), prevY(Index)).Y, 100, 100, 0, 0, 100, 100, vbSrcCopy
-    picBuffer.PaintPicture frmMain.picScene(0).Image, 0, 0, 100, 100, 0, 0, 100, 100, vbSrcCopy
-    frmMain.PaintPicture frmMain.picMask.Image, Tile(prevX(Index), prevY(Index)).X, Tile(prevX(Index), prevY(Index)).Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
-    frmMain.PaintPicture picBuffer.Image, Tile(prevX(Index), prevY(Index)).X, Tile(prevX(Index), prevY(Index)).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
-End If
-'paint over frame
-picBackground.PaintPicture frmMain.picScene(0).Image, Tile(curX(Index), curY(Index)).X, Tile(curX(Index), curY(Index)).Y, 100, 100, 0, 0, 100, 100, vbSrcCopy
-picBuffer.PaintPicture frmMain.picScene(0).Image, 0, 0, 100, 100, 0, 0, 100, 100, vbSrcCopy
-frmMain.PaintPicture frmMain.picMask.Image, Tile(curX(Index), curY(Index)).X, Tile(curX(Index), curY(Index)).Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
-frmMain.PaintPicture picBuffer.Image, Tile(curX(Index), curY(Index)).X, Tile(curX(Index), curY(Index)).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
-'paint sel
-frmMain.PaintPicture picSelMask(imgIndex + 5 * Index).Image, Tile(curX(Index), curY(Index)).X, Tile(curX(Index), curY(Index)).Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
-frmMain.PaintPicture picSel(imgIndex + 5 * Index).Image, Tile(curX(Index), curY(Index)).X, Tile(curX(Index), curY(Index)).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
-frmDbg.txtTest(0).Text = "(" & curX(0) & ", " & curY(0) & ")"
-End Function
-
-Private Sub PaintCharSprite(ByVal Index As Integer, ByVal charX As Integer, ByVal charY As Integer)
-'paint over last char
-If blnClearPrevTile(Index) = True Then
-    picBackground.PaintPicture frmMain.picScene(0).Image, Tile(prevX(Index), prevY(Index)).X, Tile(prevX(Index), prevY(Index)).Y, 100, 100, 0, 0, 100, 100, vbSrcCopy
-    picBuffer.PaintPicture frmMain.picScene(0).Image, 0, 0, 100, 100, 0, 0, 100, 100, vbSrcCopy
-    frmMain.PaintPicture frmMain.picMask.Image, Tile(prevX(Index), prevY(Index)).X, Tile(prevX(Index), prevY(Index)).Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
-    frmMain.PaintPicture picBuffer.Image, Tile(prevX(Index), prevY(Index)).X, Tile(prevX(Index), prevY(Index)).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
-    If getAbs(prevY(Index)) + 1 Mod 2 = 1 Then
-        frmMain.PaintPicture frmMain.picMask.Image, Tile(getAbs(prevX(Index) + 1), getAbs(prevY(Index) - 1)).X, Tile(getAbs(prevX(Index) + 1), getAbs(prevY(Index) - 1)).Y - 1, 100, 100, 0, 0, 100, 100, vbSrcAnd
-        frmMain.PaintPicture picBuffer.Image, Tile(getAbs(prevX(Index) + 1), getAbs(prevY(Index) - 1)).X, Tile(getAbs(prevX(Index) + 1), getAbs(prevY(Index) - 1)).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
-    Else
-        frmMain.PaintPicture frmMain.picMask.Image, Tile(prevX(Index), getAbs(prevY(Index) - 1)).X, Tile(prevX(Index), getAbs(prevY(Index) - 1)).Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
-        frmMain.PaintPicture picBuffer.Image, Tile(prevX(Index), getAbs(prevY(Index) - 1)).X, Tile(prevX(Index), getAbs(prevY(Index) - 1)).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
-    End If
-End If
-If strState(Index) = "I" Then
-    frmMain.PaintPicture picCharMaskI.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
-    If Index = 0 Then
-        frmMain.PaintPicture picP1I.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
-    ElseIf Index > 0 Then
-        frmMain.PaintPicture picP1I.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
-    End If
-ElseIf strState(Index) = "C" Then
-    Static counterC As Integer
-    If counterC < 3 Then
-        counterC = counterC + 1
-    End If
-    frmMain.PaintPicture picCharMaskC(counterC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
-    If Index = 0 Then
-        frmMain.PaintPicture picP1C(counterC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
-    ElseIf Index > 0 Then
-        frmMain.PaintPicture picP1C(counterC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
-    End If
-ElseIf strState(Index) = "J" Then
-    Static counterJ As Integer
-    If counterJ < 2 Then
-        counterJ = counterJ + 1
-    End If
-    frmMain.PaintPicture picCharMaskJ(counterJ).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
-    If Index = 0 Then
-        frmMain.PaintPicture picP1J(counterJ).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
-    ElseIf Index > 0 Then
-        frmMain.PaintPicture picP1J(counterJ).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
-    End If
-End If
-End Sub
-
-Private Sub tmrChar_Timer(Index As Integer)
-If tmrJump(Index).Enabled = True Then
-    Static intFrame(0 To 3) As Integer
-    intFrame(Index) = intFrame(Index) + 1
-    If dirJump(Index) = "L" Then
-        Call getCharJumpAnim(Index, intFrame(Index), Tile(curX(Index), curY(Index)).X - 25, Tile(curX(Index), curY(Index)).Y - 115, Tile(curX(Index), curY(Index)).X + 25, Tile(curX(Index), curY(Index)).Y - 15)
-    ElseIf dirJump(Index) = "R" Then
-        Call getCharJumpAnim(Index, intFrame(Index), Tile(curX(Index), curY(Index)).X + 75, Tile(curX(Index), curY(Index)).Y + 85, Tile(curX(Index), curY(Index)).X + 25, Tile(curX(Index), curY(Index)).Y - 15)
-    ElseIf dirJump(Index) = "U" Then
-        Call getCharJumpAnim(Index, intFrame(Index), Tile(curX(Index), curY(Index)).X + 75, Tile(curX(Index), curY(Index)).Y - 115, Tile(curX(Index), curY(Index)).X + 25, Tile(curX(Index), curY(Index)).Y - 15)
-    ElseIf dirJump(Index) = "D" Then
-        Call getCharJumpAnim(Index, intFrame(Index), Tile(curX(Index), curY(Index)).X - 25, Tile(curX(Index), curY(Index)).Y + 85, Tile(curX(Index), curY(Index)).X + 25, Tile(curX(Index), curY(Index)).Y - 15)
-    End If
-    If intFrame(Index) = 1 Then
-        strState(Index) = "C"
-    ElseIf intFrame(Index) = 5 Then
-        strState(Index) = "J"
-    ElseIf intFrame(Index) = 11 Then
-        strState(Index) = "I"
-        intFrame(Index) = 0
-    End If
-Else
-    Call PaintCharSprite(Index, Tile(curX(Index), curY(Index)).X + 25, Tile(curX(Index), curY(Index)).Y - 15)
-End If
-End Sub
-
 Private Function getCharJumpAnim(ByVal Index As Integer, ByVal intFrame As Integer, ByVal IntNewX As Integer, ByVal intNewY As Integer, ByVal intOldX As Integer, ByVal intOldY As Integer)
+spriteX(Index) = intOldX + (intFrame * Int((IntNewX - intOldX) / 10))
 If intFrame <= 5 Then
-    Call PaintCharSprite(Index, intOldX + (intFrame * ((IntNewX - intOldX) / 10)), (intOldY + (intFrame * ((intNewY - intOldY) / 10))) - (4 * intFrame))
+    spriteY(Index) = (intOldY + (intFrame * Int((intNewY - intOldY) / 10))) - (4 * intFrame)
+    'Call PaintCharSprite(Index, intOldX + (intFrame * ((IntNewX - intOldX) / 10)), (intOldY + (intFrame * ((intNewY - intOldY) / 10))) - (4 * intFrame))
 Else
-    Call PaintCharSprite(Index, intOldX + (intFrame * ((IntNewX - intOldX) / 10)), (intOldY + (intFrame * ((intNewY - intOldY) / 10))) - (4 * (10 - intFrame)))
+    spriteY(Index) = (intOldY + (intFrame * Int((intNewY - intOldY) / 10))) - (4 * (10 - intFrame))
+    'Call PaintCharSprite(Index, intOldX + (intFrame * ((IntNewX - intOldX) / 10)), (intOldY + (intFrame * ((intNewY - intOldY) / 10))) - (4 * (10 - intFrame)))
 End If
 End Function
 
@@ -2754,8 +2779,8 @@ End If
 End Sub
 
 Private Sub gameStart()
-tmrSel(0).Enabled = True
-tmrSel(1).Enabled = True
+tmrChar(0).Enabled = True
+tmrChar(1).Enabled = True
 blnPlayerMoveable = True
 tmrCoinEvent.Enabled = True
 tmrCoin.Enabled = True
