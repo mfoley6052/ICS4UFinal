@@ -2108,8 +2108,10 @@ End If
 End Sub
 
 Private Function getJump(ByVal Index As Integer, ByVal strDir As String)
-dirJump(Index) = strDir
-tmrJump(Index).Enabled = True
+If tmrJump(Index).Enabled = False Then
+    dirJump(Index) = strDir
+    tmrJump(Index).Enabled = True
+End If
 End Function
 
 Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
