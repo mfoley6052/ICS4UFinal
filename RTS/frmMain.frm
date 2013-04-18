@@ -139,28 +139,28 @@ Begin VB.Form frmMain
    Begin VB.Timer tmrJump 
       Enabled         =   0   'False
       Index           =   3
-      Interval        =   750
+      Interval        =   500
       Left            =   7680
       Top             =   360
    End
    Begin VB.Timer tmrJump 
       Enabled         =   0   'False
       Index           =   2
-      Interval        =   750
+      Interval        =   500
       Left            =   7200
       Top             =   360
    End
    Begin VB.Timer tmrJump 
       Enabled         =   0   'False
       Index           =   1
-      Interval        =   750
+      Interval        =   500
       Left            =   6720
       Top             =   360
    End
    Begin VB.Timer tmrJump 
       Enabled         =   0   'False
       Index           =   0
-      Interval        =   750
+      Interval        =   500
       Left            =   6240
       Top             =   360
    End
