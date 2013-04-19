@@ -2672,12 +2672,12 @@ If blnClearPrevTile(Index) = True Then
         'prevX, prevY - 1
         prevYclear = prevY(Index) - 1
         'even y
-        If prevX(Index) > 0 And prevY(Index) + 1 Mod 2 = 1 Then
+        If prevY(Index) + 1 Mod 2 = 1 Then
             'prevX - 1, prevY - 1
             prevXclear = prevX(Index) - 1
             Call clearTile(prevXclear, prevYclear, True)
         'odd y
-        ElseIf prevX(Index) < mapWidth And prevY(Index) + 1 Mod 2 = 0 Then
+        ElseIf prevY(Index) + 1 Mod 2 = 0 Then
             'prevX + 1, prevY - 1
             prevXclear = prevX(Index) + 1
             Call clearTile(prevXclear, prevYclear, True)
@@ -2692,17 +2692,19 @@ If curY(Index) > 0 Then
         'curX - 1, curY - 1
         Call clearTile(curX(Index) - 1, curY(Index) - 1, True)
     End If
-    'curX, curY - 1
-    Call clearTile(curX(Index), curY(Index) - 1, True)
     'odd y
     If curY(Index) + 1 Mod 2 = 1 Then
-        If curX(Index) < mapWidth - 1 Then
+        If curX(Index) < mapWidth Then
             'curX + 1, curY - 1
             Call clearTile(curX(Index) + 1, curY(Index) - 1, True)
         End If
     'even y
     Else
         If curX(Index) < mapWidth Then
+            'curX, curY - 1
+            Call clearTile(curX(Index), curY(Index) - 1, True)
+        End If
+        If curX(Index) < mapWidth - 1 Then
             'curX + 1, curY - 1
             Call clearTile(curX(Index) + 1, curY(Index) - 1, True)
         End If
@@ -2713,17 +2715,19 @@ If curY(Index) < mapHeight - 1 Then
         'curX - 1, curY + 1
         Call clearTile(curX(Index) - 1, curY(Index) + 1, True)
     End If
-    'curX, curY + 1
-    Call clearTile(curX(Index), curY(Index) + 1, True)
     'odd y
     If curY(Index) + 1 Mod 2 = 1 Then
-        If curX(Index) < mapWidth - 1 Then
+        If curX(Index) < mapWidth Then
             'curX + 1, curY + 1
             Call clearTile(curX(Index) + 1, curY(Index) + 1, True)
         End If
     'even y
     Else
         If curX(Index) < mapWidth Then
+            'curX, curY + 1
+            Call clearTile(curX(Index), curY(Index) + 1, True)
+        End If
+        If curX(Index) < mapWidth - 1 Then
             'curX + 1, curY + 1
             Call clearTile(curX(Index) + 1, curY(Index) + 1, True)
         End If
