@@ -10,6 +10,34 @@ Begin VB.Form frmMain
    ScaleHeight     =   600
    ScaleMode       =   3  'Pixel
    ScaleWidth      =   800
+   Begin VB.Timer tmrFrame 
+      Enabled         =   0   'False
+      Index           =   0
+      Interval        =   50
+      Left            =   6240
+      Top             =   840
+   End
+   Begin VB.Timer tmrFrame 
+      Enabled         =   0   'False
+      Index           =   1
+      Interval        =   50
+      Left            =   6720
+      Top             =   840
+   End
+   Begin VB.Timer tmrFrame 
+      Enabled         =   0   'False
+      Index           =   2
+      Interval        =   50
+      Left            =   7200
+      Top             =   840
+   End
+   Begin VB.Timer tmrFrame 
+      Enabled         =   0   'False
+      Index           =   3
+      Interval        =   1000
+      Left            =   7680
+      Top             =   840
+   End
    Begin VB.Timer tmrHurt 
       Enabled         =   0   'False
       Index           =   0
@@ -142,34 +170,6 @@ Begin VB.Form frmMain
    Begin VB.Timer tmrScoreCheck 
       Interval        =   250
       Left            =   5040
-      Top             =   360
-   End
-   Begin VB.Timer tmrJump 
-      Enabled         =   0   'False
-      Index           =   3
-      Interval        =   500
-      Left            =   7680
-      Top             =   360
-   End
-   Begin VB.Timer tmrJump 
-      Enabled         =   0   'False
-      Index           =   2
-      Interval        =   500
-      Left            =   7200
-      Top             =   360
-   End
-   Begin VB.Timer tmrJump 
-      Enabled         =   0   'False
-      Index           =   1
-      Interval        =   500
-      Left            =   6720
-      Top             =   360
-   End
-   Begin VB.Timer tmrJump 
-      Enabled         =   0   'False
-      Index           =   0
-      Interval        =   500
-      Left            =   6240
       Top             =   360
    End
    Begin VB.Timer tmrChar 
@@ -2236,6 +2236,8 @@ Dim picCount(0 To 3) As Integer
 Dim strDir(0 To 3) As String
 Dim blnPlayerMoveable As Boolean
 Dim counterLimit(1 To 3) As Integer
+Dim frameCounter(0 To 3) As Integer
+Dim frameLimit(0 To 3) As Integer
 Dim strState(0 To 3) As String
 Dim intScore As Integer
 Dim spriteX(0 To 3) As Integer
@@ -2264,10 +2266,10 @@ If KeyCode = 123 Then 'F12
 End If
 End Sub
 
-Private Function getJump(ByVal Index As Integer, ByVal strDirJ As String)
-If tmrJump(Index).Enabled = False Then
-    strDir(Index) = strDirJ
-    tmrJump(Index).Enabled = True
+Private Function getJump(ByVal index As Integer, ByVal strDirJ As String)
+If tmrFrame(index).Enabled = False Then
+    strDir(index) = strDirJ
+    tmrFrame(index).Enabled = True
 End If
 End Function
 
@@ -2293,53 +2295,53 @@ If blnPlayerMoveable = True Then
 End If
 End Sub
 
-Private Function evalMove(Index As Integer, ByVal strDirMove As String) As Boolean
+Private Function evalMove(index As Integer, ByVal strDirMove As String) As Boolean
 If strDirMove = "L" Then
-    If (curY(Index) + 1) Mod 2 = 0 Then
-        If curX(Index) = 0 Then
+    If (curY(index) + 1) Mod 2 = 0 Then
+        If curX(index) = 0 Then
             evalMove = False
-        ElseIf curY(Index) < mapWidth Then
+        ElseIf curY(index) < mapWidth Then
             evalMove = True
         Else
             evalMove = False
         End If
-    ElseIf curY(Index) > 0 Then
+    ElseIf curY(index) > 0 Then
         evalMove = True
     Else
         evalMove = False
     End If
 ElseIf strDirMove = "U" Then
-    If (curY(Index) + 1) Mod 2 = 0 Then
-        If curX(Index) < mapWidth Then
+    If (curY(index) + 1) Mod 2 = 0 Then
+        If curX(index) < mapWidth Then
             evalMove = True
         Else
             evalMove = False
         End If
-    ElseIf curX(Index) < (mapWidth) And curY(Index) > 0 Then
+    ElseIf curX(index) < (mapWidth) And curY(index) > 0 Then
         evalMove = True
     Else
         evalMove = False
     End If
 ElseIf strDirMove = "R" Then
-    If (curY(Index) + 1) Mod 2 = 0 Then
-        If curX(Index) = mapWidth Then
+    If (curY(index) + 1) Mod 2 = 0 Then
+        If curX(index) = mapWidth Then
             evalMove = False
-        ElseIf curY(Index) > 0 Then
+        ElseIf curY(index) > 0 Then
             evalMove = True
         End If
-    ElseIf curY(Index) < (mapWidth - 1) And curX(Index) < mapWidth Then
+    ElseIf curY(index) < (mapWidth - 1) And curX(index) < mapWidth Then
         evalMove = True
     Else
         evalMove = False
     End If
 ElseIf strDirMove = "D" Then
-    If (curY(Index) + 1) Mod 2 = 0 Then
-        If curX(Index) > 0 And curY(Index) < mapHeight Then
+    If (curY(index) + 1) Mod 2 = 0 Then
+        If curX(index) > 0 And curY(index) < mapHeight Then
             evalMove = True
         Else
             evalMove = False
         End If
-    ElseIf curY(Index) < (mapHeight - 1) Then
+    ElseIf curY(index) < (mapHeight - 1) Then
         evalMove = True
     Else
         evalMove = False
@@ -2347,203 +2349,203 @@ ElseIf strDirMove = "D" Then
 End If
 End Function
 
-Private Sub tmrHurt_Timer(Index As Integer)
-Call getHurt(Index)
-curX(Index) = prevX(Index)
-curY(Index) = prevY(Index)
+Private Sub tmrHurt_Timer(index As Integer)
+Call getHurt(index)
+curX(index) = prevX(index)
+curY(index) = prevY(index)
 blnPlayerMoveable = True
-tmrHurt(Index).Enabled = False
+tmrHurt(index).Enabled = False
 End Sub
 
 Private Sub getHurt(ByVal enemyIndex As Integer)
 MsgBox ("You got hurt.")
 End Sub
 
-Private Sub tmrCPUMove_Timer(Index As Integer)
+Private Sub tmrCPUMove_Timer(index As Integer)
 Static intCounter As Integer
 'if counter limit is not reached by counter
-If intCounter < counterLimit(Index) Then
+If intCounter < counterLimit(index) Then
     'increase counter
     intCounter = intCounter + 1
 'if counter limit is reached
 Else
     'initiate cpu movement
-    Call cpuAI(Index)
+    Call cpuAI(index)
     intCounter = 0
 End If
 End Sub
-Private Function nearestCoin(ByVal Index As Integer) As Long
+Private Function nearestCoin(ByVal index As Integer) As Long
 smallestX = 0
 smallestY = 0
 For X = 0 To mapWidth
     For Y = 0 To mapHeight
     'if the tile has a coin then check if it is closer than the closest one, if it is make it the closest one
         If Tile(X, Y).coinEnabled = True Then
-            If Abs(curX(Index) - Tile(X, Y).X) < smallestX And Abs(curY(Index) - Tile(X, Y).Y) < smallestY Then
-                smallestX = Abs(curX(Index) - Tile(X, Y).X)
-                smallestY = Abs(curY(Index) - Tile(X, Y).Y)
+            If Abs(curX(index) - Tile(X, Y).X) < smallestX And Abs(curY(index) - Tile(X, Y).Y) < smallestY Then
+                smallestX = Abs(curX(index) - Tile(X, Y).X)
+                smallestY = Abs(curY(index) - Tile(X, Y).Y)
             End If
         End If
     Next Y
 Next X
 End Function
-Private Function aiDecideMove(ByVal Index As Integer) As Integer
+Private Function aiDecideMove(ByVal index As Integer) As Integer
 'is it better to get rid of coins or chase player
-Call nearestCoin(Index)
-If Abs(curX(Index) - curX(0)) >= Abs(curX(Index) - smallestX) And Abs(curY(Index) - curY(0)) >= Abs(curY(Index) - smallestY) Then
+Call nearestCoin(index)
+If Abs(curX(index) - curX(0)) >= Abs(curX(index) - smallestX) And Abs(curY(index) - curY(0)) >= Abs(curY(index) - smallestY) Then
     aiDecideMove = 1
 Else
     aiDecideMove = 0
 End If
 End Function
 
-Private Function cpuAI(ByVal Index As Integer)
+Private Function cpuAI(ByVal index As Integer)
 'if the player score is over a certain amount(set in Form_load) then activate smart ai
 'could add code to enable more modes based on different limits
 If intScore >= limswitch Then
-    mode = aiDecideMove(Index)
+    mode = aiDecideMove(index)
 Else
     mode = 1
 End If
-frmDbg.txtAiMode(Index).Text = mode
+frmDbg.txtAiMode(index).Text = mode
 'chase player
 If mode = 1 Then
     'player x further than cpu x
-    If curX(Index) < curX(0) Then
+    If curX(index) < curX(0) Then
         'player y lower than cpu y
-        If curY(Index) <= curY(0) Then
-            If evalMove(Index, "R") = True Then
-                Call getJump(Index, "R")
+        If curY(index) <= curY(0) Then
+            If evalMove(index, "R") = True Then
+                Call getJump(index, "R")
             End If
         'cpu y lower than player y
-        ElseIf curY(Index) > curY(0) Then
-            If evalMove(Index, "U") = True Then
-                Call getJump(Index, "U")
+        ElseIf curY(index) > curY(0) Then
+            If evalMove(index, "U") = True Then
+                Call getJump(index, "U")
             End If
         End If
     'cpu x matches player x
-    ElseIf curX(Index) = curX(0) Then
+    ElseIf curX(index) = curX(0) Then
         'ai y lower than player y
-        If curY(Index) < curY(0) Then
+        If curY(index) < curY(0) Then
             'if y row is even
-            If (curY(Index) + 1) Mod 2 = 1 Then
-                If evalMove(Index, "D") = True Then
-                    Call getJump(Index, "D")
+            If (curY(index) + 1) Mod 2 = 1 Then
+                If evalMove(index, "D") = True Then
+                    Call getJump(index, "D")
                 End If
             'if y row is odd
             Else
-                If evalMove(Index, "R") = True Then
-                    Call getJump(Index, "R")
+                If evalMove(index, "R") = True Then
+                    Call getJump(index, "R")
                 End If
             End If
         'cpu y lower than player y
-        ElseIf curY(Index) > curY(0) Then
+        ElseIf curY(index) > curY(0) Then
             'if y row is even
-            If (curY(Index) + 1) Mod 2 = 1 Then
-                If evalMove(Index, "L") = True Then
-                    Call getJump(Index, "L")
+            If (curY(index) + 1) Mod 2 = 1 Then
+                If evalMove(index, "L") = True Then
+                    Call getJump(index, "L")
                 End If
             'if y row is odd
             Else
-                If evalMove(Index, "U") = True Then
-                    Call getJump(Index, "U")
+                If evalMove(index, "U") = True Then
+                    Call getJump(index, "U")
                 End If
             End If
         End If
     'cpu x further than player x
-    ElseIf curX(Index) > curX(0) Then
+    ElseIf curX(index) > curX(0) Then
         'player y lower than cpu y
-        If curY(Index) <= curY(0) Then
-            If evalMove(Index, "D") = True Then
-                Call getJump(Index, "D")
+        If curY(index) <= curY(0) Then
+            If evalMove(index, "D") = True Then
+                Call getJump(index, "D")
             End If
         'cpu y lower than player y
-        ElseIf curY(Index) > curY(0) Then
-            If evalMove(Index, "L") = True Then
-                Call getJump(Index, "L")
+        ElseIf curY(index) > curY(0) Then
+            If evalMove(index, "L") = True Then
+                Call getJump(index, "L")
             End If
         End If
     End If
 'stomp nearest coin
 ElseIf mode = 0 Then
-    If curX(Index) < smallestX Then
-        If curY(Index) <= smallestY Then
-            If evalMove(Index, "R") Then
-                Call getJump(Index, "R")
+    If curX(index) < smallestX Then
+        If curY(index) <= smallestY Then
+            If evalMove(index, "R") Then
+                Call getJump(index, "R")
             End If
-        ElseIf curY(Index) > smallestY Then
-            If evalMove(Index, "U") Then
-                Call getJump(Index, "U")
+        ElseIf curY(index) > smallestY Then
+            If evalMove(index, "U") Then
+                Call getJump(index, "U")
             End If
         End If
-    ElseIf curX(Index) = smallestX Then
-        If curY(Index) < smallestY Then
+    ElseIf curX(index) = smallestX Then
+        If curY(index) < smallestY Then
             'if y row is even
-            If (curY(Index) + 1) Mod 2 = 1 Then
-                If evalMove(Index, "D") = True Then
-                    Call getJump(Index, "D")
+            If (curY(index) + 1) Mod 2 = 1 Then
+                If evalMove(index, "D") = True Then
+                    Call getJump(index, "D")
                 End If
             'if y row is odd
             Else
-                If evalMove(Index, "R") = True Then
-                    Call getJump(Index, "R")
+                If evalMove(index, "R") = True Then
+                    Call getJump(index, "R")
                 End If
             End If
         End If
-    ElseIf curX(Index) > smallestX Then
-        If curY(Index) <= smallestY Then
-            If evalMove(Index, "D") = True Then
-                Call getJump(Index, "D")
+    ElseIf curX(index) > smallestX Then
+        If curY(index) <= smallestY Then
+            If evalMove(index, "D") = True Then
+                Call getJump(index, "D")
             End If
         'cpu y lower than coin
-        ElseIf curY(Index) > smallestY Then
-            If evalMove(Index, "L") = True Then
-                Call getJump(Index, "L")
+        ElseIf curY(index) > smallestY Then
+            If evalMove(index, "L") = True Then
+                Call getJump(index, "L")
             End If
         End If
     End If
 End If
 End Function
 
-Private Sub tmrJump_Timer(Index As Integer)
+Private Sub getJumpComplete(ByVal index As Integer)
 Dim pScore As Integer
-prevX(Index) = curX(Index)
-prevY(Index) = curY(Index)
-If (Index = 0 And blnPlayerMoveable = True) Or Index > 0 Then
-    If strDir(Index) = "L" Then
+prevX(index) = curX(index)
+prevY(index) = curY(index)
+If (index = 0 And blnPlayerMoveable = True) Or index > 0 Then
+    If strDir(index) = "L" Then
         'if y row is odd
-        If (curY(Index) + 1) Mod 2 = 0 Then
-            curX(Index) = curX(Index) - 1
+        If (curY(index) + 1) Mod 2 = 0 Then
+            curX(index) = curX(index) - 1
         End If
-        curY(Index) = curY(Index) - 1
-    ElseIf strDir(Index) = "U" Then
+        curY(index) = curY(index) - 1
+    ElseIf strDir(index) = "U" Then
         'if y row is even
-        If (curY(Index) + 1) Mod 2 = 1 Then
-            curX(Index) = curX(Index) + 1
+        If (curY(index) + 1) Mod 2 = 1 Then
+            curX(index) = curX(index) + 1
         End If
-        curY(Index) = curY(Index) - 1
-    ElseIf strDir(Index) = "R" Then
+        curY(index) = curY(index) - 1
+    ElseIf strDir(index) = "R" Then
         'if y row is even
-        If (curY(Index) + 1) Mod 2 = 1 Then
-            curX(Index) = curX(Index) + 1
+        If (curY(index) + 1) Mod 2 = 1 Then
+            curX(index) = curX(index) + 1
         End If
-        curY(Index) = curY(Index) + 1
-    ElseIf strDir(Index) = "D" Then
+        curY(index) = curY(index) + 1
+    ElseIf strDir(index) = "D" Then
         'if y row is odd
-        If (curY(Index) + 1) Mod 2 = 0 Then
-            curX(Index) = curX(Index) - 1
+        If (curY(index) + 1) Mod 2 = 0 Then
+            curX(index) = curX(index) - 1
         End If
-        curY(Index) = curY(Index) + 1
+        curY(index) = curY(index) + 1
     End If
 End If
-If Index > 0 Then
-    If curX(Index) = curX(0) And curY(Index) = curY(0) Then
+If index > 0 Then
+    If curX(index) = curX(0) And curY(index) = curY(0) Then
         blnPlayerMoveable = False
-        tmrHurt(Index).Enabled = True
+        tmrHurt(index).Enabled = True
     End If
 Else
 End If
-If Index = 0 Then
+If index = 0 Then
     If Tile(curX(0), curY(0)).coinEnabled = True Then
         'play coin sound
         If Tile(curX(0), curY(0)).coinType = "Y" Then
@@ -2558,14 +2560,13 @@ If Index = 0 Then
     End If
     addScore (pScore)
 End If
-If Tile(curX(Index), curY(Index)).coinEnabled = True Then
-    Tile(curX(Index), curY(Index)).coinEnabled = False
-    Tile(curX(Index), curY(Index)).coinTimer = 0
+If Tile(curX(index), curY(index)).coinEnabled = True Then
+    Tile(curX(index), curY(index)).coinEnabled = False
+    Tile(curX(index), curY(index)).coinTimer = 0
     coinTileCount = coinTileCount - 1
 End If
-tmrJump(Index).Enabled = False
-blnClearPrevTile(Index) = True
-strState(Index) = "I"
+blnClearPrevTile(index) = True
+strState(index) = "I"
 End Sub
 
 Private Sub Form_Load()
@@ -2661,246 +2662,253 @@ If intFrame > 12 And intFrame < 20 Then
 End If
 End Function
 
-Private Function PaintSelector(ByVal Index As Integer, ByVal imgIndex As Integer) As Integer
+Private Function PaintSelector(ByVal index As Integer, ByVal imgIndex As Integer) As Integer
 'paint over last sel
-If blnClearPrevTile(Index) = True Then
+If blnClearPrevTile(index) = True Then
     'prevX, prevX
-    Call clearTile(prevX(Index), prevY(Index), True)
-    If prevY(Index) > 0 Then
+    Call clearTile(prevX(index), prevY(index), True)
+    If prevY(index) > 0 Then
         Dim prevXclear As Integer
         Dim prevYclear As Integer
         'prevX, prevY - 1
-        prevYclear = prevY(Index) - 1
+        prevYclear = prevY(index) - 1
         'even y
-        If prevY(Index) + 1 Mod 2 = 1 Then
+        If prevY(index) + 1 Mod 2 = 1 Then
             'prevX - 1, prevY - 1
-            prevXclear = prevX(Index) - 1
+            prevXclear = prevX(index) - 1
             Call clearTile(prevXclear, prevYclear, True)
         'odd y
-        ElseIf prevY(Index) + 1 Mod 2 = 0 Then
+        ElseIf prevY(index) + 1 Mod 2 = 0 Then
             'prevX + 1, prevY - 1
-            prevXclear = prevX(Index) + 1
+            prevXclear = prevX(index) + 1
             Call clearTile(prevXclear, prevYclear, True)
         End If
     End If
-    blnClearPrevTile(Index) = False
+    blnClearPrevTile(index) = False
 End If
 'paint over frame
-Call clearTile(curX(Index), curY(Index), True)
-If curY(Index) > 0 Then
-    If curX(Index) > 0 Then
+Call clearTile(curX(index), curY(index), True)
+If curY(index) > 0 Then
+    If curX(index) > 0 Then
         'curX - 1, curY - 1
-        Call clearTile(curX(Index) - 1, curY(Index) - 1, True)
+        Call clearTile(curX(index) - 1, curY(index) - 1, True)
     End If
     'odd y
-    If curY(Index) + 1 Mod 2 = 1 Then
-        If curX(Index) < mapWidth Then
+    If curY(index) + 1 Mod 2 = 1 Then
+        If curX(index) < mapWidth Then
             'curX + 1, curY - 1
-            Call clearTile(curX(Index) + 1, curY(Index) - 1, True)
+            Call clearTile(curX(index) + 1, curY(index) - 1, True)
         End If
     'even y
     Else
-        If curX(Index) < mapWidth Then
+        If curX(index) < mapWidth Then
             'curX, curY - 1
-            Call clearTile(curX(Index), curY(Index) - 1, True)
+            Call clearTile(curX(index), curY(index) - 1, True)
         End If
-        If curX(Index) < mapWidth - 1 Then
+        If curX(index) < mapWidth - 1 Then
             'curX + 1, curY - 1
-            Call clearTile(curX(Index) + 1, curY(Index) - 1, True)
+            Call clearTile(curX(index) + 1, curY(index) - 1, True)
         End If
     End If
 End If
-If curY(Index) < mapHeight - 1 Then
-    If curX(Index) > 0 Then
+If curY(index) < mapHeight - 1 Then
+    If curX(index) > 0 Then
         'curX - 1, curY + 1
-        Call clearTile(curX(Index) - 1, curY(Index) + 1, True)
+        Call clearTile(curX(index) - 1, curY(index) + 1, True)
     End If
     'odd y
-    If curY(Index) + 1 Mod 2 = 1 Then
-        If curX(Index) < mapWidth Then
+    If curY(index) + 1 Mod 2 = 1 Then
+        If curX(index) < mapWidth Then
             'curX + 1, curY + 1
-            Call clearTile(curX(Index) + 1, curY(Index) + 1, True)
+            Call clearTile(curX(index) + 1, curY(index) + 1, True)
         End If
     'even y
     Else
-        If curX(Index) < mapWidth Then
+        If curX(index) < mapWidth Then
             'curX, curY + 1
-            Call clearTile(curX(Index), curY(Index) + 1, True)
+            Call clearTile(curX(index), curY(index) + 1, True)
         End If
-        If curX(Index) < mapWidth - 1 Then
+        If curX(index) < mapWidth - 1 Then
             'curX + 1, curY + 1
-            Call clearTile(curX(Index) + 1, curY(Index) + 1, True)
+            Call clearTile(curX(index) + 1, curY(index) + 1, True)
         End If
     End If
 End If
 'paint sel
-frmMain.PaintPicture picSelMask(imgIndex + 5 * Index).Image, Tile(curX(Index), curY(Index)).X, Tile(curX(Index), curY(Index)).Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
-frmMain.PaintPicture picSel(imgIndex + 5 * Index).Image, Tile(curX(Index), curY(Index)).X, Tile(curX(Index), curY(Index)).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
-Call PaintCharSprite(Index, spriteX(Index), spriteY(Index))
+frmMain.PaintPicture picSelMask(imgIndex + 5 * index).Image, Tile(curX(index), curY(index)).X, Tile(curX(index), curY(index)).Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
+frmMain.PaintPicture picSel(imgIndex + 5 * index).Image, Tile(curX(index), curY(index)).X, Tile(curX(index), curY(index)).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
+Call PaintCharSprite(index, spriteX(index), spriteY(index))
 End Function
 
-Private Sub PaintCharSprite(ByVal Index As Integer, ByVal charX As Integer, ByVal charY As Integer)
+Private Sub PaintCharSprite(ByVal index As Integer, ByVal charX As Integer, ByVal charY As Integer)
 Static counterC As Integer
-If strState(Index) = "I" Then
-    If strDir(Index) = "L" Then
+If strState(index) = "I" Then
+    If strDir(index) = "L" Then
         frmMain.PaintPicture picCharMaskIR.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
-        If Index = 0 Then
+        If index = 0 Then
             frmMain.PaintPicture picP1IR.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
-        ElseIf Index > 0 Then
+        ElseIf index > 0 Then
             frmMain.PaintPicture picP1IR.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
         End If
-    ElseIf strDir(Index) = "U" Then
+    ElseIf strDir(index) = "U" Then
         frmMain.PaintPicture picCharMaskID.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
-        If Index = 0 Then
+        If index = 0 Then
             frmMain.PaintPicture picP1ID.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
-        ElseIf Index > 0 Then
+        ElseIf index > 0 Then
             frmMain.PaintPicture picP1ID.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
         End If
-    ElseIf strDir(Index) = "R" Then
+    ElseIf strDir(index) = "R" Then
         frmMain.PaintPicture picCharMaskIR.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
-        If Index = 0 Then
+        If index = 0 Then
             frmMain.PaintPicture picP1IR.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
-        ElseIf Index > 0 Then
+        ElseIf index > 0 Then
             frmMain.PaintPicture picP1IR.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
         End If
-    ElseIf strDir(Index) = "D" Then
+    ElseIf strDir(index) = "D" Then
         frmMain.PaintPicture picCharMaskID.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
-        If Index = 0 Then
+        If index = 0 Then
             frmMain.PaintPicture picP1ID.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
-        ElseIf Index > 0 Then
+        ElseIf index > 0 Then
             frmMain.PaintPicture picP1ID.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
         End If
     End If
-ElseIf strState(Index) = "C" Then
+ElseIf strState(index) = "C" Then
     If counterC < 3 Then
         counterC = counterC + 1
     End If
-    If strDir(Index) = "L" Then
-        frmMain.PaintPicture picCharMaskCR(counterC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
-        If Index = 0 Then
-            frmMain.PaintPicture picP1CR(counterC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
-        ElseIf Index > 0 Then
-            frmMain.PaintPicture picP1CR(counterC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+    Dim frameC As Integer
+    frameC = Int((counterC + 1) / 2)
+    If strDir(index) = "L" Then
+        frmMain.PaintPicture picCharMaskCR(frameC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
+        If index = 0 Then
+            frmMain.PaintPicture picP1CR(frameC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+        ElseIf index > 0 Then
+            frmMain.PaintPicture picP1CR(frameC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
         End If
-    ElseIf strDir(Index) = "U" Then
-        frmMain.PaintPicture picCharMaskCD(counterC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
-        If Index = 0 Then
-            frmMain.PaintPicture picP1CD(counterC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
-        ElseIf Index > 0 Then
-            frmMain.PaintPicture picP1CD(counterC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+    ElseIf strDir(index) = "U" Then
+        frmMain.PaintPicture picCharMaskCD(frameC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
+        If index = 0 Then
+            frmMain.PaintPicture picP1CD(frameC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+        ElseIf index > 0 Then
+            frmMain.PaintPicture picP1CD(frameC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
         End If
-    ElseIf strDir(Index) = "R" Then
-        frmMain.PaintPicture picCharMaskCR(counterC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
-        If Index = 0 Then
-            frmMain.PaintPicture picP1CR(counterC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
-        ElseIf Index > 0 Then
-            frmMain.PaintPicture picP1CR(counterC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+    ElseIf strDir(index) = "R" Then
+        frmMain.PaintPicture picCharMaskCR(frameC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
+        If index = 0 Then
+            frmMain.PaintPicture picP1CR(frameC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+        ElseIf index > 0 Then
+            frmMain.PaintPicture picP1CR(frameC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
         End If
-    ElseIf strDir(Index) = "D" Then
-        frmMain.PaintPicture picCharMaskCD(counterC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
-        If Index = 0 Then
-            frmMain.PaintPicture picP1CD(counterC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
-        ElseIf Index > 0 Then
-            frmMain.PaintPicture picP1CD(counterC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+    ElseIf strDir(index) = "D" Then
+        frmMain.PaintPicture picCharMaskCD(frameC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
+        If index = 0 Then
+            frmMain.PaintPicture picP1CD(frameC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+        ElseIf index > 0 Then
+            frmMain.PaintPicture picP1CD(frameC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
         End If
     End If
-ElseIf strState(Index) = "J" Then
+ElseIf strState(index) = "J" Then
     counterC = 0
-    If strDir(Index) = "L" Then
+    If strDir(index) = "L" Then
         frmMain.PaintPicture picCharMaskJR.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
-        If Index = 0 Then
+        If index = 0 Then
             frmMain.PaintPicture picP1JR.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
-        ElseIf Index > 0 Then
+        ElseIf index > 0 Then
             frmMain.PaintPicture picP1JR.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
         End If
-    ElseIf strDir(Index) = "U" Then
+    ElseIf strDir(index) = "U" Then
         frmMain.PaintPicture picCharMaskJD.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
-        If Index = 0 Then
+        If index = 0 Then
             frmMain.PaintPicture picP1JD.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
-        ElseIf Index > 0 Then
+        ElseIf index > 0 Then
             frmMain.PaintPicture picP1JD.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
         End If
-    ElseIf strDir(Index) = "R" Then
+    ElseIf strDir(index) = "R" Then
         frmMain.PaintPicture picCharMaskJR.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
-        If Index = 0 Then
+        If index = 0 Then
             frmMain.PaintPicture picP1JR.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
-        ElseIf Index > 0 Then
+        ElseIf index > 0 Then
             frmMain.PaintPicture picP1JR.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
         End If
-    ElseIf strDir(Index) = "D" Then
+    ElseIf strDir(index) = "D" Then
         frmMain.PaintPicture picCharMaskJD.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
-        If Index = 0 Then
+        If index = 0 Then
             frmMain.PaintPicture picP1JD.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
-        ElseIf Index > 0 Then
+        ElseIf index > 0 Then
             frmMain.PaintPicture picP1JD.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
         End If
     End If
 End If
 End Sub
 
-Private Sub tmrChar_Timer(Index As Integer)
+Private Sub tmrChar_Timer(index As Integer)
 'reverse boolean for select
 Static blnRev(0 To 3) As Boolean
-Static intFrame(0 To 3) As Integer
-Static frameLimit(0 To 3) As Integer
 'call selection paint
-Call PaintSelector(Index, picCount(Index))
+Call PaintSelector(index, picCount(index))
 'if jump timer is started
-If tmrJump(Index).Enabled = True Then
+If tmrFrame(index).Enabled = True Then
     'show each jump frame for p1
     'If Index = 0 Then
         'MsgBox (intFrame(0))
     'End If
-    intFrame(Index) = intFrame(Index) + 1
-    If strDir(Index) = "L" Then
-        Call getCharJumpAnim(Index, intFrame(Index), Tile(curX(Index), curY(Index)).X - 25, Tile(curX(Index), curY(Index)).Y - 115, Tile(curX(Index), curY(Index)).X + 25, Tile(curX(Index), curY(Index)).Y - 15)
-    ElseIf strDir(Index) = "R" Then
-        Call getCharJumpAnim(Index, intFrame(Index), Tile(curX(Index), curY(Index)).X + 75, Tile(curX(Index), curY(Index)).Y + 85, Tile(curX(Index), curY(Index)).X + 25, Tile(curX(Index), curY(Index)).Y - 15)
-    ElseIf strDir(Index) = "U" Then
-        Call getCharJumpAnim(Index, intFrame(Index), Tile(curX(Index), curY(Index)).X + 75, Tile(curX(Index), curY(Index)).Y - 115, Tile(curX(Index), curY(Index)).X + 25, Tile(curX(Index), curY(Index)).Y - 15)
-    ElseIf strDir(Index) = "D" Then
-        Call getCharJumpAnim(Index, intFrame(Index), Tile(curX(Index), curY(Index)).X - 25, Tile(curX(Index), curY(Index)).Y + 85, Tile(curX(Index), curY(Index)).X + 25, Tile(curX(Index), curY(Index)).Y - 15)
+    If strDir(index) = "L" Then
+        Call getCharJumpAnim(index, Tile(curX(index), curY(index)).X - 25, Tile(curX(index), curY(index)).Y - 115, Tile(curX(index), curY(index)).X + 25, Tile(curX(index), curY(index)).Y - 15)
+    ElseIf strDir(index) = "R" Then
+        Call getCharJumpAnim(index, Tile(curX(index), curY(index)).X + 75, Tile(curX(index), curY(index)).Y + 85, Tile(curX(index), curY(index)).X + 25, Tile(curX(index), curY(index)).Y - 15)
+    ElseIf strDir(index) = "U" Then
+        Call getCharJumpAnim(index, Tile(curX(index), curY(index)).X + 75, Tile(curX(index), curY(index)).Y - 115, Tile(curX(index), curY(index)).X + 25, Tile(curX(index), curY(index)).Y - 15)
+    ElseIf strDir(index) = "D" Then
+        Call getCharJumpAnim(index, Tile(curX(index), curY(index)).X - 25, Tile(curX(index), curY(index)).Y + 85, Tile(curX(index), curY(index)).X + 25, Tile(curX(index), curY(index)).Y - 15)
     End If
-    If intFrame(Index) = 1 Then
-        strState(Index) = "C"
-    ElseIf intFrame(Index) = 5 Then
-        strState(Index) = "J"
-    ElseIf intFrame(Index) = 10 Then
-        strState(Index) = "I"
-        intFrame(Index) = 0
+    If frameCounter(index) = 1 Then
+        strState(index) = "C"
+    ElseIf frameCounter(index) = 5 Then
+        strState(index) = "J"
+    ElseIf frameCounter(index) = 10 Then
+        strState(index) = "I"
     End If
 Else
-    strState(Index) = "I"
-    intFrame(Index) = 0
-    spriteX(Index) = Tile(curX(Index), curY(Index)).X + 25
-    spriteY(Index) = Tile(curX(Index), curY(Index)).Y - 15
-    'Call PaintCharSprite(Index, Tile(curX(Index), curY(Index)).X + 25, Tile(curX(Index), curY(Index)).Y - 15)
+    spriteX(index) = Tile(curX(index), curY(index)).X + 25
+    spriteY(index) = Tile(curX(index), curY(index)).Y - 15
 End If
-If blnRev(Index) = False Then
-    picCount(Index) = picCount(Index) + 1
+If blnRev(index) = False Then
+    picCount(index) = picCount(index) + 1
 End If
-If blnRev(Index) = True Then
-    picCount(Index) = picCount(Index) - 1
+If blnRev(index) = True Then
+    picCount(index) = picCount(index) - 1
 End If
-If picCount(Index) >= 4 Or picCount(Index) <= 0 Then
-    If blnRev(Index) = False Then
-        blnRev(Index) = True
+If picCount(index) >= 4 Or picCount(index) <= 0 Then
+    If blnRev(index) = False Then
+        blnRev(index) = True
     Else
-        blnRev(Index) = False
+        blnRev(index) = False
     End If
 End If
 End Sub
 
-Private Function getCharJumpAnim(ByVal Index As Integer, ByVal intFrame As Integer, ByVal IntNewX As Integer, ByVal intNewY As Integer, ByVal intOldX As Integer, ByVal intOldY As Integer)
-spriteX(Index) = intOldX + (intFrame * Int((IntNewX - intOldX) / 10))
-If intFrame <= 5 Then
-    spriteY(Index) = (intOldY + (intFrame * Int((intNewY - intOldY) / 10))) - (4 * intFrame)
-    'Call PaintCharSprite(Index, intOldX + (intFrame * ((IntNewX - intOldX) / 10)), (intOldY + (intFrame * ((intNewY - intOldY) / 10))) - (4 * intFrame))
-Else
-    spriteY(Index) = (intOldY + (intFrame * Int((intNewY - intOldY) / 10))) - (4 * (10 - intFrame))
-    'Call PaintCharSprite(Index, intOldX + (intFrame * ((IntNewX - intOldX) / 10)), (intOldY + (intFrame * ((intNewY - intOldY) / 10))) - (4 * (10 - intFrame)))
+Private Function getCharJumpAnim(ByVal index As Integer, ByVal IntNewX As Integer, ByVal intNewY As Integer, ByVal intOldX As Integer, ByVal intOldY As Integer)
+'if frame 5 to 10
+If frameCounter(index) >= 5 And frameCounter(index) <= 10 Then
+    spriteX(index) = intOldX + ((frameCounter(index) - 5) * Int((IntNewX - intOldX) / 5))
+    '5 to 7 is jump up
+    If frameCounter(index) < 8 Then
+        spriteY(index) = (intOldY + ((frameCounter(index) - 5) * Int((intNewY - intOldY) / 5))) - (4 * (frameCounter(index) - 5))
+    '8 to 10 is fall to ground
+    ElseIf frameCounter(index) <= 10 Then
+        spriteY(index) = (intOldY + ((frameCounter(index) - 5) * Int((intNewY - intOldY) / 5))) - (4 * (10 - frameCounter(index)))
+    End If
 End If
 End Function
+
+Private Sub tmrFrame_Timer(index As Integer)
+frameCounter(index) = frameCounter(index) + 1
+If frameCounter(index) = frameLimit(index) Then
+    frameCounter(index) = 0
+    getJumpComplete (index)
+    tmrFrame(index).Enabled = False
+End If
+End Sub
 
 Private Function getTileAnim(ByVal intFrame As Integer, ByVal IntX As Integer, ByVal intY As Integer)
 picBuffer.PaintPicture frmMain.picBackground.Image, 0, 0, 100, 100, 0, 0, 100, 100, vbSrcCopy
@@ -3022,6 +3030,10 @@ curX(0) = (mapWidth - 1) \ 2
 curY(0) = (mapHeight - 1) \ 2
 curX(1) = 0
 curY(1) = 0
+frameLimit(0) = 10
+frameLimit(1) = 10
+frameLimit(2) = 10
+frameLimit(3) = 10
 'cpu 1 moves every (counterLimit + 1) seconds
 counterLimit(1) = 1
 End Sub
