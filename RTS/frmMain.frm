@@ -10,21 +10,29 @@ Begin VB.Form frmMain
    ScaleHeight     =   600
    ScaleMode       =   3  'Pixel
    ScaleWidth      =   800
-   Begin VB.PictureBox picCharMaskI 
+   Begin VB.Timer tmrHurt 
+      Enabled         =   0   'False
+      Index           =   0
+      Interval        =   500
+      Left            =   9960
+      Top             =   120
+   End
+   Begin VB.PictureBox picCharMaskIR 
       Appearance      =   0  'Flat
       AutoRedraw      =   -1  'True
       BackColor       =   &H80000005&
       BorderStyle     =   0  'None
       ForeColor       =   &H80000008&
-      Height          =   735
-      Left            =   2280
+      Height          =   750
+      Left            =   7440
       Picture         =   "frmMain.frx":0000
-      ScaleHeight     =   735
-      ScaleWidth      =   735
-      TabIndex        =   108
-      Top             =   3960
+      ScaleHeight     =   50
+      ScaleMode       =   3  'Pixel
+      ScaleWidth      =   50
+      TabIndex        =   103
+      Top             =   6000
       Visible         =   0   'False
-      Width           =   735
+      Width           =   750
    End
    Begin VB.Timer tmrHurt 
       Enabled         =   0   'False
@@ -103,7 +111,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H80000008&
       Height          =   525
       Index           =   4
-      Left            =   6720
+      Left            =   6240
       Picture         =   "frmMain.frx":00C5
       ScaleHeight     =   35
       ScaleMode       =   3  'Pixel
@@ -115,7 +123,7 @@ Begin VB.Form frmMain
    End
    Begin VB.Timer tmrCoin 
       Enabled         =   0   'False
-      Interval        =   66
+      Interval        =   50
       Left            =   5040
       Top             =   840
    End
@@ -185,75 +193,234 @@ Begin VB.Form frmMain
       Top             =   0
       Visible         =   0   'False
       Width           =   11295
-      Begin VB.PictureBox picCharMaskC 
+      Begin VB.PictureBox picCharMaskID 
          Appearance      =   0  'Flat
          AutoRedraw      =   -1  'True
          BackColor       =   &H80000005&
          BorderStyle     =   0  'None
          ForeColor       =   &H80000008&
          Height          =   750
-         Index           =   1
-         Left            =   3120
+         Left            =   7440
          Picture         =   "frmMain.frx":0428
-         ScaleHeight     =   750
-         ScaleWidth      =   750
+         ScaleHeight     =   50
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   50
+         TabIndex        =   116
+         Top             =   7680
+         Visible         =   0   'False
+         Width           =   750
+      End
+      Begin VB.PictureBox picP1ID 
+         Appearance      =   0  'Flat
+         AutoRedraw      =   -1  'True
+         BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H80000008&
+         Height          =   750
+         Left            =   7440
+         Picture         =   "frmMain.frx":04EA
+         ScaleHeight     =   50
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   50
+         TabIndex        =   115
+         Top             =   6840
+         Visible         =   0   'False
+         Width           =   750
+      End
+      Begin VB.PictureBox picCharMaskJD 
+         Appearance      =   0  'Flat
+         AutoRedraw      =   -1  'True
+         BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H80000008&
+         Height          =   750
+         Left            =   10320
+         Picture         =   "frmMain.frx":06FA
+         ScaleHeight     =   50
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   50
+         TabIndex        =   114
+         Top             =   7680
+         Visible         =   0   'False
+         Width           =   750
+      End
+      Begin VB.PictureBox picP1JD 
+         Appearance      =   0  'Flat
+         AutoRedraw      =   -1  'True
+         BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H80000008&
+         Height          =   750
+         Left            =   10320
+         Picture         =   "frmMain.frx":07BB
+         ScaleHeight     =   50
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   50
+         TabIndex        =   113
+         Top             =   6840
+         Visible         =   0   'False
+         Width           =   750
+      End
+      Begin VB.PictureBox picP1CD 
+         Appearance      =   0  'Flat
+         AutoRedraw      =   -1  'True
+         BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H80000008&
+         Height          =   750
+         Index           =   2
+         Left            =   8880
+         Picture         =   "frmMain.frx":09B8
+         ScaleHeight     =   50
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   50
+         TabIndex        =   112
+         Top             =   6840
+         Visible         =   0   'False
+         Width           =   750
+      End
+      Begin VB.PictureBox picP1CD 
+         Appearance      =   0  'Flat
+         AutoRedraw      =   -1  'True
+         BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H80000008&
+         Height          =   750
+         Index           =   3
+         Left            =   9600
+         Picture         =   "frmMain.frx":0BBE
+         ScaleHeight     =   50
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   50
+         TabIndex        =   111
+         Top             =   6840
+         Visible         =   0   'False
+         Width           =   750
+      End
+      Begin VB.PictureBox picP1CD 
+         Appearance      =   0  'Flat
+         AutoRedraw      =   -1  'True
+         BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H80000008&
+         Height          =   750
+         Index           =   1
+         Left            =   8160
+         Picture         =   "frmMain.frx":0DB1
+         ScaleHeight     =   50
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   50
+         TabIndex        =   110
+         Top             =   6840
+         Visible         =   0   'False
+         Width           =   750
+      End
+      Begin VB.PictureBox picCharMaskCD 
+         Appearance      =   0  'Flat
+         AutoRedraw      =   -1  'True
+         BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H80000008&
+         Height          =   750
+         Index           =   2
+         Left            =   8880
+         Picture         =   "frmMain.frx":0FBB
+         ScaleHeight     =   50
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   50
+         TabIndex        =   109
+         Top             =   7680
+         Visible         =   0   'False
+         Width           =   750
+      End
+      Begin VB.PictureBox picCharMaskCD 
+         Appearance      =   0  'Flat
+         AutoRedraw      =   -1  'True
+         BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H80000008&
+         Height          =   750
+         Index           =   3
+         Left            =   9600
+         Picture         =   "frmMain.frx":107A
+         ScaleHeight     =   50
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   50
+         TabIndex        =   108
+         Top             =   7680
+         Visible         =   0   'False
+         Width           =   750
+      End
+      Begin VB.PictureBox picCharMaskCD 
+         Appearance      =   0  'Flat
+         AutoRedraw      =   -1  'True
+         BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H80000008&
+         Height          =   750
+         Index           =   1
+         Left            =   8160
+         Picture         =   "frmMain.frx":1137
+         ScaleHeight     =   50
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   50
          TabIndex        =   107
-         Top             =   3960
+         Top             =   7680
          Visible         =   0   'False
          Width           =   750
       End
-      Begin VB.PictureBox picCharMaskC 
+      Begin VB.PictureBox picP1IR 
          Appearance      =   0  'Flat
          AutoRedraw      =   -1  'True
          BackColor       =   &H80000005&
          BorderStyle     =   0  'None
          ForeColor       =   &H80000008&
          Height          =   750
-         Index           =   3
-         Left            =   4800
-         Picture         =   "frmMain.frx":04E7
-         ScaleHeight     =   750
-         ScaleWidth      =   750
+         Left            =   7440
+         Picture         =   "frmMain.frx":11FA
+         ScaleHeight     =   50
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   50
          TabIndex        =   106
-         Top             =   3960
+         Top             =   5160
          Visible         =   0   'False
          Width           =   750
       End
-      Begin VB.PictureBox picCharMaskC 
+      Begin VB.PictureBox picCharMaskJR 
          Appearance      =   0  'Flat
          AutoRedraw      =   -1  'True
          BackColor       =   &H80000005&
          BorderStyle     =   0  'None
          ForeColor       =   &H80000008&
          Height          =   750
-         Index           =   2
-         Left            =   3960
-         Picture         =   "frmMain.frx":05A1
-         ScaleHeight     =   750
-         ScaleWidth      =   750
+         Left            =   10320
+         Picture         =   "frmMain.frx":1408
+         ScaleHeight     =   50
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   50
          TabIndex        =   105
-         Top             =   3960
+         Top             =   6000
          Visible         =   0   'False
          Width           =   750
       End
-      Begin VB.PictureBox picCharMaskJ 
+      Begin VB.PictureBox picP1JR 
          Appearance      =   0  'Flat
          AutoRedraw      =   -1  'True
          BackColor       =   &H80000005&
          BorderStyle     =   0  'None
          ForeColor       =   &H80000008&
          Height          =   750
-         Index           =   2
-         Left            =   6480
-         Picture         =   "frmMain.frx":065E
-         ScaleHeight     =   750
-         ScaleWidth      =   750
+         Left            =   10320
+         Picture         =   "frmMain.frx":14C8
+         ScaleHeight     =   50
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   50
          TabIndex        =   104
-         Top             =   3960
+         Top             =   5160
          Visible         =   0   'False
          Width           =   750
       End
-      Begin VB.PictureBox picCharMaskJ 
+      Begin VB.PictureBox picCharMaskCR 
          Appearance      =   0  'Flat
          AutoRedraw      =   -1  'True
          BackColor       =   &H80000005&
@@ -261,83 +428,17 @@ Begin VB.Form frmMain
          ForeColor       =   &H80000008&
          Height          =   750
          Index           =   1
-         Left            =   5640
-         Picture         =   "frmMain.frx":071C
-         ScaleHeight     =   750
-         ScaleWidth      =   750
-         TabIndex        =   103
-         Top             =   3960
-         Visible         =   0   'False
-         Width           =   750
-      End
-      Begin VB.PictureBox picP1J 
-         Appearance      =   0  'Flat
-         AutoRedraw      =   -1  'True
-         BackColor       =   &H80000005&
-         BorderStyle     =   0  'None
-         ForeColor       =   &H80000008&
-         Height          =   750
-         Index           =   2
-         Left            =   6480
-         Picture         =   "frmMain.frx":07DA
-         ScaleHeight     =   750
-         ScaleWidth      =   750
+         Left            =   8160
+         Picture         =   "frmMain.frx":16C0
+         ScaleHeight     =   50
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   50
          TabIndex        =   102
-         Top             =   3120
+         Top             =   6000
          Visible         =   0   'False
          Width           =   750
       End
-      Begin VB.PictureBox picP1J 
-         Appearance      =   0  'Flat
-         AutoRedraw      =   -1  'True
-         BackColor       =   &H80000005&
-         BorderStyle     =   0  'None
-         ForeColor       =   &H80000008&
-         Height          =   750
-         Index           =   1
-         Left            =   5640
-         Picture         =   "frmMain.frx":09D4
-         ScaleHeight     =   750
-         ScaleWidth      =   750
-         TabIndex        =   101
-         Top             =   3120
-         Visible         =   0   'False
-         Width           =   750
-      End
-      Begin VB.PictureBox picP1I 
-         Appearance      =   0  'Flat
-         AutoRedraw      =   -1  'True
-         BackColor       =   &H80000005&
-         BorderStyle     =   0  'None
-         ForeColor       =   &H80000008&
-         Height          =   735
-         Left            =   2280
-         Picture         =   "frmMain.frx":0BCE
-         ScaleHeight     =   735
-         ScaleWidth      =   735
-         TabIndex        =   100
-         Top             =   3120
-         Visible         =   0   'False
-         Width           =   735
-      End
-      Begin VB.PictureBox picP1C 
-         Appearance      =   0  'Flat
-         AutoRedraw      =   -1  'True
-         BackColor       =   &H80000005&
-         BorderStyle     =   0  'None
-         ForeColor       =   &H80000008&
-         Height          =   750
-         Index           =   1
-         Left            =   3120
-         Picture         =   "frmMain.frx":0DDC
-         ScaleHeight     =   750
-         ScaleWidth      =   750
-         TabIndex        =   99
-         Top             =   3120
-         Visible         =   0   'False
-         Width           =   750
-      End
-      Begin VB.PictureBox picP1C 
+      Begin VB.PictureBox picCharMaskCR 
          Appearance      =   0  'Flat
          AutoRedraw      =   -1  'True
          BackColor       =   &H80000005&
@@ -345,16 +446,17 @@ Begin VB.Form frmMain
          ForeColor       =   &H80000008&
          Height          =   750
          Index           =   3
-         Left            =   4800
-         Picture         =   "frmMain.frx":0FE4
-         ScaleHeight     =   750
-         ScaleWidth      =   750
-         TabIndex        =   98
-         Top             =   3120
+         Left            =   9600
+         Picture         =   "frmMain.frx":177F
+         ScaleHeight     =   50
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   50
+         TabIndex        =   101
+         Top             =   6000
          Visible         =   0   'False
          Width           =   750
       End
-      Begin VB.PictureBox picP1C 
+      Begin VB.PictureBox picCharMaskCR 
          Appearance      =   0  'Flat
          AutoRedraw      =   -1  'True
          BackColor       =   &H80000005&
@@ -362,12 +464,67 @@ Begin VB.Form frmMain
          ForeColor       =   &H80000008&
          Height          =   750
          Index           =   2
-         Left            =   3960
-         Picture         =   "frmMain.frx":11D5
-         ScaleHeight     =   750
-         ScaleWidth      =   750
+         Left            =   8880
+         Picture         =   "frmMain.frx":183A
+         ScaleHeight     =   50
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   50
+         TabIndex        =   100
+         Top             =   6000
+         Visible         =   0   'False
+         Width           =   750
+      End
+      Begin VB.PictureBox picP1CR 
+         Appearance      =   0  'Flat
+         AutoRedraw      =   -1  'True
+         BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H80000008&
+         Height          =   750
+         Index           =   1
+         Left            =   8160
+         Picture         =   "frmMain.frx":18F7
+         ScaleHeight     =   50
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   50
+         TabIndex        =   99
+         Top             =   5160
+         Visible         =   0   'False
+         Width           =   750
+      End
+      Begin VB.PictureBox picP1CR 
+         Appearance      =   0  'Flat
+         AutoRedraw      =   -1  'True
+         BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H80000008&
+         Height          =   750
+         Index           =   3
+         Left            =   9600
+         Picture         =   "frmMain.frx":1AFE
+         ScaleHeight     =   50
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   50
+         TabIndex        =   98
+         Top             =   5160
+         Visible         =   0   'False
+         Width           =   750
+      End
+      Begin VB.PictureBox picP1CR 
+         Appearance      =   0  'Flat
+         AutoRedraw      =   -1  'True
+         BackColor       =   &H80000005&
+         BorderStyle     =   0  'None
+         ForeColor       =   &H80000008&
+         Height          =   750
+         Index           =   2
+         Left            =   8880
+         Picture         =   "frmMain.frx":1CEA
+         ScaleHeight     =   50
+         ScaleMode       =   3  'Pixel
+         ScaleWidth      =   50
          TabIndex        =   97
-         Top             =   3120
+         Top             =   5160
          Visible         =   0   'False
          Width           =   750
       End
@@ -379,7 +536,7 @@ Begin VB.Form frmMain
          Height          =   1500
          Index           =   9
          Left            =   7920
-         Picture         =   "frmMain.frx":13D2
+         Picture         =   "frmMain.frx":1EE8
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
@@ -396,7 +553,7 @@ Begin VB.Form frmMain
          Height          =   1500
          Index           =   8
          Left            =   7800
-         Picture         =   "frmMain.frx":150F
+         Picture         =   "frmMain.frx":2025
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
@@ -413,7 +570,7 @@ Begin VB.Form frmMain
          Height          =   1500
          Index           =   7
          Left            =   7680
-         Picture         =   "frmMain.frx":164E
+         Picture         =   "frmMain.frx":2164
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
@@ -430,7 +587,7 @@ Begin VB.Form frmMain
          Height          =   1500
          Index           =   6
          Left            =   7560
-         Picture         =   "frmMain.frx":178F
+         Picture         =   "frmMain.frx":22A5
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
@@ -447,7 +604,7 @@ Begin VB.Form frmMain
          Height          =   1500
          Index           =   5
          Left            =   7440
-         Picture         =   "frmMain.frx":18D2
+         Picture         =   "frmMain.frx":23E8
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
@@ -465,7 +622,7 @@ Begin VB.Form frmMain
          Height          =   1500
          Index           =   9
          Left            =   7920
-         Picture         =   "frmMain.frx":1A14
+         Picture         =   "frmMain.frx":252A
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
@@ -483,7 +640,7 @@ Begin VB.Form frmMain
          Height          =   1500
          Index           =   5
          Left            =   7800
-         Picture         =   "frmMain.frx":1B88
+         Picture         =   "frmMain.frx":269E
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
@@ -501,7 +658,7 @@ Begin VB.Form frmMain
          Height          =   1500
          Index           =   8
          Left            =   7680
-         Picture         =   "frmMain.frx":1CEA
+         Picture         =   "frmMain.frx":2800
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
@@ -519,7 +676,7 @@ Begin VB.Form frmMain
          Height          =   1500
          Index           =   7
          Left            =   7560
-         Picture         =   "frmMain.frx":1E78
+         Picture         =   "frmMain.frx":298E
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
@@ -537,7 +694,7 @@ Begin VB.Form frmMain
          Height          =   1500
          Index           =   6
          Left            =   7440
-         Picture         =   "frmMain.frx":1FE3
+         Picture         =   "frmMain.frx":2AF9
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
@@ -555,7 +712,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   0
          Left            =   240
-         Picture         =   "frmMain.frx":2142
+         Picture         =   "frmMain.frx":2C58
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -573,7 +730,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   1
          Left            =   600
-         Picture         =   "frmMain.frx":21FF
+         Picture         =   "frmMain.frx":2D15
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -591,7 +748,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   2
          Left            =   960
-         Picture         =   "frmMain.frx":22C3
+         Picture         =   "frmMain.frx":2DD9
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -609,7 +766,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   3
          Left            =   1320
-         Picture         =   "frmMain.frx":2397
+         Picture         =   "frmMain.frx":2EAD
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -627,7 +784,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   4
          Left            =   1680
-         Picture         =   "frmMain.frx":244E
+         Picture         =   "frmMain.frx":2F64
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -645,7 +802,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   5
          Left            =   2040
-         Picture         =   "frmMain.frx":24FD
+         Picture         =   "frmMain.frx":3013
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -663,7 +820,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   6
          Left            =   2400
-         Picture         =   "frmMain.frx":259D
+         Picture         =   "frmMain.frx":30B3
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -681,7 +838,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   7
          Left            =   2760
-         Picture         =   "frmMain.frx":2630
+         Picture         =   "frmMain.frx":3146
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -699,7 +856,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   8
          Left            =   3120
-         Picture         =   "frmMain.frx":26C8
+         Picture         =   "frmMain.frx":31DE
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -717,7 +874,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   9
          Left            =   3480
-         Picture         =   "frmMain.frx":275B
+         Picture         =   "frmMain.frx":3271
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -735,7 +892,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   10
          Left            =   3840
-         Picture         =   "frmMain.frx":27F8
+         Picture         =   "frmMain.frx":330E
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -753,7 +910,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   11
          Left            =   4200
-         Picture         =   "frmMain.frx":28A2
+         Picture         =   "frmMain.frx":33B8
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -771,7 +928,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   12
          Left            =   4560
-         Picture         =   "frmMain.frx":2958
+         Picture         =   "frmMain.frx":346E
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -789,7 +946,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   13
          Left            =   4920
-         Picture         =   "frmMain.frx":2A2C
+         Picture         =   "frmMain.frx":3542
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -807,7 +964,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   0
          Left            =   240
-         Picture         =   "frmMain.frx":2B0E
+         Picture         =   "frmMain.frx":3624
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -825,7 +982,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   1
          Left            =   600
-         Picture         =   "frmMain.frx":2E8F
+         Picture         =   "frmMain.frx":39A5
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -843,7 +1000,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   2
          Left            =   960
-         Picture         =   "frmMain.frx":3217
+         Picture         =   "frmMain.frx":3D2D
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -861,7 +1018,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   3
          Left            =   1320
-         Picture         =   "frmMain.frx":35A1
+         Picture         =   "frmMain.frx":40B7
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -879,7 +1036,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   4
          Left            =   1680
-         Picture         =   "frmMain.frx":3928
+         Picture         =   "frmMain.frx":443E
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -897,7 +1054,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   5
          Left            =   2040
-         Picture         =   "frmMain.frx":3CB2
+         Picture         =   "frmMain.frx":47C8
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -915,7 +1072,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   6
          Left            =   2400
-         Picture         =   "frmMain.frx":4038
+         Picture         =   "frmMain.frx":4B4E
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -933,7 +1090,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   7
          Left            =   2760
-         Picture         =   "frmMain.frx":43BF
+         Picture         =   "frmMain.frx":4ED5
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -951,7 +1108,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   8
          Left            =   3120
-         Picture         =   "frmMain.frx":4745
+         Picture         =   "frmMain.frx":525B
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -969,7 +1126,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   9
          Left            =   3480
-         Picture         =   "frmMain.frx":4ACA
+         Picture         =   "frmMain.frx":55E0
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -987,7 +1144,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   10
          Left            =   3840
-         Picture         =   "frmMain.frx":4E4F
+         Picture         =   "frmMain.frx":5965
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -1005,7 +1162,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   11
          Left            =   4200
-         Picture         =   "frmMain.frx":51D8
+         Picture         =   "frmMain.frx":5CEE
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -1023,7 +1180,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   12
          Left            =   4560
-         Picture         =   "frmMain.frx":5562
+         Picture         =   "frmMain.frx":6078
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -1041,7 +1198,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   13
          Left            =   4920
-         Picture         =   "frmMain.frx":58EE
+         Picture         =   "frmMain.frx":6404
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -1059,7 +1216,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   0
          Left            =   240
-         Picture         =   "frmMain.frx":5C75
+         Picture         =   "frmMain.frx":678B
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -1077,7 +1234,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   1
          Left            =   600
-         Picture         =   "frmMain.frx":5D32
+         Picture         =   "frmMain.frx":6848
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -1095,7 +1252,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   2
          Left            =   960
-         Picture         =   "frmMain.frx":5DF6
+         Picture         =   "frmMain.frx":690C
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -1113,7 +1270,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   3
          Left            =   1320
-         Picture         =   "frmMain.frx":5ECA
+         Picture         =   "frmMain.frx":69E0
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -1131,7 +1288,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   4
          Left            =   1680
-         Picture         =   "frmMain.frx":5F81
+         Picture         =   "frmMain.frx":6A97
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -1149,7 +1306,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   5
          Left            =   2040
-         Picture         =   "frmMain.frx":6030
+         Picture         =   "frmMain.frx":6B46
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -1167,7 +1324,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   6
          Left            =   2400
-         Picture         =   "frmMain.frx":60D0
+         Picture         =   "frmMain.frx":6BE6
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -1185,7 +1342,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   7
          Left            =   2760
-         Picture         =   "frmMain.frx":6163
+         Picture         =   "frmMain.frx":6C79
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -1203,7 +1360,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   8
          Left            =   3120
-         Picture         =   "frmMain.frx":61FB
+         Picture         =   "frmMain.frx":6D11
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -1221,7 +1378,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   9
          Left            =   3480
-         Picture         =   "frmMain.frx":628E
+         Picture         =   "frmMain.frx":6DA4
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -1239,7 +1396,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   10
          Left            =   3840
-         Picture         =   "frmMain.frx":632B
+         Picture         =   "frmMain.frx":6E41
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -1257,7 +1414,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   11
          Left            =   4200
-         Picture         =   "frmMain.frx":63D5
+         Picture         =   "frmMain.frx":6EEB
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -1275,7 +1432,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   12
          Left            =   4560
-         Picture         =   "frmMain.frx":648B
+         Picture         =   "frmMain.frx":6FA1
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -1293,7 +1450,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   13
          Left            =   4920
-         Picture         =   "frmMain.frx":655F
+         Picture         =   "frmMain.frx":7075
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -1310,8 +1467,8 @@ Begin VB.Form frmMain
          ForeColor       =   &H80000008&
          Height          =   525
          Index           =   6
-         Left            =   7440
-         Picture         =   "frmMain.frx":6641
+         Left            =   6720
+         Picture         =   "frmMain.frx":7157
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -1328,8 +1485,8 @@ Begin VB.Form frmMain
          ForeColor       =   &H80000008&
          Height          =   525
          Index           =   5
-         Left            =   7080
-         Picture         =   "frmMain.frx":6994
+         Left            =   6480
+         Picture         =   "frmMain.frx":74AA
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -1346,8 +1503,8 @@ Begin VB.Form frmMain
          ForeColor       =   &H80000008&
          Height          =   525
          Index           =   4
-         Left            =   6720
-         Picture         =   "frmMain.frx":6CED
+         Left            =   6240
+         Picture         =   "frmMain.frx":7803
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -1364,8 +1521,8 @@ Begin VB.Form frmMain
          ForeColor       =   &H80000008&
          Height          =   525
          Index           =   6
-         Left            =   7440
-         Picture         =   "frmMain.frx":6D43
+         Left            =   6720
+         Picture         =   "frmMain.frx":7859
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -1382,8 +1539,8 @@ Begin VB.Form frmMain
          ForeColor       =   &H80000008&
          Height          =   525
          Index           =   5
-         Left            =   7080
-         Picture         =   "frmMain.frx":6D88
+         Left            =   6480
+         Picture         =   "frmMain.frx":789E
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -1400,8 +1557,8 @@ Begin VB.Form frmMain
          ForeColor       =   &H80000008&
          Height          =   525
          Index           =   3
-         Left            =   6360
-         Picture         =   "frmMain.frx":6DD8
+         Left            =   6000
+         Picture         =   "frmMain.frx":78EE
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -1418,8 +1575,8 @@ Begin VB.Form frmMain
          ForeColor       =   &H80000008&
          Height          =   525
          Index           =   2
-         Left            =   6000
-         Picture         =   "frmMain.frx":6E2D
+         Left            =   5760
+         Picture         =   "frmMain.frx":7943
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -1437,7 +1594,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   0
          Left            =   5280
-         Picture         =   "frmMain.frx":6E83
+         Picture         =   "frmMain.frx":7999
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -1454,8 +1611,8 @@ Begin VB.Form frmMain
          ForeColor       =   &H80000008&
          Height          =   525
          Index           =   1
-         Left            =   5640
-         Picture         =   "frmMain.frx":71D6
+         Left            =   5520
+         Picture         =   "frmMain.frx":7CEC
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -1472,8 +1629,8 @@ Begin VB.Form frmMain
          ForeColor       =   &H80000008&
          Height          =   525
          Index           =   3
-         Left            =   6360
-         Picture         =   "frmMain.frx":7530
+         Left            =   6000
+         Picture         =   "frmMain.frx":8046
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -1490,8 +1647,8 @@ Begin VB.Form frmMain
          ForeColor       =   &H80000008&
          Height          =   525
          Index           =   2
-         Left            =   6000
-         Picture         =   "frmMain.frx":7890
+         Left            =   5760
+         Picture         =   "frmMain.frx":83A6
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -1508,8 +1665,8 @@ Begin VB.Form frmMain
          ForeColor       =   &H80000008&
          Height          =   525
          Index           =   1
-         Left            =   5640
-         Picture         =   "frmMain.frx":7BF1
+         Left            =   5520
+         Picture         =   "frmMain.frx":8707
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -1527,7 +1684,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   0
          Left            =   5280
-         Picture         =   "frmMain.frx":7C41
+         Picture         =   "frmMain.frx":8757
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -1545,7 +1702,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   13
          Left            =   4920
-         Picture         =   "frmMain.frx":7C86
+         Picture         =   "frmMain.frx":879C
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -1563,7 +1720,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   12
          Left            =   4560
-         Picture         =   "frmMain.frx":7D68
+         Picture         =   "frmMain.frx":887E
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -1581,7 +1738,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   11
          Left            =   4200
-         Picture         =   "frmMain.frx":7E3C
+         Picture         =   "frmMain.frx":8952
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -1599,7 +1756,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   10
          Left            =   3840
-         Picture         =   "frmMain.frx":7EF2
+         Picture         =   "frmMain.frx":8A08
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -1617,7 +1774,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   9
          Left            =   3480
-         Picture         =   "frmMain.frx":7F9C
+         Picture         =   "frmMain.frx":8AB2
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -1635,7 +1792,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   8
          Left            =   3120
-         Picture         =   "frmMain.frx":8039
+         Picture         =   "frmMain.frx":8B4F
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -1653,7 +1810,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   7
          Left            =   2760
-         Picture         =   "frmMain.frx":80CC
+         Picture         =   "frmMain.frx":8BE2
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -1671,7 +1828,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   6
          Left            =   2400
-         Picture         =   "frmMain.frx":8164
+         Picture         =   "frmMain.frx":8C7A
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -1689,7 +1846,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   5
          Left            =   2040
-         Picture         =   "frmMain.frx":81F7
+         Picture         =   "frmMain.frx":8D0D
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -1707,7 +1864,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   4
          Left            =   1680
-         Picture         =   "frmMain.frx":8297
+         Picture         =   "frmMain.frx":8DAD
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -1725,7 +1882,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   3
          Left            =   1320
-         Picture         =   "frmMain.frx":8346
+         Picture         =   "frmMain.frx":8E5C
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -1743,7 +1900,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   2
          Left            =   960
-         Picture         =   "frmMain.frx":83FD
+         Picture         =   "frmMain.frx":8F13
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -1761,7 +1918,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   1
          Left            =   600
-         Picture         =   "frmMain.frx":84D1
+         Picture         =   "frmMain.frx":8FE7
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -1779,7 +1936,7 @@ Begin VB.Form frmMain
          Height          =   525
          Index           =   0
          Left            =   240
-         Picture         =   "frmMain.frx":8595
+         Picture         =   "frmMain.frx":90AB
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
@@ -1797,7 +1954,7 @@ Begin VB.Form frmMain
          Height          =   1500
          Index           =   0
          Left            =   9840
-         Picture         =   "frmMain.frx":8652
+         Picture         =   "frmMain.frx":9168
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
@@ -1815,7 +1972,7 @@ Begin VB.Form frmMain
          Height          =   1500
          Index           =   1
          Left            =   9720
-         Picture         =   "frmMain.frx":87B4
+         Picture         =   "frmMain.frx":92CA
          ScaleHeight     =   100
          ScaleMode       =   0  'User
          ScaleWidth      =   104.166
@@ -1833,7 +1990,7 @@ Begin VB.Form frmMain
          Height          =   1500
          Index           =   2
          Left            =   9600
-         Picture         =   "frmMain.frx":8913
+         Picture         =   "frmMain.frx":9429
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
@@ -1851,7 +2008,7 @@ Begin VB.Form frmMain
          Height          =   1500
          Index           =   3
          Left            =   9480
-         Picture         =   "frmMain.frx":8A7E
+         Picture         =   "frmMain.frx":9594
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
@@ -1869,7 +2026,7 @@ Begin VB.Form frmMain
          Height          =   1500
          Index           =   4
          Left            =   9360
-         Picture         =   "frmMain.frx":8C0C
+         Picture         =   "frmMain.frx":9722
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
@@ -1886,7 +2043,7 @@ Begin VB.Form frmMain
          Height          =   1500
          Index           =   0
          Left            =   9360
-         Picture         =   "frmMain.frx":8D80
+         Picture         =   "frmMain.frx":9896
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
@@ -1903,7 +2060,7 @@ Begin VB.Form frmMain
          Height          =   1500
          Index           =   1
          Left            =   9480
-         Picture         =   "frmMain.frx":8EC2
+         Picture         =   "frmMain.frx":99D8
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
@@ -1920,7 +2077,7 @@ Begin VB.Form frmMain
          Height          =   1500
          Index           =   2
          Left            =   9600
-         Picture         =   "frmMain.frx":9005
+         Picture         =   "frmMain.frx":9B1B
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
@@ -1937,7 +2094,7 @@ Begin VB.Form frmMain
          Height          =   1500
          Index           =   3
          Left            =   9720
-         Picture         =   "frmMain.frx":9146
+         Picture         =   "frmMain.frx":9C5C
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
@@ -1954,7 +2111,7 @@ Begin VB.Form frmMain
          Height          =   1500
          Index           =   4
          Left            =   9840
-         Picture         =   "frmMain.frx":9285
+         Picture         =   "frmMain.frx":9D9B
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
@@ -1972,7 +2129,7 @@ Begin VB.Form frmMain
          Height          =   1500
          Index           =   1
          Left            =   240
-         Picture         =   "frmMain.frx":93C2
+         Picture         =   "frmMain.frx":9ED8
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
@@ -1990,7 +2147,7 @@ Begin VB.Form frmMain
          Height          =   1500
          Index           =   2
          Left            =   240
-         Picture         =   "frmMain.frx":A638
+         Picture         =   "frmMain.frx":B14E
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
@@ -2008,7 +2165,7 @@ Begin VB.Form frmMain
          Height          =   1500
          Index           =   0
          Left            =   240
-         Picture         =   "frmMain.frx":AE55
+         Picture         =   "frmMain.frx":B96B
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
@@ -2040,7 +2197,7 @@ Begin VB.Form frmMain
          ForeColor       =   &H80000008&
          Height          =   1500
          Left            =   1800
-         Picture         =   "frmMain.frx":B5C8
+         Picture         =   "frmMain.frx":C0DE
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
@@ -2076,7 +2233,7 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Dim selType(0 To 3) As String
 Dim picCount(0 To 3) As Integer
-Dim dirJump(0 To 3) As String
+Dim strDir(0 To 3) As String
 Dim blnPlayerMoveable As Boolean
 Dim counterLimit(1 To 3) As Integer
 Dim strState(0 To 3) As String
@@ -2107,9 +2264,9 @@ If KeyCode = 123 Then 'F12
 End If
 End Sub
 
-Private Function getJump(ByVal Index As Integer, ByVal strDir As String)
+Private Function getJump(ByVal Index As Integer, ByVal strDirJ As String)
 If tmrJump(Index).Enabled = False Then
-    dirJump(Index) = strDir
+    strDir(Index) = strDirJ
     tmrJump(Index).Enabled = True
 End If
 End Function
@@ -2136,8 +2293,8 @@ If blnPlayerMoveable = True Then
 End If
 End Sub
 
-Private Function evalMove(Index As Integer, ByVal strDir As String) As Boolean
-If strDir = "L" Then
+Private Function evalMove(Index As Integer, ByVal strDirMove As String) As Boolean
+If strDirMove = "L" Then
     If (curY(Index) + 1) Mod 2 = 0 Then
         If curX(Index) = 0 Then
             evalMove = False
@@ -2151,7 +2308,7 @@ If strDir = "L" Then
     Else
         evalMove = False
     End If
-ElseIf strDir = "U" Then
+ElseIf strDirMove = "U" Then
     If (curY(Index) + 1) Mod 2 = 0 Then
         If curX(Index) < mapWidth Then
             evalMove = True
@@ -2163,7 +2320,7 @@ ElseIf strDir = "U" Then
     Else
         evalMove = False
     End If
-ElseIf strDir = "R" Then
+ElseIf strDirMove = "R" Then
     If (curY(Index) + 1) Mod 2 = 0 Then
         If curX(Index) = mapWidth Then
             evalMove = False
@@ -2175,7 +2332,7 @@ ElseIf strDir = "R" Then
     Else
         evalMove = False
     End If
-ElseIf strDir = "D" Then
+ElseIf strDirMove = "D" Then
     If (curY(Index) + 1) Mod 2 = 0 Then
         If curX(Index) > 0 And curY(Index) < mapHeight Then
             evalMove = True
@@ -2353,25 +2510,25 @@ Dim pScore As Integer
 prevX(Index) = curX(Index)
 prevY(Index) = curY(Index)
 If (Index = 0 And blnPlayerMoveable = True) Or Index > 0 Then
-    If dirJump(Index) = "L" Then
+    If strDir(Index) = "L" Then
         'if y row is odd
         If (curY(Index) + 1) Mod 2 = 0 Then
             curX(Index) = curX(Index) - 1
         End If
         curY(Index) = curY(Index) - 1
-    ElseIf dirJump(Index) = "U" Then
+    ElseIf strDir(Index) = "U" Then
         'if y row is even
         If (curY(Index) + 1) Mod 2 = 1 Then
             curX(Index) = curX(Index) + 1
         End If
         curY(Index) = curY(Index) - 1
-    ElseIf dirJump(Index) = "R" Then
+    ElseIf strDir(Index) = "R" Then
         'if y row is even
         If (curY(Index) + 1) Mod 2 = 1 Then
             curX(Index) = curX(Index) + 1
         End If
         curY(Index) = curY(Index) + 1
-    ElseIf dirJump(Index) = "D" Then
+    ElseIf strDir(Index) = "D" Then
         'if y row is odd
         If (curY(Index) + 1) Mod 2 = 0 Then
             curX(Index) = curX(Index) - 1
@@ -2455,7 +2612,7 @@ For c = 0 To tileCount - 1
         Else
             Tile(getTileFromInt(True, c), getTileFromInt(False, c)).coinTimer = 0
             Tile(getTileFromInt(True, c), getTileFromInt(False, c)).coinEnabled = False
-            Call clearTile(getTileFromInt(True, c), getTileFromInt(False, c))
+            Call clearTile(getTileFromInt(True, c), getTileFromInt(False, c), False)
             coinTileCount = coinTileCount - 1
         End If
     End If
@@ -2466,12 +2623,15 @@ If frameCount = 28 Then
 End If
 End Sub
 
-Private Function clearTile(ByVal IntX As Integer, ByVal intY As Integer)
-'paint over last coin
-picBackground.PaintPicture frmMain.picScene(0).Image, Tile(IntX, intY).X, Tile(IntX, intY).Y, 100, 100, 0, 0, 100, 100, vbSrcCopy
-picBuffer.PaintPicture frmMain.picScene(0).Image, 0, 0, 100, 100, 0, 0, 100, 100, vbSrcCopy
-frmMain.PaintPicture frmMain.picMask.Image, Tile(IntX, intY).X, Tile(IntX, intY).Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
-frmMain.PaintPicture picBuffer.Image, Tile(IntX, intY).X, Tile(IntX, intY).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
+Private Function clearTile(ByVal IntX As Integer, ByVal intY As Integer, ByVal bypassForCoin As Boolean)
+'if bypassForCoin is false or coin not enabled on tile (doesn't paint if bypassForCoin is true and coin is enabled on tile)
+If bypassForCoin = False Or Tile(IntX, intY).coinEnabled = False Then
+    'paint over tile
+    picBackground.PaintPicture frmMain.picScene(0).Image, Tile(IntX, intY).X, Tile(IntX, intY).Y, 100, 100, 0, 0, 100, 100, vbSrcCopy
+    picBuffer.PaintPicture frmMain.picScene(0).Image, 0, 0, 100, 100, 0, 0, 100, 100, vbSrcCopy
+    frmMain.PaintPicture frmMain.picMask.Image, Tile(IntX, intY).X, Tile(IntX, intY).Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
+    frmMain.PaintPicture picBuffer.Image, Tile(IntX, intY).X, Tile(IntX, intY).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
+End If
 End Function
 
 
@@ -2484,7 +2644,7 @@ intYOffset = -1
 If intFrame > 13 Then
     intFrameOffset = -14
 End If
-Call clearTile(intCoinX, intCoinY)
+Call clearTile(intCoinX, intCoinY, False)
 'paint coin
 frmMain.PaintPicture picCoinMask(intFrame + intFrameOffset).Image, Tile(intCoinX, intCoinY).X + intXOffset, Tile(intCoinX, intCoinY).Y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcAnd
 If strType = "Y" Then
@@ -2505,104 +2665,171 @@ Private Function PaintSelector(ByVal Index As Integer, ByVal imgIndex As Integer
 'paint over last sel
 If blnClearPrevTile(Index) = True Then
     'prevX, prevX
-    Call clearTile(prevX(Index), prevY(Index))
+    Call clearTile(prevX(Index), prevY(Index), True)
     If prevY(Index) > 0 Then
+        Dim prevXclear As Integer
+        Dim prevYclear As Integer
         'prevX, prevY - 1
-        Call clearTile(prevX(Index), prevY(Index) - 1)
+        prevYclear = prevY(Index) - 1
         'even y
         If prevX(Index) > 0 And prevY(Index) + 1 Mod 2 = 1 Then
             'prevX - 1, prevY - 1
-            Call clearTile(prevX(Index) - 1, prevY(Index) - 1)
+            prevXclear = prevX(Index) - 1
+            Call clearTile(prevXclear, prevYclear, True)
         'odd y
         ElseIf prevX(Index) < mapWidth And prevY(Index) + 1 Mod 2 = 0 Then
             'prevX + 1, prevY - 1
-            Call clearTile(prevX(Index) + 1, prevY(Index) - 1)
+            prevXclear = prevX(Index) + 1
+            Call clearTile(prevXclear, prevYclear, True)
         End If
     End If
+    blnClearPrevTile(Index) = False
 End If
 'paint over frame
-Call clearTile(curX(Index), curY(Index))
+Call clearTile(curX(Index), curY(Index), True)
 If curY(Index) > 0 Then
     If curX(Index) > 0 Then
         'curX - 1, curY - 1
-        Call clearTile(curX(Index) - 1, curY(Index) - 1)
+        Call clearTile(curX(Index) - 1, curY(Index) - 1, True)
     End If
     'curX, curY - 1
-    Call clearTile(curX(Index), curY(Index) - 1)
+    Call clearTile(curX(Index), curY(Index) - 1, True)
     'odd y
     If curY(Index) + 1 Mod 2 = 1 Then
         If curX(Index) < mapWidth - 1 Then
             'curX + 1, curY - 1
-            Call clearTile(curX(Index) + 1, curY(Index) - 1)
+            Call clearTile(curX(Index) + 1, curY(Index) - 1, True)
         End If
     'even y
     Else
         If curX(Index) < mapWidth Then
             'curX + 1, curY - 1
-            Call clearTile(curX(Index) + 1, curY(Index) - 1)
+            Call clearTile(curX(Index) + 1, curY(Index) - 1, True)
         End If
     End If
 End If
-
 If curY(Index) < mapHeight - 1 Then
     If curX(Index) > 0 Then
         'curX - 1, curY + 1
-        Call clearTile(curX(Index) - 1, curY(Index) + 1)
+        Call clearTile(curX(Index) - 1, curY(Index) + 1, True)
     End If
     'curX, curY + 1
-    Call clearTile(curX(Index), curY(Index) + 1)
+    Call clearTile(curX(Index), curY(Index) + 1, True)
     'odd y
     If curY(Index) + 1 Mod 2 = 1 Then
         If curX(Index) < mapWidth - 1 Then
             'curX + 1, curY + 1
-            Call clearTile(curX(Index) + 1, curY(Index) + 1)
+            Call clearTile(curX(Index) + 1, curY(Index) + 1, True)
         End If
     'even y
     Else
         If curX(Index) < mapWidth Then
             'curX + 1, curY + 1
-            Call clearTile(curX(Index) + 1, curY(Index) + 1)
+            Call clearTile(curX(Index) + 1, curY(Index) + 1, True)
         End If
     End If
 End If
 'paint sel
 frmMain.PaintPicture picSelMask(imgIndex + 5 * Index).Image, Tile(curX(Index), curY(Index)).X, Tile(curX(Index), curY(Index)).Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
 frmMain.PaintPicture picSel(imgIndex + 5 * Index).Image, Tile(curX(Index), curY(Index)).X, Tile(curX(Index), curY(Index)).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
-'Call PaintCharSprite(Index, Tile(curX(Index), curY(Index)).X + 25, Tile(curX(Index), curY(Index)).Y - 15)
 Call PaintCharSprite(Index, spriteX(Index), spriteY(Index))
 End Function
 
 Private Sub PaintCharSprite(ByVal Index As Integer, ByVal charX As Integer, ByVal charY As Integer)
 Static counterC As Integer
-Static counterJ As Integer
 If strState(Index) = "I" Then
-    counterJ = 0
-    frmMain.PaintPicture picCharMaskI.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
-    If Index = 0 Then
-        frmMain.PaintPicture picP1I.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
-    ElseIf Index > 0 Then
-        frmMain.PaintPicture picP1I.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+    If strDir(Index) = "L" Then
+        frmMain.PaintPicture picCharMaskIR.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
+        If Index = 0 Then
+            frmMain.PaintPicture picP1IR.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+        ElseIf Index > 0 Then
+            frmMain.PaintPicture picP1IR.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+        End If
+    ElseIf strDir(Index) = "U" Then
+        frmMain.PaintPicture picCharMaskID.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
+        If Index = 0 Then
+            frmMain.PaintPicture picP1ID.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+        ElseIf Index > 0 Then
+            frmMain.PaintPicture picP1ID.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+        End If
+    ElseIf strDir(Index) = "R" Then
+        frmMain.PaintPicture picCharMaskIR.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
+        If Index = 0 Then
+            frmMain.PaintPicture picP1IR.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+        ElseIf Index > 0 Then
+            frmMain.PaintPicture picP1IR.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+        End If
+    ElseIf strDir(Index) = "D" Then
+        frmMain.PaintPicture picCharMaskID.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
+        If Index = 0 Then
+            frmMain.PaintPicture picP1ID.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+        ElseIf Index > 0 Then
+            frmMain.PaintPicture picP1ID.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+        End If
     End If
 ElseIf strState(Index) = "C" Then
     If counterC < 3 Then
         counterC = counterC + 1
     End If
-    frmMain.PaintPicture picCharMaskC(counterC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
-    If Index = 0 Then
-        frmMain.PaintPicture picP1C(counterC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
-    ElseIf Index > 0 Then
-        frmMain.PaintPicture picP1C(counterC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+    If strDir(Index) = "L" Then
+        frmMain.PaintPicture picCharMaskCR(counterC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
+        If Index = 0 Then
+            frmMain.PaintPicture picP1CR(counterC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+        ElseIf Index > 0 Then
+            frmMain.PaintPicture picP1CR(counterC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+        End If
+    ElseIf strDir(Index) = "U" Then
+        frmMain.PaintPicture picCharMaskCD(counterC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
+        If Index = 0 Then
+            frmMain.PaintPicture picP1CD(counterC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+        ElseIf Index > 0 Then
+            frmMain.PaintPicture picP1CD(counterC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+        End If
+    ElseIf strDir(Index) = "R" Then
+        frmMain.PaintPicture picCharMaskCR(counterC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
+        If Index = 0 Then
+            frmMain.PaintPicture picP1CR(counterC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+        ElseIf Index > 0 Then
+            frmMain.PaintPicture picP1CR(counterC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+        End If
+    ElseIf strDir(Index) = "D" Then
+        frmMain.PaintPicture picCharMaskCD(counterC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
+        If Index = 0 Then
+            frmMain.PaintPicture picP1CD(counterC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+        ElseIf Index > 0 Then
+            frmMain.PaintPicture picP1CD(counterC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+        End If
     End If
 ElseIf strState(Index) = "J" Then
     counterC = 0
-    If counterJ < 2 Then
-        counterJ = counterJ + 1
-    End If
-    frmMain.PaintPicture picCharMaskJ(counterJ).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
-    If Index = 0 Then
-        frmMain.PaintPicture picP1J(counterJ).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
-    ElseIf Index > 0 Then
-        frmMain.PaintPicture picP1J(counterJ).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+    If strDir(Index) = "L" Then
+        frmMain.PaintPicture picCharMaskJR.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
+        If Index = 0 Then
+            frmMain.PaintPicture picP1JR.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+        ElseIf Index > 0 Then
+            frmMain.PaintPicture picP1JR.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+        End If
+    ElseIf strDir(Index) = "U" Then
+        frmMain.PaintPicture picCharMaskJD.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
+        If Index = 0 Then
+            frmMain.PaintPicture picP1JD.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+        ElseIf Index > 0 Then
+            frmMain.PaintPicture picP1JD.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+        End If
+    ElseIf strDir(Index) = "R" Then
+        frmMain.PaintPicture picCharMaskJR.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
+        If Index = 0 Then
+            frmMain.PaintPicture picP1JR.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+        ElseIf Index > 0 Then
+            frmMain.PaintPicture picP1JR.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+        End If
+    ElseIf strDir(Index) = "D" Then
+        frmMain.PaintPicture picCharMaskJD.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
+        If Index = 0 Then
+            frmMain.PaintPicture picP1JD.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+        ElseIf Index > 0 Then
+            frmMain.PaintPicture picP1JD.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+        End If
     End If
 End If
 End Sub
@@ -2621,13 +2848,13 @@ If tmrJump(Index).Enabled = True Then
         'MsgBox (intFrame(0))
     'End If
     intFrame(Index) = intFrame(Index) + 1
-    If dirJump(Index) = "L" Then
+    If strDir(Index) = "L" Then
         Call getCharJumpAnim(Index, intFrame(Index), Tile(curX(Index), curY(Index)).X - 25, Tile(curX(Index), curY(Index)).Y - 115, Tile(curX(Index), curY(Index)).X + 25, Tile(curX(Index), curY(Index)).Y - 15)
-    ElseIf dirJump(Index) = "R" Then
+    ElseIf strDir(Index) = "R" Then
         Call getCharJumpAnim(Index, intFrame(Index), Tile(curX(Index), curY(Index)).X + 75, Tile(curX(Index), curY(Index)).Y + 85, Tile(curX(Index), curY(Index)).X + 25, Tile(curX(Index), curY(Index)).Y - 15)
-    ElseIf dirJump(Index) = "U" Then
+    ElseIf strDir(Index) = "U" Then
         Call getCharJumpAnim(Index, intFrame(Index), Tile(curX(Index), curY(Index)).X + 75, Tile(curX(Index), curY(Index)).Y - 115, Tile(curX(Index), curY(Index)).X + 25, Tile(curX(Index), curY(Index)).Y - 15)
-    ElseIf dirJump(Index) = "D" Then
+    ElseIf strDir(Index) = "D" Then
         Call getCharJumpAnim(Index, intFrame(Index), Tile(curX(Index), curY(Index)).X - 25, Tile(curX(Index), curY(Index)).Y + 85, Tile(curX(Index), curY(Index)).X + 25, Tile(curX(Index), curY(Index)).Y - 15)
     End If
     If intFrame(Index) = 1 Then
