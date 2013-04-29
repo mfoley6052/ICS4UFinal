@@ -2624,14 +2624,29 @@ If frameCount = 28 Then
 End If
 End Sub
 
-Private Function clearTile(ByVal IntX As Integer, ByVal intY As Integer, ByVal bypassForCoin As Boolean)
-'if bypassForCoin is false or coin not enabled on tile (doesn't paint if bypassForCoin is true and coin is enabled on tile)
-If bypassForCoin = False Or Tile(IntX, intY).coinEnabled = False Then
-    'paint over tile
-    picBackground.PaintPicture frmMain.picScene(0).Image, Tile(IntX, intY).X, Tile(IntX, intY).Y, 100, 100, 0, 0, 100, 100, vbSrcCopy
-    picBuffer.PaintPicture frmMain.picScene(0).Image, 0, 0, 100, 100, 0, 0, 100, 100, vbSrcCopy
-    frmMain.PaintPicture frmMain.picMask.Image, Tile(IntX, intY).X, Tile(IntX, intY).Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
-    frmMain.PaintPicture picBuffer.Image, Tile(IntX, intY).X, Tile(IntX, intY).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
+Private Function clearTile(ByVal IntX As Integer, ByVal intY As Integer, ByVal bypassForCoin As Boolean, Optional intCoinXOffset As Integer, Optional intCoinYOffset As Integer)
+'if coin not enabled on tile or bypassForCoin is true (doesn't paint if bypassForCoin is true and coin is enabled on tile)
+If Not Tile(IntX, intY).coinEnabled Or Not bypassForCoin Then
+    'if coin is enabled on tile
+    If Tile(IntX, intY).coinEnabled Then
+        'paint over coin
+        picBackground.PaintPicture frmMain.picScene(0).Image, Tile(IntX, intY).X + intCoinXOffset, Tile(IntX, intY).Y, 18, 35, intCoinXOffset, 0, 18, 35, vbSrcCopy
+        picBuffer.PaintPicture frmMain.picScene(0).Image, intCoinXOffset, 0, 18, 35, intCoinXOffset, 0, 18, 35, vbSrcCopy
+        frmMain.PaintPicture frmMain.picMask.Image, Tile(IntX, intY).X + intCoinXOffset, Tile(IntX, intY).Y, 18, 35, intCoinXOffset, 0, 18, 35, vbSrcAnd
+        frmMain.PaintPicture picBuffer.Image, Tile(IntX, intY).X + intCoinXOffset, Tile(IntX, intY).Y, 18, 35, intCoinXOffset, 0, 18, 35, vbSrcPaint
+    Else
+        'paint over tile
+        picBackground.PaintPicture frmMain.picScene(0).Image, Tile(IntX, intY).X, Tile(IntX, intY).Y, 100, 100, 0, 0, 100, 100, vbSrcCopy
+        picBuffer.PaintPicture frmMain.picScene(0).Image, 0, 0, 100, 100, 0, 0, 100, 100, vbSrcCopy
+        frmMain.PaintPicture frmMain.picMask.Image, Tile(IntX, intY).X, Tile(IntX, intY).Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
+        frmMain.PaintPicture picBuffer.Image, Tile(IntX, intY).X, Tile(IntX, intY).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
+    End If
+ElseIf bypassForCoin And Tile(IntX, intY).coinEnabled Then
+    'paint over bottom half of tile
+    picBackground.PaintPicture frmMain.picScene(0).Image, Tile(IntX, intY).X, Tile(IntX, intY).Y + 50, 100, 50, 0, 50, 100, 50, vbSrcCopy
+    picBuffer.PaintPicture frmMain.picScene(0).Image, 0, 50, 100, 50, 0, 50, 100, 50, vbSrcCopy
+    frmMain.PaintPicture frmMain.picMask.Image, Tile(IntX, intY).X, Tile(IntX, intY).Y + 50, 100, 50, 0, 50, 100, 50, vbSrcAnd
+    frmMain.PaintPicture picBuffer.Image, Tile(IntX, intY).X, Tile(IntX, intY).Y + 50, 100, 50, 0, 50, 100, 50, vbSrcPaint
 End If
 End Function
 
@@ -2645,7 +2660,7 @@ intYOffset = -1
 If intFrame > 13 Then
     intFrameOffset = -14
 End If
-Call clearTile(intCoinX, intCoinY, False)
+Call clearTile(intCoinX, intCoinY, False, intXOffset, intYOffset)
 'paint coin
 frmMain.PaintPicture picCoinMask(intFrame + intFrameOffset).Image, Tile(intCoinX, intCoinY).X + intXOffset, Tile(intCoinX, intCoinY).Y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcAnd
 If strType = "Y" Then
