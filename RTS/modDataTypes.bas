@@ -1,5 +1,5 @@
 Attribute VB_Name = "modDataTypes"
-Public Type npc 'Data type for all characters in game
+ Public Type npc 'Data type for all characters in game
     health As Integer
     speed As Integer
     strength As Integer
