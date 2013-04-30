@@ -2987,8 +2987,17 @@ If Not Tile(IntX, intY).coinEnabled Or Not bypassForCoin Then
         frmMain.PaintPicture frmMain.picMask.Image, Tile(IntX, intY).X + intCoinXOffset, Tile(IntX, intY).Y, 18, 35, intCoinXOffset, 0, 18, 35, vbSrcAnd
         frmMain.PaintPicture picBuffer.Image, Tile(IntX, intY).X + intCoinXOffset, Tile(IntX, intY).Y, 18, 35, intCoinXOffset, 0, 18, 35, vbSrcPaint
     Else
-        'if no character (with expection of one that called clear function) is on tile
-        If (IntX <> curX(0) And intY <> curY(0)) And (IntX <> curX(1) And intY <> curY(1)) And (IntX <> curX(2) And intY <> curY(2)) And (IntX <> curX(3) And intY <> curY(3)) Or IntX = curX(index) And intY = curY(index) Then
+        'if no character is on tile
+        If ((IntX = curX(0) And intY = curY(0)) Or (IntX = curX(1) And intY = curY(1)) Or (IntX = curX(2) And intY = curY(2)) Or (IntX = curX(3) And intY = curY(3))) Then
+            'if character on tile is character that called clear
+            If (IntX = curX(index) And intY = curY(index)) Then
+                'paint over tile
+                picBackground.PaintPicture frmMain.picScene(0).Image, Tile(IntX, intY).X, Tile(IntX, intY).Y, 100, 100, 0, 0, 100, 100, vbSrcCopy
+                picBuffer.PaintPicture frmMain.picScene(0).Image, 0, 0, 100, 100, 0, 0, 100, 100, vbSrcCopy
+                frmMain.PaintPicture frmMain.picMask.Image, Tile(IntX, intY).X, Tile(IntX, intY).Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
+                frmMain.PaintPicture picBuffer.Image, Tile(IntX, intY).X, Tile(IntX, intY).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
+            End If
+        Else
             'paint over tile
             picBackground.PaintPicture frmMain.picScene(0).Image, Tile(IntX, intY).X, Tile(IntX, intY).Y, 100, 100, 0, 0, 100, 100, vbSrcCopy
             picBuffer.PaintPicture frmMain.picScene(0).Image, 0, 0, 100, 100, 0, 0, 100, 100, vbSrcCopy
