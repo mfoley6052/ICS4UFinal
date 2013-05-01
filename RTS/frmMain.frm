@@ -2625,25 +2625,25 @@ If tmrFrame(index).Enabled = False Then
     strDir(index) = strDirJ
     If strDir(index) = "L" Then
         'if y row is odd
-        If (curY(index) + 1) Mod 2 = 0 Then
+        If oddRow(curY(index)) Then
             nextX(index) = curX(index) - 1
         End If
         nextY(index) = curY(index) - 1
     ElseIf strDir(index) = "U" Then
         'if y row is even
-        If (curY(index) + 1) Mod 2 = 1 Then
+        If Not oddRow(curY(index)) Then
             nextX(index) = curX(index) + 1
         End If
         nextY(index) = curY(index) - 1
     ElseIf strDir(index) = "R" Then
         'if y row is even
-        If (curY(index) + 1) Mod 2 = 1 Then
+        If Not oddRow(curY(index)) Then
             nextX(index) = curX(index) + 1
         End If
         nextY(index) = curY(index) + 1
     ElseIf strDir(index) = "D" Then
         'if y row is odd
-        If (curY(index) + 1) Mod 2 = 0 Then
+        If oddRow(curY(index)) Then
             nextX(index) = curX(index) - 1
         End If
         nextY(index) = curY(index) + 1
@@ -2676,7 +2676,7 @@ End Sub
 
 Private Function evalMove(index As Integer, ByVal strDirMove As String) As Boolean
 If strDirMove = "L" Then
-    If (curY(index) + 1) Mod 2 = 0 Then
+    If oddRow(curY(index)) Then
         If curX(index) = 0 Then
             evalMove = False
         ElseIf curY(index) < mapWidth Then
@@ -2690,7 +2690,7 @@ If strDirMove = "L" Then
         evalMove = False
     End If
 ElseIf strDirMove = "U" Then
-    If (curY(index) + 1) Mod 2 = 0 Then
+    If oddRow(curY(index)) Then
         If curX(index) < mapWidth Then
             evalMove = True
         Else
@@ -2702,7 +2702,7 @@ ElseIf strDirMove = "U" Then
         evalMove = False
     End If
 ElseIf strDirMove = "R" Then
-    If (curY(index) + 1) Mod 2 = 0 Then
+    If oddRow(curY(index)) Then
         If curX(index) = mapWidth Then
             evalMove = False
         ElseIf curY(index) > 0 Then
@@ -2714,7 +2714,7 @@ ElseIf strDirMove = "R" Then
         evalMove = False
     End If
 ElseIf strDirMove = "D" Then
-    If (curY(index) + 1) Mod 2 = 0 Then
+    If oddRow(curY(index)) Then
         If curX(index) > 0 And curY(index) < mapHeight Then
             evalMove = True
         Else
@@ -2807,7 +2807,7 @@ If mode = 1 Then
         'ai y lower than player y
         If curY(index) < curY(0) Then
             'if y row is even
-            If (curY(index) + 1) Mod 2 = 1 Then
+            If Not oddRow(curY(index)) Then
                 If evalMove(index, "D") = True Then
                     Call getJump(index, "D")
                 End If
@@ -2820,7 +2820,7 @@ If mode = 1 Then
         'cpu y lower than player y
         ElseIf curY(index) > curY(0) Then
             'if y row is even
-            If (curY(index) + 1) Mod 2 = 1 Then
+            If Not oddRow(curY(index)) Then
                 If evalMove(index, "L") = True Then
                     Call getJump(index, "L")
                 End If
@@ -2860,7 +2860,7 @@ ElseIf mode = 0 Then
     ElseIf curX(index) = smallestX Then
         If curY(index) < smallestY Then
             'if y row is even
-            If (curY(index) + 1) Mod 2 = 1 Then
+            If Not oddRow(curY(index)) Then
                 If evalMove(index, "D") = True Then
                     Call getJump(index, "D")
                 End If
@@ -3002,7 +3002,7 @@ If Not Tile(intX, intY).coinEnabled Or Not bypassForCoin Then
                     'paint spacer
                     Call clearVoid(intX, intY, True, True)
                 '(x, odd)
-                ElseIf (intY + 1) Mod 2 = 0 Then
+                ElseIf oddRow(intY) Then
                     If intX = 0 Then 'if first column
                         'paint right spacer
                         Call clearVoid(intX, intY, True, False)
@@ -3012,14 +3012,14 @@ If Not Tile(intX, intY).coinEnabled Or Not bypassForCoin Then
                         Call clearVoid(intX, intY, False, True)
                     End If
                 End If
+                'paint over tile
+                picBackground.PaintPicture frmMain.picScene(0).Image, Tile(intX, intY).X, Tile(intX, intY).Y, 100, 100, 0, 0, 100, 100, vbSrcCopy
+                picBuffer.PaintPicture frmMain.picScene(0).Image, 0, 0, 100, 100, 0, 0, 100, 100, vbSrcCopy
+                frmMain.PaintPicture frmMain.picMask.Image, Tile(intX, intY).X, Tile(intX, intY).Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
+                frmMain.PaintPicture picBuffer.Image, Tile(intX, intY).X, Tile(intX, intY).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
             End If
-            'paint over tile
-            picBackground.PaintPicture frmMain.picScene(0).Image, Tile(intX, intY).X, Tile(intX, intY).Y, 100, 100, 0, 0, 100, 100, vbSrcCopy
-            picBuffer.PaintPicture frmMain.picScene(0).Image, 0, 0, 100, 100, 0, 0, 100, 100, vbSrcCopy
-            frmMain.PaintPicture frmMain.picMask.Image, Tile(intX, intY).X, Tile(intX, intY).Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
-            frmMain.PaintPicture picBuffer.Image, Tile(intX, intY).X, Tile(intX, intY).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
         Else 'if no character on tile
-            If Not tileTouchingChar(intX, intY) Then 'if not touching a char, paint full tile
+            If Not tileTouchingChar(intX, intY) Or (intX = prevX(index) And intY = prevY(index)) Then 'if not touching a char, paint full tile
                 'paint over tile
                 picBackground.PaintPicture frmMain.picScene(0).Image, Tile(intX, intY).X, Tile(intX, intY).Y, 100, 100, 0, 0, 100, 100, vbSrcCopy
                 picBuffer.PaintPicture frmMain.picScene(0).Image, 0, 0, 100, 100, 0, 0, 100, 100, vbSrcCopy
@@ -3046,7 +3046,7 @@ End Sub
 Private Function tileTouchingChar(ByVal intX As Integer, ByVal intY As Integer) As Boolean
 tileTouchingChar = False
 If intY < mapHeight - 1 Then 'if above bottom row of tiles
-    If (intY) Mod 2 = 0 Then 'if tile row is odd
+    If oddRow(intY) Then 'if tile row is odd
         If Tile(intX, intY).hasChar Then 'if other below tile is taken by a character
             tileTouchingChar = True
         Else 'if tile (intX, intY) is not taken by a character
@@ -3130,19 +3130,21 @@ End Function
 
 Private Sub PaintCharSprite(ByVal index As Integer, ByVal charX As Integer, ByVal charY As Integer)
 'clear tiles character may be touching
+If curX(0) = mapWidth Then
+    spriteX(index) = spriteX(index)
+End If
 If curY(index) > 0 Then
-    Call clearTile(curX(index), curY(index) - 1, True, index) 'curX, curY - 1 'clear (curX, curX - 1)
-    If ((curY(index) - 1) + 1) Mod 2 = 0 Then 'odd row
+    If curX(index) < mapWidth - 1 Then
+        Call clearTile(curX(index), curY(index) - 1, True, index) 'clear (curX, curY - 1)
+    End If
+    If oddRow((curY(index) - 1)) Then 'odd row
         If curX(index) > 0 Then 'if column is greater than first column
-            Call clearTile(curX(index) - 1, curY(index) - 1, True, index) 'clear (curX - 1, curY - 1)
+            Call clearTile(curX(index) + 1, curY(index) - 1, True, index) 'clear (curX - 1, curY - 1)
         End If
     Else 'even row
         If curX(index) < mapWidth - 1 Then 'if column is less than last column
-            Call clearTile(curX(index) + 1, curY(index) - 1, True, index) 'clear (curX + 1, curY - 1)
+            Call clearTile(curX(index) - 1, curY(index) - 1, True, index) 'clear (curX + 1, curY - 1)
         End If
-    End If
-    If curX(index) <> nextX(index) Or curY(index) <> nextY(index) Then
-    'do same code as prev but with next
     End If
 End If
 Static counterC As Integer
@@ -3176,70 +3178,75 @@ If strState(index) = "I" Then
             frmMain.PaintPicture picP1ID.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
         End If
     End If
-ElseIf strState(index) = "C" Then
-    If counterC < 3 Then
-        counterC = counterC + 1
+Else
+    If nextY(index) > 0 And (curX(index) <> nextX(index) Or curY(index) <> nextY(index)) Then
+        Call clearTile(nextX(index), nextY(index), True, index) 'clear (nextX, nextY)
     End If
-    Dim frameC As Integer
-    frameC = Int((counterC + 1) / 2)
-    If strDir(index) = "L" Then
-        frmMain.PaintPicture picCharMaskCL(frameC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
-        If index = 0 Then
-            frmMain.PaintPicture picP1CL(frameC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
-        ElseIf index > 0 Then
-            frmMain.PaintPicture picP1CL(frameC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+    If strState(index) = "C" Then
+        If counterC < 3 Then
+            counterC = counterC + 1
         End If
-    ElseIf strDir(index) = "U" Then
-        frmMain.PaintPicture picCharMaskCU(frameC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
-        If index = 0 Then
-            frmMain.PaintPicture picP1CU(frameC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
-        ElseIf index > 0 Then
-            frmMain.PaintPicture picP1CU(frameC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+        Dim frameC As Integer
+        frameC = Int((counterC + 1) / 2)
+        If strDir(index) = "L" Then
+            frmMain.PaintPicture picCharMaskCL(frameC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
+            If index = 0 Then
+                frmMain.PaintPicture picP1CL(frameC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+            ElseIf index > 0 Then
+                frmMain.PaintPicture picP1CL(frameC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+            End If
+        ElseIf strDir(index) = "U" Then
+            frmMain.PaintPicture picCharMaskCU(frameC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
+            If index = 0 Then
+                frmMain.PaintPicture picP1CU(frameC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+            ElseIf index > 0 Then
+                frmMain.PaintPicture picP1CU(frameC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+            End If
+        ElseIf strDir(index) = "R" Then
+            frmMain.PaintPicture picCharMaskCR(frameC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
+            If index = 0 Then
+                frmMain.PaintPicture picP1CR(frameC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+            ElseIf index > 0 Then
+                frmMain.PaintPicture picP1CR(frameC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+            End If
+        ElseIf strDir(index) = "D" Then
+            frmMain.PaintPicture picCharMaskCD(frameC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
+            If index = 0 Then
+                frmMain.PaintPicture picP1CD(frameC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+            ElseIf index > 0 Then
+                frmMain.PaintPicture picP1CD(frameC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+            End If
         End If
-    ElseIf strDir(index) = "R" Then
-        frmMain.PaintPicture picCharMaskCR(frameC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
-        If index = 0 Then
-            frmMain.PaintPicture picP1CR(frameC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
-        ElseIf index > 0 Then
-            frmMain.PaintPicture picP1CR(frameC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
-        End If
-    ElseIf strDir(index) = "D" Then
-        frmMain.PaintPicture picCharMaskCD(frameC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
-        If index = 0 Then
-            frmMain.PaintPicture picP1CD(frameC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
-        ElseIf index > 0 Then
-            frmMain.PaintPicture picP1CD(frameC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
-        End If
-    End If
-ElseIf strState(index) = "J" Then
-    counterC = 0
-    If strDir(index) = "L" Then
-        frmMain.PaintPicture picCharMaskJL.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
-        If index = 0 Then
-            frmMain.PaintPicture picP1JL.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
-        ElseIf index > 0 Then
-            frmMain.PaintPicture picP1JL.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
-        End If
-    ElseIf strDir(index) = "U" Then
-        frmMain.PaintPicture picCharMaskJU.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
-        If index = 0 Then
-            frmMain.PaintPicture picP1JU.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
-        ElseIf index > 0 Then
-            frmMain.PaintPicture picP1JU.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
-        End If
-    ElseIf strDir(index) = "R" Then
-        frmMain.PaintPicture picCharMaskJR.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
-        If index = 0 Then
-            frmMain.PaintPicture picP1JR.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
-        ElseIf index > 0 Then
-            frmMain.PaintPicture picP1JR.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
-        End If
-    ElseIf strDir(index) = "D" Then
-        frmMain.PaintPicture picCharMaskJD.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
-        If index = 0 Then
-            frmMain.PaintPicture picP1JD.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
-        ElseIf index > 0 Then
-            frmMain.PaintPicture picP1JD.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+        ElseIf strState(index) = "J" Then
+        counterC = 0
+        If strDir(index) = "L" Then
+            frmMain.PaintPicture picCharMaskJL.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
+            If index = 0 Then
+                frmMain.PaintPicture picP1JL.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+            ElseIf index > 0 Then
+                frmMain.PaintPicture picP1JL.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+            End If
+        ElseIf strDir(index) = "U" Then
+            frmMain.PaintPicture picCharMaskJU.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
+            If index = 0 Then
+                frmMain.PaintPicture picP1JU.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+            ElseIf index > 0 Then
+                frmMain.PaintPicture picP1JU.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+            End If
+        ElseIf strDir(index) = "R" Then
+            frmMain.PaintPicture picCharMaskJR.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
+            If index = 0 Then
+                frmMain.PaintPicture picP1JR.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+            ElseIf index > 0 Then
+                frmMain.PaintPicture picP1JR.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+            End If
+        ElseIf strDir(index) = "D" Then
+            frmMain.PaintPicture picCharMaskJD.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
+            If index = 0 Then
+                frmMain.PaintPicture picP1JD.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+            ElseIf index > 0 Then
+                frmMain.PaintPicture picP1JD.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+            End If
         End If
     End If
 End If
@@ -3400,6 +3407,14 @@ End Function
 
 Private Function randInt(ByVal min As Integer, ByVal max As Integer) As Integer
 randInt = Int(Rnd() * max) + min
+End Function
+
+Private Function oddRow(ByVal intY As Integer) As Boolean
+If (intY + 1) Mod 2 = 0 Then
+    oddRow = True
+ElseIf (intY + 1) Mod 2 = 1 Then
+    oddRow = False
+End If
 End Function
 
 Private Sub tmrCoinEvent_Timer()
