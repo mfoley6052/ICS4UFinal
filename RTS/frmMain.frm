@@ -2,7 +2,7 @@ VERSION 5.00
 Begin VB.Form frmMain 
    AutoRedraw      =   -1  'True
    BackColor       =   &H00FFFFFF&
-   Caption         =   "Form1"
+   Caption         =   "Dino Hopper"
    ClientHeight    =   9000
    ClientLeft      =   4695
    ClientTop       =   1350
@@ -2598,6 +2598,8 @@ Dim curX(0 To 3) As Integer
 Dim curY(0 To 3) As Integer
 Dim prevX(0 To 3) As Integer
 Dim prevY(0 To 3) As Integer
+Dim nextX(0 To 3) As Integer
+Dim nextY(0 To 3) As Integer
 Dim coinTileCount As Integer
 Dim blnClearPrevTile(0 To 3) As Boolean
 Dim tileSwitch(0 To 100) As Boolean
@@ -2621,6 +2623,31 @@ End Sub
 Private Function getJump(ByVal index As Integer, ByVal strDirJ As String)
 If tmrFrame(index).Enabled = False Then
     strDir(index) = strDirJ
+    If strDir(index) = "L" Then
+        'if y row is odd
+        If (curY(index) + 1) Mod 2 = 0 Then
+            nextX(index) = curX(index) - 1
+        End If
+        nextY(index) = curY(index) - 1
+    ElseIf strDir(index) = "U" Then
+        'if y row is even
+        If (curY(index) + 1) Mod 2 = 1 Then
+            nextX(index) = curX(index) + 1
+        End If
+        nextY(index) = curY(index) - 1
+    ElseIf strDir(index) = "R" Then
+        'if y row is even
+        If (curY(index) + 1) Mod 2 = 1 Then
+            nextX(index) = curX(index) + 1
+        End If
+        nextY(index) = curY(index) + 1
+    ElseIf strDir(index) = "D" Then
+        'if y row is odd
+        If (curY(index) + 1) Mod 2 = 0 Then
+            nextX(index) = curX(index) - 1
+        End If
+        nextY(index) = curY(index) + 1
+    End If
     tmrFrame(index).Enabled = True
 End If
 End Function
@@ -2864,31 +2891,10 @@ Dim pScore As Integer
 prevX(index) = curX(index)
 prevY(index) = curY(index)
 If (index = 0 And blnPlayerMoveable = True) Or index > 0 Then
-    If strDir(index) = "L" Then
-        'if y row is odd
-        If (curY(index) + 1) Mod 2 = 0 Then
-            curX(index) = curX(index) - 1
-        End If
-        curY(index) = curY(index) - 1
-    ElseIf strDir(index) = "U" Then
-        'if y row is even
-        If (curY(index) + 1) Mod 2 = 1 Then
-            curX(index) = curX(index) + 1
-        End If
-        curY(index) = curY(index) - 1
-    ElseIf strDir(index) = "R" Then
-        'if y row is even
-        If (curY(index) + 1) Mod 2 = 1 Then
-            curX(index) = curX(index) + 1
-        End If
-        curY(index) = curY(index) + 1
-    ElseIf strDir(index) = "D" Then
-        'if y row is odd
-        If (curY(index) + 1) Mod 2 = 0 Then
-            curX(index) = curX(index) - 1
-        End If
-        curY(index) = curY(index) + 1
-    End If
+    Tile(curY(index), curX(index)).hasChar = False
+    curX(index) = nextX(index)
+    curY(index) = nextY(index)
+    Tile(curY(index), curX(index)).hasChar = True
 End If
 If index > 0 Then
     If curX(index) = curX(0) And curY(index) = curY(0) Then
@@ -2908,7 +2914,7 @@ If index = 0 Then
             pScore = 500
         End If
     Else
-            pScore = 10
+        pScore = 10
     End If
     addScore (pScore)
 End If
@@ -2988,7 +2994,7 @@ If Not Tile(intX, intY).coinEnabled Or Not bypassForCoin Then
         frmMain.PaintPicture picBuffer.Image, Tile(intX, intY).X + intCoinXOffset, Tile(intX, intY).Y, 18, 35, intCoinXOffset, 0, 18, 35, vbSrcPaint
     Else
         'if character is on tile
-        If ((intX = curX(0) And intY = curY(0)) Or (intX = curX(1) And intY = curY(1)) Or (intX = curX(2) And intY = curY(2)) Or (intX = curX(3) And intY = curY(3))) Then
+        If Tile(intX, intY).hasChar Then
             'if character on tile is character that called clear
             If (intX = curX(index) And intY = curY(index)) Then
                 '(x, 0)
@@ -2996,29 +3002,36 @@ If Not Tile(intX, intY).coinEnabled Or Not bypassForCoin Then
                     'paint spacer
                     Call clearVoid(intX, intY, True, True)
                 '(x, odd)
-                ElseIf intY + 1 Mod 2 = 0 Then
-                    '(0, odd)
-                    If intX = 0 Then
+                ElseIf (intY + 1) Mod 2 = 0 Then
+                    If intX = 0 Then 'if first column
                         'paint right spacer
                         Call clearVoid(intX, intY, True, False)
-                    '(mapWidth, odd)
+                    'last column
                     ElseIf intX = mapWidth Then
                         'paint left spacer
                         Call clearVoid(intX, intY, False, True)
                     End If
                 End If
-                'paint over tile
-                picBackground.PaintPicture frmMain.picScene(0).Image, Tile(intX, intY).X, Tile(intX, intY).Y, 100, 100, 0, 0, 100, 100, vbSrcCopy
-                picBuffer.PaintPicture frmMain.picScene(0).Image, 0, 0, 100, 100, 0, 0, 100, 100, vbSrcCopy
-                frmMain.PaintPicture frmMain.picMask.Image, Tile(intX, intY).X, Tile(intX, intY).Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
-                frmMain.PaintPicture picBuffer.Image, Tile(intX, intY).X, Tile(intX, intY).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
             End If
-        Else
             'paint over tile
             picBackground.PaintPicture frmMain.picScene(0).Image, Tile(intX, intY).X, Tile(intX, intY).Y, 100, 100, 0, 0, 100, 100, vbSrcCopy
             picBuffer.PaintPicture frmMain.picScene(0).Image, 0, 0, 100, 100, 0, 0, 100, 100, vbSrcCopy
             frmMain.PaintPicture frmMain.picMask.Image, Tile(intX, intY).X, Tile(intX, intY).Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
             frmMain.PaintPicture picBuffer.Image, Tile(intX, intY).X, Tile(intX, intY).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
+        Else 'if no character on tile
+            If Not tileTouchingChar(intX, intY) Then 'if not touching a char, paint full tile
+                'paint over tile
+                picBackground.PaintPicture frmMain.picScene(0).Image, Tile(intX, intY).X, Tile(intX, intY).Y, 100, 100, 0, 0, 100, 100, vbSrcCopy
+                picBuffer.PaintPicture frmMain.picScene(0).Image, 0, 0, 100, 100, 0, 0, 100, 100, vbSrcCopy
+                frmMain.PaintPicture frmMain.picMask.Image, Tile(intX, intY).X, Tile(intX, intY).Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
+                frmMain.PaintPicture picBuffer.Image, Tile(intX, intY).X, Tile(intX, intY).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
+            Else 'if touching a char
+                'only paint over top half of tile
+                picBackground.PaintPicture frmMain.picScene(0).Image, Tile(intX, intY).X, Tile(intX, intY).Y, 100, 50, 0, 0, 100, 50, vbSrcCopy
+                picBuffer.PaintPicture frmMain.picScene(0).Image, 0, 0, 100, 50, 0, 0, 100, 50, vbSrcCopy
+                frmMain.PaintPicture frmMain.picMask.Image, Tile(intX, intY).X, Tile(intX, intY).Y, 100, 50, 0, 0, 100, 50, vbSrcAnd
+                frmMain.PaintPicture picBuffer.Image, Tile(intX, intY).X, Tile(intX, intY).Y, 100, 50, 0, 0, 100, 50, vbSrcPaint
+            End If
         End If
     End If
 ElseIf bypassForCoin And Tile(intX, intY).coinEnabled Then
@@ -3030,7 +3043,33 @@ ElseIf bypassForCoin And Tile(intX, intY).coinEnabled Then
 End If
 End Sub
 
-Private Sub clearVoid(ByVal intX As Integer, ByVal intY As Integer, ByVal blnL As Boolean, ByVal blnR As Boolean)
+Private Function tileTouchingChar(ByVal intX As Integer, ByVal intY As Integer) As Boolean
+tileTouchingChar = False
+If intY < mapHeight - 1 Then 'if above bottom row of tiles
+    If (intY) Mod 2 = 0 Then 'if tile row is odd
+        If Tile(intX, intY).hasChar Then 'if other below tile is taken by a character
+            tileTouchingChar = True
+        Else 'if tile (intX, intY) is not taken by a character
+            If intX < mapWidth Then 'if column is less than last column
+                If Tile(intX + 1, intY).hasChar Then 'if tile (intX + 1, intY) is taken by a character
+                    tileTouchingChar = True
+                End If
+            End If
+        End If
+    Else 'if tile row is even
+        If Tile(intX, intY).hasChar Then 'if tile (intX, intY) is taken by a character
+            tileTouchingChar = True
+        ElseIf intX < 0 Then 'if tile (intX, intY) is not taken by a character and column is greater than first
+            'if column is greater than first column
+            If Tile(intX - 1, intY).hasChar Then 'if other below tile is taken by a character
+                tileTouchingChar = True
+            End If
+        End If
+    End If
+End If
+End Function
+
+Private Sub clearVoid(ByVal intX As Integer, ByVal intY As Integer, ByVal blnL As Boolean, ByVal blnR As Boolean) 'clear empty spots on map
 If blnL And blnR Then
     picBackground.PaintPicture frmMain.picSpacer.Image, Tile(intX, intY).X, Tile(intX, intY).Y, 100, 24, 0, 0, 100, 24, vbSrcCopy
     picBuffer.PaintPicture frmMain.picSpacer.Image, 0, 0, 100, 24, 0, 0, 100, 24, vbSrcCopy
@@ -3042,10 +3081,10 @@ ElseIf blnL Then
     frmMain.PaintPicture frmMain.picSpacerMask.Image, Tile(intX, intY).X, Tile(intX, intY).Y, 50, 24, 0, 0, 50, 24, vbSrcAnd
     frmMain.PaintPicture picBuffer.Image, Tile(intX, intY).X, Tile(intX, intY).Y, 50, 24, 0, 0, 50, 24, vbSrcPaint
 ElseIf blnR Then
-    picBackground.PaintPicture frmMain.picSpacer.Image, Tile(intX, intY).X, Tile(intX, intY).Y, 50, 24, 50, 0, 50, 24, vbSrcCopy
+    picBackground.PaintPicture frmMain.picSpacer.Image, Tile(intX, intY).X + 50, Tile(intX, intY).Y, 50, 24, 50, 0, 50, 24, vbSrcCopy
     picBuffer.PaintPicture frmMain.picSpacer.Image, 50, 0, 50, 24, 50, 0, 50, 24, vbSrcCopy
-    frmMain.PaintPicture frmMain.picSpacerMask.Image, Tile(intX, intY).X, Tile(intX, intY).Y, 50, 24, 50, 0, 50, 24, vbSrcAnd
-    frmMain.PaintPicture picBuffer.Image, Tile(intX, intY).X, Tile(intX, intY).Y, 50, 24, 50, 0, 50, 24, vbSrcPaint
+    frmMain.PaintPicture frmMain.picSpacerMask.Image, Tile(intX, intY).X + 50, Tile(intX, intY).Y, 50, 24, 50, 0, 50, 24, vbSrcAnd
+    frmMain.PaintPicture picBuffer.Image, Tile(intX, intY).X + 50, Tile(intX, intY).Y, 50, 24, 50, 0, 50, 24, vbSrcPaint
 End If
 End Sub
 
@@ -3078,75 +3117,11 @@ End Function
 Private Function PaintSelector(ByVal index As Integer, ByVal imgIndex As Integer) As Integer
 'paint over last sel
 If blnClearPrevTile(index) = True Then
-    'prevX, prevX
-    Call clearTile(prevX(index), prevY(index), True, index)
-    If prevY(index) > 0 Then
-        Dim prevXclear As Integer
-        Dim prevYclear As Integer
-        'prevX, prevY - 1
-        prevYclear = prevY(index) - 1
-        'even y
-        If prevY(index) + 1 Mod 2 = 1 Then
-            'prevX - 1, prevY - 1
-            prevXclear = prevX(index) - 1
-            Call clearTile(prevXclear, prevYclear, True, index)
-        'odd y
-        ElseIf prevY(index) + 1 Mod 2 = 0 Then
-            'prevX + 1, prevY - 1
-            prevXclear = prevX(index) + 1
-            Call clearTile(prevXclear, prevYclear, True, index)
-        End If
-    End If
+    Call clearTile(prevX(index), prevY(index), True, index) 'clear (prevX, prevY)
     blnClearPrevTile(index) = False
 End If
 'paint over frame
 Call clearTile(curX(index), curY(index), True, index)
-If curY(index) > 0 Then
-    If curX(index) > 0 Then
-        'curX - 1, curY - 1
-        Call clearTile(curX(index) - 1, curY(index) - 1, True, index)
-    End If
-    'odd y
-    If curY(index) + 1 Mod 2 = 1 Then
-        If curX(index) < mapWidth Then
-            'curX + 1, curY - 1
-            Call clearTile(curX(index) + 1, curY(index) - 1, True, index)
-        End If
-    'even y
-    Else
-        If curX(index) < mapWidth Then
-            'curX, curY - 1
-            Call clearTile(curX(index), curY(index) - 1, True, index)
-        End If
-        If curX(index) < mapWidth - 1 Then
-            'curX + 1, curY - 1
-            Call clearTile(curX(index) + 1, curY(index) - 1, True, index)
-        End If
-    End If
-End If
-If curY(index) < mapHeight - 1 Then
-    If curX(index) > 0 Then
-        'curX - 1, curY + 1
-        Call clearTile(curX(index) - 1, curY(index) + 1, True, index)
-    End If
-    'odd y
-    If curY(index) + 1 Mod 2 = 1 Then
-        If curX(index) < mapWidth Then
-            'curX + 1, curY + 1
-            Call clearTile(curX(index) + 1, curY(index) + 1, True, index)
-        End If
-    'even y
-    Else
-        If curX(index) < mapWidth Then
-            'curX, curY + 1
-            Call clearTile(curX(index), curY(index) + 1, True, index)
-        End If
-        If curX(index) < mapWidth - 1 Then
-            'curX + 1, curY + 1
-            Call clearTile(curX(index) + 1, curY(index) + 1, True, index)
-        End If
-    End If
-End If
 'paint sel
 frmMain.PaintPicture picSelMask(imgIndex + 5 * index).Image, Tile(curX(index), curY(index)).X, Tile(curX(index), curY(index)).Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
 frmMain.PaintPicture picSel(imgIndex + 5 * index).Image, Tile(curX(index), curY(index)).X, Tile(curX(index), curY(index)).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
@@ -3154,6 +3129,22 @@ Call PaintCharSprite(index, spriteX(index), spriteY(index))
 End Function
 
 Private Sub PaintCharSprite(ByVal index As Integer, ByVal charX As Integer, ByVal charY As Integer)
+'clear tiles character may be touching
+If curY(index) > 0 Then
+    Call clearTile(curX(index), curY(index) - 1, True, index) 'curX, curY - 1 'clear (curX, curX - 1)
+    If ((curY(index) - 1) + 1) Mod 2 = 0 Then 'odd row
+        If curX(index) > 0 Then 'if column is greater than first column
+            Call clearTile(curX(index) - 1, curY(index) - 1, True, index) 'clear (curX - 1, curY - 1)
+        End If
+    Else 'even row
+        If curX(index) < mapWidth - 1 Then 'if column is less than last column
+            Call clearTile(curX(index) + 1, curY(index) - 1, True, index) 'clear (curX + 1, curY - 1)
+        End If
+    End If
+    If curX(index) <> nextX(index) Or curY(index) <> nextY(index) Then
+    'do same code as prev but with next
+    End If
+End If
 Static counterC As Integer
 If strState(index) = "I" Then
     If strDir(index) = "L" Then
@@ -3441,8 +3432,14 @@ tmrCoin.Enabled = True
 tmrCPUMove(1).Enabled = True
 curX(0) = (mapWidth - 1) \ 2
 curY(0) = (mapHeight - 1) \ 2
+nextX(0) = (mapWidth - 1) \ 2
+nextY(0) = (mapHeight - 1) \ 2
 curX(1) = 0
 curY(1) = 0
+nextX(1) = 0
+nextY(1) = 0
+Tile(curX(0), curY(0)).hasChar = True
+Tile(curX(1), curY(1)).hasChar = True
 strState(0) = "I"
 strState(1) = "I"
 strDir(0) = "L"
