@@ -2623,6 +2623,7 @@ End Sub
 Private Function getJump(ByVal index As Integer, ByVal strDirJ As String)
 If tmrFrame(index).Enabled = False Then
     strDir(index) = strDirJ
+    blnPlayerMoveable = False
     If strDir(index) = "L" Then
         'if y row is odd
         If oddRow(curY(index)) Then
@@ -2890,11 +2891,10 @@ Private Sub getJumpComplete(ByVal index As Integer)
 Dim pScore As Integer
 prevX(index) = curX(index)
 prevY(index) = curY(index)
+Tile(curX(index), curY(index)).hasChar = False
 If (index = 0 And blnPlayerMoveable = True) Or index > 0 Then
-    Tile(curY(index), curX(index)).hasChar = False
     curX(index) = nextX(index)
     curY(index) = nextY(index)
-    Tile(curY(index), curX(index)).hasChar = True
 End If
 If index > 0 Then
     If curX(index) = curX(0) And curY(index) = curY(0) Then
@@ -2903,6 +2903,7 @@ If index > 0 Then
     End If
 Else
 End If
+Tile(curX(index), curY(index)).hasChar = True
 If index = 0 Then
     If Tile(curX(0), curY(0)).coinEnabled = True Then
         'play coin sound
@@ -3130,11 +3131,8 @@ End Function
 
 Private Sub PaintCharSprite(ByVal index As Integer, ByVal charX As Integer, ByVal charY As Integer)
 'clear tiles character may be touching
-If curX(0) = mapWidth Then
-    spriteX(index) = spriteX(index)
-End If
 If curY(index) > 0 Then
-    If curX(index) < mapWidth - 1 Then
+    If (oddRow((curY(index) - 1)) And curX(index) < mapWidth) Or (Not oddRow((curY(index) - 1)) And curX(index) < mapWidth - 1) Then
         Call clearTile(curX(index), curY(index) - 1, True, index) 'clear (curX, curY - 1)
     End If
     If oddRow((curY(index) - 1)) Then 'odd row
@@ -3146,6 +3144,10 @@ If curY(index) > 0 Then
             Call clearTile(curX(index) - 1, curY(index) - 1, True, index) 'clear (curX + 1, curY - 1)
         End If
     End If
+End If
+If (curX(index) <> nextX(index) Or curY(index) <> nextY(index)) Then
+    Call clearTile(nextX(index), nextY(index), True, index) 'clear (nextX, nextY)
+    
 End If
 Static counterC As Integer
 If strState(index) = "I" Then
@@ -3179,9 +3181,6 @@ If strState(index) = "I" Then
         End If
     End If
 Else
-    If nextY(index) > 0 And (curX(index) <> nextX(index) Or curY(index) <> nextY(index)) Then
-        Call clearTile(nextX(index), nextY(index), True, index) 'clear (nextX, nextY)
-    End If
     If strState(index) = "C" Then
         If counterC < 3 Then
             counterC = counterC + 1
@@ -3316,7 +3315,8 @@ Private Sub tmrFrame_Timer(index As Integer)
 frameCounter(index) = frameCounter(index) + 1
 If frameCounter(index) = frameLimit(index) Then
     frameCounter(index) = 0
-    getJumpComplete (index)
+    blnPlayerMoveable = True
+    Call getJumpComplete(index)
     tmrFrame(index).Enabled = False
 End If
 End Sub
