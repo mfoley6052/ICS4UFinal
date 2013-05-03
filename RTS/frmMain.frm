@@ -2623,7 +2623,7 @@ End Sub
 Private Function getJump(ByVal index As Integer, ByVal strDirJ As String)
 If tmrFrame(index).Enabled = False Then
     strDir(index) = strDirJ
-    blnPlayerMoveable = False
+    'blnPlayerMoveable = False
     If strDir(index) = "L" Then
         'if y row is odd
         If oddRow(curY(index)) Then
@@ -3013,11 +3013,19 @@ If Not Tile(intX, intY).coinEnabled Or Not bypassForCoin Then
                         Call clearVoid(intX, intY, False, True)
                     End If
                 End If
-                'paint over tile
-                picBackground.PaintPicture frmMain.picScene(0).Image, Tile(intX, intY).X, Tile(intX, intY).Y, 100, 100, 0, 0, 100, 100, vbSrcCopy
-                picBuffer.PaintPicture frmMain.picScene(0).Image, 0, 0, 100, 100, 0, 0, 100, 100, vbSrcCopy
-                frmMain.PaintPicture frmMain.picMask.Image, Tile(intX, intY).X, Tile(intX, intY).Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
-                frmMain.PaintPicture picBuffer.Image, Tile(intX, intY).X, Tile(intX, intY).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
+                If Not tileTouchingChar(intX, intY) Then 'if not touching a char, paint full tile
+                    'paint over tile
+                    picBackground.PaintPicture frmMain.picScene(0).Image, Tile(intX, intY).X, Tile(intX, intY).Y, 100, 100, 0, 0, 100, 100, vbSrcCopy
+                    picBuffer.PaintPicture frmMain.picScene(0).Image, 0, 0, 100, 100, 0, 0, 100, 100, vbSrcCopy
+                    frmMain.PaintPicture frmMain.picMask.Image, Tile(intX, intY).X, Tile(intX, intY).Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
+                    frmMain.PaintPicture picBuffer.Image, Tile(intX, intY).X, Tile(intX, intY).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
+                Else 'if touching a char
+                    'only paint over top half of tile
+                    picBackground.PaintPicture frmMain.picScene(0).Image, Tile(intX, intY).X, Tile(intX, intY).Y, 100, 50, 0, 0, 100, 50, vbSrcCopy
+                    picBuffer.PaintPicture frmMain.picScene(0).Image, 0, 0, 100, 50, 0, 0, 100, 50, vbSrcCopy
+                    frmMain.PaintPicture frmMain.picMask.Image, Tile(intX, intY).X, Tile(intX, intY).Y, 100, 50, 0, 0, 100, 50, vbSrcAnd
+                    frmMain.PaintPicture picBuffer.Image, Tile(intX, intY).X, Tile(intX, intY).Y, 100, 50, 0, 0, 100, 50, vbSrcPaint
+                End If
             End If
         Else 'if no character on tile
             If Not tileTouchingChar(intX, intY) Or (intX = prevX(index) And intY = prevY(index)) Then 'if not touching a char, paint full tile
@@ -3047,22 +3055,21 @@ End Sub
 Private Function tileTouchingChar(ByVal intX As Integer, ByVal intY As Integer) As Boolean
 tileTouchingChar = False
 If intY < mapHeight - 1 Then 'if above bottom row of tiles
-    If oddRow(intY) Then 'if tile row is odd
-        If Tile(intX, intY).hasChar Then 'if other below tile is taken by a character
+    If oddRow(intY + 1) Then 'if tile row is odd
+        If Tile(intX, intY + 1).hasChar Then 'if other below tile is taken by a character
             tileTouchingChar = True
-        Else 'if tile (intX, intY) is not taken by a character
-            If intX < mapWidth Then 'if column is less than last column
-                If Tile(intX + 1, intY).hasChar Then 'if tile (intX + 1, intY) is taken by a character
+        Else 'if tile (intX, intY + 1) is not taken by a character
+            If intX > 0 Then 'if column is less than last column
+                If Tile(intX - 1, intY + 1).hasChar Then 'if tile (intX - 1, intY + 1) is taken by a character
                     tileTouchingChar = True
                 End If
             End If
         End If
     Else 'if tile row is even
-        If Tile(intX, intY).hasChar Then 'if tile (intX, intY) is taken by a character
+        If Tile(intX, intY + 1).hasChar Then 'if tile (intX, intY + 1) is taken by a character
             tileTouchingChar = True
-        ElseIf intX < 0 Then 'if tile (intX, intY) is not taken by a character and column is greater than first
-            'if column is greater than first column
-            If Tile(intX - 1, intY).hasChar Then 'if other below tile is taken by a character
+        ElseIf intX < mapWidth - 1 Then 'if column is greater than first
+            If Tile(intX + 1, intY + 1).hasChar Then 'if other below tile is taken by a character
                 tileTouchingChar = True
             End If
         End If
@@ -3147,7 +3154,6 @@ If curY(index) > 0 Then
 End If
 If (curX(index) <> nextX(index) Or curY(index) <> nextY(index)) Then
     Call clearTile(nextX(index), nextY(index), True, index) 'clear (nextX, nextY)
-    
 End If
 Static counterC As Integer
 If strState(index) = "I" Then
