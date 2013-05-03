@@ -1,11 +1,14 @@
 Type=Exe
 Form=frmMain.frm
-Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#C:\WINDOWS\system32\stdole2.tlb#OLE Automation
+Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\..\Windows\SysWOW64\stdole2.tlb#OLE Automation
 Module=modDataTypes; modDataTypes.bas
-Module=Module1; DrawMap.bas
+Module=modDrawMap; DrawMap.bas
 Form=debug.frm
 Form=frmBg.frm
-Module=CpuAi; CpuAi.bas
+Module=modCpuAi; CpuAi.bas
+Module=modMovement; modMovement.bas
+Module=modVars; modVars.bas
+Module=modCollision; modCollision.bas
 IconForm="frmMain"
 Startup="frmMain"
 ExeName32="Game.exe"
