@@ -3107,9 +3107,7 @@ If index = 0 Then
     addScore (pScore)
 End If
 If Tile(curX(index), curY(index)).hasObj = True Then
-    Tile(curX(index), curY(index)).hasObj = False
-    Tile(curX(index), curY(index)).objTimer = 0
-    objTileCount = objTileCount - 1
+    Call killObj(Tile(curX(index), curY(index)))
 End If
 blnClearPrevTile(index) = True
 strState(index) = "I"
@@ -3178,19 +3176,20 @@ Next o
 End Sub
 
 Private Sub killObj(inputTile As terrain)
-inputTile.objTimer = 0
-inputTile.hasObj = False
-Call clearTile(inputTile, False)
+Call clearTile(inputTile, False, -1)
+Tile(inputTile.Xc, inputTile.Yc).objTimer = 0
+Tile(inputTile.Xc, inputTile.Yc).hasObj = False
 objTileCount = objTileCount - 1
 End Sub
 
-Private Sub clearTile(tileInput As terrain, ByVal bypassForObj As Boolean, Optional index As Integer, Optional intObjXOffset As Integer, Optional intObjYOffset As Integer)
+Private Sub clearTile(tileInput As terrain, ByVal bypassForObj As Boolean, Optional index As Integer)
 'if object not enabled on tile or bypassForObj is true (doesn't paint if bypassForObj is true and object is enabled on tile)
 If Not tileInput.hasObj Or Not bypassForObj Then
     If tileInput.hasObj Then 'if object is enabled on tile
         'paint over object
         If tileInput.objType(0) = "Coin" Then
             'paint terrain over coin
+            intObjXOffset = 41
             picBackground.PaintPicture frmMain.picScene(0).Image, tileInput.X + intObjXOffset, tileInput.Y, 18, 35, intObjXOffset, 0, 18, 35, vbSrcCopy
             picBuffer.PaintPicture frmMain.picScene(0).Image, intObjXOffset, 0, 18, 35, intObjXOffset, 0, 18, 35, vbSrcCopy
             frmMain.PaintPicture frmMain.picMask.Image, tileInput.X + intObjXOffset, tileInput.Y, 18, 35, intObjXOffset, 0, 18, 35, vbSrcAnd
@@ -3198,6 +3197,7 @@ If Not tileInput.hasObj Or Not bypassForObj Then
         ElseIf tileInput.objType(0) = "Pow" Then
             If tileInput.objType(1) = "Scare" Then
                 'paint terrain over scare power-up
+                intObjXOffset = 35
                 picBackground.PaintPicture frmMain.picScene(0).Image, tileInput.X + intObjXOffset, tileInput.Y, 30, 30, intObjXOffset, 0, 30, 30, vbSrcCopy
                 picBuffer.PaintPicture frmMain.picScene(0).Image, intObjXOffset, 0, 30, 30, intObjXOffset, 0, 30, 30, vbSrcCopy
                 frmMain.PaintPicture frmMain.picMask.Image, tileInput.X + intObjXOffset, tileInput.Y, 30, 30, intObjXOffset, 0, 30, 30, vbSrcAnd
@@ -3205,23 +3205,24 @@ If Not tileInput.hasObj Or Not bypassForObj Then
             End If
         End If
     ElseIf Not bypassForObj And Not tileInput.hasObj Then 'called by object but no object on tile
-        picBackground.PaintPicture frmMain.picScene(0).Image, tileInput.X, tileInput.Y + 75, 100, 25, 0, 75, 100, 25, vbSrcCopy
-        picBuffer.PaintPicture frmMain.picScene(0).Image, 0, 0, 100, 25, 0, 75, 100, 25, vbSrcCopy
-        frmMain.PaintPicture frmMain.picMask.Image, tileInput.X, tileInput.Y + 75, 100, 25, 0, 75, 100, 25, vbSrcAnd
-        frmMain.PaintPicture picBuffer.Image, tileInput.X, tileInput.Y + 75, 100, 25, 0, 0, 100, 25, vbSrcPaint
+        'paint bottom 30 of the tile
+        picBackground.PaintPicture frmMain.picScene(0).Image, tileInput.X, tileInput.Y + 70, 100, 30, 0, 70, 100, 30, vbSrcCopy
+        picBuffer.PaintPicture frmMain.picScene(0).Image, 0, 0, 100, 30, 0, 70, 100, 30, vbSrcCopy
+        frmMain.PaintPicture frmMain.picMask.Image, tileInput.X, tileInput.Y + 70, 100, 30, 0, 70, 100, 30, vbSrcAnd
+        frmMain.PaintPicture picBuffer.Image, tileInput.X, tileInput.Y + 70, 100, 30, 0, 0, 100, 30, vbSrcPaint
     Else 'called by character
         If tileInput.hasChar Then 'if character is on tile
             If (tileInput.Xc = curX(index) And tileInput.Yc = curY(index)) Then 'if character on tile is character that called clear
-                If intY = 0 Then '(x, 0)
-                    Call clearVoid(tileInput.Xc, tileInput.Yc, True, True) 'paint spacer
+                If tileInput.Yc = 0 Then '(x, 0)
+                    Call clearVoid(tileInput, True, True) 'paint spacer
                 ElseIf oddRow(tileInput.Yc) Then '(x, odd)
-                    If intX = 0 Then 'if first column
-                        Call clearVoid(tileInput.Xc, tileInput.Yc, True, False) 'paint right spacer
-                    ElseIf intX = mapWidth Then 'if last column
-                        Call clearVoid(tileInput.Xc, tileInput.Yc, False, True) 'paint left spacer
+                    If tileInput.Xc = 0 Then 'if first column
+                        Call clearVoid(tileInput, True, False) 'paint right spacer
+                    ElseIf tileInput.Xc = mapWidth Then 'if last column
+                        Call clearVoid(tileInput, False, True) 'paint left spacer
                     End If
                 End If
-                If Not tileTouchingChar(tileInput.Xc, tileInput.Yc) Then 'if not touching a char, paint full tile
+                If Not tileTouchingChar(tileInput) Then 'if not touching a char, paint full tile
                     'paint over tile
                     picBackground.PaintPicture frmMain.picScene(0).Image, tileInput.X, tileInput.Y, 100, 100, 0, 0, 100, 100, vbSrcCopy
                     picBuffer.PaintPicture frmMain.picScene(0).Image, 0, 0, 100, 100, 0, 0, 100, 100, vbSrcCopy
@@ -3235,8 +3236,9 @@ If Not tileInput.hasObj Or Not bypassForObj Then
                     frmMain.PaintPicture picBuffer.Image, tileInput.X, tileInput.Y, 100, 50, 0, 0, 100, 50, vbSrcPaint
                 End If
             End If
-        Else 'if no character on tile
-            If Not tileTouchingChar(tileInput.Xc, tileInput.Yc) Or (tileInput.Xc = prevX(index) And tileInput.Yc = prevY(index)) Then 'if not touching a char, paint full tile
+        Else 'if not character on tile
+            'if not touching character or coordinates match previous tile of character
+            If Not tileTouchingChar(tileInput) Or (tileInput.Xc = prevX(index) And tileInput.Yc = prevY(index)) Then
                 'paint over tile
                 picBackground.PaintPicture frmMain.picScene(0).Image, tileInput.X, tileInput.Y, 100, 100, 0, 0, 100, 100, vbSrcCopy
                 picBuffer.PaintPicture frmMain.picScene(0).Image, 0, 0, 100, 100, 0, 0, 100, 100, vbSrcCopy
@@ -3260,24 +3262,24 @@ ElseIf bypassForObj And tileInput.hasObj Then
 End If
 End Sub
 
-Private Function tileTouchingChar(ByVal intX As Integer, ByVal intY As Integer) As Boolean
+Private Function tileTouchingChar(tileInput As terrain) As Boolean
 tileTouchingChar = False
-If intY < mapHeight - 1 Then 'if above bottom row of tiles
-    If oddRow(intY + 1) Then 'if tile row is odd
-        If Tile(intX, intY + 1).hasChar Then 'if other below tile is taken by a character
+If tileInput.Yc < mapHeight - 1 Then 'if above bottom row of tiles
+    If oddRow(tileInput.Yc + 1) Then 'if tile row is odd
+        If Tile(tileInput.Xc, tileInput.Yc + 1).hasChar Then 'if other below tile is taken by a character
             tileTouchingChar = True
-        Else 'if tile (intX, intY + 1) is not taken by a character
-            If intX > 0 Then 'if column is less than last column
-                If Tile(intX - 1, intY + 1).hasChar Then 'if tile (intX - 1, intY + 1) is taken by a character
+        Else 'if tile (tileInput.Xc, tileInput.Yc + 1) is not taken by a character
+            If tileInput.Xc > 0 Then 'if column is less than last column
+                If Tile(tileInput.Xc - 1, tileInput.Yc + 1).hasChar Then 'if tile (tileInput.Xc - 1, tileInput.Yc + 1) is taken by a character
                     tileTouchingChar = True
                 End If
             End If
         End If
     Else 'if tile row is even
-        If Tile(intX, intY + 1).hasChar Then 'if tile (intX, intY + 1) is taken by a character
+        If Tile(tileInput.Xc, tileInput.Yc + 1).hasChar Then 'if tile (tileInput.Xc, tileInput.Yc + 1) is taken by a character
             tileTouchingChar = True
-        ElseIf intX < mapWidth - 1 Then 'if column is greater than first
-            If Tile(intX + 1, intY + 1).hasChar Then 'if other below tile is taken by a character
+        ElseIf tileInput.Xc < mapWidth - 1 Then 'if column is greater than first
+            If Tile(tileInput.Xc + 1, tileInput.Yc + 1).hasChar Then 'if other below tile is taken by a character
                 tileTouchingChar = True
             End If
         End If
@@ -3285,22 +3287,22 @@ If intY < mapHeight - 1 Then 'if above bottom row of tiles
 End If
 End Function
 
-Private Sub clearVoid(ByVal intX As Integer, ByVal intY As Integer, ByVal blnL As Boolean, ByVal blnR As Boolean) 'clear empty spots on map
+Private Sub clearVoid(tileInput As terrain, ByVal blnL As Boolean, ByVal blnR As Boolean) 'clear empty spots on map
 If blnL And blnR Then
-    picBackground.PaintPicture frmMain.picSpacer.Image, Tile(intX, intY).X, Tile(intX, intY).Y, 100, 24, 0, 0, 100, 24, vbSrcCopy
+    picBackground.PaintPicture frmMain.picSpacer.Image, tileInput.X, tileInput.Y, 100, 24, 0, 0, 100, 24, vbSrcCopy
     picBuffer.PaintPicture frmMain.picSpacer.Image, 0, 0, 100, 24, 0, 0, 100, 24, vbSrcCopy
-    frmMain.PaintPicture frmMain.picSpacerMask.Image, Tile(intX, intY).X, Tile(intX, intY).Y, 100, 24, 0, 0, 100, 24, vbSrcAnd
-    frmMain.PaintPicture picBuffer.Image, Tile(intX, intY).X, Tile(intX, intY).Y, 100, 24, 0, 0, 100, 24, vbSrcPaint
+    frmMain.PaintPicture frmMain.picSpacerMask.Image, tileInput.X, tileInput.Y, 100, 24, 0, 0, 100, 24, vbSrcAnd
+    frmMain.PaintPicture picBuffer.Image, tileInput.X, tileInput.Y, 100, 24, 0, 0, 100, 24, vbSrcPaint
 ElseIf blnL Then
-    picBackground.PaintPicture frmMain.picSpacer.Image, Tile(intX, intY).X, Tile(intX, intY).Y, 50, 24, 0, 0, 50, 24, vbSrcCopy
+    picBackground.PaintPicture frmMain.picSpacer.Image, tileInput.X, tileInput.Y, 50, 24, 0, 0, 50, 24, vbSrcCopy
     picBuffer.PaintPicture frmMain.picSpacer.Image, 0, 0, 50, 24, 0, 0, 50, 24, vbSrcCopy
-    frmMain.PaintPicture frmMain.picSpacerMask.Image, Tile(intX, intY).X, Tile(intX, intY).Y, 50, 24, 0, 0, 50, 24, vbSrcAnd
-    frmMain.PaintPicture picBuffer.Image, Tile(intX, intY).X, Tile(intX, intY).Y, 50, 24, 0, 0, 50, 24, vbSrcPaint
+    frmMain.PaintPicture frmMain.picSpacerMask.Image, tileInput.X, tileInput.Y, 50, 24, 0, 0, 50, 24, vbSrcAnd
+    frmMain.PaintPicture picBuffer.Image, tileInput.X, tileInput.Y, 50, 24, 0, 0, 50, 24, vbSrcPaint
 ElseIf blnR Then
-    picBackground.PaintPicture frmMain.picSpacer.Image, Tile(intX, intY).X + 50, Tile(intX, intY).Y, 50, 24, 50, 0, 50, 24, vbSrcCopy
+    picBackground.PaintPicture frmMain.picSpacer.Image, tileInput.X + 50, tileInput.Y, 50, 24, 50, 0, 50, 24, vbSrcCopy
     picBuffer.PaintPicture frmMain.picSpacer.Image, 50, 0, 50, 24, 50, 0, 50, 24, vbSrcCopy
-    frmMain.PaintPicture frmMain.picSpacerMask.Image, Tile(intX, intY).X + 50, Tile(intX, intY).Y, 50, 24, 50, 0, 50, 24, vbSrcAnd
-    frmMain.PaintPicture picBuffer.Image, Tile(intX, intY).X + 50, Tile(intX, intY).Y, 50, 24, 50, 0, 50, 24, vbSrcPaint
+    frmMain.PaintPicture frmMain.picSpacerMask.Image, tileInput.X + 50, tileInput.Y, 50, 24, 50, 0, 50, 24, vbSrcAnd
+    frmMain.PaintPicture picBuffer.Image, tileInput.X + 50, tileInput.Y, 50, 24, 50, 0, 50, 24, vbSrcPaint
 End If
 End Sub
 
@@ -3316,15 +3318,24 @@ If strObjType = "Coin" Then
     Else
         intFrameOffset = 0
     End If
-    Call clearTile(tileFromLoc(intObjX, intObjY), False, -1, intXOffset, intYOffset)
-    If intObjY < 0 Then
+    Call clearTile(Tile(intObjX, intObjY), False, -1)
+    If intObjY > 0 Then
+        If intObjX < mapWidth Then
+            
+        End If
         If oddRow(intObjY) Then
-            If intObjX < mapWidth Then
-                Call clearTile(tileFromLoc(intObjX + 1, intObjY - 1), False, -1, intXOffset, intYOffset)
+            If intObjX <= mapWidth - 1 Then
+                Call clearTile(Tile(intObjX, intObjY - 1), False, -1)
+            End If
+            If intObjX > 0 Then
+                Call clearTile(Tile(intObjX - 1, intObjY - 1), False, -1)
             End If
         Else
-            If intObjX > 0 Then
-                Call clearTile(tileFromLoc(intObjX - 1, intObjY - 1), False, -1, intXOffset, intYOffset)
+            If intObjX <= mapWidth Then
+                Call clearTile(Tile(intObjX, intObjY - 1), False, -1)
+            End If
+            If intObjX < mapWidth Then
+                Call clearTile(Tile(intObjX + 1, intObjY - 1), False, -1)
             End If
         End If
     End If
@@ -3350,7 +3361,19 @@ ElseIf strObjType = "Pow" Then
     Else
         intFrameOffset = 0
     End If
-    Call clearTile(tileFromLoc(intObjX, intObjY), False, -1, intXOffset, intYOffset)
+    Call clearTile(Tile(intObjX, intObjY), False, -1)
+    If intObjY > 0 Then
+        Call clearTile(Tile(intObjX, intObjY - 1), False, -1)
+        If oddRow(intObjY) Then
+            If intObjX > 0 Then
+                Call clearTile(Tile(intObjX - 1, intObjY - 1), False, -1)
+            End If
+        Else
+            If intObjX < mapWidth - 1 Then
+                Call clearTile(Tile(intObjX + 1, intObjY - 1), False, -1)
+            End If
+        End If
+    End If
     'paint power-up
     If strType = "Scare" Then
         frmMain.PaintPicture picPowScareMask(intFrame + intFrameOffset).Image, Tile(intObjX, intObjY).X + intXOffset, Tile(intObjX, intObjY).Y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcAnd
@@ -3362,11 +3385,11 @@ End Function
 Private Function PaintSelector(ByVal index As Integer, ByVal imgIndex As Integer) As Integer
 'paint over last sel
 If blnClearPrevTile(index) = True Then
-    Call clearTile(tileFromLoc(prevX(index), prevY(index)), True, index) 'clear (prevX, prevY)
+    Call clearTile(Tile(prevX(index), prevY(index)), True, index) 'clear (prevX, prevY)
     blnClearPrevTile(index) = False
 End If
 'paint over frame
-Call clearTile(tileFromLoc(curX(index), curY(index)), True, index)
+Call clearTile(Tile(curX(index), curY(index)), True, index)
 'paint sel
 frmMain.PaintPicture picSelMask(imgIndex + 5 * index).Image, Tile(curX(index), curY(index)).X, Tile(curX(index), curY(index)).Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
 frmMain.PaintPicture picSel(imgIndex + 5 * index).Image, Tile(curX(index), curY(index)).X, Tile(curX(index), curY(index)).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
@@ -3377,20 +3400,20 @@ Private Sub PaintCharSprite(ByVal index As Integer, ByVal charX As Integer, ByVa
 'clear tiles character may be touching
 If curY(index) > 0 Then
     If (oddRow((curY(index) - 1)) And curX(index) < mapWidth) Or (Not oddRow((curY(index) - 1)) And curX(index) < mapWidth - 1) Then
-        Call clearTile(tileFromLoc(curX(index), curY(index) - 1), True, index) 'clear (curX, curY - 1)
+        Call clearTile(Tile(curX(index), curY(index) - 1), True, index) 'clear (curX, curY - 1)
     End If
     If oddRow((curY(index) - 1)) Then 'odd row
         If curX(index) > 0 Then 'if column is greater than first column
-            Call clearTile(tileFromLoc(curX(index) + 1, curY(index) - 1), True, index) 'clear (curX - 1, curY - 1)
+            Call clearTile(Tile(curX(index) - 1, curY(index) - 1), True, index) 'clear (curX - 1, curY - 1)
         End If
     Else 'even row
         If curX(index) < mapWidth - 1 Then 'if column is less than last column
-            Call clearTile(tileFromLoc(curX(index) - 1, curY(index) - 1), True, index) 'clear (curX + 1, curY - 1)
+            Call clearTile(Tile(curX(index) + 1, curY(index) - 1), True, index) 'clear (curX + 1, curY - 1)
         End If
     End If
 End If
 If (curX(index) <> nextX(index) Or curY(index) <> nextY(index)) Then
-    Call clearTile(tileFromLoc(nextX(index), nextY(index)), True, index) 'clear (nextX, nextY)
+    Call clearTile(Tile(nextX(index), nextY(index)), True, index) 'clear (nextX, nextY)
 End If
 Static counterC As Integer
 If strState(index) = "I" Then
@@ -3564,24 +3587,24 @@ If frameCounter(index) = frameLimit(index) Then
 End If
 End Sub
 
-Private Function getTileAnim(ByVal intFrame As Integer, ByVal intX As Integer, ByVal intY As Integer)
+Private Sub getTileAnim(ByVal intFrame As Integer, tileInput As terrain)
 picBuffer.PaintPicture frmMain.picBackground.Image, 0, 0, 100, 100, 0, 0, 100, 100, vbSrcCopy
-frmMain.PaintPicture picBuffer.Image, Tile(intX, intY).X, (Tile(intX, intY).Y - 400) + (intFrame - 1) * 50, 100, 100, 0, 0, 100, 100, vbSrcCopy
+frmMain.PaintPicture picBuffer.Image, tileInput.X, (tileInput.Y - 400) + (intFrame - 1) * 50, 100, 100, 0, 0, 100, 100, vbSrcCopy
 'paint tile mask with new y
-PaintPicture frmMain.picMask.Picture, Tile(intX, intY).X, (Tile(intX, intY).Y - 400) + intFrame * 50, 100, 100, 0, 0, 100, 100, vbSrcAnd
+PaintPicture frmMain.picMask.Picture, tileInput.X, (tileInput.Y - 400) + intFrame * 50, 100, 100, 0, 0, 100, 100, vbSrcAnd
 'paint tile with new y
-PaintPicture frmMain.picScene(0).Picture, Tile(intX, intY).X, (Tile(intX, intY).Y - 400) + intFrame * 50, 100, 100, 0, 0, 100, 100, vbSrcPaint
-If intFrame >= 8 And intX = 0 And intY = 0 Then
+PaintPicture frmMain.picScene(0).Picture, tileInput.X, (tileInput.Y - 400) + intFrame * 50, 100, 100, 0, 0, 100, 100, vbSrcPaint
+If intFrame >= 8 And tileInput.Xc = Tile(0, 0).Xc And tileInput.Yc = Tile(0, 0).Yc Then
     Call gameStart
     tmrTileAnim.Enabled = False
 End If
-End Function
+End Sub
 
 Private Sub tmrTileAnim_Timer()
 Static intCounter As Integer
 For X = 0 To tileCount - 1
     If tileSwitch(X) = True And intCounter - (1 * ((tileCount - 1) - X)) <= 8 Then
-        Call getTileAnim(intCounter - (1 * ((tileCount - 1) - X)), getTileFromInt(True, X), getTileFromInt(False, X))
+        Call getTileAnim(intCounter - (1 * ((tileCount - 1) - X)), Tile(getTileFromInt(True, X), getTileFromInt(False, X)))
     End If
 Next X
 intCounter = intCounter + 1
@@ -3660,10 +3683,6 @@ ElseIf (intY + 1) Mod 2 = 1 Then
 End If
 End Function
 
-Private Function tileFromLoc(ByVal intTileX As Integer, ByVal intTileY As Integer) As terrain
-tileFromLoc = Tile(intTileX \ 100, intTileY \ 75)
-End Function
-
 Private Sub tmrObjEvent_Timer()
 Dim intRand As Integer
 If objTileCount < tileCount - 3 Then
@@ -3672,7 +3691,7 @@ If objTileCount < tileCount - 3 Then
     intType = randInt(1, 100)
     If intRand < 4 Then 'Coin
         intRand = randInt(0, tileCount - 1)
-        Do Until Not Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).hasObj
+        Do Until Not Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).hasObj And Not Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).hasChar
             intRand = randInt(0, tileCount - 1)
         Loop
         Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).hasObj = True
