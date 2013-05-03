@@ -15,6 +15,8 @@ Public Type terrain ' data type for different terrains
     pic As String
     X As Single
     Y As Single
+    Xc As Integer
+    Yc As Integer
     selectable As Boolean
     oldX As Single
     oldY As Single

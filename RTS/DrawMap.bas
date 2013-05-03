@@ -39,6 +39,8 @@ Public Function DrawMap(ByVal mapNum As Integer) As Boolean
             'ElseIf rand = 1 Then
                 'Tile(Int((X - xStart) / 100), Int(Y / 25)).pic = "0A" '0 = grass
             'End If
+            Tile(Int((X + (50 - xStart)) / frmMain.picScene(0).Width), Int(Y / (frmMain.picScene(0).Height * 0.75))).Xc = X \ 100
+            Tile(Int((X + (50 - xStart)) / frmMain.picScene(0).Width), Int(Y / (frmMain.picScene(0).Height * 0.75))).Yc = Y \ 75
             Tile(Int((X + (50 - xStart)) / frmMain.picScene(0).Width), Int(Y / (frmMain.picScene(0).Height * 0.75))).X = X
             Tile(Int((X + (50 - xStart)) / frmMain.picScene(0).Width), Int(Y / (frmMain.picScene(0).Height * 0.75))).Y = Y
             Tile(Int((X + (50 - xStart)) / frmMain.picScene(0).Width), Int(Y / (frmMain.picScene(0).Height * 0.75))).hasObj = False
