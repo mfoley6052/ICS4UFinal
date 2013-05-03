@@ -1,21 +1,37 @@
 Attribute VB_Name = "modCpuAi"
-Public Type BreadCrumb
-    x As Integer
-    y As Integer
-    tile As terrain
-End Type
+
 Public Function cpuAI(ByVal index As Integer)
 Dim tempRand As Integer
 Dim hasBC As Boolean
-Static pathStep() As BreadCrumb
+Static stepCount As Integer
+
+If intScore < 1000 Then
+    ReDim Preserve pathStep(1 To 5)
+ElseIf intScore < 2000 Then
+    ReDim Preserve pathStep(1 To 10)
+ElseIf intScore < 3000 Then
+    ReDim Preserve pathStep(1 To 15)
+ElseIf intScore < 4000 Then
+    ReDim Preserve pathStep(1 To 20)
+ElseIf intScore < 5000 Then
+    ReDim Preserve pathStep(1 To 30)
+End If
 If index = 0 Then
 'Lead the way
     For q = LBound(pathStep) To UBound(pathStep)
-   '     if pathStep(q).x = Current position of ai
+        If pathStep(q).x = curX(index) And pathStep(q).y = curY(index) Then
+            hasBC = True
+        End If
     Next q
-    Randomize Timer
-    tempRand = Int(Rnd() * 3) + 1
-    
+    If hasBC Then
+        If stepCount < UBound(pathStep) Then
+        nextX(index) = pathStep(stepCount).x
+        nextY(index) = pathStep(stepCount).y
+        
+    Else
+        Randomize Timer
+        tempRand = randInt(1, 4)
+    End If
 Else
 'Follow Leader with breadcrumbs
 End If

@@ -22,3 +22,4 @@ Public tileSwitch(0 To 100) As Boolean
 Public limswitch As Long
 Public smallestX As Integer
 Public smallestY As Integer
+Public pathStep() As BreadCrumb

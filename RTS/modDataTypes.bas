@@ -5,16 +5,16 @@ Attribute VB_Name = "modDataTypes"
     strength As Integer
     movement As Integer
     level As Integer
-    X As Single
-    Y As Single
+    x As Single
+    y As Single
     alive As Boolean
     turn As Boolean
 End Type
 
 Public Type terrain ' data type for different terrains
     pic As String
-    X As Single
-    Y As Single
+    x As Single
+    y As Single
     selectable As Boolean
     oldX As Single
     oldY As Single
@@ -24,5 +24,10 @@ Public Type terrain ' data type for different terrains
     coinTimer As Long
 End Type
 
+Public Type BreadCrumb 'path for AI
+    x As Integer
+    y As Integer
+    tile As terrain
+End Type
 
 
