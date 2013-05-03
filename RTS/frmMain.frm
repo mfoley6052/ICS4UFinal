@@ -3099,7 +3099,7 @@ If index = 0 Then
             'play scare power-up sound
             If Tile(curX(0), curY(0)).objType(1) = "Scare" Then
                 pScore = 200
-            End
+            End If
         End If
     Else
         pScore = 10
@@ -3146,23 +3146,28 @@ lblScore = "Score " & Format(intScore, "0000000")
 End Sub
 
 Private Sub tmrObj_Timer()
-Static frameCount As Integer
-Static frameLim As Integer
+Dim frameCount As Integer
+Dim frameLim As Integer
+Dim intObjTimer As Integer
 frmDbg.lstCoin.Clear
 For o = 0 To tileCount - 1
     'frmDbg.lstCoin.AddItem (o & ": " & Tile(getTileFromInt(True, o), getTileFromInt(False, o)).hasObj & ", " & Tile(getTileFromInt(True, c), getTileFromInt(False, c)).objTimer)
     If Tile(getTileFromInt(True, o), getTileFromInt(False, o)).hasObj Then
         If Tile(getTileFromInt(True, o), getTileFromInt(False, o)).objType(0) = "Coin" Then
-            frameLim = 28
-            Call PaintObj("Coin", Tile(getTileFromInt(True, o), getTileFromInt(False, o)).objType(1), frameCount, getTileFromInt(True, o), getTileFromInt(False, o))
+            frameLim = 28 'frame limit for coin
         ElseIf Tile(getTileFromInt(True, o), getTileFromInt(False, o)).objType(0) = "Pow" Then
-            frameLim = 10
-            Call PaintObj("Pow", Tile(getTileFromInt(True, o), getTileFromInt(False, o)).objType(1), frameCount, getTileFromInt(True, o), getTileFromInt(False, o))
+            If Tile(getTileFromInt(True, o), getTileFromInt(False, o)).objType(1) = "Scare" Then
+                frameLim = 10 'frame limit for scare power-up
+            End If
         End If
-        'If objTimer (frame advancements on obj) is under 120, add 1 to it
-        If Tile(getTileFromInt(True, o), getTileFromInt(False, o)).objTimer < 80 Then
-            Tile(getTileFromInt(True, o), getTileFromInt(False, o)).objTimer = Tile(getTileFromInt(True, o), getTileFromInt(False, o)).objTimer + 1
-        'if objTimer is 120 (or greater), disable obj and clear tile
+        intObjTimer = Tile(getTileFromInt(True, o), getTileFromInt(False, o)).objTimer
+        frameCount = intObjTimer - ((intObjTimer \ frameLim) * frameLim)
+        'paint object
+        Call PaintObj(Tile(getTileFromInt(True, o), getTileFromInt(False, o)).objType(0), Tile(getTileFromInt(True, o), getTileFromInt(False, o)).objType(1), frameCount, getTileFromInt(True, o), getTileFromInt(False, o))
+        'If objTimer (frame advancements on obj) is under 80, add 1 to it
+        If intObjTimer < 80 Then
+            Tile(getTileFromInt(True, o), getTileFromInt(False, o)).objTimer = intObjTimer + 1
+        'if objTimer is 80 (or greater), disable obj and clear tile
         Else
             Tile(getTileFromInt(True, o), getTileFromInt(False, o)).objTimer = 0
             Tile(getTileFromInt(True, o), getTileFromInt(False, o)).hasObj = False
@@ -3171,49 +3176,43 @@ For o = 0 To tileCount - 1
         End If
     End If
 Next o
-frameCount = frameCount + 1
-If frameCount = frameLim Then
-    frameCount = 0
-End If
 End Sub
 
 Private Sub clearTile(ByVal intX As Integer, ByVal intY As Integer, ByVal bypassForObj As Boolean, Optional index As Integer, Optional intObjXOffset As Integer, Optional intObjYOffset As Integer)
 'if object not enabled on tile or bypassForObj is true (doesn't paint if bypassForObj is true and object is enabled on tile)
 If Not Tile(intX, intY).hasObj Or Not bypassForObj Then
-    'if object is enabled on tile
-    If Tile(intX, intY).hasObj Then
+    If Tile(intX, intY).hasObj Then 'if object is enabled on tile
         'paint over object
         If Tile(intX, intY).objType(0) = "Coin" Then
+            'paint terrain over coin
             picBackground.PaintPicture frmMain.picScene(0).Image, Tile(intX, intY).X + intObjXOffset, Tile(intX, intY).Y, 18, 35, intObjXOffset, 0, 18, 35, vbSrcCopy
             picBuffer.PaintPicture frmMain.picScene(0).Image, intObjXOffset, 0, 18, 35, intObjXOffset, 0, 18, 35, vbSrcCopy
             frmMain.PaintPicture frmMain.picMask.Image, Tile(intX, intY).X + intObjXOffset, Tile(intX, intY).Y, 18, 35, intObjXOffset, 0, 18, 35, vbSrcAnd
             frmMain.PaintPicture picBuffer.Image, Tile(intX, intY).X + intObjXOffset, Tile(intX, intY).Y, 18, 35, intObjXOffset, 0, 18, 35, vbSrcPaint
         ElseIf Tile(intX, intY).objType(0) = "Pow" Then
             If Tile(intX, intY).objType(1) = "Scare" Then
+                'paint terrain over scare power-up
                 picBackground.PaintPicture frmMain.picScene(0).Image, Tile(intX, intY).X + intObjXOffset, Tile(intX, intY).Y, 30, 30, intObjXOffset, 0, 30, 30, vbSrcCopy
                 picBuffer.PaintPicture frmMain.picScene(0).Image, intObjXOffset, 0, 30, 30, intObjXOffset, 0, 30, 30, vbSrcCopy
                 frmMain.PaintPicture frmMain.picMask.Image, Tile(intX, intY).X + intObjXOffset, Tile(intX, intY).Y, 30, 30, intObjXOffset, 0, 30, 30, vbSrcAnd
                 frmMain.PaintPicture picBuffer.Image, Tile(intX, intY).X + intObjXOffset, Tile(intX, intY).Y, 30, 30, intObjXOffset, 0, 30, 30, vbSrcPaint
             End If
         End If
-    Else
-        'if character is on tile
-        If Tile(intX, intY).hasChar Then
-            'if character on tile is character that called clear
-            If (intX = curX(index) And intY = curY(index)) Then
-                '(x, 0)
-                If intY = 0 Then
-                    'paint spacer
-                    Call clearVoid(intX, intY, True, True)
-                '(x, odd)
-                ElseIf oddRow(intY) Then
+    ElseIf Not bypassForObj Then 'called by object but no object on tile
+        picBackground.PaintPicture frmMain.picScene(0).Image, Tile(intX, intY).X, Tile(intX, intY).Y + 75, 100, 25, 0, 75, 100, 25, vbSrcCopy
+        picBuffer.PaintPicture frmMain.picScene(0).Image, 0, 0, 100, 25, 0, 75, 100, 25, vbSrcCopy
+        frmMain.PaintPicture frmMain.picMask.Image, Tile(intX, intY).X, Tile(intX, intY).Y + 75, 100, 25, 0, 75, 100, 25, vbSrcAnd
+        frmMain.PaintPicture picBuffer.Image, Tile(intX, intY).X, Tile(intX, intY).Y + 75, 100, 25, 0, 0, 100, 25, vbSrcPaint
+    Else 'called by character
+        If Tile(intX, intY).hasChar Then 'if character is on tile
+            If (intX = curX(index) And intY = curY(index)) Then 'if character on tile is character that called clear
+                If intY = 0 Then '(x, 0)
+                    Call clearVoid(intX, intY, True, True) 'paint spacer
+                ElseIf oddRow(intY) Then '(x, odd)
                     If intX = 0 Then 'if first column
-                        'paint right spacer
-                        Call clearVoid(intX, intY, True, False)
-                    'last column
-                    ElseIf intX = mapWidth Then
-                        'paint left spacer
-                        Call clearVoid(intX, intY, False, True)
+                        Call clearVoid(intX, intY, True, False) 'paint right spacer
+                    ElseIf intX = mapWidth Then 'if last column
+                        Call clearVoid(intX, intY, False, True) 'paint left spacer
                     End If
                 End If
                 If Not tileTouchingChar(intX, intY) Then 'if not touching a char, paint full tile
@@ -3308,8 +3307,17 @@ If strObjType = "Coin" Then
     intYOffset = -1
     If intFrame > 13 Then
         intFrameOffset = -14
+    Else
+        intFrameOffset = 0
     End If
     Call clearTile(intObjX, intObjY, False, -1, intXOffset, intYOffset)
+    If intObjY < 0 Then
+        If oddRow(intObjY) Then
+            Call clearTile(intObjX + 1, intObjY - 1, False, -1, intXOffset, intYOffset)
+        Else
+            Call clearTile(intObjX - 1, intObjY - 1, False, -1, intXOffset, intYOffset)
+        End If
+    End If
     'paint coin
     frmMain.PaintPicture picCoinMask(intFrame + intFrameOffset).Image, Tile(intObjX, intObjY).X + intXOffset, Tile(intObjX, intObjY).Y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcAnd
     If strType = "Y" Then
@@ -3327,8 +3335,10 @@ If strObjType = "Coin" Then
 ElseIf strObjType = "Pow" Then
     intXOffset = 35
     intYOffset = -1
-    If intFrame > 5 Then
-        intFrameOffset = -5
+    If intFrame > 4 Then
+        intFrameOffset = (intFrame - (9 - intFrame)) * -1 'frames 5 - 9 will play in reverse
+    Else
+        intFrameOffset = 0
     End If
     Call clearTile(intObjX, intObjY, False, -1, intXOffset, intYOffset)
     'paint power-up
@@ -3643,20 +3653,33 @@ End Function
 Private Sub tmrObjEvent_Timer()
 Dim intRand As Integer
 If objTileCount < tileCount - 1 Then
-    intRand = Int(Rnd() * tileCount)
-    Do While (Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).X = Tile(curX(0), curY(0)).X And Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).Y = Tile(curX(0), curY(0)).Y) Or (Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).X = Tile(curX(1), curY(1)).X And Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).Y = Tile(curX(1), curY(1)).Y) Or (Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).X = Tile(curX(2), curY(2)).X And Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).Y = Tile(curX(2), curY(2)).Y) Or (Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).X = Tile(curX(3), curY(3)).X And Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).Y = Tile(curX(3), curY(3)).Y) Or Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).hasObj = True
-        intRand = randInt(0, tileCount - 1)
-    Loop
-    Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).hasObj = True
-    Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).objType(0) = "Coin"
+    intRand = randInt(1, 4)
     Dim intType As Integer
     intType = randInt(1, 100)
-    If intType <= 65 Then
-        Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).objType(1) = "Y"
-    ElseIf intType > 65 And intType <= 90 Then
-        Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).objType(1) = "R"
-    ElseIf intType > 90 Then
-        Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).objType(1) = "B"
+    If intRand < 4 Then 'Coin
+        intRand = randInt(1, tileCount)
+        Do While (Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).X = Tile(curX(0), curY(0)).X And Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).Y = Tile(curX(0), curY(0)).Y) Or (Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).X = Tile(curX(1), curY(1)).X And Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).Y = Tile(curX(1), curY(1)).Y) Or (Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).X = Tile(curX(2), curY(2)).X And Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).Y = Tile(curX(2), curY(2)).Y) Or (Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).X = Tile(curX(3), curY(3)).X And Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).Y = Tile(curX(3), curY(3)).Y) Or Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).hasObj = True
+            intRand = randInt(0, tileCount - 1)
+        Loop
+        Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).hasObj = True
+        Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).objType(0) = "Coin"
+        If intType <= 65 Then
+            Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).objType(1) = "Y"
+        ElseIf intType > 65 And intType <= 90 Then
+            Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).objType(1) = "R"
+        ElseIf intType > 90 Then
+            Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).objType(1) = "B"
+        End If
+    ElseIf intRand = 4 Then 'Power-up
+        intRand = randInt(1, tileCount)
+        Do While (Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).X = Tile(curX(0), curY(0)).X And Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).Y = Tile(curX(0), curY(0)).Y) Or (Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).X = Tile(curX(1), curY(1)).X And Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).Y = Tile(curX(1), curY(1)).Y) Or (Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).X = Tile(curX(2), curY(2)).X And Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).Y = Tile(curX(2), curY(2)).Y) Or (Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).X = Tile(curX(3), curY(3)).X And Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).Y = Tile(curX(3), curY(3)).Y) Or Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).hasObj = True
+            intRand = randInt(0, tileCount - 1)
+        Loop
+        Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).hasObj = True
+        Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).objType(0) = "Pow"
+        If intType <= 100 Then
+            Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).objType(1) = "Scare"
+        End If
     End If
     objTileCount = objTileCount + 1
 End If
