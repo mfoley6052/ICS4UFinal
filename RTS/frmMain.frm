@@ -143,7 +143,7 @@ Begin VB.Form frmMain
       Left            =   10440
       Top             =   600
    End
-   Begin VB.Timer tmrCoinEvent 
+   Begin VB.Timer tmrObjEvent 
       Enabled         =   0   'False
       Interval        =   1500
       Left            =   9480
@@ -167,7 +167,7 @@ Begin VB.Form frmMain
       Visible         =   0   'False
       Width           =   270
    End
-   Begin VB.Timer tmrCoin 
+   Begin VB.Timer tmrObj 
       Enabled         =   0   'False
       Interval        =   50
       Left            =   5040
@@ -2780,7 +2780,7 @@ Dim prevX(0 To 3) As Integer
 Dim prevY(0 To 3) As Integer
 Dim nextX(0 To 3) As Integer
 Dim nextY(0 To 3) As Integer
-Dim coinTileCount As Integer
+Dim objTileCount As Integer
 Dim blnClearPrevTile(0 To 3) As Boolean
 Dim tileSwitch(0 To 100) As Boolean
 Dim limswitch As Long
@@ -2940,7 +2940,7 @@ smallestY = 0
 For X = 0 To mapWidth
     For Y = 0 To mapHeight
     'if the tile has a coin then check if it is closer than the closest one, if it is make it the closest one
-        If Tile(X, Y).coinEnabled = True Then
+        If Tile(X, Y).hasObj = True Then
             If Abs(curX(index) - Tile(X, Y).X) < smallestX And Abs(curY(index) - Tile(X, Y).Y) < smallestY Then
                 smallestX = Abs(curX(index) - Tile(X, Y).X)
                 smallestY = Abs(curY(index) - Tile(X, Y).Y)
@@ -3085,24 +3085,31 @@ Else
 End If
 Tile(curX(index), curY(index)).hasChar = True
 If index = 0 Then
-    If Tile(curX(0), curY(0)).coinEnabled = True Then
-        'play coin sound
-        If Tile(curX(0), curY(0)).coinType = "Y" Then
-            pScore = 100
-        ElseIf Tile(curX(0), curY(0)).coinType = "R" Then
-            pScore = 250
-        ElseIf Tile(curX(0), curY(0)).coinType = "B" Then
-            pScore = 500
+    If Tile(curX(0), curY(0)).hasObj Then
+        If Tile(curX(0), curY(0)).objType(0) = "Coin" Then
+            'play coin sound
+            If Tile(curX(0), curY(0)).objType(1) = "Y" Then
+                pScore = 100
+            ElseIf Tile(curX(0), curY(0)).objType(1) = "R" Then
+                pScore = 250
+            ElseIf Tile(curX(0), curY(0)).objType(1) = "B" Then
+                pScore = 500
+            End If
+        ElseIf Tile(curX(0), curY(0)).objType(0) = "Pow" Then
+            'play scare power-up sound
+            If Tile(curX(0), curY(0)).objType(1) = "Scare" Then
+                pScore = 200
+            End
         End If
     Else
         pScore = 10
     End If
     addScore (pScore)
 End If
-If Tile(curX(index), curY(index)).coinEnabled = True Then
-    Tile(curX(index), curY(index)).coinEnabled = False
-    Tile(curX(index), curY(index)).coinTimer = 0
-    coinTileCount = coinTileCount - 1
+If Tile(curX(index), curY(index)).hasObj = True Then
+    Tile(curX(index), curY(index)).hasObj = False
+    Tile(curX(index), curY(index)).objTimer = 0
+    objTileCount = objTileCount - 1
 End If
 blnClearPrevTile(index) = True
 strState(index) = "I"
@@ -3138,41 +3145,57 @@ Private Sub tmrScoreCheck_Timer()
 lblScore = "Score " & Format(intScore, "0000000")
 End Sub
 
-Private Sub tmrCoin_Timer()
+Private Sub tmrObj_Timer()
 Static frameCount As Integer
+Static frameLim As Integer
 frmDbg.lstCoin.Clear
-For c = 0 To tileCount - 1
-    frmDbg.lstCoin.AddItem (c & ": " & Tile(getTileFromInt(True, c), getTileFromInt(False, c)).coinEnabled & ", " & Tile(getTileFromInt(True, c), getTileFromInt(False, c)).coinTimer)
-    If Tile(getTileFromInt(True, c), getTileFromInt(False, c)).coinEnabled = True Then
-        Call PaintCoin(Tile(getTileFromInt(True, c), getTileFromInt(False, c)).coinType, frameCount, getTileFromInt(True, c), getTileFromInt(False, c))
-        'If coinTimer (frame advancements on coin) is under 120, add 1 to it
-        If Tile(getTileFromInt(True, c), getTileFromInt(False, c)).coinTimer < 80 Then
-            Tile(getTileFromInt(True, c), getTileFromInt(False, c)).coinTimer = Tile(getTileFromInt(True, c), getTileFromInt(False, c)).coinTimer + 1
-        'if coinTimer is 120 (or greater), disable coin and clear tile
+For o = 0 To tileCount - 1
+    'frmDbg.lstCoin.AddItem (o & ": " & Tile(getTileFromInt(True, o), getTileFromInt(False, o)).hasObj & ", " & Tile(getTileFromInt(True, c), getTileFromInt(False, c)).objTimer)
+    If Tile(getTileFromInt(True, o), getTileFromInt(False, o)).hasObj Then
+        If Tile(getTileFromInt(True, o), getTileFromInt(False, o)).objType(0) = "Coin" Then
+            frameLim = 28
+            Call PaintObj("Coin", Tile(getTileFromInt(True, o), getTileFromInt(False, o)).objType(1), frameCount, getTileFromInt(True, o), getTileFromInt(False, o))
+        ElseIf Tile(getTileFromInt(True, o), getTileFromInt(False, o)).objType(0) = "Pow" Then
+            frameLim = 10
+            Call PaintObj("Pow", Tile(getTileFromInt(True, o), getTileFromInt(False, o)).objType(1), frameCount, getTileFromInt(True, o), getTileFromInt(False, o))
+        End If
+        'If objTimer (frame advancements on obj) is under 120, add 1 to it
+        If Tile(getTileFromInt(True, o), getTileFromInt(False, o)).objTimer < 80 Then
+            Tile(getTileFromInt(True, o), getTileFromInt(False, o)).objTimer = Tile(getTileFromInt(True, o), getTileFromInt(False, o)).objTimer + 1
+        'if objTimer is 120 (or greater), disable obj and clear tile
         Else
-            Tile(getTileFromInt(True, c), getTileFromInt(False, c)).coinTimer = 0
-            Tile(getTileFromInt(True, c), getTileFromInt(False, c)).coinEnabled = False
-            Call clearTile(getTileFromInt(True, c), getTileFromInt(False, c), False)
-            coinTileCount = coinTileCount - 1
+            Tile(getTileFromInt(True, o), getTileFromInt(False, o)).objTimer = 0
+            Tile(getTileFromInt(True, o), getTileFromInt(False, o)).hasObj = False
+            Call clearTile(getTileFromInt(True, o), getTileFromInt(False, o), False)
+            objTileCount = objTileCount - 1
         End If
     End If
-Next c
+Next o
 frameCount = frameCount + 1
-If frameCount = 28 Then
+If frameCount = frameLim Then
     frameCount = 0
 End If
 End Sub
 
-Private Sub clearTile(ByVal intX As Integer, ByVal intY As Integer, ByVal bypassForCoin As Boolean, Optional index As Integer, Optional intCoinXOffset As Integer, Optional intCoinYOffset As Integer)
-'if coin not enabled on tile or bypassForCoin is true (doesn't paint if bypassForCoin is true and coin is enabled on tile)
-If Not Tile(intX, intY).coinEnabled Or Not bypassForCoin Then
-    'if coin is enabled on tile
-    If Tile(intX, intY).coinEnabled Then
-        'paint over coin
-        picBackground.PaintPicture frmMain.picScene(0).Image, Tile(intX, intY).X + intCoinXOffset, Tile(intX, intY).Y, 18, 35, intCoinXOffset, 0, 18, 35, vbSrcCopy
-        picBuffer.PaintPicture frmMain.picScene(0).Image, intCoinXOffset, 0, 18, 35, intCoinXOffset, 0, 18, 35, vbSrcCopy
-        frmMain.PaintPicture frmMain.picMask.Image, Tile(intX, intY).X + intCoinXOffset, Tile(intX, intY).Y, 18, 35, intCoinXOffset, 0, 18, 35, vbSrcAnd
-        frmMain.PaintPicture picBuffer.Image, Tile(intX, intY).X + intCoinXOffset, Tile(intX, intY).Y, 18, 35, intCoinXOffset, 0, 18, 35, vbSrcPaint
+Private Sub clearTile(ByVal intX As Integer, ByVal intY As Integer, ByVal bypassForObj As Boolean, Optional index As Integer, Optional intObjXOffset As Integer, Optional intObjYOffset As Integer)
+'if object not enabled on tile or bypassForObj is true (doesn't paint if bypassForObj is true and object is enabled on tile)
+If Not Tile(intX, intY).hasObj Or Not bypassForObj Then
+    'if object is enabled on tile
+    If Tile(intX, intY).hasObj Then
+        'paint over object
+        If Tile(intX, intY).objType(0) = "Coin" Then
+            picBackground.PaintPicture frmMain.picScene(0).Image, Tile(intX, intY).X + intObjXOffset, Tile(intX, intY).Y, 18, 35, intObjXOffset, 0, 18, 35, vbSrcCopy
+            picBuffer.PaintPicture frmMain.picScene(0).Image, intObjXOffset, 0, 18, 35, intObjXOffset, 0, 18, 35, vbSrcCopy
+            frmMain.PaintPicture frmMain.picMask.Image, Tile(intX, intY).X + intObjXOffset, Tile(intX, intY).Y, 18, 35, intObjXOffset, 0, 18, 35, vbSrcAnd
+            frmMain.PaintPicture picBuffer.Image, Tile(intX, intY).X + intObjXOffset, Tile(intX, intY).Y, 18, 35, intObjXOffset, 0, 18, 35, vbSrcPaint
+        ElseIf Tile(intX, intY).objType(0) = "Pow" Then
+            If Tile(intX, intY).objType(1) = "Scare" Then
+                picBackground.PaintPicture frmMain.picScene(0).Image, Tile(intX, intY).X + intObjXOffset, Tile(intX, intY).Y, 30, 30, intObjXOffset, 0, 30, 30, vbSrcCopy
+                picBuffer.PaintPicture frmMain.picScene(0).Image, intObjXOffset, 0, 30, 30, intObjXOffset, 0, 30, 30, vbSrcCopy
+                frmMain.PaintPicture frmMain.picMask.Image, Tile(intX, intY).X + intObjXOffset, Tile(intX, intY).Y, 30, 30, intObjXOffset, 0, 30, 30, vbSrcAnd
+                frmMain.PaintPicture picBuffer.Image, Tile(intX, intY).X + intObjXOffset, Tile(intX, intY).Y, 30, 30, intObjXOffset, 0, 30, 30, vbSrcPaint
+            End If
+        End If
     Else
         'if character is on tile
         If Tile(intX, intY).hasChar Then
@@ -3223,7 +3246,7 @@ If Not Tile(intX, intY).coinEnabled Or Not bypassForCoin Then
             End If
         End If
     End If
-ElseIf bypassForCoin And Tile(intX, intY).coinEnabled Then
+ElseIf bypassForObj And Tile(intX, intY).hasObj Then
     'paint over bottom half of tile
     picBackground.PaintPicture frmMain.picScene(0).Image, Tile(intX, intY).X, Tile(intX, intY).Y + 50, 100, 50, 0, 50, 100, 50, vbSrcCopy
     picBuffer.PaintPicture frmMain.picScene(0).Image, 0, 50, 100, 50, 0, 50, 100, 50, vbSrcCopy
@@ -3276,29 +3299,43 @@ ElseIf blnR Then
 End If
 End Sub
 
-Private Function PaintCoin(ByVal strType As String, ByVal intFrame As Integer, ByVal intCoinX As Integer, ByVal intCoinY As Integer)
+Private Function PaintObj(ByVal strObjType As String, ByVal strType As String, ByVal intFrame As Integer, ByVal intObjX As Integer, ByVal intObjY As Integer)
 Dim intXOffset As Integer
 Dim intYOffset As Integer
 Dim intFrameOffset As Integer
-intXOffset = 41
-intYOffset = -1
-If intFrame > 13 Then
-    intFrameOffset = -14
-End If
-Call clearTile(intCoinX, intCoinY, False, -1, intXOffset, intYOffset)
-'paint coin
-frmMain.PaintPicture picCoinMask(intFrame + intFrameOffset).Image, Tile(intCoinX, intCoinY).X + intXOffset, Tile(intCoinX, intCoinY).Y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcAnd
-If strType = "Y" Then
-    frmMain.PaintPicture picCoinY(intFrame + intFrameOffset).Image, Tile(intCoinX, intCoinY).X + intXOffset, Tile(intCoinX, intCoinY).Y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcPaint
-ElseIf strType = "R" Then
-    frmMain.PaintPicture picCoinR(intFrame + intFrameOffset).Image, Tile(intCoinX, intCoinY).X + intXOffset, Tile(intCoinX, intCoinY).Y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcPaint
-ElseIf strType = "B" Then
-    frmMain.PaintPicture picCoinB(intFrame + intFrameOffset).Image, Tile(intCoinX, intCoinY).X + intXOffset, Tile(intCoinX, intCoinY).Y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcPaint
-End If
-'paint sparkle
-If intFrame > 12 And intFrame < 20 Then
-    frmMain.PaintPicture picSparkleMask(intFrame - 13).Image, Tile(intCoinX, intCoinY).X + intXOffset, Tile(intCoinX, intCoinY).Y + (intYOffset + 2), 100, 100, 0, 0, 100, 100, vbSrcAnd
-    frmMain.PaintPicture picSparkle(intFrame - 13).Image, Tile(intCoinX, intCoinY).X + intXOffset, Tile(intCoinX, intCoinY).Y + (intYOffset + 2), 100, 100, 0, 0, 100, 100, vbSrcPaint
+If strObjType = "Coin" Then
+    intXOffset = 41
+    intYOffset = -1
+    If intFrame > 13 Then
+        intFrameOffset = -14
+    End If
+    Call clearTile(intObjX, intObjY, False, -1, intXOffset, intYOffset)
+    'paint coin
+    frmMain.PaintPicture picCoinMask(intFrame + intFrameOffset).Image, Tile(intObjX, intObjY).X + intXOffset, Tile(intObjX, intObjY).Y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcAnd
+    If strType = "Y" Then
+        frmMain.PaintPicture picCoinY(intFrame + intFrameOffset).Image, Tile(intObjX, intObjY).X + intXOffset, Tile(intObjX, intObjY).Y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcPaint
+    ElseIf strType = "R" Then
+        frmMain.PaintPicture picCoinR(intFrame + intFrameOffset).Image, Tile(intObjX, intObjY).X + intXOffset, Tile(intObjX, intObjY).Y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcPaint
+    ElseIf strType = "B" Then
+        frmMain.PaintPicture picCoinB(intFrame + intFrameOffset).Image, Tile(intObjX, intObjY).X + intXOffset, Tile(intObjX, intObjY).Y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcPaint
+    End If
+    'paint sparkle
+    If intFrame > 12 And intFrame < 20 Then
+        frmMain.PaintPicture picSparkleMask(intFrame - 13).Image, Tile(intObjX, intObjY).X + intXOffset, Tile(intObjX, intObjY).Y + (intYOffset + 2), 100, 100, 0, 0, 100, 100, vbSrcAnd
+        frmMain.PaintPicture picSparkle(intFrame - 13).Image, Tile(intObjX, intObjY).X + intXOffset, Tile(intObjX, intObjY).Y + (intYOffset + 2), 100, 100, 0, 0, 100, 100, vbSrcPaint
+    End If
+ElseIf strObjType = "Pow" Then
+    intXOffset = 35
+    intYOffset = -1
+    If intFrame > 5 Then
+        intFrameOffset = -5
+    End If
+    Call clearTile(intObjX, intObjY, False, -1, intXOffset, intYOffset)
+    'paint power-up
+    If strType = "Scare" Then
+        frmMain.PaintPicture picPowScareMask(intFrame + intFrameOffset).Image, Tile(intObjX, intObjY).X + intXOffset, Tile(intObjX, intObjY).Y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcAnd
+        frmMain.PaintPicture picPowScare(intFrame + intFrameOffset).Image, Tile(intObjX, intObjY).X + intXOffset, Tile(intObjX, intObjY).Y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcPaint
+    End If
 End If
 End Function
 
@@ -3603,24 +3640,25 @@ ElseIf (intY + 1) Mod 2 = 1 Then
 End If
 End Function
 
-Private Sub tmrCoinEvent_Timer()
+Private Sub tmrObjEvent_Timer()
 Dim intRand As Integer
-If coinTileCount < tileCount - 1 Then
+If objTileCount < tileCount - 1 Then
     intRand = Int(Rnd() * tileCount)
-    Do While (Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).X = Tile(curX(0), curY(0)).X And Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).Y = Tile(curX(0), curY(0)).Y) Or (Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).X = Tile(curX(1), curY(1)).X And Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).Y = Tile(curX(1), curY(1)).Y) Or (Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).X = Tile(curX(2), curY(2)).X And Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).Y = Tile(curX(2), curY(2)).Y) Or (Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).X = Tile(curX(3), curY(3)).X And Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).Y = Tile(curX(3), curY(3)).Y) Or Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).coinEnabled = True
+    Do While (Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).X = Tile(curX(0), curY(0)).X And Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).Y = Tile(curX(0), curY(0)).Y) Or (Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).X = Tile(curX(1), curY(1)).X And Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).Y = Tile(curX(1), curY(1)).Y) Or (Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).X = Tile(curX(2), curY(2)).X And Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).Y = Tile(curX(2), curY(2)).Y) Or (Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).X = Tile(curX(3), curY(3)).X And Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).Y = Tile(curX(3), curY(3)).Y) Or Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).hasObj = True
         intRand = randInt(0, tileCount - 1)
     Loop
-    Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).coinEnabled = True
+    Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).hasObj = True
+    Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).objType(0) = "Coin"
     Dim intType As Integer
     intType = randInt(1, 100)
     If intType <= 65 Then
-        Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).coinType = "Y"
+        Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).objType(1) = "Y"
     ElseIf intType > 65 And intType <= 90 Then
-        Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).coinType = "R"
+        Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).objType(1) = "R"
     ElseIf intType > 90 Then
-        Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).coinType = "B"
+        Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).objType(1) = "B"
     End If
-    coinTileCount = coinTileCount + 1
+    objTileCount = objTileCount + 1
 End If
 End Sub
 
@@ -3628,8 +3666,8 @@ Private Sub gameStart()
 tmrChar(0).Enabled = True
 tmrChar(1).Enabled = True
 blnPlayerMoveable = True
-tmrCoinEvent.Enabled = True
-tmrCoin.Enabled = True
+tmrObjEvent.Enabled = True
+tmrObj.Enabled = True
 tmrCPUMove(1).Enabled = True
 curX(0) = (mapWidth - 1) \ 2
 curY(0) = (mapHeight - 1) \ 2

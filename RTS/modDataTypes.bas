@@ -19,10 +19,9 @@ Public Type terrain ' data type for different terrains
     oldX As Single
     oldY As Single
     hasChar As Boolean
-    coinEnabled As Boolean
-    coinType As String
-    coinTimer As Long
+    hasObj As Boolean
+    objType(1) As String
+    objTimer As Long
 End Type
-
 
 

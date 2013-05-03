@@ -41,7 +41,7 @@ Public Function DrawMap(ByVal mapNum As Integer) As Boolean
             'End If
             Tile(Int((X + (50 - xStart)) / frmMain.picScene(0).Width), Int(Y / (frmMain.picScene(0).Height * 0.75))).X = X
             Tile(Int((X + (50 - xStart)) / frmMain.picScene(0).Width), Int(Y / (frmMain.picScene(0).Height * 0.75))).Y = Y
-            Tile(Int((X + (50 - xStart)) / frmMain.picScene(0).Width), Int(Y / (frmMain.picScene(0).Height * 0.75))).coinEnabled = False
+            Tile(Int((X + (50 - xStart)) / frmMain.picScene(0).Width), Int(Y / (frmMain.picScene(0).Height * 0.75))).hasObj = False
             'frmDbg.lstMap.AddItem ("(" & Tile(Int((X - xStart) / 100), Int(Y / 25)).X & "," & Tile(Int((X - xStart) / 100), Int(Y / 25)).Y & ")" & vbTab)
         Next X
     Next Y
