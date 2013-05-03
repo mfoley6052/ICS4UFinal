@@ -11,10 +11,10 @@ Static pathStep() As BreadCrumb
 If index = 0 Then
 'Lead the way
     For q = LBound(pathStep) To UBound(pathStep)
-        if pathStep(q).x = 'Current position of ai
+   '     if pathStep(q).x = Current position of ai
     Next q
     Randomize Timer
-    tempRand = Int(rand() * 3) + 1
+    tempRand = Int(Rnd() * 3) + 1
     
 Else
 'Follow Leader with breadcrumbs
