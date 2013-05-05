@@ -25,9 +25,9 @@ If index = 0 Then
     Next q
     If hasBC Then
         If stepCount < UBound(pathStep) Then
-        nextX(index) = pathStep(stepCount).x
-        nextY(index) = pathStep(stepCount).y
-        
+            nextX(index) = pathStep(stepCount).x
+            nextY(index) = pathStep(stepCount).y
+        End If
     Else
         Randomize Timer
         tempRand = randInt(1, 4)

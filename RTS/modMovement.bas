@@ -1,36 +1,36 @@
 Attribute VB_Name = "modMovement"
 Public Function getJump(ByVal index As Integer, ByVal strDirJ As String)
 With frmMain
-If .tmrFrame(index).Enabled = False Then
-    strDir(index) = strDirJ
-    'blnPlayerMoveable = False
-    If strDir(index) = "L" Then
-        'if y row is odd
-        If oddRow(curY(index)) Then
-            nextX(index) = curX(index) - 1
+    If .tmrFrame(index).Enabled = False Then
+        strDir(index) = strDirJ
+        'blnPlayerMoveable = False
+        If strDir(index) = "L" Then
+            'if y row is odd
+            If oddRow(curY(index)) Then
+                nextX(index) = curX(index) - 1
+            End If
+            nextY(index) = curY(index) - 1
+        ElseIf strDir(index) = "U" Then
+            'if y row is even
+            If Not oddRow(curY(index)) Then
+                nextX(index) = curX(index) + 1
+            End If
+            nextY(index) = curY(index) - 1
+        ElseIf strDir(index) = "R" Then
+            'if y row is even
+            If Not oddRow(curY(index)) Then
+                nextX(index) = curX(index) + 1
+            End If
+            nextY(index) = curY(index) + 1
+        ElseIf strDir(index) = "D" Then
+            'if y row is odd
+            If oddRow(curY(index)) Then
+                nextX(index) = curX(index) - 1
+            End If
+            nextY(index) = curY(index) + 1
         End If
-        nextY(index) = curY(index) - 1
-    ElseIf strDir(index) = "U" Then
-        'if y row is even
-        If Not oddRow(curY(index)) Then
-            nextX(index) = curX(index) + 1
-        End If
-        nextY(index) = curY(index) - 1
-    ElseIf strDir(index) = "R" Then
-        'if y row is even
-        If Not oddRow(curY(index)) Then
-            nextX(index) = curX(index) + 1
-        End If
-        nextY(index) = curY(index) + 1
-    ElseIf strDir(index) = "D" Then
-        'if y row is odd
-        If oddRow(curY(index)) Then
-            nextX(index) = curX(index) - 1
-        End If
-        nextY(index) = curY(index) + 1
+        .tmrFrame(index).Enabled = True
     End If
-    .tmrFrame(index).Enabled = True
-End If
 End With
 End Function
 Public Sub getJumpComplete(ByVal index As Integer)
