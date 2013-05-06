@@ -2801,6 +2801,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+<<<<<<< HEAD
 Dim selType(0 To 3) As String
 Dim picCount(0 To 3) As Integer
 Dim strDir(0 To 3) As String
@@ -2824,6 +2825,9 @@ Dim tileSwitch(0 To 100) As Boolean
 Dim limswitch As Long
 Dim smallestX As Integer
 Dim smallestY As Integer
+=======
+
+>>>>>>> origin/New-Ai
 
 Private Sub Form_KeyUp(KeyCode As Integer, Shift As Integer)
 If KeyCode = 123 Then 'F12
@@ -2838,38 +2842,7 @@ If KeyCode = 123 Then 'F12
 End If
 End Sub
 
-Private Function getJump(ByVal index As Integer, ByVal strDirJ As String)
-If tmrFrame(index).Enabled = False Then
-    strDir(index) = strDirJ
-    'blnPlayerMoveable = False
-    If strDir(index) = "L" Then
-        'if y row is odd
-        If oddRow(curY(index)) Then
-            nextX(index) = curX(index) - 1
-        End If
-        nextY(index) = curY(index) - 1
-    ElseIf strDir(index) = "U" Then
-        'if y row is even
-        If Not oddRow(curY(index)) Then
-            nextX(index) = curX(index) + 1
-        End If
-        nextY(index) = curY(index) - 1
-    ElseIf strDir(index) = "R" Then
-        'if y row is even
-        If Not oddRow(curY(index)) Then
-            nextX(index) = curX(index) + 1
-        End If
-        nextY(index) = curY(index) + 1
-    ElseIf strDir(index) = "D" Then
-        'if y row is odd
-        If oddRow(curY(index)) Then
-            nextX(index) = curX(index) - 1
-        End If
-        nextY(index) = curY(index) + 1
-    End If
-    tmrFrame(index).Enabled = True
-End If
-End Function
+
 
 Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
 If blnPlayerMoveable = True Then
@@ -2893,59 +2866,7 @@ If blnPlayerMoveable = True Then
 End If
 End Sub
 
-Private Function evalMove(index As Integer, ByVal strDirMove As String) As Boolean
-If strDirMove = "L" Then
-    If oddRow(curY(index)) Then
-        If curX(index) = 0 Then
-            evalMove = False
-        ElseIf curY(index) < mapWidth Then
-            evalMove = True
-        Else
-            evalMove = False
-        End If
-    ElseIf curY(index) > 0 Then
-        evalMove = True
-    Else
-        evalMove = False
-    End If
-ElseIf strDirMove = "U" Then
-    If oddRow(curY(index)) Then
-        If curX(index) < mapWidth Then
-            evalMove = True
-        Else
-            evalMove = False
-        End If
-    ElseIf curX(index) < (mapWidth) And curY(index) > 0 Then
-        evalMove = True
-    Else
-        evalMove = False
-    End If
-ElseIf strDirMove = "R" Then
-    If oddRow(curY(index)) Then
-        If curX(index) = mapWidth Then
-            evalMove = False
-        ElseIf curY(index) > 0 Then
-            evalMove = True
-        End If
-    ElseIf curY(index) < (mapWidth - 1) And curX(index) < mapWidth Then
-        evalMove = True
-    Else
-        evalMove = False
-    End If
-ElseIf strDirMove = "D" Then
-    If oddRow(curY(index)) Then
-        If curX(index) > 0 And curY(index) < mapHeight Then
-            evalMove = True
-        Else
-            evalMove = False
-        End If
-    ElseIf curY(index) < (mapHeight - 1) Then
-        evalMove = True
-    Else
-        evalMove = False
-    End If
-End If
-End Function
+
 
 Private Sub tmrHurt_Timer(index As Integer)
 Call getHurt(index)
@@ -2955,9 +2876,7 @@ blnPlayerMoveable = True
 tmrHurt(index).Enabled = False
 End Sub
 
-Private Sub getHurt(ByVal enemyIndex As Integer)
-MsgBox ("You got hurt.")
-End Sub
+
 
 Private Sub tmrCPUMove_Timer(index As Integer)
 Static intCounter As Integer
@@ -2972,6 +2891,7 @@ Else
     intCounter = 0
 End If
 End Sub
+<<<<<<< HEAD
 Private Function nearestCoin(ByVal index As Integer) As Long
 smallestX = 0
 smallestY = 0
@@ -2987,6 +2907,9 @@ For X = 0 To mapWidth
     Next Y
 Next X
 End Function
+=======
+
+>>>>>>> origin/New-Ai
 Private Function aiDecideMove(ByVal index As Integer) As Integer
 'is it better to get rid of coins or chase player
 Call nearestCoin(index)
@@ -2997,114 +2920,8 @@ Else
 End If
 End Function
 
-Private Function cpuAI(ByVal index As Integer)
-'if the player score is over a certain amount(set in Form_load) then activate smart ai
-'could add code to enable more modes based on different limits
-If intScore >= limswitch Then
-    mode = aiDecideMove(index)
-Else
-    mode = 1
-End If
-frmDbg.txtAiMode(index).Text = mode
-'chase player
-If mode = 1 Then
-    'player x further than cpu x
-    If curX(index) < curX(0) Then
-        'player y lower than cpu y
-        If curY(index) <= curY(0) Then
-            If evalMove(index, "R") = True Then
-                Call getJump(index, "R")
-            End If
-        'cpu y lower than player y
-        ElseIf curY(index) > curY(0) Then
-            If evalMove(index, "U") = True Then
-                Call getJump(index, "U")
-            End If
-        End If
-    'cpu x matches player x
-    ElseIf curX(index) = curX(0) Then
-        'ai y lower than player y
-        If curY(index) < curY(0) Then
-            'if y row is even
-            If Not oddRow(curY(index)) Then
-                If evalMove(index, "D") = True Then
-                    Call getJump(index, "D")
-                End If
-            'if y row is odd
-            Else
-                If evalMove(index, "R") = True Then
-                    Call getJump(index, "R")
-                End If
-            End If
-        'cpu y lower than player y
-        ElseIf curY(index) > curY(0) Then
-            'if y row is even
-            If Not oddRow(curY(index)) Then
-                If evalMove(index, "L") = True Then
-                    Call getJump(index, "L")
-                End If
-            'if y row is odd
-            Else
-                If evalMove(index, "U") = True Then
-                    Call getJump(index, "U")
-                End If
-            End If
-        End If
-    'cpu x further than player x
-    ElseIf curX(index) > curX(0) Then
-        'player y lower than cpu y
-        If curY(index) <= curY(0) Then
-            If evalMove(index, "D") = True Then
-                Call getJump(index, "D")
-            End If
-        'cpu y lower than player y
-        ElseIf curY(index) > curY(0) Then
-            If evalMove(index, "L") = True Then
-                Call getJump(index, "L")
-            End If
-        End If
-    End If
-'stomp nearest coin
-ElseIf mode = 0 Then
-    If curX(index) < smallestX Then
-        If curY(index) <= smallestY Then
-            If evalMove(index, "R") Then
-                Call getJump(index, "R")
-            End If
-        ElseIf curY(index) > smallestY Then
-            If evalMove(index, "U") Then
-                Call getJump(index, "U")
-            End If
-        End If
-    ElseIf curX(index) = smallestX Then
-        If curY(index) < smallestY Then
-            'if y row is even
-            If Not oddRow(curY(index)) Then
-                If evalMove(index, "D") = True Then
-                    Call getJump(index, "D")
-                End If
-            'if y row is odd
-            Else
-                If evalMove(index, "R") = True Then
-                    Call getJump(index, "R")
-                End If
-            End If
-        End If
-    ElseIf curX(index) > smallestX Then
-        If curY(index) <= smallestY Then
-            If evalMove(index, "D") = True Then
-                Call getJump(index, "D")
-            End If
-        'cpu y lower than coin
-        ElseIf curY(index) > smallestY Then
-            If evalMove(index, "L") = True Then
-                Call getJump(index, "L")
-            End If
-        End If
-    End If
-End If
-End Function
 
+<<<<<<< HEAD
 Private Sub getJumpComplete(ByVal index As Integer)
 Dim pScore As Integer
 prevX(index) = curX(index)
@@ -3152,6 +2969,9 @@ strState(index) = "I"
 lblTest.Caption = "(" & curX(0) & ", " & curY(0) & ") (" & nextX(0) & ", " & nextY(0) & ")"
 lblTest2.Caption = oddRow(curY(0)) & ", " & oddRow(nextY(0))
 End Sub
+=======
+
+>>>>>>> origin/New-Ai
 
 Private Sub Form_Load()
 Call DrawMap(1)
@@ -3164,16 +2984,6 @@ Next t
 limswitch = 1000
 End Sub
 
-Private Sub addScore(ByVal intAdd As Integer)
-intScore = intScore + intAdd
-End Sub
-
-Private Sub Form_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
-'selType = "O"
-'flTextBox.Visible = True
-'cmdCancelTextBox.Visible = True
-'flTextBox.Movie = App.Path + "\Images\GUI\TextBoxB.swf"
-End Sub
 
 Private Sub Form_Resize()
 Call DrawMap(1)
@@ -3189,6 +2999,7 @@ Dim frameLim As Integer
 Dim intObjTimer As Integer
 Dim curTile As terrain
 frmDbg.lstCoin.Clear
+<<<<<<< HEAD
 For o = 0 To tileCount - 1
     curTile = Tile(getTileFromInt(True, o), getTileFromInt(False, o))
     'frmDbg.lstCoin.AddItem (o & ": " & Tile(getTileFromInt(True, o), getTileFromInt(False, o)).hasObj & ", " & Tile(getTileFromInt(True, c), getTileFromInt(False, c)).objTimer)
@@ -3210,11 +3021,27 @@ For o = 0 To tileCount - 1
         'if objTimer is 80 (or greater), disable obj and clear tile
         Else
             Call killObj(curTile)
+=======
+For c = 0 To tileCount - 1
+    frmDbg.lstCoin.AddItem (c & ": " & tile(getTileFromInt(True, c), getTileFromInt(False, c)).coinEnabled & ", " & tile(getTileFromInt(True, c), getTileFromInt(False, c)).coinTimer)
+    If tile(getTileFromInt(True, c), getTileFromInt(False, c)).coinEnabled = True Then
+        Call PaintCoin(tile(getTileFromInt(True, c), getTileFromInt(False, c)).coinType, frameCount, getTileFromInt(True, c), getTileFromInt(False, c))
+        'If coinTimer (frame advancements on coin) is under 120, add 1 to it
+        If tile(getTileFromInt(True, c), getTileFromInt(False, c)).coinTimer < 80 Then
+            tile(getTileFromInt(True, c), getTileFromInt(False, c)).coinTimer = tile(getTileFromInt(True, c), getTileFromInt(False, c)).coinTimer + 1
+        'if coinTimer is 120 (or greater), disable coin and clear tile
+        Else
+            tile(getTileFromInt(True, c), getTileFromInt(False, c)).coinTimer = 0
+            tile(getTileFromInt(True, c), getTileFromInt(False, c)).coinEnabled = False
+            Call clearTile(getTileFromInt(True, c), getTileFromInt(False, c), False)
+            coinTileCount = coinTileCount - 1
+>>>>>>> origin/New-Ai
         End If
     End If
 Next o
 End Sub
 
+<<<<<<< HEAD
 Private Sub killObj(inputTile As terrain)
 Call clearTile(inputTile, False, -1)
 Tile(inputTile.Xc, inputTile.Yc).objTimer = 0
@@ -3575,6 +3402,9 @@ Else
     End If
 End If
 End Sub
+=======
+
+>>>>>>> origin/New-Ai
 
 Private Sub tmrChar_Timer(index As Integer)
 'reverse boolean for select
@@ -3588,13 +3418,13 @@ If tmrFrame(index).Enabled = True Then
         'MsgBox (intFrame(0))
     'End If
     If strDir(index) = "L" Then
-        Call getCharJumpAnim(index, Tile(curX(index), curY(index)).X - 25, Tile(curX(index), curY(index)).Y - 115, Tile(curX(index), curY(index)).X + 25, Tile(curX(index), curY(index)).Y - 15)
+        Call getCharJumpAnim(index, tile(curX(index), curY(index)).x - 25, tile(curX(index), curY(index)).y - 115, tile(curX(index), curY(index)).x + 25, tile(curX(index), curY(index)).y - 15)
     ElseIf strDir(index) = "R" Then
-        Call getCharJumpAnim(index, Tile(curX(index), curY(index)).X + 75, Tile(curX(index), curY(index)).Y + 85, Tile(curX(index), curY(index)).X + 25, Tile(curX(index), curY(index)).Y - 15)
+        Call getCharJumpAnim(index, tile(curX(index), curY(index)).x + 75, tile(curX(index), curY(index)).y + 85, tile(curX(index), curY(index)).x + 25, tile(curX(index), curY(index)).y - 15)
     ElseIf strDir(index) = "U" Then
-        Call getCharJumpAnim(index, Tile(curX(index), curY(index)).X + 75, Tile(curX(index), curY(index)).Y - 115, Tile(curX(index), curY(index)).X + 25, Tile(curX(index), curY(index)).Y - 15)
+        Call getCharJumpAnim(index, tile(curX(index), curY(index)).x + 75, tile(curX(index), curY(index)).y - 115, tile(curX(index), curY(index)).x + 25, tile(curX(index), curY(index)).y - 15)
     ElseIf strDir(index) = "D" Then
-        Call getCharJumpAnim(index, Tile(curX(index), curY(index)).X - 25, Tile(curX(index), curY(index)).Y + 85, Tile(curX(index), curY(index)).X + 25, Tile(curX(index), curY(index)).Y - 15)
+        Call getCharJumpAnim(index, tile(curX(index), curY(index)).x - 25, tile(curX(index), curY(index)).y + 85, tile(curX(index), curY(index)).x + 25, tile(curX(index), curY(index)).y - 15)
     End If
     If frameCounter(index) = 1 Then
         strState(index) = "C"
@@ -3604,8 +3434,8 @@ If tmrFrame(index).Enabled = True Then
         strState(index) = "I"
     End If
 Else
-    spriteX(index) = Tile(curX(index), curY(index)).X + 25
-    spriteY(index) = Tile(curX(index), curY(index)).Y - 15
+    spriteX(index) = tile(curX(index), curY(index)).x + 25
+    spriteY(index) = tile(curX(index), curY(index)).y - 15
 End If
 If blnRev(index) = False Then
     picCount(index) = picCount(index) + 1
@@ -3622,20 +3452,6 @@ If picCount(index) >= 4 Or picCount(index) <= 0 Then
 End If
 End Sub
 
-Private Function getCharJumpAnim(ByVal index As Integer, ByVal IntNewX As Integer, ByVal intNewY As Integer, ByVal intOldX As Integer, ByVal intOldY As Integer)
-'if frame 5 to 10
-If frameCounter(index) >= 5 And frameCounter(index) <= 10 Then
-    spriteX(index) = intOldX + ((frameCounter(index) - 5) * Int((IntNewX - intOldX) / 5))
-    '5 to 7 is jump up
-    If frameCounter(index) < 8 Then
-        spriteY(index) = (intOldY + ((frameCounter(index) - 5) * Int((intNewY - intOldY) / 5))) - (4 * (frameCounter(index) - 5))
-    '8 to 10 is fall to ground
-    ElseIf frameCounter(index) <= 10 Then
-        spriteY(index) = (intOldY + ((frameCounter(index) - 5) * Int((intNewY - intOldY) / 5))) - (4 * (10 - frameCounter(index)))
-    End If
-End If
-End Function
-
 Private Sub tmrFrame_Timer(index As Integer)
 frameCounter(index) = frameCounter(index) + 1
 If frameCounter(index) = frameLimit(index) Then
@@ -3646,6 +3462,7 @@ If frameCounter(index) = frameLimit(index) Then
 End If
 End Sub
 
+<<<<<<< HEAD
 Private Sub getTileAnim(ByVal intFrame As Integer, tileInput As terrain)
 picBuffer.PaintPicture frmMain.picBackground.Image, 0, 0, 100, 100, 0, 0, 100, 100, vbSrcCopy
 frmMain.PaintPicture picBuffer.Image, tileInput.X, (tileInput.Y - 400) + (intFrame - 1) * 50, 100, 100, 0, 0, 100, 100, vbSrcCopy
@@ -3664,8 +3481,17 @@ Static intCounter As Integer
 For X = 0 To tileCount - 1
     If tileSwitch(X) = True And intCounter - (1 * ((tileCount - 1) - X)) <= 8 Then
         Call getTileAnim(intCounter - (1 * ((tileCount - 1) - X)), Tile(getTileFromInt(True, X), getTileFromInt(False, X)))
+=======
+
+
+Private Sub tmrTileAnim_Timer()
+Static intCounter As Integer
+For x = 0 To tileCount - 1
+    If tileSwitch(x) = True And intCounter - (1 * ((tileCount - 1) - x)) <= 8 Then
+        Call getTileAnim(intCounter - (1 * ((tileCount - 1) - x)), getTileFromInt(True, x), getTileFromInt(False, x))
+>>>>>>> origin/New-Ai
     End If
-Next X
+Next x
 intCounter = intCounter + 1
 End Sub
 
@@ -3689,6 +3515,7 @@ End If
 intCounter = intCounter + 1
 End Sub
 
+<<<<<<< HEAD
 Private Function getTileFromInt(ByVal blnX As Boolean, ByVal intInput As Integer) As Integer
 If blnX = True Then
     If intInput >= mapWidth Then
@@ -3772,10 +3599,29 @@ If objTileCount < tileCount - 3 Then
         If intType <= 100 Then
             Tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).objType(1) = "Scare"
         End If
+=======
+Private Sub tmrCoinEvent_Timer()
+Dim intRand As Integer
+If coinTileCount < tileCount - 1 Then
+    intRand = Int(Rnd() * tileCount)
+    Do While (tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).x = tile(curX(0), curY(0)).x And tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).y = tile(curX(0), curY(0)).y) Or (tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).x = tile(curX(1), curY(1)).x And tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).y = tile(curX(1), curY(1)).y) Or (tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).x = tile(curX(2), curY(2)).x And tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).y = tile(curX(2), curY(2)).y) Or (tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).x = tile(curX(3), curY(3)).x And tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).y = tile(curX(3), curY(3)).y) Or tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).coinEnabled = True
+        intRand = randInt(0, tileCount - 1)
+    Loop
+    tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).coinEnabled = True
+    Dim intType As Integer
+    intType = randInt(1, 100)
+    If intType <= 65 Then
+        tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).coinType = "Y"
+    ElseIf intType > 65 And intType <= 90 Then
+        tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).coinType = "R"
+    ElseIf intType > 90 Then
+        tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).coinType = "B"
+>>>>>>> origin/New-Ai
     End If
     objTileCount = objTileCount + 1
 End If
 End Sub
+<<<<<<< HEAD
 
 Private Sub gameStart()
 tmrChar(0).Enabled = True
@@ -3811,3 +3657,5 @@ frameLimit(3) = 10
 'cpu 1 moves every (counterLimit + 1) seconds
 counterLimit(1) = 1
 End Sub
+=======
+>>>>>>> origin/New-Ai

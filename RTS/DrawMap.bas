@@ -1,4 +1,4 @@
-Attribute VB_Name = "Module1"
+Attribute VB_Name = "modDrawMap"
 'Draw Map Procedure
 'Needs picture boxes with visible false, autodraw true, scalemode pixel:
 'picScene holds the picture of the tile
@@ -7,23 +7,23 @@ Attribute VB_Name = "Module1"
 Public mapHeight As Integer
 Public mapWidth As Integer
 Public tileCount As Integer
-Public Tile() As terrain
+Public tile() As terrain
 
 Public Function DrawMap(ByVal mapNum As Integer) As Boolean
 'If mapNum = 1 Then
  '   frmMain.picScene.Picture = LoadPicture(App.Path & "\Images\Terrain\1\1Tile.gif")
 'End If
-    Erase Tile
+    Erase tile
     Dim rand As Integer
     Dim xStart As Integer
     Randomize Timer
     frmDbg.lstMap.Clear
     mapHeight = 7
     mapWidth = 7
-    For Y = 0 To (mapHeight - 1) * (frmMain.picScene(0).Height * 0.75) Step 0.75 * frmMain.picScene(0).Height
-        For X = (50 - xStart) To (mapWidth * frmMain.picScene(0).Width) + xStart Step frmMain.picScene(0).Width
+    For y = 0 To (mapHeight - 1) * (frmMain.picScene(0).Height * 0.75) Step 0.75 * frmMain.picScene(0).Height
+        For x = (50 - xStart) To (mapWidth * frmMain.picScene(0).Width) + xStart Step frmMain.picScene(0).Width
             'rand = Int(Rnd() * 2)
-            If (Y + 75) Mod 150 = 0 Then
+            If (y + 75) Mod 150 = 0 Then
                 xStart = 0
             Else
                 xStart = frmMain.picScene(0).Width / 2
@@ -32,21 +32,27 @@ Public Function DrawMap(ByVal mapNum As Integer) As Boolean
             'frmMain.PaintPicture frmMain.picScene(0).Picture, X, Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
             'frmMain.picBackground.PaintPicture frmMain.picScene(0).Picture, X, Y, 100, 100, 0, 0, 100, 100, vbSrcCopy
             
-            ReDim Preserve Tile(mapWidth, mapHeight) As terrain
+            ReDim Preserve tile(mapWidth, mapHeight) As terrain
             
             'If rand = 0 Then
                 'Tile(Int((X - xStart) / 100), Int(Y / 25)).pic = "0" '0 = grass
             'ElseIf rand = 1 Then
                 'Tile(Int((X - xStart) / 100), Int(Y / 25)).pic = "0A" '0 = grass
             'End If
+<<<<<<< HEAD
             Tile(Int((X + (50 - xStart)) / frmMain.picScene(0).Width), Int(Y / (frmMain.picScene(0).Height * 0.75))).Xc = X \ 100
             Tile(Int((X + (50 - xStart)) / frmMain.picScene(0).Width), Int(Y / (frmMain.picScene(0).Height * 0.75))).Yc = Y \ 75
             Tile(Int((X + (50 - xStart)) / frmMain.picScene(0).Width), Int(Y / (frmMain.picScene(0).Height * 0.75))).X = X
             Tile(Int((X + (50 - xStart)) / frmMain.picScene(0).Width), Int(Y / (frmMain.picScene(0).Height * 0.75))).Y = Y
             Tile(Int((X + (50 - xStart)) / frmMain.picScene(0).Width), Int(Y / (frmMain.picScene(0).Height * 0.75))).hasObj = False
+=======
+            tile(Int((x + (50 - xStart)) / frmMain.picScene(0).Width), Int(y / (frmMain.picScene(0).Height * 0.75))).x = x
+            tile(Int((x + (50 - xStart)) / frmMain.picScene(0).Width), Int(y / (frmMain.picScene(0).Height * 0.75))).y = y
+            tile(Int((x + (50 - xStart)) / frmMain.picScene(0).Width), Int(y / (frmMain.picScene(0).Height * 0.75))).coinEnabled = False
+>>>>>>> origin/New-Ai
             'frmDbg.lstMap.AddItem ("(" & Tile(Int((X - xStart) / 100), Int(Y / 25)).X & "," & Tile(Int((X - xStart) / 100), Int(Y / 25)).Y & ")" & vbTab)
-        Next X
-    Next Y
+        Next x
+    Next y
 frmMain.tmrTileAnimDelay.Enabled = True
 tileCount = ((mapWidth * mapHeight) + (Int(mapHeight / 2)))
 End Function
