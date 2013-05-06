@@ -5,24 +5,24 @@ Public Sub addScore(ByVal intAdd As Integer)
 intScore = intScore + intAdd
 End Sub
 
-Public Function tileTouchingChar(ByVal intX As Integer, ByVal intY As Integer) As Boolean
+Public Function tileTouchingChar(TileInput As terrain) As Boolean
 tileTouchingChar = False
-If intY < mapHeight - 1 Then 'if above bottom row of tiles
-    If oddRow(intY + 1) Then 'if tile row is odd
-        If tile(intX, intY + 1).hasChar Then 'if other below tile is taken by a character
+If TileInput.Yc < mapHeight - 1 Then 'if above bottom row of tiles
+    If oddRow(TileInput.Yc + 1) Then 'if tile row is odd
+        If tile(TileInput.Xc, TileInput.Yc + 1).hasChar Then 'if other below tile is taken by a character
             tileTouchingChar = True
-        Else 'if tile (intX, intY + 1) is not taken by a character
-            If intX > 0 Then 'if column is less than last column
-                If tile(intX - 1, intY + 1).hasChar Then 'if tile (intX - 1, intY + 1) is taken by a character
+        Else 'if tile (TileInput.xc, TileInput.yc + 1) is not taken by a character
+            If TileInput.Xc > 0 Then 'if column is less than last column
+                If tile(TileInput.Xc - 1, TileInput.Yc + 1).hasChar Then 'if tile (TileInput.xc - 1, TileInput.yc + 1) is taken by a character
                     tileTouchingChar = True
                 End If
             End If
         End If
     Else 'if tile row is even
-        If tile(intX, intY + 1).hasChar Then 'if tile (intX, intY + 1) is taken by a character
+        If tile(TileInput.Xc, TileInput.Yc + 1).hasChar Then 'if tile (TileInput.xc, TileInput.yc + 1) is taken by a character
             tileTouchingChar = True
-        ElseIf intX < mapWidth - 1 Then 'if column is greater than first
-            If tile(intX + 1, intY + 1).hasChar Then 'if other below tile is taken by a character
+        ElseIf TileInput.Xc < mapWidth - 1 Then 'if column is greater than first
+            If tile(TileInput.Xc + 1, TileInput.Yc + 1).hasChar Then 'if other below tile is taken by a character
                 tileTouchingChar = True
             End If
         End If
@@ -30,6 +30,12 @@ If intY < mapHeight - 1 Then 'if above bottom row of tiles
 End If
 End Function
 
+Public Sub killObj(inputTile As terrain)
+Call clearTile(inputTile, False, -1)
+tile(inputTile.Xc, inputTile.Yc).objTimer = 0
+tile(inputTile.Xc, inputTile.Yc).hasObj = False
+objTileCount = objTileCount - 1
+End Sub
 
 Public Function getCharJumpAnim(ByVal index As Integer, ByVal IntNewX As Integer, ByVal intNewY As Integer, ByVal intOldX As Integer, ByVal intOldY As Integer)
 'if frame 5 to 10

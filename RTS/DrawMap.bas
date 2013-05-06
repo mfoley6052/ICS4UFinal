@@ -28,28 +28,14 @@ Public Function DrawMap(ByVal mapNum As Integer) As Boolean
             Else
                 xStart = frmMain.picScene(0).Width / 2
             End If
-            'frmMain.PaintPicture frmMain.picMask.Picture, X, Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
-            'frmMain.PaintPicture frmMain.picScene(0).Picture, X, Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
-            'frmMain.picBackground.PaintPicture frmMain.picScene(0).Picture, X, Y, 100, 100, 0, 0, 100, 100, vbSrcCopy
-            
             ReDim Preserve tile(mapWidth, mapHeight) As terrain
             
-            'If rand = 0 Then
-                'Tile(Int((X - xStart) / 100), Int(Y / 25)).pic = "0" '0 = grass
-            'ElseIf rand = 1 Then
-                'Tile(Int((X - xStart) / 100), Int(Y / 25)).pic = "0A" '0 = grass
-            'End If
-<<<<<<< HEAD
-            Tile(Int((X + (50 - xStart)) / frmMain.picScene(0).Width), Int(Y / (frmMain.picScene(0).Height * 0.75))).Xc = X \ 100
-            Tile(Int((X + (50 - xStart)) / frmMain.picScene(0).Width), Int(Y / (frmMain.picScene(0).Height * 0.75))).Yc = Y \ 75
-            Tile(Int((X + (50 - xStart)) / frmMain.picScene(0).Width), Int(Y / (frmMain.picScene(0).Height * 0.75))).X = X
-            Tile(Int((X + (50 - xStart)) / frmMain.picScene(0).Width), Int(Y / (frmMain.picScene(0).Height * 0.75))).Y = Y
-            Tile(Int((X + (50 - xStart)) / frmMain.picScene(0).Width), Int(Y / (frmMain.picScene(0).Height * 0.75))).hasObj = False
-=======
+            tile(Int((x + (50 - xStart)) / frmMain.picScene(0).Width), Int(y / (frmMain.picScene(0).Height * 0.75))).Xc = x \ 100
+            tile(Int((x + (50 - xStart)) / frmMain.picScene(0).Width), Int(y / (frmMain.picScene(0).Height * 0.75))).Yc = y \ 75
             tile(Int((x + (50 - xStart)) / frmMain.picScene(0).Width), Int(y / (frmMain.picScene(0).Height * 0.75))).x = x
             tile(Int((x + (50 - xStart)) / frmMain.picScene(0).Width), Int(y / (frmMain.picScene(0).Height * 0.75))).y = y
-            tile(Int((x + (50 - xStart)) / frmMain.picScene(0).Width), Int(y / (frmMain.picScene(0).Height * 0.75))).coinEnabled = False
->>>>>>> origin/New-Ai
+            tile(Int((x + (50 - xStart)) / frmMain.picScene(0).Width), Int(y / (frmMain.picScene(0).Height * 0.75))).hasObj = False
+
             'frmDbg.lstMap.AddItem ("(" & Tile(Int((X - xStart) / 100), Int(Y / 25)).X & "," & Tile(Int((X - xStart) / 100), Int(Y / 25)).Y & ")" & vbTab)
         Next x
     Next y

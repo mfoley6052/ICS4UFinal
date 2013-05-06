@@ -16,10 +16,12 @@ Public prevX(0 To 3) As Integer
 Public prevY(0 To 3) As Integer
 Public nextX(0 To 3) As Integer
 Public nextY(0 To 3) As Integer
-Public coinTileCount As Integer
+Public objTileCount As Integer
 Public blnClearPrevTile(0 To 3) As Boolean
 Public tileSwitch(0 To 100) As Boolean
 Public limswitch As Long
 Public smallestX As Integer
 Public smallestY As Integer
 Public pathStep() As BreadCrumb
+Public intObjxOffset As Integer
+

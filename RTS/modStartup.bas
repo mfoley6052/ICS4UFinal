@@ -6,8 +6,8 @@ Public Sub gameStart()
 With frmMain
 .tmrChar(0).Enabled = True
 .tmrChar(1).Enabled = True
-.tmrCoinEvent.Enabled = True
-.tmrCoin.Enabled = True
+.tmrObjEvent.Enabled = True
+.tmrObj.Enabled = True
 .tmrCPUMove(1).Enabled = True
 blnPlayerMoveable = True
 curX(0) = (mapWidth - 1) \ 2

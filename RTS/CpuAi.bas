@@ -37,6 +37,16 @@ Else
 End If
 End Function
 
+Public Function aiDecideMove(ByVal index As Integer) As Integer
+'is it better to get rid of coins or chase player
+Call nearestCoin(index)
+If Abs(curX(index) - curX(0)) >= Abs(curX(index) - smallestX) And Abs(curY(index) - curY(0)) >= Abs(curY(index) - smallestY) Then
+    aiDecideMove = 1
+Else
+    aiDecideMove = 0
+End If
+End Function
+
 Public Function nearestCoin(ByVal index As Integer) As Long
 smallestX = 0
 smallestY = 0

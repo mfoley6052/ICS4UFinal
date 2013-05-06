@@ -13,15 +13,10 @@ End Type
 
 Public Type terrain ' data type for different terrains
     pic As String
-<<<<<<< HEAD
-    X As Single
-    Y As Single
-    Xc As Integer
-    Yc As Integer
-=======
     x As Single
     y As Single
->>>>>>> origin/New-Ai
+    Xc As Integer
+    Yc As Integer
     selectable As Boolean
     oldX As Single
     oldY As Single
