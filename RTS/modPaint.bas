@@ -203,10 +203,10 @@ Public Sub PaintCharSprite(ByVal index As Integer, ByVal charX As Integer, ByVal
 With frmMain
 'clear tiles character may be touching
 If curY(index) > 0 Then
-    If (oddRow(curY(index) - 1) And curX(index) < mapWidth) Or (Not oddRow(curY(index) - 1) And curX(index) < mapWidth - 1) Then
+    If (oddRow(curY(index)) And curX(index) <= mapWidth - 1) Or (Not oddRow(curY(index)) And curX(index) <= mapWidth) Then
         Call clearTile(tile(curX(index), curY(index) - 1), True, index) 'clear (curX, curY - 1)
     End If
-    If oddRow((curY(index) - 1)) Then 'odd row
+    If oddRow((curY(index))) Then 'odd row
         If curX(index) < mapWidth - 1 Then  'if column is less than last column
             Call clearTile(tile(curX(index) + 1, curY(index) - 1), True, index) 'clear (curX - 1, curY - 1)
         End If
@@ -220,6 +220,22 @@ If (curX(index) <> nextX(index) Or curY(index) <> nextY(index)) Then
     Call clearTile(tile(nextX(index), nextY(index)), True, index) 'clear (nextX, nextY)
     If nextY(index) > 0 Then
         If strDir(index) = "U" Then
+            If oddRow(nextY(index)) Then
+                If nextX(index) <= mapWidth - 1 Then
+                    Call clearTile(tile(nextX(index), nextY(index) - 1), True, index) 'clear (nextX, nextY - 1)
+                End If
+                If nextX(index) < mapWidth - 1 Then
+                    Call clearTile(tile(nextX(index) + 1, nextY(index) - 1), True, index) 'clear (nextX + 1, nextY - 1)
+                End If
+            Else
+                If nextX(index) <= mapWidth Then
+                    Call clearTile(tile(nextX(index), nextY(index) - 1), True, index) 'clear (nextX, nextY - 1)
+                End If
+                If nextX(index) > 0 Then
+                    Call clearTile(tile(nextX(index) - 1, nextY(index) - 1), True, index) 'clear (nextX - 1, nextY - 1)
+                End If
+            End If
+        ElseIf strDir(index) = "R" Then
             If oddRow(nextY(index) - 1) Then
                 If nextX(index) <= mapWidth - 1 Then
                     Call clearTile(tile(nextX(index), nextY(index) - 1), True, index) 'clear (nextX, nextY - 1)
@@ -305,7 +321,7 @@ Else
                 .PaintPicture .picP1CD(frameC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
             End If
         End If
-        ElseIf strState(index) = "J" Then
+    ElseIf strState(index) = "J" Then
         counterC = 0
         If strDir(index) = "L" Then
             .PaintPicture .picCharMaskJL.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd

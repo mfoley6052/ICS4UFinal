@@ -37,6 +37,7 @@ tile(inputTile.Xc, inputTile.Yc).hasObj = False
 objTileCount = objTileCount - 1
 End Sub
 
+'glitch: frames are often skipped (eg. 5, 6, 8, 9, 10) even though tmrFrame and tmrChar are same interval
 Public Function getCharJumpAnim(ByVal index As Integer, ByVal IntNewX As Integer, ByVal intNewY As Integer, ByVal intOldX As Integer, ByVal intOldY As Integer)
 'if frame 5 to 10
 If frameCounter(index) >= 5 And frameCounter(index) <= 10 Then
