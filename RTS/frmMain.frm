@@ -2738,6 +2738,44 @@ Begin VB.Form frmMain
          Width           =   270
       End
    End
+   Begin VB.Label lblTest2 
+      BackStyle       =   0  'Transparent
+      Caption         =   "Test"
+      BeginProperty Font 
+         Name            =   "Arial Narrow"
+         Size            =   15.75
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H000000FF&
+      Height          =   375
+      Left            =   0
+      TabIndex        =   148
+      Top             =   360
+      Width           =   2055
+   End
+   Begin VB.Label lblTest 
+      BackStyle       =   0  'Transparent
+      Caption         =   "Test"
+      BeginProperty Font 
+         Name            =   "Arial Narrow"
+         Size            =   15.75
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H000000FF&
+      Height          =   375
+      Left            =   0
+      TabIndex        =   147
+      Top             =   0
+      Width           =   2055
+   End
    Begin VB.Label lblScore 
       BackStyle       =   0  'Transparent
       Caption         =   "Score: 0000000"
@@ -3111,6 +3149,8 @@ If Tile(curX(index), curY(index)).hasObj = True Then
 End If
 blnClearPrevTile(index) = True
 strState(index) = "I"
+lblTest.Caption = "(" & curX(0) & ", " & curY(0) & ") (" & nextX(0) & ", " & nextY(0) & ")"
+lblTest2.Caption = oddRow(curY(0)) & ", " & oddRow(nextY(0))
 End Sub
 
 Private Sub Form_Load()
@@ -3399,21 +3439,40 @@ End Function
 Private Sub PaintCharSprite(ByVal index As Integer, ByVal charX As Integer, ByVal charY As Integer)
 'clear tiles character may be touching
 If curY(index) > 0 Then
-    If (oddRow((curY(index) - 1)) And curX(index) < mapWidth) Or (Not oddRow((curY(index) - 1)) And curX(index) < mapWidth - 1) Then
+    If (oddRow(curY(index) - 1) And curX(index) < mapWidth) Or (Not oddRow(curY(index) - 1) And curX(index) < mapWidth - 1) Then
         Call clearTile(Tile(curX(index), curY(index) - 1), True, index) 'clear (curX, curY - 1)
     End If
     If oddRow((curY(index) - 1)) Then 'odd row
-        If curX(index) > 0 Then 'if column is greater than first column
-            Call clearTile(Tile(curX(index) - 1, curY(index) - 1), True, index) 'clear (curX - 1, curY - 1)
+        If curX(index) < mapWidth - 1 Then  'if column is less than last column
+            Call clearTile(Tile(curX(index) + 1, curY(index) - 1), True, index) 'clear (curX - 1, curY - 1)
         End If
     Else 'even row
-        If curX(index) < mapWidth - 1 Then 'if column is less than last column
-            Call clearTile(Tile(curX(index) + 1, curY(index) - 1), True, index) 'clear (curX + 1, curY - 1)
+        If curX(index) > 0 Then 'if column is greater than first column
+            Call clearTile(Tile(curX(index) - 1, curY(index) - 1), True, index) 'clear (curX + 1, curY - 1)
         End If
     End If
 End If
 If (curX(index) <> nextX(index) Or curY(index) <> nextY(index)) Then
     Call clearTile(Tile(nextX(index), nextY(index)), True, index) 'clear (nextX, nextY)
+    If nextY(index) > 0 Then
+        If strDir(index) = "U" Then
+            If oddRow(nextY(index) - 1) Then
+                If nextX(index) <= mapWidth - 1 Then
+                    Call clearTile(Tile(nextX(index), nextY(index) - 1), True, index) 'clear (nextX, nextY - 1)
+                End If
+                If nextX(index) < mapWidth - 1 Then
+                    Call clearTile(Tile(nextX(index) + 1, nextY(index) - 1), True, index) 'clear (nextX + 1, nextY - 1)
+                End If
+            Else
+                If nextX(index) <= mapWidth Then
+                    Call clearTile(Tile(nextX(index), nextY(index) - 1), True, index) 'clear (nextX, nextY - 1)
+                End If
+                If nextX(index) > 0 Then
+                    Call clearTile(Tile(nextX(index) - 1, nextY(index) - 1), True, index) 'clear (nextX - 1, nextY - 1)
+                End If
+            End If
+        End If
+    End If
 End If
 Static counterC As Integer
 If strState(index) = "I" Then
