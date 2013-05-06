@@ -12,6 +12,7 @@ Module=modCollision; modCollision.bas
 Module=modMaths; modMaths.bas
 Module=modPaint; modPaint.bas
 Module=modStartup; modStartup.bas
+Form=frmSettings.frm
 IconForm="frmMain"
 Startup="frmMain"
 HelpFile=""

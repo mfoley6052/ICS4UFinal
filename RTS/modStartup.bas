@@ -3,6 +3,7 @@ Option Explicit
 
 
 Public Sub gameStart()
+
 With frmMain
 .tmrChar(0).Enabled = True
 .tmrChar(1).Enabled = True

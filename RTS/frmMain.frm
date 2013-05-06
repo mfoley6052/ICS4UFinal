@@ -2812,24 +2812,30 @@ If KeyCode = 123 Then 'F12
         frmDbg.Visible = False
         frmDbg.Hide
     End If
+ElseIf KeyCode = 122 Then
+        If frmSettings.Visible = False Then
+        frmSettings.Visible = True
+    Else
+        frmSettings.Visible = False
+    End If
 End If
 End Sub
 
 Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
 If blnPlayerMoveable = True Then
-    If KeyCode = 37 Then 'Left
+    If KeyCode = key(0) Then 'Left
         If evalMove(0, "L") = True Then
             Call getJump(0, "L")
         End If
-    ElseIf KeyCode = 38 Then 'Up
+    ElseIf KeyCode = key(1) Then 'Up
         If evalMove(0, "U") = True Then
             Call getJump(0, "U")
         End If
-    ElseIf KeyCode = 39 Then 'Right
+    ElseIf KeyCode = key(2) Then 'Right
         If evalMove(0, "R") = True Then
             Call getJump(0, "R")
         End If
-    ElseIf KeyCode = 40 Then 'Down
+    ElseIf KeyCode = key(3) Then 'Down
         If evalMove(0, "D") = True Then
             Call getJump(0, "D")
         End If
@@ -2837,24 +2843,24 @@ If blnPlayerMoveable = True Then
 End If
 End Sub
 
-Private Sub tmrHurt_Timer(index As Integer)
-Call getHurt(index)
-curX(index) = prevX(index)
-curY(index) = prevY(index)
+Private Sub tmrHurt_Timer(Index As Integer)
+Call getHurt(Index)
+curX(Index) = prevX(Index)
+curY(Index) = prevY(Index)
 blnPlayerMoveable = True
-tmrHurt(index).Enabled = False
+tmrHurt(Index).Enabled = False
 End Sub
 
-Private Sub tmrCPUMove_Timer(index As Integer)
+Private Sub tmrCPUMove_Timer(Index As Integer)
 Static intCounter As Integer
 'if counter limit is not reached by counter
-If intCounter < counterLimit(index) Then
+If intCounter < counterLimit(Index) Then
     'increase counter
     intCounter = intCounter + 1
 'if counter limit is reached
 Else
     'initiate cpu movement
-    Call cpuAI(index)
+    Call cpuAI(Index)
     intCounter = 0
 End If
 End Sub
@@ -2862,6 +2868,16 @@ End Sub
 
 Private Sub Form_Load()
 Call DrawMap(1)
+ReDim DefaultKey(3) As Integer
+ReDim key(3) As Integer
+key(0) = 37
+key(1) = 38
+key(2) = 39
+key(3) = 40
+DefaultKey(0) = 37
+DefaultKey(1) = 38
+DefaultKey(2) = 39
+DefaultKey(3) = 40
 blnClearPrevTile(0) = False
 blnClearPrevTile(1) = False
 blnPlayerMoveable = False
@@ -2912,60 +2928,60 @@ For o = 0 To tileCount - 1
 Next o
 End Sub
 
-Private Sub tmrChar_Timer(index As Integer)
+Private Sub tmrChar_Timer(Index As Integer)
 'reverse boolean for select
 Static blnRev(0 To 3) As Boolean
 'call selection paint
-Call PaintSelector(index, picCount(index))
+Call PaintSelector(Index, picCount(Index))
 'if jump timer is started
-If tmrFrame(index).Enabled = True Then
+If tmrFrame(Index).Enabled = True Then
     'show each jump frame for p1
     'If Index = 0 Then
         'MsgBox (intFrame(0))
     'End If
-    If strDir(index) = "L" Then
-        Call getCharJumpAnim(index, tile(curX(index), curY(index)).x - 25, tile(curX(index), curY(index)).y - 115, tile(curX(index), curY(index)).x + 25, tile(curX(index), curY(index)).y - 15)
-    ElseIf strDir(index) = "U" Then
-        Call getCharJumpAnim(index, tile(curX(index), curY(index)).x + 75, tile(curX(index), curY(index)).y - 115, tile(curX(index), curY(index)).x + 25, tile(curX(index), curY(index)).y - 15)
-    ElseIf strDir(index) = "R" Then
-        Call getCharJumpAnim(index, tile(curX(index), curY(index)).x + 75, tile(curX(index), curY(index)).y + 85, tile(curX(index), curY(index)).x + 25, tile(curX(index), curY(index)).y - 15)
-    ElseIf strDir(index) = "D" Then
-        Call getCharJumpAnim(index, tile(curX(index), curY(index)).x - 25, tile(curX(index), curY(index)).y + 85, tile(curX(index), curY(index)).x + 25, tile(curX(index), curY(index)).y - 15)
+    If strDir(Index) = "L" Then
+        Call getCharJumpAnim(Index, tile(curX(Index), curY(Index)).x - 25, tile(curX(Index), curY(Index)).y - 115, tile(curX(Index), curY(Index)).x + 25, tile(curX(Index), curY(Index)).y - 15)
+    ElseIf strDir(Index) = "U" Then
+        Call getCharJumpAnim(Index, tile(curX(Index), curY(Index)).x + 75, tile(curX(Index), curY(Index)).y - 115, tile(curX(Index), curY(Index)).x + 25, tile(curX(Index), curY(Index)).y - 15)
+    ElseIf strDir(Index) = "R" Then
+        Call getCharJumpAnim(Index, tile(curX(Index), curY(Index)).x + 75, tile(curX(Index), curY(Index)).y + 85, tile(curX(Index), curY(Index)).x + 25, tile(curX(Index), curY(Index)).y - 15)
+    ElseIf strDir(Index) = "D" Then
+        Call getCharJumpAnim(Index, tile(curX(Index), curY(Index)).x - 25, tile(curX(Index), curY(Index)).y + 85, tile(curX(Index), curY(Index)).x + 25, tile(curX(Index), curY(Index)).y - 15)
     End If
-    If frameCounter(index) = 1 Then
-        strState(index) = "C"
-    ElseIf frameCounter(index) = 5 Then
-        strState(index) = "J"
-    ElseIf frameCounter(index) = 10 Then
-        strState(index) = "I"
+    If frameCounter(Index) = 1 Then
+        strState(Index) = "C"
+    ElseIf frameCounter(Index) = 5 Then
+        strState(Index) = "J"
+    ElseIf frameCounter(Index) = 10 Then
+        strState(Index) = "I"
     End If
 Else
-    spriteX(index) = tile(curX(index), curY(index)).x + 25
-    spriteY(index) = tile(curX(index), curY(index)).y - 15
+    spriteX(Index) = tile(curX(Index), curY(Index)).x + 25
+    spriteY(Index) = tile(curX(Index), curY(Index)).y - 15
 End If
-If blnRev(index) = False Then
-    picCount(index) = picCount(index) + 1
+If blnRev(Index) = False Then
+    picCount(Index) = picCount(Index) + 1
 End If
-If blnRev(index) = True Then
-    picCount(index) = picCount(index) - 1
+If blnRev(Index) = True Then
+    picCount(Index) = picCount(Index) - 1
 End If
-If picCount(index) >= 4 Or picCount(index) <= 0 Then
-    If blnRev(index) = False Then
-        blnRev(index) = True
+If picCount(Index) >= 4 Or picCount(Index) <= 0 Then
+    If blnRev(Index) = False Then
+        blnRev(Index) = True
     Else
-        blnRev(index) = False
+        blnRev(Index) = False
     End If
 End If
 End Sub
 
-Private Sub tmrFrame_Timer(index As Integer)
-If frameCounter(index) = frameLimit(index) Then
-    frameCounter(index) = 0
+Private Sub tmrFrame_Timer(Index As Integer)
+If frameCounter(Index) = frameLimit(Index) Then
+    frameCounter(Index) = 0
     blnPlayerMoveable = True
-    Call getJumpComplete(index)
-    tmrFrame(index).Enabled = False
+    Call getJumpComplete(Index)
+    tmrFrame(Index).Enabled = False
 Else
-    frameCounter(index) = frameCounter(index) + 1
+    frameCounter(Index) = frameCounter(Index) + 1
 End If
 End Sub
 

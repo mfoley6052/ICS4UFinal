@@ -24,4 +24,5 @@ Public smallestX As Integer
 Public smallestY As Integer
 Public pathStep() As BreadCrumb
 Public intObjxOffset As Integer
-
+Public key() As Integer
+Public DefaultKey() As Integer
