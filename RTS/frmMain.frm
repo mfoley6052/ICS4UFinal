@@ -2939,15 +2939,7 @@ If tmrFrame(Index).Enabled = True Then
     'If Index = 0 Then
         'MsgBox (intFrame(0))
     'End If
-    If strDir(Index) = "L" Then
-        Call getCharJumpAnim(Index, tile(curX(Index), curY(Index)).x - 25, tile(curX(Index), curY(Index)).y - 115, tile(curX(Index), curY(Index)).x + 25, tile(curX(Index), curY(Index)).y - 15)
-    ElseIf strDir(Index) = "U" Then
-        Call getCharJumpAnim(Index, tile(curX(Index), curY(Index)).x + 75, tile(curX(Index), curY(Index)).y - 115, tile(curX(Index), curY(Index)).x + 25, tile(curX(Index), curY(Index)).y - 15)
-    ElseIf strDir(Index) = "R" Then
-        Call getCharJumpAnim(Index, tile(curX(Index), curY(Index)).x + 75, tile(curX(Index), curY(Index)).y + 85, tile(curX(Index), curY(Index)).x + 25, tile(curX(Index), curY(Index)).y - 15)
-    ElseIf strDir(Index) = "D" Then
-        Call getCharJumpAnim(Index, tile(curX(Index), curY(Index)).x - 25, tile(curX(Index), curY(Index)).y + 85, tile(curX(Index), curY(Index)).x + 25, tile(curX(Index), curY(Index)).y - 15)
-    End If
+    Call getCharJumpAnim(Index, tile(curX(Index), curY(Index)), tile(nextX(Index), nextY(Index)))
     If frameCounter(Index) = 1 Then
         strState(Index) = "C"
     ElseIf frameCounter(Index) = 5 Then

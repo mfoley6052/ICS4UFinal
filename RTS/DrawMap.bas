@@ -29,7 +29,7 @@ Public Function DrawMap(ByVal mapNum As Integer) As Boolean
                 xStart = frmMain.picScene(0).Width / 2
             End If
             ReDim Preserve tile(mapWidth, mapHeight) As terrain
-            
+
             tile(Int((x + (50 - xStart)) / frmMain.picScene(0).Width), Int(y / (frmMain.picScene(0).Height * 0.75))).Xc = x \ 100
             tile(Int((x + (50 - xStart)) / frmMain.picScene(0).Width), Int(y / (frmMain.picScene(0).Height * 0.75))).Yc = y \ 75
             tile(Int((x + (50 - xStart)) / frmMain.picScene(0).Width), Int(y / (frmMain.picScene(0).Height * 0.75))).x = x
