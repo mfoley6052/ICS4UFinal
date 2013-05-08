@@ -11,6 +11,7 @@ With frmMain
 .tmrObj.Enabled = True
 .tmrCPUMove(1).Enabled = True
 blnPlayerMoveable = True
+intMulti = 1
 curX(0) = (mapWidth - 1) \ 2
 curY(0) = (mapHeight - 1) \ 2
 nextX(0) = (mapWidth - 1) \ 2

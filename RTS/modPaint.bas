@@ -23,6 +23,13 @@ If Not TileInput.hasObj Or Not bypassForObj Then
                 .PaintPicture .picMask.Image, TileInput.x + intObjxOffset, TileInput.y, 30, 30, intObjxOffset, 0, 30, 30, vbSrcAnd
                 .PaintPicture .picBuffer.Image, TileInput.x + intObjxOffset, TileInput.y, 30, 30, intObjxOffset, 0, 30, 30, vbSrcPaint
             End If
+        ElseIf TileInput.objType(0) = "Egg" Then
+            'paint terrain over egg
+            intObjxOffset = 39
+            .picBackground.PaintPicture .picScene(0).Image, TileInput.x + intObjxOffset, TileInput.y, 22, 30, intObjxOffset, 0, 22, 30, vbSrcCopy
+            .picBuffer.PaintPicture .picScene(0).Image, intObjxOffset, 0, 22, 30, intObjxOffset, 0, 22, 30, vbSrcCopy
+            .PaintPicture .picMask.Image, TileInput.x + intObjxOffset, TileInput.y, 22, 30, intObjxOffset, 0, 22, 30, vbSrcAnd
+            .PaintPicture .picBuffer.Image, TileInput.x + intObjxOffset, TileInput.y, 22, 30, intObjxOffset, 0, 22, 30, vbSrcPaint
         End If
     ElseIf Not bypassForObj And Not TileInput.hasObj Then 'called by object but no object on tile
         'paint bottom 30 of the tile
@@ -180,6 +187,32 @@ ElseIf strObjType = "Pow" Then
         .PaintPicture .picPowScareMask(intFrame + intFrameOffset).Image, tile(intObjX, intObjY).x + intXOffset, tile(intObjX, intObjY).y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcAnd
         .PaintPicture .picPowScare(intFrame + intFrameOffset).Image, tile(intObjX, intObjY).x + intXOffset, tile(intObjX, intObjY).y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcPaint
     End If
+    End With
+ElseIf strObjType = "Egg" Then
+    intXOffset = 39
+    intYOffset = -1
+    If intFrame = 6 Or intFrame = 7 Then
+        intFrameOffset = -4
+    Else
+        intFrameOffset = 0
+    End If
+    Call clearTile(tile(intObjX, intObjY), False, -1)
+    If intObjY > 0 Then
+        Call clearTile(tile(intObjX, intObjY - 1), False, -1)
+        If oddRow(intObjY) Then
+            If intObjX > 0 Then
+                Call clearTile(tile(intObjX - 1, intObjY - 1), False, -1)
+            End If
+        Else
+            If intObjX < mapWidth - 1 Then
+                Call clearTile(tile(intObjX + 1, intObjY - 1), False, -1)
+            End If
+        End If
+    End If
+    'paint egg
+    With frmMain
+    .PaintPicture .picEggMask((intFrame \ 2) + (intFrameOffset \ 2)).Image, tile(intObjX, intObjY).x + intXOffset, tile(intObjX, intObjY).y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcAnd
+    .PaintPicture .picEgg((intFrame \ 2) + (intFrameOffset \ 2)).Image, tile(intObjX, intObjY).x + intXOffset, tile(intObjX, intObjY).y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcPaint
     End With
 End If
 End Function

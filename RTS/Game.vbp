@@ -13,7 +13,6 @@ Module=modMaths; modMaths.bas
 Module=modPaint; modPaint.bas
 Module=modStartup; modStartup.bas
 Form=frmSettings.frm
-Form=frmHiscore.frm
 IconForm="frmMain"
 Startup="frmMain"
 HelpFile=""
