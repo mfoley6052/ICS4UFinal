@@ -219,11 +219,11 @@ If curY(Index) > 0 Then
         Call clearTile(tile(curX(Index), curY(Index) - 1), True, Index) 'clear (curX, curY - 1)
     End If
     If oddRow(curY(Index)) Then 'odd row
-        If curX(Index) < mapWidth - 1 Then  'if column is less than last column
+        If curX(Index) > 0 Then  'if column is less than last column
             Call clearTile(tile(curX(Index) - 1, curY(Index) - 1), True, Index) 'clear (curX - 1, curY - 1)
         End If
     Else 'even row
-        If curX(Index) > 0 Then 'if column is greater than first column
+        If curX(Index) < mapWidth Then 'if column is greater than first column
             Call clearTile(tile(curX(Index) + 1, curY(Index) - 1), True, Index) 'clear (curX + 1, curY - 1)
         End If
     End If
@@ -249,11 +249,11 @@ If (curX(Index) <> nextX(Index) Or curY(Index) <> nextY(Index)) Then
             End If
         ElseIf strDir(Index) = "R" Then
             If oddRow(nextY(Index) - 1) Then
-                If nextX(Index) < mapWidth - 1 Then
+                If nextX(Index) > 0 Then
                     Call clearTile(tile(nextX(Index) - 1, nextY(Index) - 1), True, Index) 'clear (nextX - 1, nextY - 1)
                 End If
             Else
-                If nextX(Index) > 0 Then
+                If nextX(Index) < mapWidth Then
                     Call clearTile(tile(nextX(Index) + 1, nextY(Index) - 1), True, Index) 'clear (nextX + 1, nextY - 1)
                 End If
             End If
