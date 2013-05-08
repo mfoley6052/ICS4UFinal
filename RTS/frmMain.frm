@@ -171,7 +171,7 @@ Begin VB.Form frmMain
       Enabled         =   0   'False
       Interval        =   50
       Left            =   5040
-      Top             =   840
+      Top             =   360
    End
    Begin VB.Timer tmrTileAnimDelay 
       Enabled         =   0   'False
@@ -183,11 +183,6 @@ Begin VB.Form frmMain
       Enabled         =   0   'False
       Interval        =   25
       Left            =   8280
-      Top             =   360
-   End
-   Begin VB.Timer tmrScoreCheck 
-      Interval        =   250
-      Left            =   5040
       Top             =   360
    End
    Begin VB.Timer tmrChar 
@@ -204,14 +199,14 @@ Begin VB.Form frmMain
       BorderStyle     =   0  'None
       ForeColor       =   &H80000008&
       Height          =   9015
-      Left            =   360
+      Left            =   0
       ScaleHeight     =   601
       ScaleMode       =   3  'Pixel
-      ScaleWidth      =   753
+      ScaleWidth      =   801
       TabIndex        =   0
       Top             =   0
       Visible         =   0   'False
-      Width           =   11295
+      Width           =   12015
       Begin VB.PictureBox picEgg 
          Appearance      =   0  'Flat
          AutoRedraw      =   -1  'True
@@ -2682,7 +2677,7 @@ Begin VB.Form frmMain
          BorderStyle     =   0  'None
          ForeColor       =   &H80000008&
          Height          =   1500
-         Left            =   3375
+         Left            =   3480
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
@@ -2846,6 +2841,25 @@ Begin VB.Form frmMain
          Width           =   270
       End
    End
+   Begin VB.Label lblMulti 
+      BackStyle       =   0  'Transparent
+      Caption         =   "Multiplier: x1"
+      BeginProperty Font 
+         Name            =   "Arial Narrow"
+         Size            =   15.75
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H0000FF00&
+      Height          =   375
+      Left            =   150
+      TabIndex        =   155
+      Top             =   150
+      Width           =   1815
+   End
    Begin VB.Label lblTest2 
       BackStyle       =   0  'Transparent
       Caption         =   "Test"
@@ -2860,7 +2874,7 @@ Begin VB.Form frmMain
       EndProperty
       ForeColor       =   &H000000FF&
       Height          =   375
-      Left            =   0
+      Left            =   2040
       TabIndex        =   148
       Top             =   360
       Width           =   2055
@@ -2879,7 +2893,7 @@ Begin VB.Form frmMain
       EndProperty
       ForeColor       =   &H000000FF&
       Height          =   375
-      Left            =   0
+      Left            =   2040
       TabIndex        =   147
       Top             =   0
       Width           =   2055
@@ -2898,9 +2912,9 @@ Begin VB.Form frmMain
       EndProperty
       ForeColor       =   &H0000FF00&
       Height          =   375
-      Left            =   9840
+      Left            =   9240
       TabIndex        =   14
-      Top             =   120
+      Top             =   150
       Width           =   2055
    End
 End
@@ -2973,7 +2987,6 @@ Else
 End If
 End Sub
 
-
 Private Sub Form_Load()
 Call DrawMap(1)
 ReDim DefaultKey(3) As Integer
@@ -2998,10 +3011,6 @@ End Sub
 
 Private Sub Form_Resize()
 Call DrawMap(1)
-End Sub
-
-Private Sub tmrScoreCheck_Timer()
-lblScore = "Score " & Format(intScore, "0000000")
 End Sub
 
 Private Sub tmrObj_Timer()

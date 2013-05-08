@@ -69,6 +69,7 @@ End If
 tile(curX(Index), curY(Index)).hasChar = True
 If Index = 0 Then
     If tile(curX(0), curY(0)).hasObj Then
+        Dim blnMulti As Boolean
         If tile(curX(0), curY(0)).objType(0) = "Coin" Then
             'play coin sound
             If tile(curX(0), curY(0)).objType(1) = "Y" Then
@@ -86,11 +87,13 @@ If Index = 0 Then
         ElseIf tile(curX(0), curY(0)).objType(0) = "Egg" Then
             intMulti = tile(curX(0), curY(0)).objType(1)
             pScore = 1000
+            blnMulti = True
         End If
     Else
         pScore = 10
     End If
-    addScore (pScore)
+    Call addScore(pScore)
+    Call refreshLabels(True, False, blnMulti)
 End If
 If tile(curX(Index), curY(Index)).hasObj = True Then
     Call killObj(tile(curX(Index), curY(Index)))

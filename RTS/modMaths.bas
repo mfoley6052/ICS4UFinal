@@ -5,6 +5,19 @@ Public Sub addScore(ByVal intAdd As Integer)
 intScore = intScore + intAdd
 End Sub
 
+Public Sub refreshLabels(ByVal blnScore As Boolean, ByVal blnLives As Boolean, ByVal blnMulti As Boolean)
+With frmMain
+If blnScore Then
+    .lblScore = "Score " & Format(intScore, "0000000")
+End If
+If blnLives Then
+End If
+If blnMulti Then
+    .lblMulti = "Multiplier: " & intMulti
+End If
+End With
+End Sub
+
 Public Function tileTouchingChar(TileInput As terrain) As Boolean
 tileTouchingChar = False
 If TileInput.Yc < mapHeight - 1 Then 'if above bottom row of tiles
