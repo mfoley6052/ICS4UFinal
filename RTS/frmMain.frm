@@ -2946,20 +2946,40 @@ End Sub
 Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
 If blnPlayerMoveable = True Then
     If KeyCode = key(0) Then 'Left
-        If evalMove(0, "L") = True Then
-            Call getJump(0, "L")
+        If strDir(0) = "L" Then
+            If evalMove(0, strDir(0)) Then
+                Call getJump(0, strDir(0))
+            End If
+        Else
+            strDir(0) = "L"
         End If
     ElseIf KeyCode = key(1) Then 'Up
-        If evalMove(0, "U") = True Then
-            Call getJump(0, "U")
+        If strDir(0) = "U" Then
+            If evalMove(0, strDir(0)) Then
+                Call getJump(0, strDir(0))
+            End If
+        Else
+            strDir(0) = "U"
         End If
     ElseIf KeyCode = key(2) Then 'Right
-        If evalMove(0, "R") = True Then
-            Call getJump(0, "R")
+        If strDir(0) = "R" Then
+            If evalMove(0, strDir(0)) Then
+                Call getJump(0, strDir(0))
+            End If
+        Else
+            strDir(0) = "R"
         End If
     ElseIf KeyCode = key(3) Then 'Down
-        If evalMove(0, "D") = True Then
-            Call getJump(0, "D")
+        If strDir(0) = "D" Then
+            If evalMove(0, strDir(0)) Then
+                Call getJump(0, strDir(0))
+            End If
+        Else
+            strDir(0) = "D"
+        End If
+    ElseIf KeyCode = key(4) Then 'Action
+        If evalMove(0, strDir(0)) Then
+            Call getJump(0, strDir(0))
         End If
     End If
 End If
@@ -2989,16 +3009,18 @@ End Sub
 
 Private Sub Form_Load()
 Call DrawMap(1)
-ReDim DefaultKey(3) As Integer
-ReDim key(3) As Integer
+ReDim DefaultKey(4) As Integer
+ReDim key(4) As Integer
 key(0) = 37
 key(1) = 38
 key(2) = 39
 key(3) = 40
+key(4) = 32
 DefaultKey(0) = 37
 DefaultKey(1) = 38
 DefaultKey(2) = 39
 DefaultKey(3) = 40
+DefaultKey(4) = 32
 blnClearPrevTile(0) = False
 blnClearPrevTile(1) = False
 blnPlayerMoveable = False
@@ -3036,10 +3058,10 @@ For o = 0 To tileCount - 1
         frameCount = intObjTimer - ((intObjTimer \ frameLim) * frameLim)
         'paint object
         Call PaintObj(curTile.objType(0), curTile.objType(1), frameCount, curTile.Xc, curTile.Yc)
-        'If objTimer (frame advancements on obj) is under 80, add 1 to it
-        If intObjTimer < 80 Then
+        'If objTimer (frame advancements on obj) is under 100, add 1 to it
+        If intObjTimer < 100 Then
             tile(getTileFromInt(True, o), getTileFromInt(False, o)).objTimer = intObjTimer + 1
-        'if objTimer is 80 (or greater), disable obj and clear tile
+        'if objTimer is 100 (or greater), disable obj and clear tile
         Else
             Call killObj(curTile)
         End If
