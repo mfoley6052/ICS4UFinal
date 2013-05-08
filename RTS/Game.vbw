@@ -1,5 +1,14 @@
 frmMain = 131, 10, 1027, 479, C, 125, 125, 1024, 484, C
 modDataTypes = 44, 58, 1015, 588, 
-Module1 = 125, 125, 1001, 492, Z
+modDrawMap = 0, 0, 0, 0, C
 frmDbg = 132, 174, 1103, 704, , 66, 87, 1037, 617, C
 frmBg = 0, 0, 0, 0, C, 115, 115, 814, 735, C
+modCpuAi = 0, 0, 0, 0, C
+modMovement = 0, 0, 0, 0, C
+modVars = 0, 0, 0, 0, C
+modCollision = 0, 0, 0, 0, C
+modMaths = 0, 0, 0, 0, C
+modPaint = 0, 0, 0, 0, C
+modStartup = 0, 0, 0, 0, C
+frmSettings = 0, 0, 0, 0, C, 0, 0, 0, 0, C
+frmHiscore = 0, 0, 0, 0, C, 69, 69, 768, 689, C
