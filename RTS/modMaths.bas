@@ -2,7 +2,7 @@ Attribute VB_Name = "modMaths"
 Option Explicit
 
 Public Sub addScore(ByVal intAdd As Integer)
-intScore = intScore + intAdd
+intScore = intScore + (intMulti * intAdd)
 End Sub
 
 Public Sub refreshLabels(ByVal blnScore As Boolean, ByVal blnLives As Boolean, ByVal blnMulti As Boolean)
@@ -13,7 +13,7 @@ End If
 If blnLives Then
 End If
 If blnMulti Then
-    .lblMulti = "Multiplier: " & intMulti
+    .lblMulti = "Multiplier: " & intMulti & "x"
 End If
 End With
 End Sub

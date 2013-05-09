@@ -19,6 +19,16 @@ Begin VB.Form frmSettings
       TabIndex        =   1
       Top             =   120
       Width           =   2415
+      Begin VB.TextBox txtCTR 
+         Enabled         =   0   'False
+         Height          =   285
+         Index           =   4
+         Left            =   840
+         TabIndex        =   13
+         Text            =   "Space Bar"
+         Top             =   1800
+         Width           =   1455
+      End
       Begin VB.CommandButton cmdDef 
          Caption         =   "Default"
          Height          =   375
@@ -75,6 +85,14 @@ Begin VB.Form frmSettings
          Text            =   "Left Arrow"
          Top             =   360
          Width           =   1455
+      End
+      Begin VB.Label Label5 
+         Caption         =   "Action"
+         Height          =   255
+         Left            =   120
+         TabIndex        =   12
+         Top             =   1800
+         Width           =   615
       End
       Begin VB.Label Label4 
          Caption         =   "Down"

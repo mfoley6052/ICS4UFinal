@@ -7,7 +7,7 @@ Public counterLimit(1 To 3) As Integer
 Public frameCounter(0 To 3) As Integer
 Public frameLimit(0 To 3) As Integer
 Public strState(0 To 3) As String
-Public intScore As Integer
+Public intScore As Long
 Public intMulti As Integer
 Public spriteX(0 To 3) As Integer
 Public spriteY(0 To 3) As Integer
