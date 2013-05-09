@@ -18,27 +18,44 @@ End If
 End With
 End Sub
 
-Public Function tileTouchingChar(TileInput As terrain) As Boolean
+Public Function tileTouchingChar(tileInput As terrain) As Boolean
 tileTouchingChar = False
-If TileInput.Yc < mapHeight - 1 Then 'if above bottom row of tiles
-    If oddRow(TileInput.Yc + 1) Then 'if tile row is odd
-        If tile(TileInput.Xc, TileInput.Yc + 1).hasChar Then 'if other below tile is taken by a character
+If tileInput.Yc < mapHeight - 1 Then 'if above bottom row of tiles
+    If oddRow(tileInput.Yc + 1) Then 'if tile row is odd
+        If tile(tileInput.Xc, tileInput.Yc + 1).hasChar Then 'if other below tile is taken by a character
             tileTouchingChar = True
         Else 'if tile (TileInput.xc, TileInput.yc + 1) is not taken by a character
-            If TileInput.Xc > 0 Then 'if column is less than last column
-                If tile(TileInput.Xc - 1, TileInput.Yc + 1).hasChar Then 'if tile (TileInput.xc - 1, TileInput.yc + 1) is taken by a character
+            If tileInput.Xc > 0 Then 'if column is less than last column
+                If tile(tileInput.Xc - 1, tileInput.Yc + 1).hasChar Then 'if tile (TileInput.xc - 1, TileInput.yc + 1) is taken by a character
                     tileTouchingChar = True
                 End If
             End If
         End If
     Else 'if tile row is even
-        If tile(TileInput.Xc, TileInput.Yc + 1).hasChar Then 'if tile (TileInput.xc, TileInput.yc + 1) is taken by a character
+        If tile(tileInput.Xc, tileInput.Yc + 1).hasChar Then 'if tile (TileInput.xc, TileInput.yc + 1) is taken by a character
             tileTouchingChar = True
-        ElseIf TileInput.Xc < mapWidth - 1 Then 'if column is greater than first
-            If tile(TileInput.Xc + 1, TileInput.Yc + 1).hasChar Then 'if other below tile is taken by a character
+        ElseIf tileInput.Xc < mapWidth - 1 Then 'if column is greater than first
+            If tile(tileInput.Xc + 1, tileInput.Yc + 1).hasChar Then 'if other below tile is taken by a character
                 tileTouchingChar = True
             End If
         End If
+    End If
+End If
+End Function
+
+Public Function checkClearVoid(tileInput As terrain, ByVal blnL As Boolean, ByVal blnR As Boolean) As Boolean
+checkClearVoid = False
+If blnL Then
+    If tileInput.Yc = 0 Then
+        checkClearVoid = True
+    ElseIf tileInput.Xc = 0 Then
+        checkClearVoid = True
+    End If
+ElseIf blnR Then
+    If tileInput.Yc = 0 Then
+        checkClearVoid = True
+    ElseIf (oddRow(tileInput.Yc) And tileInput.Xc = mapWidth) Or (Not oddRow(tileInput.Yc) And tileInput.Xc = mapWidth - 1) Then
+        checkClearVoid = True
     End If
 End If
 End Function

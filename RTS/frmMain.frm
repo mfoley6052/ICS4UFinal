@@ -3150,7 +3150,7 @@ End Sub
 
 Private Sub tmrObjEvent_Timer()
 Dim intRand As Integer
-If objTileCount < tileCount - 3 Then
+If objTileCount < tileCount - 4 Then
     intRand = randInt(1, 100)
     Dim intType As Integer
     intType = randInt(1, 100)
