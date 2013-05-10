@@ -1,6 +1,6 @@
 Attribute VB_Name = "modCpuAi"
 
-Public Function cpuAI(ByVal index As Integer)
+Public Function cpuAI(ByVal Index As Integer)
 Dim tempRand As Integer
 Dim hasBC As Boolean
 Static stepCount As Integer
@@ -16,17 +16,17 @@ ElseIf intScore < 4000 Then
 ElseIf intScore < 5000 Then
     ReDim Preserve pathStep(1 To 30)
 End If
-If index = 0 Then
+If Index = 1 Then
 'Lead the way
     For q = LBound(pathStep) To UBound(pathStep)
-        If pathStep(q).x = curX(index) And pathStep(q).y = curY(index) Then
+        If pathStep(q).x = curX(Index) And pathStep(q).y = curY(Index) Then
             hasBC = True
         End If
     Next q
     If hasBC Then
         If stepCount < UBound(pathStep) Then
-            nextX(index) = pathStep(stepCount).x
-            nextY(index) = pathStep(stepCount).y
+            nextX(Index) = pathStep(stepCount).x
+            nextY(Index) = pathStep(stepCount).y
         End If
     Else
         Randomize Timer
@@ -35,30 +35,4 @@ If index = 0 Then
 Else
 'Follow Leader with breadcrumbs
 End If
-End Function
-
-Public Function aiDecideMove(ByVal index As Integer) As Integer
-'is it better to get rid of coins or chase player
-Call nearestCoin(index)
-If Abs(curX(index) - curX(0)) >= Abs(curX(index) - smallestX) And Abs(curY(index) - curY(0)) >= Abs(curY(index) - smallestY) Then
-    aiDecideMove = 1
-Else
-    aiDecideMove = 0
-End If
-End Function
-
-Public Function nearestCoin(ByVal index As Integer) As Long
-smallestX = 0
-smallestY = 0
-For x = 0 To mapWidth
-    For y = 0 To mapHeight
-    'if the tile has a coin then check if it is closer than the closest one, if it is make it the closest one
-        If tile(x, y).coinEnabled = True Then
-            If Abs(curX(index) - tile(x, y).x) < smallestX And Abs(curY(index) - tile(x, y).y) < smallestY Then
-                smallestX = Abs(curX(index) - tile(x, y).x)
-                smallestY = Abs(curY(index) - tile(x, y).y)
-            End If
-        End If
-    Next y
-Next x
 End Function

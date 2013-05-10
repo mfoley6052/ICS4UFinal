@@ -49,105 +49,105 @@ Begin VB.Form frmMain
       Enabled         =   0   'False
       Index           =   0
       Interval        =   50
-      Left            =   6240
-      Top             =   840
+      Left            =   11040
+      Top             =   3000
    End
    Begin VB.Timer tmrFrame 
       Enabled         =   0   'False
       Index           =   1
       Interval        =   50
-      Left            =   6720
-      Top             =   840
+      Left            =   11040
+      Top             =   3480
    End
    Begin VB.Timer tmrFrame 
       Enabled         =   0   'False
       Index           =   2
       Interval        =   50
-      Left            =   7200
-      Top             =   840
+      Left            =   11040
+      Top             =   3960
    End
    Begin VB.Timer tmrFrame 
       Enabled         =   0   'False
       Index           =   3
       Interval        =   50
-      Left            =   7680
-      Top             =   840
+      Left            =   11040
+      Top             =   4440
    End
    Begin VB.Timer tmrHurt 
       Enabled         =   0   'False
       Index           =   0
       Interval        =   500
-      Left            =   9960
-      Top             =   120
+      Left            =   11520
+      Top             =   3000
    End
    Begin VB.Timer tmrHurt 
       Enabled         =   0   'False
       Index           =   3
       Interval        =   500
-      Left            =   9960
+      Left            =   11520
+      Top             =   4440
+   End
+   Begin VB.Timer tmrHurt 
+      Enabled         =   0   'False
+      Index           =   2
+      Interval        =   500
+      Left            =   11520
+      Top             =   3960
+   End
+   Begin VB.Timer tmrHurt 
+      Enabled         =   0   'False
+      Index           =   1
+      Interval        =   500
+      Left            =   11520
+      Top             =   3480
+   End
+   Begin VB.Timer tmrChar 
+      Enabled         =   0   'False
+      Index           =   3
+      Interval        =   50
+      Left            =   10560
+      Top             =   4440
+   End
+   Begin VB.Timer tmrChar 
+      Enabled         =   0   'False
+      Index           =   2
+      Interval        =   50
+      Left            =   10560
+      Top             =   3960
+   End
+   Begin VB.Timer tmrChar 
+      Enabled         =   0   'False
+      Index           =   1
+      Interval        =   50
+      Left            =   10560
+      Top             =   3480
+   End
+   Begin VB.Timer tmrCPUMove 
+      Enabled         =   0   'False
+      Index           =   3
+      Interval        =   1000
+      Left            =   11520
+      Top             =   2040
+   End
+   Begin VB.Timer tmrCPUMove 
+      Enabled         =   0   'False
+      Index           =   2
+      Interval        =   1000
+      Left            =   11520
       Top             =   1560
    End
-   Begin VB.Timer tmrHurt 
+   Begin VB.Timer tmrCPUMove 
       Enabled         =   0   'False
-      Index           =   2
-      Interval        =   500
-      Left            =   9960
+      Index           =   1
+      Interval        =   1000
+      Left            =   11520
       Top             =   1080
-   End
-   Begin VB.Timer tmrHurt 
-      Enabled         =   0   'False
-      Index           =   1
-      Interval        =   500
-      Left            =   9960
-      Top             =   600
-   End
-   Begin VB.Timer tmrChar 
-      Enabled         =   0   'False
-      Index           =   3
-      Interval        =   50
-      Left            =   6120
-      Top             =   1320
-   End
-   Begin VB.Timer tmrChar 
-      Enabled         =   0   'False
-      Index           =   2
-      Interval        =   50
-      Left            =   5640
-      Top             =   1320
-   End
-   Begin VB.Timer tmrChar 
-      Enabled         =   0   'False
-      Index           =   1
-      Interval        =   50
-      Left            =   5640
-      Top             =   840
-   End
-   Begin VB.Timer tmrCPUMove 
-      Enabled         =   0   'False
-      Index           =   3
-      Interval        =   1000
-      Left            =   10440
-      Top             =   1560
-   End
-   Begin VB.Timer tmrCPUMove 
-      Enabled         =   0   'False
-      Index           =   2
-      Interval        =   1000
-      Left            =   10440
-      Top             =   1080
-   End
-   Begin VB.Timer tmrCPUMove 
-      Enabled         =   0   'False
-      Index           =   1
-      Interval        =   1000
-      Left            =   10440
-      Top             =   600
    End
    Begin VB.Timer tmrObjEvent 
       Enabled         =   0   'False
       Interval        =   1500
-      Left            =   9480
-      Top             =   360
+      Left            =   11520
+      Top             =   120
    End
    Begin VB.PictureBox picSparkleMask 
       Appearance      =   0  'Flat
@@ -170,27 +170,27 @@ Begin VB.Form frmMain
    Begin VB.Timer tmrObj 
       Enabled         =   0   'False
       Interval        =   50
-      Left            =   5040
-      Top             =   360
+      Left            =   10080
+      Top             =   120
    End
    Begin VB.Timer tmrTileAnimDelay 
       Enabled         =   0   'False
       Interval        =   25
-      Left            =   8880
-      Top             =   360
+      Left            =   11040
+      Top             =   120
    End
    Begin VB.Timer tmrTileAnim 
       Enabled         =   0   'False
       Interval        =   25
-      Left            =   8280
-      Top             =   360
+      Left            =   10560
+      Top             =   120
    End
    Begin VB.Timer tmrChar 
       Enabled         =   0   'False
       Index           =   0
       Interval        =   50
-      Left            =   5640
-      Top             =   360
+      Left            =   10560
+      Top             =   3000
    End
    Begin VB.PictureBox picBackground 
       Appearance      =   0  'Flat
