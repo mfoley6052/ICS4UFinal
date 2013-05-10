@@ -9,8 +9,9 @@ Begin VB.Form frmSettings
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   5550
-   ScaleWidth      =   8520
+   ScaleHeight     =   370
+   ScaleMode       =   3  'Pixel
+   ScaleWidth      =   568
    ShowInTaskbar   =   0   'False
    Begin VB.Frame fControl 
       Caption         =   "Controls"
