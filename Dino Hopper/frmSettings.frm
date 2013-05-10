@@ -13,6 +13,7 @@ Begin VB.Form frmSettings
    ScaleMode       =   3  'Pixel
    ScaleWidth      =   568
    ShowInTaskbar   =   0   'False
+   StartUpPosition =   2  'CenterScreen
    Begin VB.Frame fControl 
       Caption         =   "Controls"
       Height          =   5415

@@ -24,10 +24,10 @@ If Index = 1 Then
         End If
     Next q
     If hasBC Then
-        If stepCount < UBound(pathStep) Then
-            nextX(Index) = pathStep(stepCount).x
-            nextY(Index) = pathStep(stepCount).y
-        End If
+        'If stepCount < UBound(pathStep) Then
+         '   nextX(Index) = pathStep(stepCount).x
+          '  nextY(Index) = pathStep(stepCount).y
+       ' End If
     Else
         Randomize Timer
         tempRand = randInt(1, 4)

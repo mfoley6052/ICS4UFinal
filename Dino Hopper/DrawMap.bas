@@ -20,22 +20,43 @@ Public Function DrawMap(ByVal mapNum As Integer) As Boolean
     frmDbg.lstMap.Clear
     mapHeight = 7
     mapWidth = 7
-    For y = 0 To (mapHeight - 1) * (frmMain.picScene(0).Height * 0.75) Step 0.75 * frmMain.picScene(0).Height
-        For x = (50 - xStart) To (mapWidth * frmMain.picScene(0).Width) + xStart Step frmMain.picScene(0).Width
+    For y = 0 To (mapHeight - 1) * 75 Step 75
+        For x = (50 - xStart) To (mapWidth * 100) + xStart Step 100
             'rand = Int(Rnd() * 2)
             If (y + 75) Mod 150 = 0 Then
                 xStart = 0
             Else
-                xStart = frmMain.picScene(0).Width / 2
+                xStart = 100 / 2
             End If
             ReDim Preserve tile(mapWidth, mapHeight) As terrain
-
-            tile(Int((x + (50 - xStart)) / frmMain.picScene(0).Width), Int(y / (frmMain.picScene(0).Height * 0.75))).Xc = x \ 100
-            tile(Int((x + (50 - xStart)) / frmMain.picScene(0).Width), Int(y / (frmMain.picScene(0).Height * 0.75))).Yc = y \ 75
-            tile(Int((x + (50 - xStart)) / frmMain.picScene(0).Width), Int(y / (frmMain.picScene(0).Height * 0.75))).x = x
-            tile(Int((x + (50 - xStart)) / frmMain.picScene(0).Width), Int(y / (frmMain.picScene(0).Height * 0.75))).y = y
-            tile(Int((x + (50 - xStart)) / frmMain.picScene(0).Width), Int(y / (frmMain.picScene(0).Height * 0.75))).hasObj = False
-
+            Dim currentTile As terrain
+            currentTile = tile(Int((x + (50 - xStart)) / 100), Int(y / 75))
+            currentTile.Xc = x \ 100
+            currentTile.Yc = y \ 75
+            currentTile.x = x
+            currentTile.y = y
+            currentTile.hasObj = False
+            With frmMain
+            If currentTile.Yc = 0 Then
+                Set currentTile.picMask = .picMask
+                Set currentTile.picTile = .picTile(0)
+            ElseIf oddRow(currentTile.Yc) Then
+                If currentTile.Xc = 0 Then
+                    Set currentTile.picMask = .picMaskL
+                    Set currentTile.picTile = .picTileL(0)
+                ElseIf currentTile.Xc = mapWidth Then
+                    Set currentTile.picMask = .picMaskR
+                    Set currentTile.picTile = .picTileR(0)
+                Else
+                    Set currentTile.picMask = .picMaskLR
+                    Set currentTile.picTile = .picTileLR(0)
+                End If
+            Else
+                Set currentTile.picMask = .picMaskLR
+                Set currentTile.picTile = .picTileLR(0)
+            End If
+            End With
+            tile(Int((x + (50 - xStart)) / 100), Int(y / 75)) = currentTile
             'frmDbg.lstMap.AddItem ("(" & Tile(Int((X - xStart) / 100), Int(Y / 25)).X & "," & Tile(Int((X - xStart) / 100), Int(Y / 25)).Y & ")" & vbTab)
         Next x
     Next y

@@ -4,7 +4,6 @@ Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\..\Wind
 Module=modDataTypes; modDataTypes.bas
 Module=modDrawMap; DrawMap.bas
 Form=debug.frm
-Form=frmBg.frm
 Module=modCpuAi; CpuAi.bas
 Module=modMovement; modMovement.bas
 Module=modVars; modVars.bas
@@ -15,7 +14,7 @@ Module=modStartup; modStartup.bas
 Form=frmSettings.frm
 Form=frmStart.frm
 IconForm="frmMain"
-Startup="frmMain"
+Startup="frmStart"
 HelpFile=""
 Title="Game"
 ExeName32="DinoHopper.exe"
@@ -49,3 +48,6 @@ DebugStartupOption=0
 
 [MS Transaction Server]
 AutoRefresh=1
+
+[RVB]
+DeleteClass1=frmBg

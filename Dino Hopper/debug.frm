@@ -10,6 +10,7 @@ Begin VB.Form frmDbg
    ScaleMode       =   3  'Pixel
    ScaleWidth      =   813
    ShowInTaskbar   =   0   'False
+   StartUpPosition =   2  'CenterScreen
    Begin VB.TextBox txtAiMode 
       Height          =   495
       Index           =   3
