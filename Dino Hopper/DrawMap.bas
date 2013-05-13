@@ -69,7 +69,7 @@ Public Function DrawMap(ByVal mapNum As Integer) As Boolean
                 End If
             Else
                 Set currentTile.picMask = .picMaskLR
-                Set currentTile.picTile = .picTileLR(0)
+                Set currentTile.picTile = .picTileLR(rand)
             End If
             End With
             tile(Int((x + (50 - xStart)) / 100), Int(y / 75)) = currentTile
