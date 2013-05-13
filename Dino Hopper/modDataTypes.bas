@@ -27,11 +27,5 @@ Public Type terrain ' data type for different terrains
     terType As Integer
     picTile As Object
     picMask As Object
+    pathCount As Integer
 End Type
-
-Public Type BreadCrumb 'path for AI
-    x As Integer
-    y As Integer
-    tile As terrain
-End Type
-

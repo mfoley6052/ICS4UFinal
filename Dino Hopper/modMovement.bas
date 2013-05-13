@@ -37,21 +37,6 @@ Public Sub getJumpComplete(ByVal Index As Integer)
 Dim pScore As Integer
 Dim q As Integer
 With frmMain
-
-prevX(Index) = curX(Index)
-prevY(Index) = curY(Index)
-'For ai pathing
-'If index = 0 Then
-'    Do Until q = 2
-'        q = UBound(pathStep)
-'        pathStep(q).x = pathStep(q - 1).x
-'        pathStep(q).y = pathStep(q - 1).y
-'
-'        q = q - 1
-'    Loop
-'    pathStep(1).x = curX(0)
-'    pathStep(1).y = curY(0)
-'End If
 prevX(Index) = curX(Index)
 prevY(Index) = curY(Index)
 tile(curX(Index), curY(Index)).hasChar = False

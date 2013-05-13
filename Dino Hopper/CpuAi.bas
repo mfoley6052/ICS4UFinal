@@ -1,38 +1,77 @@
 Attribute VB_Name = "modCpuAi"
 
 Public Function cpuAI(ByVal Index As Integer)
-Dim tempRand As Integer
-Dim hasBC As Boolean
-Static stepCount As Integer
-
-If intScore < 1000 Then
-    ReDim Preserve pathStep(1 To 5)
-ElseIf intScore < 2000 Then
-    ReDim Preserve pathStep(1 To 10)
-ElseIf intScore < 3000 Then
-    ReDim Preserve pathStep(1 To 15)
-ElseIf intScore < 4000 Then
-    ReDim Preserve pathStep(1 To 20)
-ElseIf intScore < 5000 Then
-    ReDim Preserve pathStep(1 To 30)
-End If
-If Index = 1 Then
-'Lead the way
-    For q = LBound(pathStep) To UBound(pathStep)
-        If pathStep(q).x = curX(Index) And pathStep(q).y = curY(Index) Then
-            hasBC = True
-        End If
-    Next q
-    If hasBC Then
-        'If stepCount < UBound(pathStep) Then
-         '   nextX(Index) = pathStep(stepCount).x
-          '  nextY(Index) = pathStep(stepCount).y
-       ' End If
-    Else
-        Randomize Timer
-        tempRand = randInt(1, 4)
-    End If
+Dim openList() As terrain
+Dim closedList() As terrain
+Dim ext As Integer
+Dim extraX As Integer
+Dim extraY As Integer
+'if the row is odd then there is one less tile on the x axis
+If oddRow(curY(Index)) Then
+    ext = -1
 Else
-'Follow Leader with breadcrumbs
+    ext = 0
 End If
+'check for outer edges, and then set the array size and locations of the adjacent tiles to the current tile
+If curX(Index) > 0 And curX(Index) < mapWidth + ext Then  'Not on map edge horizontally
+    If curY(Index) > 0 And curY(Index) < mapHeight Then 'Not on map edge vertically
+        'All adjacent tiles are available
+        ReDim Preserve openList(3) As terrain
+        openList(0) = tile(curX(Index) - 1, curY(Index) - 1)
+        openList(1) = tile(curX(Index) - 1, curY(Index) + 1)
+        openList(2) = tile(curX(Index) + 1, curY(Index) - 1)
+        openList(3) = tile(curX(Index) + 1, curY(Index) + 1)
+    Else 'Vertical Edge
+        ReDim Preserve openList(1) As terrain
+        If curY(Index) = 0 Then
+            openList(1) = tile(curX(Index) - 1, curY(Index) + 1)
+            openList(3) = tile(curX(Index) + 1, curY(Index) + 1)
+        Else
+            openList(0) = tile(curX(Index) - 1, curY(Index) - 1)
+            openList(2) = tile(curX(Index) + 1, curY(Index) - 1)
+        End If
+    End If
+Else ' Horizontal Edge
+    ReDim Preserve openList(1) As terrain
+    openList(2) = tile(curX(Index) + 1, curY(Index) - 1)
+    openList(3) = tile(curX(Index) + 1, curY(Index) + 1)
+End If
+'use quadrant-style math to change look ahead into the path and calculate the steps needed
+For q = LBound(openList) To UBound(openList)
+    openList(q).pathCount = 0
+    'extrax and extray are used to simulate the direction of the steps
+    'loop until the number of steps in the direction specified from the current location = the destination
+    Do Until openList(q).Xc + extraX * openList(q).pathCount = curX(0) And openList(q).Yc + extraY * openList(q).pathCount = curY(0)
+        openList(q).pathCount = openList(q).pathCount + 1
+        If openList(q).Xc <> curX(0) Then ' If the x coord of the tile isnt the player tile
+            If openList(q).Yc <> curY(0) Then ' If the y coord of the tile isnt the player tile
+                If openList(q).Xc > curX(0) And openList(q).Yc > curY(0) Then
+                    extraX = -1
+                    extraY = -1
+                ElseIf openList(q).Xc < curX(0) And openList(q).Yc > curY(0) Then
+                    extraX = 1
+                    extraY = -1
+                ElseIf openList(q).Xc > curX(0) And openList(q).Yc < curY(0) Then
+                    extraX = -1
+                    extraY = 1
+                ElseIf openList(q).Xc < curX(0) And openList(q).Yc < curY(0) Then
+                    extraX = 1
+                    extraY = 1
+               End If
+            End If
+        End If
+    Loop
+Next q
+'Sort the choices by number of steps to player, holding on to the lowest amount
+Dim bestTile As terrain
+For q = LBound(openList) + 1 To UBound(openList)
+    If openList(q).pathCount < openList(q - 1).pathCount Then
+        If bestTile.pathCount > openList(q).pathCount Then
+            bestTile = openList(q)
+        End If
+    End If
+Next q
+'Send choice to movement part of engine
+nextX(Index) = bestTile.Xc
+nextY(Index) = bestTile.Yc
 End Function

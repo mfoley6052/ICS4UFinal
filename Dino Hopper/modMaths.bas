@@ -102,7 +102,7 @@ ElseIf blnX = False Then
     If intInput >= mapWidth Then
         If intInput >= (mapWidth * 2) + 1 Then
             Dim b As Integer
-            a = 2
+            'a = 2
             Do Until intInput < (mapWidth * b) + Int(b / 2)
                 b = b + 1
             Loop
