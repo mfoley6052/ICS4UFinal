@@ -24,6 +24,7 @@ Begin VB.Form frmStart
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
+      ForeColor       =   &H80000006&
       Height          =   555
       Index           =   2
       Left            =   8040
@@ -47,6 +48,7 @@ Begin VB.Form frmStart
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
+      ForeColor       =   &H80000006&
       Height          =   555
       Index           =   0
       Left            =   0
@@ -159,7 +161,7 @@ If Index = 0 Then 'left
             txtMenu(x).Text = "Exit"
         End If
     Next x
-ElseIf Index = 2 Then
+ElseIf Index = 2 Then 'right
     For x = 0 To 2
         If Val(txtMenu(x).Tag) > 0 Then
             txtMenu(x).Tag = Val(txtMenu(x).Tag) - 1
@@ -174,7 +176,7 @@ ElseIf Index = 2 Then
             txtMenu(x).Text = "Exit"
         End If
     Next x
-Else
+Else ' Select
     If txtMenu(1).Tag = 2 Then
         End
     ElseIf txtMenu(1).Tag = 1 Then

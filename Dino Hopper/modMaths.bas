@@ -1,6 +1,5 @@
 Attribute VB_Name = "modMaths"
 Option Explicit
-
 Public Sub addScore(ByVal intAdd As Integer)
 intScore = intScore + (intMulti * intAdd)
 End Sub
@@ -13,7 +12,7 @@ End If
 If blnLives Then
 End If
 If blnMulti Then
-    .lblMulti = "Multiplier: x" & intMulti
+    .lblMulti = "Multiplier: " & intMulti & "x"
 End If
 End With
 End Sub
