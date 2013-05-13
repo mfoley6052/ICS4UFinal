@@ -3637,7 +3637,7 @@ Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
 If blnPlayerMoveable = True Then
     If KeyCode = key(0) Then 'Left
         If evalMove(0, "L") Then
-            If gameMode = 0 Or (gameMode = 1 And strDir(0) = "L") Or gameMode = 2 Then
+            If gameMode <> 1 Or (gameMode = 1 And strDir(0) = "L") Then
                 Call getJump(0, "L")
             ElseIf gameMode = 1 Then
                 strDir(0) = "L"
@@ -3645,7 +3645,7 @@ If blnPlayerMoveable = True Then
         End If
     ElseIf KeyCode = key(1) Then 'Up
         If evalMove(0, "U") Then
-            If gameMode = 0 Or (gameMode = 1 And strDir(0) = "U") Or gameMode = 2 Then
+            If gameMode <> 1 Or (gameMode = 1 And strDir(0) = "U") Then
                 Call getJump(0, "U")
             ElseIf gameMode = 1 Then
                 strDir(0) = "U"
@@ -3653,7 +3653,7 @@ If blnPlayerMoveable = True Then
         End If
     ElseIf KeyCode = key(2) Then 'Right
         If evalMove(0, "R") Then
-            If gameMode = 0 Or (gameMode = 1 And strDir(0) = "R") Or gameMode = 2 Then
+            If gameMode <> 1 Or (gameMode = 1 And strDir(0) = "R") Then
                 Call getJump(0, "R")
             ElseIf gameMode = 1 Then
                 strDir(0) = "R"
@@ -3661,7 +3661,7 @@ If blnPlayerMoveable = True Then
         End If
     ElseIf KeyCode = key(3) Then 'Down
         If evalMove(0, "D") Then
-            If gameMode = 0 Or (gameMode = 1 And strDir(0) = "D") Or gameMode = 2 Then
+            If gameMode <> 1 Or (gameMode = 1 And strDir(0) = "D") Then
                 Call getJump(0, "D")
             ElseIf gameMode = 1 Then
                 strDir(0) = "D"
