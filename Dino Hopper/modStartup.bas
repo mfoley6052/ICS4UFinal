@@ -7,10 +7,13 @@ Public Sub gameStart()
 With frmMain
 .tmrChar(0).Enabled = True
 .tmrChar(1).Enabled = True
-.tmrObjEvent.Enabled = True
 .tmrObj.Enabled = True
-objExpire = 100
-.tmrCPUMove(1).Enabled = True
+If gameMode <> 1 Then
+.tmrObjEvent.Enabled = True
+    objExpire = 100
+    .tmrCPUMove(1).Enabled = True
+    counterLimit(1) = 1 'cpu 1 moves every (counterLimit + 1) seconds
+End If
 blnPlayerMoveable = True
 intMulti = 1
 curX(0) = (mapWidth - 1) \ 2
@@ -37,8 +40,6 @@ frameLimit(0) = 10
 frameLimit(1) = 10
 frameLimit(2) = 10
 frameLimit(3) = 10
-'cpu 1 moves every (counterLimit + 1) seconds
-counterLimit(1) = 1
 End With
 End Sub
 
