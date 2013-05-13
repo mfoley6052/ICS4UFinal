@@ -37,6 +37,7 @@ Public Sub getJumpComplete(ByVal Index As Integer)
 Dim pScore As Integer
 Dim q As Integer
 With frmMain
+
 prevX(Index) = curX(Index)
 prevY(Index) = curY(Index)
 'For ai pathing
@@ -58,9 +59,10 @@ If (Index = 0 And blnPlayerMoveable = True) Or Index > 0 Then
     curX(Index) = nextX(Index)
     curY(Index) = nextY(Index)
 End If
-
+Dim inputTile As terrain
+inputTile = tile(curX(Index), curY(Index))
 If Index > 0 Then
-    If curX(Index) = curX(0) And curY(Index) = curY(0) Then
+    If inputTile.Xc = curX(0) And inputTile.Yc = curY(0) Then
         blnPlayerMoveable = False
         .tmrHurt(Index).Enabled = True
     End If
@@ -68,29 +70,30 @@ Else
 End If
 tile(curX(Index), curY(Index)).hasChar = True
 If Index = 0 Then
-    If tile(curX(0), curY(0)).hasObj Then
+    If inputTile.hasObj Then
         Dim blnMulti As Boolean
-        If tile(curX(0), curY(0)).objType(0) = "Coin" Then
+        If inputTile.objType(0) = "Coin" Then
             'play coin sound
-            If tile(curX(0), curY(0)).objType(1) = "Y" Then
+            If inputTile.objType(1) = "Y" Then
                 pScore = 100
-            ElseIf tile(curX(0), curY(0)).objType(1) = "R" Then
+            ElseIf inputTile.objType(1) = "R" Then
                 pScore = 250
-            ElseIf tile(curX(0), curY(0)).objType(1) = "B" Then
+            ElseIf inputTile.objType(1) = "B" Then
                 pScore = 500
             End If
-        ElseIf tile(curX(0), curY(0)).objType(0) = "Pow" Then
+        ElseIf inputTile.objType(0) = "Pow" Then
             'play scare power-up sound
-            If tile(curX(0), curY(0)).objType(1) = "Scare" Then
+            If inputTile.objType(1) = "Scare" Then
                 pScore = 200
             End If
-        ElseIf tile(curX(0), curY(0)).objType(0) = "Egg" Then
-            intMulti = tile(curX(0), curY(0)).objType(1)
+        ElseIf inputTile.objType(0) = "Egg" Then
+            intMulti = inputTile.objType(1)
             pScore = 1000
             blnMulti = True
         End If
-    Else
-        pScore = 10
+    End If
+    If inputTile.terType = 0 Then
+        pScore = pScore + 25
     End If
     Call addScore(pScore)
     Call refreshLabels(True, False, blnMulti)

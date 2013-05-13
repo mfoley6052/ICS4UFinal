@@ -1,7 +1,7 @@
 Attribute VB_Name = "modPaint"
 Option Explicit
 
-Public Sub clearTile(tileInput As terrain, ByVal bypassForObj As Boolean, Optional Index As Integer)
+Public Sub clearTile(tileInput As terrain, ByVal bypassForObj As Boolean, Optional Index As Integer, Optional callID As String)
 With frmMain
 'if object not enabled on tile or bypassForObj is true (doesn't paint if bypassForObj is true and object is enabled on tile)
 If Not tileInput.hasObj Or Not bypassForObj Then
@@ -155,25 +155,25 @@ ElseIf strObjType = "Egg" Then
     End If
 End If
 
-Call clearTile(tile(intObjX, intObjY), False, -1)
+Call clearTile(tile(intObjX, intObjY), False, -1, "ObjXY")
 'Call clearVoid(tile(intObjX, intObjY), checkClearVoid(tile(intObjX, intObjY), True, False), checkClearVoid(tile(intObjX, intObjY), False, True))
 If intObjY > 0 Then
     If oddRow(intObjY) Then
         If intObjX <= mapWidth - 1 Then
-            Call clearTile(tile(intObjX, intObjY - 1), False, -1)
+            Call clearTile(tile(intObjX, intObjY - 1), False, -1, "ObjOddX-Y")
             'Call clearVoid(tile(intObjX, intObjY - 1), checkClearVoid(tile(intObjX, intObjY - 1), True, False), checkClearVoid(tile(intObjX, intObjY - 1), False, True))
         End If
         If intObjX > 0 Then
-            Call clearTile(tile(intObjX - 1, intObjY - 1), False, -1)
+            Call clearTile(tile(intObjX - 1, intObjY - 1), False, -1, "ObjOdd-X-Y")
             'Call clearVoid(tile(intObjX - 1, intObjY - 1), checkClearVoid(tile(intObjX - 1, intObjY - 1), True, False), False)
         End If
     Else
         If intObjX <= mapWidth Then
-            Call clearTile(tile(intObjX, intObjY - 1), False, -1)
+            Call clearTile(tile(intObjX, intObjY - 1), False, -1, "ObjEvenX-Y")
             'Call clearVoid(tile(intObjX, intObjY - 1), checkClearVoid(tile(intObjX, intObjY - 1), True, False), checkClearVoid(tile(intObjX, intObjY - 1), False, True))
         End If
         If intObjX < mapWidth Then
-            Call clearTile(tile(intObjX + 1, intObjY - 1), False, -1)
+            Call clearTile(tile(intObjX + 1, intObjY - 1), False, -1, "ObjEven+X-Y")
             'Call clearVoid(tile(intObjX + 1, intObjY - 1), False, checkClearVoid(tile(intObjX + 1, intObjY - 1), False, True))
         End If
     End If
@@ -222,7 +222,7 @@ If blnClearPrevTile(Index) = True Then
     blnClearPrevTile(Index) = False
 End If
 'paint over frame
-Call clearTile(tile(curX(Index), curY(Index)), True, Index)
+Call clearTile(tile(curX(Index), curY(Index)), True, Index, "SelXY")
 'paint sel
 With frmMain
     .PaintPicture .picSelMask(imgIndex + 5 * Index).Image, tile(curX(Index), curY(Index)).x, tile(curX(Index), curY(Index)).y, 100, 100, 0, 0, 100, 100, vbSrcAnd
@@ -237,22 +237,22 @@ With frmMain
 If curY(Index) > 0 Then
     If oddRow(curY(Index)) Then 'odd row
         If curX(Index) <= mapWidth - 1 Then
-            Call clearTile(tile(curX(Index), curY(Index) - 1), True, Index) 'clear (curX, curY - 1)
+            Call clearTile(tile(curX(Index), curY(Index) - 1), True, Index, "CharOddX-Y") 'clear (curX, curY - 1)
         End If
         If curX(Index) > 0 Then  'if column is less than last column
-            Call clearTile(tile(curX(Index) - 1, curY(Index) - 1), True, Index) 'clear (curX - 1, curY - 1)
+            Call clearTile(tile(curX(Index) - 1, curY(Index) - 1), True, Index, "CharOdd-X-Y") 'clear (curX - 1, curY - 1)
         End If
     Else 'even row
         If curX(Index) <= mapWidth Then 'if column is greater than first column
-            Call clearTile(tile(curX(Index), curY(Index) - 1), True, Index) 'clear (curX, curY - 1)
+            Call clearTile(tile(curX(Index), curY(Index) - 1), True, Index, "CharEvenX-Y") 'clear (curX, curY - 1)
             If curX(Index) < mapWidth Then
-                Call clearTile(tile(curX(Index) + 1, curY(Index) - 1), True, Index) 'clear (curX + 1, curY - 1)
+                Call clearTile(tile(curX(Index) + 1, curY(Index) - 1), True, Index, "CharEven+X-Y") 'clear (curX + 1, curY - 1)
             End If
         End If
     End If
 End If
 If (curX(Index) <> nextX(Index) Or curY(Index) <> nextY(Index)) Then
-    Call clearTile(tile(nextX(Index), nextY(Index)), True, Index) 'clear (nextX, nextY)
+    Call clearTile(tile(nextX(Index), nextY(Index)), True, Index, "CharNXNY") 'clear (nextX, nextY)
     If strDir(Index) = "D" Then
         If oddRow(nextY(Index)) Then
         Else
@@ -261,27 +261,27 @@ If (curX(Index) <> nextX(Index) Or curY(Index) <> nextY(Index)) Then
         If strDir(Index) = "U" Then
             If oddRow(nextY(Index)) Then
                 If nextX(Index) <= mapWidth - 1 Then
-                    Call clearTile(tile(nextX(Index), nextY(Index) - 1), True, Index) 'clear (nextX, nextY - 1)
+                    Call clearTile(tile(nextX(Index), nextY(Index) - 1), True, Index, "CharNOddNXN-Y") 'clear (nextX, nextY - 1)
                 End If
                 If nextX(Index) < mapWidth - 1 Then
-                    Call clearTile(tile(nextX(Index) + 1, nextY(Index) - 1), True, Index) 'clear (nextX + 1, nextY - 1)
+                    Call clearTile(tile(nextX(Index) + 1, nextY(Index) - 1), True, Index, "CharNOddN+XN-Y") 'clear (nextX + 1, nextY - 1)
                 End If
             Else
                 If nextX(Index) <= mapWidth Then
-                    Call clearTile(tile(nextX(Index), nextY(Index) - 1), True, Index) 'clear (nextX, nextY - 1)
+                    Call clearTile(tile(nextX(Index), nextY(Index) - 1), True, Index, "CharNEvenNXN-Y") 'clear (nextX, nextY - 1)
                 End If
                 If nextX(Index) > 0 Then
-                    Call clearTile(tile(nextX(Index) - 1, nextY(Index) - 1), True, Index) 'clear (nextX - 1, nextY - 1)
+                    Call clearTile(tile(nextX(Index) - 1, nextY(Index) - 1), True, Index, "CharNEvenN-XN-Y") 'clear (nextX - 1, nextY - 1)
                 End If
             End If
         ElseIf strDir(Index) = "R" Then
             If oddRow(nextY(Index) - 1) Then
                 If nextX(Index) > 0 Then
-                    Call clearTile(tile(nextX(Index) - 1, nextY(Index) - 1), True, Index) 'clear (nextX - 1, nextY - 1)
+                    Call clearTile(tile(nextX(Index) - 1, nextY(Index) - 1), True, Index, "CharNOddN-XN-Y") 'clear (nextX - 1, nextY - 1)
                 End If
             Else
-                If nextX(Index) < mapWidth Then
-                    Call clearTile(tile(nextX(Index) + 1, nextY(Index) - 1), True, Index) 'clear (nextX + 1, nextY - 1)
+                If nextX(Index) < mapWidth - 1 Then
+                    Call clearTile(tile(nextX(Index) + 1, nextY(Index) - 1), True, Index, "CharNEvenN+XN-Y") 'clear (nextX + 1, nextY - 1)
                 End If
             End If
         End If
@@ -395,9 +395,9 @@ With frmMain
     .picBuffer.PaintPicture .picBackground.Image, 0, 0, 100, 100, 0, 0, 100, 100, vbSrcCopy
     .PaintPicture .picBuffer.Image, tileInput.x, (tileInput.y - 400) + (intFrame - 1) * 50, 100, 100, 0, 0, 100, 100, vbSrcCopy
     'paint tile mask with new y
-    .PaintPicture .picMask.Image, tileInput.x, (tileInput.y - 400) + intFrame * 50, 100, 100, 0, 0, 100, 100, vbSrcAnd
+    .PaintPicture tileInput.picMask.Image, tileInput.x, (tileInput.y - 400) + intFrame * 50, 100, 100, 0, 0, 100, 100, vbSrcAnd
     'paint tile with new y
-    .PaintPicture .picTile(0).Image, tileInput.x, (tileInput.y - 400) + intFrame * 50, 100, 100, 0, 0, 100, 100, vbSrcPaint
+    .PaintPicture tileInput.picTile.Image, tileInput.x, (tileInput.y - 400) + intFrame * 50, 100, 100, 0, 0, 100, 100, vbSrcPaint
     If intFrame >= 8 And tileInput.Xc = tile(0, 0).Xc And tileInput.Yc = tile(0, 0).Yc Then
         Call gameStart
         .tmrTileAnim.Enabled = False

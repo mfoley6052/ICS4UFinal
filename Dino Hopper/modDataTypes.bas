@@ -24,6 +24,7 @@ Public Type terrain ' data type for different terrains
     hasObj As Boolean
     objType(1) As String
     objTimer As Long
+    terType As Integer
     picTile As Object
     picMask As Object
 End Type

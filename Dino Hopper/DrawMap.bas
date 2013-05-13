@@ -36,20 +36,36 @@ Public Function DrawMap(ByVal mapNum As Integer) As Boolean
             currentTile.x = x
             currentTile.y = y
             currentTile.hasObj = False
+            rand = randInt(1, 100)
+            If rand >= 25 Then
+                currentTile.terType = 0
+                If rand > 66 Then
+                    rand = 1
+                Else
+                    rand = 0
+                End If
+            ElseIf rand < 25 Then
+                currentTile.terType = 1
+                If rand > 10 Then
+                    rand = 2
+                Else
+                    rand = 3
+                End If
+            End If
             With frmMain
             If currentTile.Yc = 0 Then
                 Set currentTile.picMask = .picMask
-                Set currentTile.picTile = .picTile(0)
+                Set currentTile.picTile = .picTile(rand)
             ElseIf oddRow(currentTile.Yc) Then
                 If currentTile.Xc = 0 Then
                     Set currentTile.picMask = .picMaskL
-                    Set currentTile.picTile = .picTileL(0)
+                    Set currentTile.picTile = .picTileL(rand)
                 ElseIf currentTile.Xc = mapWidth Then
                     Set currentTile.picMask = .picMaskR
-                    Set currentTile.picTile = .picTileR(0)
+                    Set currentTile.picTile = .picTileR(rand)
                 Else
                     Set currentTile.picMask = .picMaskLR
-                    Set currentTile.picTile = .picTileLR(0)
+                    Set currentTile.picTile = .picTileLR(rand)
                 End If
             Else
                 Set currentTile.picMask = .picMaskLR
