@@ -3863,9 +3863,6 @@ If objTileCount < tileCount - 4 Then
         Loop
         tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).hasObj = True
         tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).objType(0) = "Egg"
-        If intType <= 100 Then
-            tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).objType(1) = intMulti + 1
-        End If
     End If
     objTileCount = objTileCount + 1
 End If

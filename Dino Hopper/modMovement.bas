@@ -87,7 +87,7 @@ If Index = 0 Then
                 pScore = 200
             End If
         ElseIf inputTile.objType(0) = "Egg" Then
-            intMulti = inputTile.objType(1)
+            intMulti = intMulti + 1
             pScore = 1000
             blnMulti = True
         End If

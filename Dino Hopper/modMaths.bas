@@ -13,7 +13,7 @@ End If
 If blnLives Then
 End If
 If blnMulti Then
-    .lblMulti = "Multiplier: " & intMulti & "x"
+    .lblMulti = "Multiplier: x" & intMulti
 End If
 End With
 End Sub
