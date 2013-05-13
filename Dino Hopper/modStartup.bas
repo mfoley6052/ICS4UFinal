@@ -9,6 +9,7 @@ With frmMain
 .tmrChar(1).Enabled = True
 .tmrObjEvent.Enabled = True
 .tmrObj.Enabled = True
+objExpire = 100
 .tmrCPUMove(1).Enabled = True
 blnPlayerMoveable = True
 intMulti = 1

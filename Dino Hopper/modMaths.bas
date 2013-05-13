@@ -61,7 +61,7 @@ End If
 End Function
 
 Public Sub killObj(inputTile As terrain)
-Call clearTile(inputTile, False, -1)
+Call PaintObj(inputTile.objType(0), inputTile.objType(1), 0, inputTile.Xc, inputTile.Yc, True)
 tile(inputTile.Xc, inputTile.Yc).objTimer = 0
 tile(inputTile.Xc, inputTile.Yc).hasObj = False
 objTileCount = objTileCount - 1
