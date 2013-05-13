@@ -3700,18 +3700,6 @@ End Sub
 
 Private Sub Form_Load()
 Call DrawMap(1)
-ReDim DefaultKey(4) As Integer
-ReDim key(4) As Integer
-key(0) = 37
-key(1) = 38
-key(2) = 39
-key(3) = 40
-key(4) = 32
-DefaultKey(0) = 37
-DefaultKey(1) = 38
-DefaultKey(2) = 39
-DefaultKey(3) = 40
-DefaultKey(4) = 32
 blnClearPrevTile(0) = False
 blnClearPrevTile(1) = False
 blnPlayerMoveable = False
