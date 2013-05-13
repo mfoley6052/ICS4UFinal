@@ -24,24 +24,32 @@ If curX(Index) > 0 And curX(Index) < mapWidth + ext Then  'Not on map edge horiz
     Else 'Vertical Edge
         ReDim Preserve openList(1) As terrain
         If curY(Index) = 0 Then
-            openList(1) = tile(curX(Index) - 1, curY(Index) + 1)
-            openList(3) = tile(curX(Index) + 1, curY(Index) + 1)
+            openList(0) = tile(curX(Index) - 1, curY(Index) + 1)
+            openList(1) = tile(curX(Index) + 1, curY(Index) + 1)
         Else
             openList(0) = tile(curX(Index) - 1, curY(Index) - 1)
             openList(2) = tile(curX(Index) + 1, curY(Index) - 1)
         End If
     End If
 Else ' Horizontal Edge
-    ReDim Preserve openList(1) As terrain
-    openList(2) = tile(curX(Index) + 1, curY(Index) - 1)
-    openList(3) = tile(curX(Index) + 1, curY(Index) + 1)
+    If curY(Index) > 0 And curY(Index) < mapHeight Then 'Not on map edge vertically
+        ReDim Preserve openList(1) As terrain
+        openList(0) = tile(curX(Index) + 1, curY(Index) - 1)
+        openList(1) = tile(curX(Index) + 1, curY(Index) + 1)
+    ElseIf curY(Index) > 0 Then
+        ReDim Preserve openList(0) As terrain
+        openList(0) = tile(curX(Index) + 1, curY(Index) - 1)
+    Else
+        ReDim Preserve openList(0) As terrain
+        openList(0) = tile(curX(Index) + 1, curY(Index) + 1)
+    End If
 End If
 'use quadrant-style math to change look ahead into the path and calculate the steps needed
 For q = LBound(openList) To UBound(openList)
     openList(q).pathCount = 0
     'extrax and extray are used to simulate the direction of the steps
     'loop until the number of steps in the direction specified from the current location = the destination
-    Do Until openList(q).Xc + extraX * openList(q).pathCount = curX(0) And openList(q).Yc + extraY * openList(q).pathCount = curY(0)
+    Do Until openList(q).Xc + (extraX * openList(q).pathCount) = curX(0) And openList(q).Yc + (extraY * openList(q).pathCount) = curY(0)
         openList(q).pathCount = openList(q).pathCount + 1
         If openList(q).Xc <> curX(0) Then ' If the x coord of the tile isnt the player tile
             If openList(q).Yc <> curY(0) Then ' If the y coord of the tile isnt the player tile
