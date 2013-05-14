@@ -13,6 +13,7 @@ Module=modPaint; modPaint.bas
 Module=modStartup; modStartup.bas
 Form=frmSettings.frm
 Form=frmStart.frm
+Module=modPow; modPow.bas
 IconForm="frmMain"
 Startup="frmStart"
 HelpFile=""

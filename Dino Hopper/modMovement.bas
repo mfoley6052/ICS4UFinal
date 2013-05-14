@@ -1,60 +1,60 @@
 Attribute VB_Name = "modMovement"
-Public Function getJump(ByVal Index As Integer, ByVal strDirJ As String)
+Public Function getJump(ByVal index As Integer, ByVal strDirJ As String)
 With frmMain
-    If .tmrFrame(Index).Enabled = False Then
-        strDir(Index) = strDirJ
+    If .tmrFrame(index).Enabled = False Then
+        strDir(index) = strDirJ
         'blnPlayerMoveable = False
-        If strDir(Index) = "L" Then
+        If strDir(index) = "L" Then
             'if y row is odd
-            If oddRow(curY(Index)) Then
-                nextX(Index) = curX(Index) - 1
+            If oddRow(curY(index)) Then
+                nextX(index) = curX(index) - 1
             End If
-            nextY(Index) = curY(Index) - 1
-        ElseIf strDir(Index) = "U" Then
+            nextY(index) = curY(index) - 1
+        ElseIf strDir(index) = "U" Then
             'if y row is even
-            If Not oddRow(curY(Index)) Then
-                nextX(Index) = curX(Index) + 1
+            If Not oddRow(curY(index)) Then
+                nextX(index) = curX(index) + 1
             End If
-            nextY(Index) = curY(Index) - 1
-        ElseIf strDir(Index) = "R" Then
+            nextY(index) = curY(index) - 1
+        ElseIf strDir(index) = "R" Then
             'if y row is even
-            If Not oddRow(curY(Index)) Then
-                nextX(Index) = curX(Index) + 1
+            If Not oddRow(curY(index)) Then
+                nextX(index) = curX(index) + 1
             End If
-            nextY(Index) = curY(Index) + 1
-        ElseIf strDir(Index) = "D" Then
+            nextY(index) = curY(index) + 1
+        ElseIf strDir(index) = "D" Then
             'if y row is odd
-            If oddRow(curY(Index)) Then
-                nextX(Index) = curX(Index) - 1
+            If oddRow(curY(index)) Then
+                nextX(index) = curX(index) - 1
             End If
-            nextY(Index) = curY(Index) + 1
+            nextY(index) = curY(index) + 1
         End If
-        .tmrFrame(Index).Enabled = True
+        .tmrFrame(index).Enabled = True
     End If
 End With
 End Function
-Public Sub getJumpComplete(ByVal Index As Integer)
+Public Sub getJumpComplete(ByVal index As Integer)
 Dim pScore As Integer
 Dim q As Integer
 With frmMain
-prevX(Index) = curX(Index)
-prevY(Index) = curY(Index)
-tile(curX(Index), curY(Index)).hasChar = False
-If (Index = 0 And blnPlayerMoveable = True) Or Index > 0 Then
-    curX(Index) = nextX(Index)
-    curY(Index) = nextY(Index)
+prevX(index) = curX(index)
+prevY(index) = curY(index)
+tile(curX(index), curY(index)).hasChar = False
+If (index = 0 And blnPlayerMoveable = True) Or index > 0 Then
+    curX(index) = nextX(index)
+    curY(index) = nextY(index)
 End If
 Dim inputTile As terrain
-inputTile = tile(curX(Index), curY(Index))
-If Index > 0 Then
+inputTile = tile(curX(index), curY(index))
+If index > 0 Then
     If inputTile.Xc = curX(0) And inputTile.Yc = curY(0) Then
         blnPlayerMoveable = False
-        .tmrHurt(Index).Enabled = True
+        .tmrHurt(index).Enabled = True
     End If
 Else
 End If
-tile(curX(Index), curY(Index)).hasChar = True
-If Index = 0 Then
+tile(curX(index), curY(index)).hasChar = True
+If index = 0 Then
     If inputTile.hasObj Then
         Dim blnMulti As Boolean
         If inputTile.objType(0) = "Coin" Then
@@ -83,64 +83,67 @@ If Index = 0 Then
     Call addScore(pScore)
     Call refreshLabels(True, False, blnMulti)
 End If
-If tile(curX(Index), curY(Index)).hasObj = True Then
-    Call killObj(tile(curX(Index), curY(Index)))
+If inputTile.hasObj And inputTile.objType(0) = "Pow" Then
+    Call getPowEffect(index, inputTile.objType(1))
 End If
-blnClearPrevTile(Index) = True
-strState(Index) = "I"
+If tile(curX(index), curY(index)).hasObj = True Then
+    Call killObj(tile(curX(index), curY(index)))
+End If
+blnClearPrevTile(index) = True
+strState(index) = "I"
 .lblTest.Caption = "(" & curX(0) & ", " & curY(0) & ") (" & nextX(0) & ", " & nextY(0) & ")"
 .lblTest2.Caption = oddRow(curY(0)) & ", " & oddRow(nextY(0))
 End With
 End Sub
 
 
-Public Function evalMove(Index As Integer, ByVal strDirMove As String) As Boolean
+Public Function evalMove(index As Integer, ByVal strDirMove As String) As Boolean
 If strDirMove = "L" Then
-    If oddRow(curY(Index)) Then
-        If curX(Index) = 0 Then
+    If oddRow(curY(index)) Then
+        If curX(index) = 0 Then
             evalMove = False
-        ElseIf curY(Index) < mapWidth Then
+        ElseIf curY(index) < mapWidth Then
             evalMove = True
         Else
             evalMove = False
         End If
-    ElseIf curY(Index) > 0 Then
+    ElseIf curY(index) > 0 Then
         evalMove = True
     Else
         evalMove = False
     End If
 ElseIf strDirMove = "U" Then
-    If oddRow(curY(Index)) Then
-        If curX(Index) < mapWidth Then
+    If oddRow(curY(index)) Then
+        If curX(index) < mapWidth Then
             evalMove = True
         Else
             evalMove = False
         End If
-    ElseIf curX(Index) < (mapWidth) And curY(Index) > 0 Then
+    ElseIf curX(index) < (mapWidth) And curY(index) > 0 Then
         evalMove = True
     Else
         evalMove = False
     End If
 ElseIf strDirMove = "R" Then
-    If oddRow(curY(Index)) Then
-        If curX(Index) = mapWidth Then
+    If oddRow(curY(index)) Then
+        If curX(index) = mapWidth Then
             evalMove = False
-        ElseIf curY(Index) > 0 Then
+        ElseIf curY(index) > 0 Then
             evalMove = True
         End If
-    ElseIf curY(Index) < (mapWidth - 1) And curX(Index) < mapWidth Then
+    ElseIf curY(index) < (mapWidth - 1) And curX(index) < mapWidth Then
         evalMove = True
     Else
         evalMove = False
     End If
 ElseIf strDirMove = "D" Then
-    If oddRow(curY(Index)) Then
-        If curX(Index) > 0 And curY(Index) < mapHeight Then
+    If oddRow(curY(index)) Then
+        If curX(index) > 0 And curY(index) < mapHeight Then
             evalMove = True
         Else
             evalMove = False
         End If
-    ElseIf curY(Index) < (mapHeight - 1) Then
+    ElseIf curY(index) < (mapHeight - 1) Then
         evalMove = True
     Else
         evalMove = False

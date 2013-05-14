@@ -16,23 +16,25 @@ Public Function DrawMap(ByVal mapNum As Integer) As Boolean
     Erase tile
     Dim rand As Integer
     Dim xStart As Integer
+    Dim yStart As Integer
+    yStart = 50
     Randomize Timer
     frmDbg.lstMap.Clear
     mapHeight = 7
     mapWidth = 7
-    For y = 0 To (mapHeight - 1) * 75 Step 75
+    For y = yStart To ((mapHeight - 1) * 75) + yStart Step 75
         For x = (50 - xStart) To (mapWidth * 100) + xStart Step 100
             'rand = Int(Rnd() * 2)
-            If (y + 75) Mod 150 = 0 Then
+            If ((y - yStart) + 75) Mod 150 = 0 Then
                 xStart = 0
             Else
                 xStart = 100 / 2
             End If
             ReDim Preserve tile(mapWidth, mapHeight) As terrain
             Dim currentTile As terrain
-            currentTile = tile(Int((x + (50 - xStart)) / 100), Int(y / 75))
+            currentTile = tile(Int((x + (50 - xStart)) / 100), Int((y - yStart) / 75))
             currentTile.Xc = x \ 100
-            currentTile.Yc = y \ 75
+            currentTile.Yc = (y - yStart) \ 75
             currentTile.x = x
             currentTile.y = y
             currentTile.hasObj = False
@@ -72,8 +74,7 @@ Public Function DrawMap(ByVal mapNum As Integer) As Boolean
                 Set currentTile.picTile = .picTileLR(rand)
             End If
             End With
-            tile(Int((x + (50 - xStart)) / 100), Int(y / 75)) = currentTile
-            'frmDbg.lstMap.AddItem ("(" & Tile(Int((X - xStart) / 100), Int(Y / 25)).X & "," & Tile(Int((X - xStart) / 100), Int(Y / 25)).Y & ")" & vbTab)
+            tile(Int((x + (50 - xStart)) / 100), Int((y - yStart) / 75)) = currentTile
         Next x
     Next y
 frmMain.tmrTileAnimDelay.Enabled = True

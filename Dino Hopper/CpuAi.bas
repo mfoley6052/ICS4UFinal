@@ -1,47 +1,47 @@
 Attribute VB_Name = "modCpuAi"
 
-Public Function cpuAI(ByVal Index As Integer)
+Public Function cpuAI(ByVal index As Integer)
 Dim openList() As terrain
 Dim closedList() As terrain
 Dim ext As Integer
 Dim extraX As Integer
 Dim extraY As Integer
 'if the row is odd then there is one less tile on the x axis
-If oddRow(curY(Index)) Then
+If oddRow(curY(index)) Then
     ext = -1
 Else
     ext = 0
 End If
 'check for outer edges, and then set the array size and locations of the adjacent tiles to the current tile
-If curX(Index) > 0 And curX(Index) < mapWidth + ext Then  'Not on map edge horizontally
-    If curY(Index) > 0 And curY(Index) < mapHeight Then 'Not on map edge vertically
+If curX(index) > 0 And curX(index) < mapWidth + ext Then  'Not on map edge horizontally
+    If curY(index) > 0 And curY(index) < mapHeight Then 'Not on map edge vertically
         'All adjacent tiles are available
         ReDim Preserve openList(3) As terrain
-        openList(0) = tile(curX(Index) - 1, curY(Index) - 1)
-        openList(1) = tile(curX(Index) - 1, curY(Index) + 1)
-        openList(2) = tile(curX(Index) + 1, curY(Index) - 1)
-        openList(3) = tile(curX(Index) + 1, curY(Index) + 1)
+        openList(0) = tile(curX(index) - 1, curY(index) - 1)
+        openList(1) = tile(curX(index) - 1, curY(index) + 1)
+        openList(2) = tile(curX(index) + 1, curY(index) - 1)
+        openList(3) = tile(curX(index) + 1, curY(index) + 1)
     Else 'Vertical Edge
         ReDim Preserve openList(1) As terrain
-        If curY(Index) = 0 Then
-            openList(0) = tile(curX(Index) - 1, curY(Index) + 1)
-            openList(1) = tile(curX(Index) + 1, curY(Index) + 1)
+        If curY(index) = 0 Then
+            openList(0) = tile(curX(index) - 1, curY(index) + 1)
+            openList(1) = tile(curX(index) + 1, curY(index) + 1)
         Else
-            openList(0) = tile(curX(Index) - 1, curY(Index) - 1)
-            openList(2) = tile(curX(Index) + 1, curY(Index) - 1)
+            openList(0) = tile(curX(index) - 1, curY(index) - 1)
+            openList(2) = tile(curX(index) + 1, curY(index) - 1)
         End If
     End If
 Else ' Horizontal Edge
-    If curY(Index) > 0 And curY(Index) < mapHeight Then 'Not on map edge vertically
+    If curY(index) > 0 And curY(index) < mapHeight Then 'Not on map edge vertically
         ReDim Preserve openList(1) As terrain
-        openList(0) = tile(curX(Index) + 1, curY(Index) - 1)
-        openList(1) = tile(curX(Index) + 1, curY(Index) + 1)
-    ElseIf curY(Index) > 0 Then
+        openList(0) = tile(curX(index) + 1, curY(index) - 1)
+        openList(1) = tile(curX(index) + 1, curY(index) + 1)
+    ElseIf curY(index) > 0 Then
         ReDim Preserve openList(0) As terrain
-        openList(0) = tile(curX(Index) + 1, curY(Index) - 1)
+        openList(0) = tile(curX(index) + 1, curY(index) - 1)
     Else
         ReDim Preserve openList(0) As terrain
-        openList(0) = tile(curX(Index) + 1, curY(Index) + 1)
+        openList(0) = tile(curX(index) + 1, curY(index) + 1)
     End If
 End If
 'use quadrant-style math to change look ahead into the path and calculate the steps needed
@@ -80,6 +80,6 @@ For q = LBound(openList) + 1 To UBound(openList)
     End If
 Next q
 'Send choice to movement part of engine
-nextX(Index) = bestTile.Xc
-nextY(Index) = bestTile.Yc
+nextX(index) = bestTile.Xc
+nextY(index) = bestTile.Yc
 End Function

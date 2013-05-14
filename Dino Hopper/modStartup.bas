@@ -26,16 +26,14 @@ nextX(1) = 0
 nextY(1) = 0
 tile(curX(0), curY(0)).hasChar = True
 tile(curX(1), curY(1)).hasChar = True
-strState(0) = "I"
-strState(1) = "I"
-strDir(0) = "L"
-strDir(1) = "R"
 spriteX(0) = tile(curX(0), curY(0)).x + 25
 spriteY(0) = tile(curX(0), curY(0)).y - 15
 spriteX(1) = tile(curX(1), curY(1)).x + 25
 spriteY(1) = tile(curX(1), curY(1)).y - 15
-Call PaintCharSprite(curX(0), curY(0), 0)
-Call PaintCharSprite(curX(1), curY(1), 1)
+strState(0) = "I"
+strState(1) = "I"
+strDir(0) = "L"
+strDir(1) = "R"
 frameLimit(0) = 10
 frameLimit(1) = 10
 frameLimit(2) = 10

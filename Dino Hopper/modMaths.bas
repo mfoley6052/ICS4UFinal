@@ -67,16 +67,16 @@ objTileCount = objTileCount - 1
 End Sub
 
 'glitch: frames are often skipped (eg. 5, 6, 8, 9, 10) even though tmrFrame and tmrChar are same interval
-Public Function getCharJumpAnim(ByVal Index As Integer, curTile As terrain, nextTile As terrain)
+Public Function getCharJumpAnim(ByVal index As Integer, curTile As terrain, nextTile As terrain)
 'if frame 5 to 10
-If frameCounter(Index) >= 5 And frameCounter(Index) <= 10 Then
-    spriteX(Index) = curTile.x + ((frameCounter(Index) - 5) * Int((nextTile.x - curTile.x) / 5)) + 25
+If frameCounter(index) >= 5 And frameCounter(index) <= 10 Then
+    spriteX(index) = curTile.x + ((frameCounter(index) - 5) * Int((nextTile.x - curTile.x) / 5)) + 25
     '5 to 7 is jump up
-    If frameCounter(Index) < 8 Then
-        spriteY(Index) = (curTile.y + ((frameCounter(Index) - 5) * Int((nextTile.y - curTile.y) / 5))) - (10 * (frameCounter(Index) - 5)) - 15
+    If frameCounter(index) < 8 Then
+        spriteY(index) = (curTile.y + ((frameCounter(index) - 5) * Int((nextTile.y - curTile.y) / 5))) - (10 * (frameCounter(index) - 5)) - 15
     '8 to 10 is fall to ground
-    ElseIf frameCounter(Index) <= 10 Then
-        spriteY(Index) = (curTile.y + ((frameCounter(Index) - 5) * Int((nextTile.y - curTile.y) / 5))) - (10 * (10 - frameCounter(Index))) - 15
+    ElseIf frameCounter(index) <= 10 Then
+        spriteY(index) = (curTile.y + ((frameCounter(index) - 5) * Int((nextTile.y - curTile.y) / 5))) - (10 * (10 - frameCounter(index))) - 15
     End If
 End If
 End Function

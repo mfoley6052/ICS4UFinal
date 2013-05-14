@@ -12,6 +12,34 @@ Begin VB.Form frmMain
    ScaleMode       =   3  'Pixel
    ScaleWidth      =   800
    StartUpPosition =   2  'CenterScreen
+   Begin VB.Timer tmrPow 
+      Enabled         =   0   'False
+      Index           =   3
+      Interval        =   250
+      Left            =   10560
+      Top             =   2520
+   End
+   Begin VB.Timer tmrPow 
+      Enabled         =   0   'False
+      Index           =   2
+      Interval        =   250
+      Left            =   10560
+      Top             =   2040
+   End
+   Begin VB.Timer tmrPow 
+      Enabled         =   0   'False
+      Index           =   1
+      Interval        =   250
+      Left            =   10560
+      Top             =   1560
+   End
+   Begin VB.Timer tmrPow 
+      Enabled         =   0   'False
+      Index           =   0
+      Interval        =   250
+      Left            =   10560
+      Top             =   1080
+   End
    Begin VB.PictureBox picTileLR 
       Appearance      =   0  'Flat
       AutoRedraw      =   -1  'True
@@ -20,7 +48,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H80000008&
       Height          =   1500
       Index           =   0
-      Left            =   240
+      Left            =   360
       Picture         =   "frmMain.frx":0000
       ScaleHeight     =   100
       ScaleMode       =   3  'Pixel
@@ -203,7 +231,7 @@ Begin VB.Form frmMain
       BorderStyle     =   0  'None
       ForeColor       =   &H80000008&
       Height          =   9015
-      Left            =   0
+      Left            =   120
       ScaleHeight     =   601
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   801
@@ -3530,7 +3558,7 @@ Begin VB.Form frmMain
    Begin VB.Label lblMulti 
       AutoSize        =   -1  'True
       BackStyle       =   0  'Transparent
-      Caption         =   "Multiplier: x1"
+      Caption         =   "Multiplier: 1x"
       BeginProperty Font 
          Name            =   "Arial Narrow"
          Size            =   15.75
@@ -3676,24 +3704,24 @@ End If
 End Sub
 
 
-Private Sub tmrHurt_Timer(Index As Integer)
-Call getHurt(Index)
-curX(Index) = prevX(Index)
-curY(Index) = prevY(Index)
+Private Sub tmrHurt_Timer(index As Integer)
+Call getHurt(index)
+curX(index) = prevX(index)
+curY(index) = prevY(index)
 blnPlayerMoveable = True
-tmrHurt(Index).Enabled = False
+tmrHurt(index).Enabled = False
 End Sub
 
-Private Sub tmrCPUMove_Timer(Index As Integer)
+Private Sub tmrCPUMove_Timer(index As Integer)
 Static intCounter As Integer
 'if counter limit is not reached by counter
-If intCounter < counterLimit(Index) Then
+If intCounter < counterLimit(index) Then
     'increase counter
     intCounter = intCounter + 1
 'if counter limit is reached
 Else
     'initiate cpu movement
-    Call cpuAI(Index)
+    'Call cpuAI(Index)
     intCounter = 0
 End If
 End Sub
@@ -3749,52 +3777,52 @@ For o = 0 To tileCount - 1
 Next o
 End Sub
 
-Private Sub tmrChar_Timer(Index As Integer)
+Private Sub tmrChar_Timer(index As Integer)
 'reverse boolean for select
 Static blnRev(0 To 3) As Boolean
 'call selection paint
-Call PaintSelector(Index, picCount(Index))
+Call PaintSelector(index, picCount(index))
 'if jump timer is started
-If tmrFrame(Index).Enabled = True Then
+If tmrFrame(index).Enabled Then
     'show each jump frame for p1
     'If Index = 0 Then
         'MsgBox (intFrame(0))
     'End If
-    Call getCharJumpAnim(Index, tile(curX(Index), curY(Index)), tile(nextX(Index), nextY(Index)))
-    If frameCounter(Index) = 1 Then
-        strState(Index) = "C"
-    ElseIf frameCounter(Index) = 5 Then
-        strState(Index) = "J"
-    ElseIf frameCounter(Index) = 10 Then
-        strState(Index) = "I"
+    Call getCharJumpAnim(index, tile(curX(index), curY(index)), tile(nextX(index), nextY(index)))
+    If frameCounter(index) = 1 Then
+        strState(index) = "C"
+    ElseIf frameCounter(index) = 5 Then
+        strState(index) = "J"
+    ElseIf frameCounter(index) = 10 Then
+        strState(index) = "I"
     End If
 Else
-    spriteX(Index) = tile(curX(Index), curY(Index)).x + 25
-    spriteY(Index) = tile(curX(Index), curY(Index)).y - 15
+    spriteX(index) = tile(curX(index), curY(index)).x + 25
+    spriteY(index) = tile(curX(index), curY(index)).y - 15
 End If
-If blnRev(Index) = False Then
-    picCount(Index) = picCount(Index) + 1
+If blnRev(index) = False Then
+    picCount(index) = picCount(index) + 1
 End If
-If blnRev(Index) = True Then
-    picCount(Index) = picCount(Index) - 1
+If blnRev(index) = True Then
+    picCount(index) = picCount(index) - 1
 End If
-If picCount(Index) >= 4 Or picCount(Index) <= 0 Then
-    If blnRev(Index) = False Then
-        blnRev(Index) = True
+If picCount(index) >= 4 Or picCount(index) <= 0 Then
+    If blnRev(index) = False Then
+        blnRev(index) = True
     Else
-        blnRev(Index) = False
+        blnRev(index) = False
     End If
 End If
 End Sub
 
-Private Sub tmrFrame_Timer(Index As Integer)
-If frameCounter(Index) = frameLimit(Index) Then
-    frameCounter(Index) = 0
+Private Sub tmrFrame_Timer(index As Integer)
+If frameCounter(index) = frameLimit(index) Then
+    frameCounter(index) = 0
     blnPlayerMoveable = True
-    Call getJumpComplete(Index)
-    tmrFrame(Index).Enabled = False
+    Call getJumpComplete(index)
+    tmrFrame(index).Enabled = False
 Else
-    frameCounter(Index) = frameCounter(Index) + 1
+    frameCounter(index) = frameCounter(index) + 1
 End If
 End Sub
 
@@ -3827,6 +3855,21 @@ If intCounter >= ((mapWidth * mapHeight) + (Int(mapHeight / 2))) - 1 Then
 End If
 intCounter = intCounter + 1
 End Sub
+
+Public Sub tmrPow_Timer(index As Integer)
+Static counter As Integer
+counter = counter + 1
+If counter = 20 Then
+    If tmrPow(index).Tag = "Scare" Then
+    ElseIf tmrPow(index).Tag = "Speed" Then
+        tmrChar(index).Interval = 50
+        tmrFrame(index).Interval = 50
+    End If
+    tmrPow(index).Tag = ""
+    tmrPow(index).Enabled = False
+End If
+End Sub
+
 
 Private Sub tmrObjEvent_Timer()
 Dim intRand As Integer
