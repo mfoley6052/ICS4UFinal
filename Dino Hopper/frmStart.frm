@@ -10,77 +10,6 @@ Begin VB.Form frmStart
    ScaleMode       =   3  'Pixel
    ScaleWidth      =   800
    StartUpPosition =   2  'CenterScreen
-   Begin VB.TextBox txtMenu 
-      Alignment       =   2  'Center
-      Appearance      =   0  'Flat
-      BackColor       =   &H80000004&
-      BorderStyle     =   0  'None
-      BeginProperty Font 
-         Name            =   "@MS Gothic"
-         Size            =   27.75
-         Charset         =   128
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H80000006&
-      Height          =   555
-      Index           =   2
-      Left            =   8040
-      Locked          =   -1  'True
-      TabIndex        =   4
-      Text            =   "Text1"
-      Top             =   4560
-      Width           =   4215
-   End
-   Begin VB.TextBox txtMenu 
-      Alignment       =   2  'Center
-      Appearance      =   0  'Flat
-      BackColor       =   &H80000004&
-      BorderStyle     =   0  'None
-      BeginProperty Font 
-         Name            =   "@MS Gothic"
-         Size            =   27.75
-         Charset         =   128
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H80000006&
-      Height          =   555
-      Index           =   0
-      Left            =   0
-      Locked          =   -1  'True
-      TabIndex        =   3
-      Text            =   "Text1"
-      Top             =   4560
-      Width           =   4215
-   End
-   Begin VB.TextBox txtMenu 
-      Alignment       =   2  'Center
-      Appearance      =   0  'Flat
-      BackColor       =   &H80000004&
-      BorderStyle     =   0  'None
-      BeginProperty Font 
-         Name            =   "@MS Gothic"
-         Size            =   27.75
-         Charset         =   128
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   555
-      Index           =   1
-      Left            =   3960
-      Locked          =   -1  'True
-      TabIndex        =   2
-      Text            =   "Text1"
-      Top             =   4560
-      Width           =   4215
-   End
    Begin VB.PictureBox picTitleMain 
       Appearance      =   0  'Flat
       AutoRedraw      =   -1  'True
@@ -115,6 +44,65 @@ Begin VB.Form frmStart
       Visible         =   0   'False
       Width           =   9060
    End
+   Begin VB.Label lblMenu 
+      Alignment       =   2  'Center
+      Caption         =   "Text"
+      BeginProperty Font 
+         Name            =   "@ÇlÇr ÉSÉVÉbÉN"
+         Size            =   27.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H80000011&
+      Height          =   600
+      Index           =   2
+      Left            =   8250
+      TabIndex        =   4
+      Top             =   4290
+      Width           =   4500
+   End
+   Begin VB.Label lblMenu 
+      Alignment       =   2  'Center
+      Caption         =   "Text"
+      BeginProperty Font 
+         Name            =   "@ÇlÇr ÉSÉVÉbÉN"
+         Size            =   27.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   600
+      Index           =   1
+      Left            =   3750
+      TabIndex        =   3
+      Top             =   4290
+      Width           =   4500
+   End
+   Begin VB.Label lblMenu 
+      Alignment       =   2  'Center
+      Caption         =   "Text"
+      BeginProperty Font 
+         Name            =   "@ÇlÇr ÉSÉVÉbÉN"
+         Size            =   27.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H80000011&
+      Height          =   600
+      Index           =   0
+      Left            =   -750
+      TabIndex        =   2
+      Top             =   4320
+      Width           =   4500
+   End
 End
 Attribute VB_Name = "frmStart"
 Attribute VB_GlobalNameSpace = False
@@ -134,52 +122,51 @@ DefaultKey(1) = 38
 DefaultKey(2) = 39
 DefaultKey(3) = 40
 DefaultKey(4) = 32
-txtMenu(0).Text = "Options"
-txtMenu(0).Tag = 1
-txtMenu(1).Text = "Single Player"
-txtMenu(1).Tag = 0
-txtMenu(2).Text = "Exit"
-txtMenu(2).Tag = 2
+lblMenu(0).Caption = "Options"
+lblMenu(0).Tag = 1
+lblMenu(1).Caption = "Single Player"
+lblMenu(1).Tag = 0
+lblMenu(2).Caption = "Exit"
+lblMenu(2).Tag = 2
 frmStart.PaintPicture picTitleMainMask.Image, picTitleMainMask.Left, picTitleMainMask.Top, picTitleMainMask.Width, picTitleMainMask.Height, 0, 0, picTitleMainMask.Width, picTitleMainMask.Height, vbSrcAnd
 frmStart.PaintPicture picTitleMain.Image, picTitleMain.Left, picTitleMain.Top, picTitleMain.Width, picTitleMain.Height, 0, 0, picTitleMain.Width, picTitleMain.Height, vbSrcPaint
 End Sub
 
-Private Sub txtMenu_Click(Index As Integer)
-
+Private Sub lblMenu_Click(Index As Integer)
 If Index = 0 Then 'left
     For x = 0 To 2
-        If Val(txtMenu(x).Tag) < 2 Then
-            txtMenu(x).Tag = Val(txtMenu(x).Tag) + 1
+        If Val(lblMenu(x).Tag) < 2 Then
+            lblMenu(x).Tag = Val(lblMenu(x).Tag) + 1
         Else
-            txtMenu(x).Tag = 0
+            lblMenu(x).Tag = 0
         End If
-        If txtMenu(x).Tag = 0 Then
-            txtMenu(x).Text = "Single Player"
-        ElseIf txtMenu(x).Tag = 1 Then
-            txtMenu(x).Text = "Options"
+        If lblMenu(x).Tag = 0 Then
+            lblMenu(x).Caption = "Single Player"
+        ElseIf lblMenu(x).Tag = 1 Then
+            lblMenu(x).Caption = "Options"
         Else
-            txtMenu(x).Text = "Exit"
+            lblMenu(x).Caption = "Exit"
         End If
     Next x
 ElseIf Index = 2 Then 'right
     For x = 0 To 2
-        If Val(txtMenu(x).Tag) > 0 Then
-            txtMenu(x).Tag = Val(txtMenu(x).Tag) - 1
+        If Val(lblMenu(x).Tag) > 0 Then
+            lblMenu(x).Tag = Val(lblMenu(x).Tag) - 1
         Else
-            txtMenu(x).Tag = 2
+            lblMenu(x).Tag = 2
         End If
-        If txtMenu(x).Tag = 0 Then
-            txtMenu(x).Text = "Single Player"
-        ElseIf txtMenu(x).Tag = 1 Then
-            txtMenu(x).Text = "Options"
+        If lblMenu(x).Tag = 0 Then
+            lblMenu(x).Caption = "Single Player"
+        ElseIf lblMenu(x).Tag = 1 Then
+            lblMenu(x).Caption = "Options"
         Else
-            txtMenu(x).Text = "Exit"
+            lblMenu(x).Caption = "Exit"
         End If
     Next x
 Else ' Select
-    If txtMenu(1).Tag = 2 Then
+    If lblMenu(1).Tag = 2 Then
         End
-    ElseIf txtMenu(1).Tag = 1 Then
+    ElseIf lblMenu(1).Tag = 1 Then
         frmSettings.Show
     Else
         frmStart.Hide
