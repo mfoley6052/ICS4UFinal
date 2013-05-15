@@ -20,6 +20,7 @@ If gameMode <> 1 Then
     counterLimit(1) = 1 'cpu 1 moves every (counterLimit + 1) seconds
 End If
 blnPlayerMoveable = True
+intLives(0) = 3
 intMulti(0) = 1
 curX(0) = (mapWidth - 1) \ 2
 curY(0) = (mapHeight - 1) \ 2

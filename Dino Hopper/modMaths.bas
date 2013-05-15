@@ -10,6 +10,7 @@ If blnScore Then
     .lblScore = "Score: " & Format(intScore(0), "0000000")
 End If
 If blnLives Then
+    .lblLives = "x" & intLives(0)
 End If
 If blnMulti Then
     .lblMulti = "Multiplier: " & intMulti(0) & "x"

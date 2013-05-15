@@ -57,6 +57,7 @@ tile(curX(index), curY(index)).hasChar = True
 If index = 0 Then
     If inputTile.hasObj Then
         Dim blnMulti As Boolean
+        Dim blnLives As Boolean
         If inputTile.objType(0) = "Coin" Then
             'play coin sound
             If inputTile.objType(1) = "Y" Then
@@ -72,16 +73,21 @@ If index = 0 Then
                 pScore = 200
             End If
         ElseIf inputTile.objType(0) = "Egg" Then
-            intMulti(index) = intMulti(index) + 1
-            pScore = 1000
-            blnMulti = True
+            If inputTile.objType(1) = "M" Then
+                intMulti(index) = intMulti(index) + 1
+                pScore = 1000
+                blnMulti = True
+            ElseIf inputTile.objType(1) = "G" Then
+                intLives(index) = intLives(index) + 1
+                blnLives = True
+            End If
         End If
     End If
     If inputTile.terType = 0 Then
         pScore = pScore + 25
     End If
     Call addScore(index, pScore)
-    Call refreshLabels(True, False, blnMulti)
+    Call refreshLabels(True, blnLives, blnMulti)
 End If
 If inputTile.hasObj And inputTile.objType(0) = "Pow" Then
     Call getPowEffect(index, inputTile.objType(1))

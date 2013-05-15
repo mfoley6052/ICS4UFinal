@@ -3955,39 +3955,44 @@ If objTileCount < tileCount - 4 Then
     intRand = randInt(1, 100)
     Dim intType As Integer
     intType = randInt(1, 100)
-    If intRand < 70 Then 'Coin
+    If intRand < 85 Then 'Coin: 85%
         intRand = randInt(0, tileCount - 1)
         Do Until Not tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).hasObj And Not tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).hasChar
             intRand = randInt(0, tileCount - 1)
         Loop
         tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).hasObj = True
         tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).objType(0) = "Coin"
-        If intType <= 65 Then
+        If intType <= 65 Then 'Yellow: 55.25%
             tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).objType(1) = "Y"
-        ElseIf intType > 65 And intType <= 90 Then
+        ElseIf intType > 65 And intType <= 90 Then 'Red: 21.25%
             tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).objType(1) = "R"
-        ElseIf intType > 90 Then
+        ElseIf intType > 90 Then 'Blue: 8.5%
             tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).objType(1) = "B"
         End If
-    ElseIf intRand >= 70 And intRand < 95 Then 'Power-up
+    ElseIf intRand >= 85 And intRand < 95 Then 'Power-up: 15%
         intRand = randInt(0, tileCount - 1)
         Do Until Not tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).hasObj And Not tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).hasChar
             intRand = randInt(0, tileCount - 1)
         Loop
         tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).hasObj = True
         tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).objType(0) = "Pow"
-        If intType <= 49 Then 'Scare
-            tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).objType(1) = "Scare"
-        ElseIf intType >= 50 Then 'Speed
+        If intType >= 65 Then 'Speed: 9.75%
             tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).objType(1) = "Speed"
+        ElseIf intType < 35 Then 'Scare: 5.25%
+            tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).objType(1) = "Scare"
         End If
-    ElseIf intRand >= 95 Then 'Egg
+    ElseIf intRand >= 95 Then 'Egg: 5%
         intRand = randInt(0, tileCount - 1)
         Do Until Not tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).hasObj And Not tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).hasChar
             intRand = randInt(0, tileCount - 1)
         Loop
         tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).hasObj = True
         tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).objType(0) = "Egg"
+        If intType > 10 Then 'Multi Egg: 4.5%
+            tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).objType(1) = "M"
+        ElseIf intType <= 10 Then 'Gold Egg (1up): 0.5%
+            tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).objType(1) = "G"
+        End If
     End If
     objTileCount = objTileCount + 1
 End If
