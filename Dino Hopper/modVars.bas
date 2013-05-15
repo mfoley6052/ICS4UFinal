@@ -8,8 +8,9 @@ Public counterLimit(1 To 3) As Integer
 Public frameCounter(0 To 3) As Integer
 Public frameLimit(0 To 3) As Integer
 Public strState(0 To 3) As String
-Public intScore As Long
-Public intMulti As Integer
+Public intScore(0 To 1) As Long
+Public intLives(0 To 1) As Integer
+Public intMulti(0 To 1) As Integer
 Public spriteX(0 To 3) As Integer
 Public spriteY(0 To 3) As Integer
 Public curX(0 To 3) As Integer

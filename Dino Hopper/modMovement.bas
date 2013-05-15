@@ -72,7 +72,7 @@ If index = 0 Then
                 pScore = 200
             End If
         ElseIf inputTile.objType(0) = "Egg" Then
-            intMulti = intMulti + 1
+            intMulti(index) = intMulti(index) + 1
             pScore = 1000
             blnMulti = True
         End If
@@ -80,7 +80,7 @@ If index = 0 Then
     If inputTile.terType = 0 Then
         pScore = pScore + 25
     End If
-    Call addScore(pScore)
+    Call addScore(index, pScore)
     Call refreshLabels(True, False, blnMulti)
 End If
 If inputTile.hasObj And inputTile.objType(0) = "Pow" Then

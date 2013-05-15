@@ -1,18 +1,18 @@
 Attribute VB_Name = "modMaths"
 Option Explicit
-Public Sub addScore(ByVal intAdd As Integer)
-intScore = intScore + (intMulti * intAdd)
+Public Sub addScore(ByVal index As Integer, ByVal intAdd As Integer)
+intScore(index) = intScore(index) + (intMulti(index) * intAdd)
 End Sub
 
 Public Sub refreshLabels(ByVal blnScore As Boolean, ByVal blnLives As Boolean, ByVal blnMulti As Boolean)
 With frmMain
 If blnScore Then
-    .lblScore = "Score " & Format(intScore, "0000000")
+    .lblScore = "Score: " & Format(intScore(0), "0000000")
 End If
 If blnLives Then
 End If
 If blnMulti Then
-    .lblMulti = "Multiplier: " & intMulti & "x"
+    .lblMulti = "Multiplier: " & intMulti(0) & "x"
 End If
 End With
 End Sub
