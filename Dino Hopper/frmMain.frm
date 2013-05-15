@@ -3981,7 +3981,7 @@ If objTileCount < tileCount - 4 Then
         tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).objType(0) = "Pow"
         If intType >= 65 Then 'Speed: 9.75%
             tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).objType(1) = "Speed"
-        ElseIf intType < 35 Then 'Scare: 5.25%
+        ElseIf intType < 65 Then 'Scare: 5.25%
             tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).objType(1) = "Scare"
         End If
     ElseIf intRand >= 95 Then 'Egg: 5%
