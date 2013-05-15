@@ -163,8 +163,10 @@ If Not killObj Then 'if object has not expired
     ElseIf strObjType = "Egg" Then
         intXOffset = 39
         intYOffset = -1
-        If intFrame = 6 Or intFrame = 7 Then
-            intFrameOffset = -4 'frames 6 and 7 will both use 2nd sprite (egg sprites play at half speed)
+        'multipliers are for gold eggs, where 3 animation cycles represents 1 frame cycle
+        If intFrame - (8 * Int(intFrame / 8)) = 6 Or intFrame - (8 * Int(intFrame / 8)) = 7 Then
+            'frames 6 and 7 will both use 2nd sprite (egg sprites play at half speed)
+            intFrameOffset = -4
         Else
             intFrameOffset = 0
         End If
@@ -206,9 +208,9 @@ If Not killObj Then 'if object has not expired
             .PaintPicture .picCoinB(intFrame + intFrameOffset).Image, tile(intObjX, intObjY).x + intXOffset, tile(intObjX, intObjY).y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcPaint
         End If
         'paint sparkle
-        If intFrame > 12 And intFrame < 20 Then
-            .PaintPicture .picSparkleMask(intFrame - 13).Image, tile(intObjX, intObjY).x + intXOffset, tile(intObjX, intObjY).y + (intYOffset + 2), 100, 100, 0, 0, 100, 100, vbSrcAnd
-            .PaintPicture .picSparkle(intFrame - 13).Image, tile(intObjX, intObjY).x + intXOffset, tile(intObjX, intObjY).y + (intYOffset + 2), 100, 100, 0, 0, 100, 100, vbSrcPaint
+        If intFrame > 11 And intFrame < 19 Then
+            .PaintPicture .picSparkleMask(intFrame - 12).Image, tile(intObjX, intObjY).x + intXOffset, tile(intObjX, intObjY).y + (intYOffset + 2), 100, 100, 0, 0, 100, 100, vbSrcAnd
+            .PaintPicture .picSparkle(intFrame - 12).Image, tile(intObjX, intObjY).x + intXOffset, tile(intObjX, intObjY).y + (intYOffset + 2), 100, 100, 0, 0, 100, 100, vbSrcPaint
         End If
         End With
     ElseIf strObjType = "Pow" Then
@@ -225,11 +227,17 @@ If Not killObj Then 'if object has not expired
     ElseIf strObjType = "Egg" Then
         'paint egg
         With frmMain
-        .PaintPicture .picEggMask((intFrame \ 2) + (intFrameOffset \ 2)).Image, tile(intObjX, intObjY).x + intXOffset, tile(intObjX, intObjY).y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcAnd
         If strType = "M" Then
+            .PaintPicture .picEggMask((intFrame \ 2) + (intFrameOffset \ 2)).Image, tile(intObjX, intObjY).x + intXOffset, tile(intObjX, intObjY).y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcAnd
             .PaintPicture .picEgg((intFrame \ 2) + (intFrameOffset \ 2)).Image, tile(intObjX, intObjY).x + intXOffset, tile(intObjX, intObjY).y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcPaint
         ElseIf strType = "G" Then
-            .PaintPicture .picEggG((intFrame \ 2) + (intFrameOffset \ 2)).Image, tile(intObjX, intObjY).x + intXOffset, tile(intObjX, intObjY).y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcPaint
+            .PaintPicture .picEggMask(((intFrame - (8 * Int(intFrame / 8))) \ 2) + (intFrameOffset \ 2)).Image, tile(intObjX, intObjY).x + intXOffset, tile(intObjX, intObjY).y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcAnd
+            .PaintPicture .picEggG(((intFrame - (8 * Int(intFrame / 8))) \ 2) + (intFrameOffset \ 2)).Image, tile(intObjX, intObjY).x + intXOffset, tile(intObjX, intObjY).y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcPaint
+            'paint sparkle
+            If intFrame > 11 And intFrame < 19 Then
+                .PaintPicture .picSparkleMask(intFrame - 12).Image, tile(intObjX, intObjY).x + intXOffset, tile(intObjX, intObjY).y + (intYOffset + 2), 100, 100, 0, 0, 100, 100, vbSrcAnd
+                .PaintPicture .picSparkle(intFrame - 12).Image, tile(intObjX, intObjY).x + intXOffset, tile(intObjX, intObjY).y + (intYOffset + 2), 100, 100, 0, 0, 100, 100, vbSrcPaint
+            End If
         End If
         End With
     End If

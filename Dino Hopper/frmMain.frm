@@ -54,7 +54,7 @@ Begin VB.Form frmMain
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   100
       TabIndex        =   135
-      Top             =   2160
+      Top             =   2520
       Visible         =   0   'False
       Width           =   1500
    End
@@ -177,7 +177,7 @@ Begin VB.Form frmMain
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   18
       TabIndex        =   39
-      Top             =   5760
+      Top             =   6360
       Visible         =   0   'False
       Width           =   270
    End
@@ -218,7 +218,7 @@ Begin VB.Form frmMain
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   801
       TabIndex        =   0
-      Top             =   720
+      Top             =   600
       Visible         =   0   'False
       Width           =   12015
       Begin VB.PictureBox picEggG 
@@ -3781,7 +3781,6 @@ If blnPlayerMoveable = True Then
 End If
 End Sub
 
-
 Private Sub tmrHurt_Timer(index As Integer)
 Call getHurt(index)
 curX(index) = prevX(index)
@@ -3838,7 +3837,11 @@ For o = 0 To tileCount - 1
                 frameLim = 10 'frame limit for speed power-up
             End If
         ElseIf curTile.objType(0) = "Egg" Then
-            frameLim = 7
+            If curTile.objType(1) = "M" Then
+                frameLim = 7
+            ElseIf curTile.objType(1) = "G" Then
+                frameLim = 21
+            End If
         End If
         intObjTimer = curTile.objTimer
         frameCount = intObjTimer - ((intObjTimer \ frameLim) * frameLim)
