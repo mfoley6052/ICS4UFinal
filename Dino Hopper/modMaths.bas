@@ -67,6 +67,20 @@ tile(inputTile.Xc, inputTile.Yc).hasObj = False
 objTileCount = objTileCount - 1
 End Sub
 
+Public Function paintMask(tileInput As terrain) As Boolean
+Dim ratExpire As Single
+If tileInput.objTimer < 0.7 * objExpire Then
+    paintMask = True
+Else
+    ratExpire = tileInput.objTimer / objExpire
+    If (ratExpire >= 0.75 And ratExpire < 0.8) Or (ratExpire >= 0.85 And ratExpire < 0.88) Or (ratExpire >= 0.91 And ratExpire < 0.94) Or (ratExpire >= 0.96 And ratExpire < 0.97) Or (ratExpire >= 0.98 And ratExpire < 0.99) Then
+        paintMask = True
+    Else
+        paintMask = False
+    End If
+End If
+End Function
+
 'glitch: frames are often skipped (eg. 5, 6, 8, 9, 10) even though tmrFrame and tmrChar are same interval
 Public Function getCharJumpAnim(ByVal index As Integer, curTile As terrain, nextTile As terrain)
 'if frame 5 to 10

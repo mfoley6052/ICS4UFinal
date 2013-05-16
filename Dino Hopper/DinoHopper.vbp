@@ -52,3 +52,4 @@ AutoRefresh=1
 
 [RVB]
 DeleteClass1=frmBg
+DeleteClass2=modAlphaBlend
