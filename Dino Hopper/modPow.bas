@@ -10,6 +10,7 @@ ElseIf strType = "Speed" Then
     .tmrChar(index).Interval = 25
     .tmrFrame(index).Interval = 25
     .tmrPow(index).Enabled = True
+ElseIf strType = "Freeze" Then
 End If
 End With
 End Sub

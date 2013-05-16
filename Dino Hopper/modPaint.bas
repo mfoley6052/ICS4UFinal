@@ -30,6 +30,13 @@ If Not tileInput.hasObj Or Not bypassForObj Then
                     .picBuffer.PaintPicture tileInput.picTile.Image, 0, 0, 18, 33, intObjxOffset, 0, 18, 33, vbSrcCopy
                     .PaintPicture tileInput.picMask.Image, tileInput.x + intObjxOffset, tileInput.y, 18, 33, intObjxOffset, 0, 18, 33, vbSrcAnd
                     .PaintPicture .picBuffer.Image, tileInput.x + intObjxOffset, tileInput.y, 18, 33, 0, 0, 18, 33, vbSrcPaint
+                ElseIf tileInput.objType(1) = "Freeze" Then
+                    'paint terrain over freeze power-up
+                    intObjxOffset = 32
+                    .picBackground.PaintPicture tileInput.picMask.Image, tileInput.x + intObjxOffset, tileInput.y, 36, 37, intObjxOffset, 0, 36, 37, vbSrcCopy
+                    .picBuffer.PaintPicture tileInput.picTile.Image, 0, 0, 36, 37, intObjxOffset, 0, 36, 37, vbSrcCopy
+                    .PaintPicture tileInput.picMask.Image, tileInput.x + intObjxOffset, tileInput.y, 36, 37, intObjxOffset, 0, 36, 37, vbSrcAnd
+                    .PaintPicture .picBuffer.Image, tileInput.x + intObjxOffset, tileInput.y, 36, 37, 0, 0, 36, 37, vbSrcPaint
                 End If
             ElseIf tileInput.objType(0) = "Egg" Then
                 'paint terrain over egg
@@ -159,6 +166,14 @@ If Not killObj Then 'if object has not expired
             intXOffset = 41
             intYOffset = -1
             intFrameOffset = 0
+        ElseIf strType = "Freeze" Then
+            intXOffset = 32
+            intYOffset = -1
+            If intFrame < 13 Then
+                intFrameOffset = intFrame
+            Else
+                intFrameOffset = intFrame - 13
+            End If
         End If
     ElseIf strObjType = "Egg" Then
         intXOffset = 39
@@ -222,6 +237,9 @@ If Not killObj Then 'if object has not expired
         ElseIf strType = "Speed" Then
             .PaintPicture .picPowSpeedMask(intFrame).Image, tile(intObjX, intObjY).x + intXOffset, tile(intObjX, intObjY).y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcAnd
             .PaintPicture .picPowSpeed(intFrame).Image, tile(intObjX, intObjY).x + intXOffset, tile(intObjX, intObjY).y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcPaint
+        ElseIf strType = "Freeze" Then
+            .PaintPicture .picPowFreezeMask.Image, tile(intObjX, intObjY).x + intXOffset, tile(intObjX, intObjY).y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcAnd
+            .PaintPicture .picPowFreeze(intFrame).Image, tile(intObjX, intObjY).x + intXOffset, tile(intObjX, intObjY).y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcPaint
         End If
         End With
     ElseIf strObjType = "Egg" Then
