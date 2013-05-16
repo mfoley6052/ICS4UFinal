@@ -169,10 +169,10 @@ If Not killObj Then 'if object has not expired
         ElseIf strType = "Freeze" Then
             intXOffset = 32
             intYOffset = -1
-            If intFrame < 13 Then
-                intFrameOffset = intFrame
+            If intFrame < 14 Then
+                intFrameOffset = -intFrame
             Else
-                intFrameOffset = intFrame - 13
+                intFrameOffset = -14
             End If
         End If
     ElseIf strObjType = "Egg" Then
@@ -239,7 +239,7 @@ If Not killObj Then 'if object has not expired
             .PaintPicture .picPowSpeed(intFrame).Image, tile(intObjX, intObjY).x + intXOffset, tile(intObjX, intObjY).y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcPaint
         ElseIf strType = "Freeze" Then
             .PaintPicture .picPowFreezeMask.Image, tile(intObjX, intObjY).x + intXOffset, tile(intObjX, intObjY).y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcAnd
-            .PaintPicture .picPowFreeze(intFrame).Image, tile(intObjX, intObjY).x + intXOffset, tile(intObjX, intObjY).y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcPaint
+            .PaintPicture .picPowFreeze(intFrame + intFrameOffset).Image, tile(intObjX, intObjY).x + intXOffset, tile(intObjX, intObjY).y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcPaint
         End If
         End With
     ElseIf strObjType = "Egg" Then
