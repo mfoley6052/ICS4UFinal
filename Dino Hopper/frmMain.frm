@@ -3798,7 +3798,7 @@ If intCounter < counterLimit(index) Then
 'if counter limit is reached
 Else
     'initiate cpu movement
-    'Call cpuAI(Index)
+    Call cpuAI(index)
     intCounter = 0
 End If
 End Sub

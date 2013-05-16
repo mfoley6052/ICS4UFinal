@@ -28,4 +28,5 @@ Public Type terrain ' data type for different terrains
     picTile As Object
     picMask As Object
     pathCount As Integer
+    dir As String
 End Type

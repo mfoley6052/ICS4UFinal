@@ -8,9 +8,9 @@ Dim extraX As Integer
 Dim extraY As Integer
 'if the row is odd then there is one less tile on the x axis
 If oddRow(curY(index)) Then
-    ext = -1
-Else
     ext = 0
+Else
+    ext = -1
 End If
 'check for outer edges, and then set the array size and locations of the adjacent tiles to the current tile
 If curX(index) > 0 And curX(index) < mapWidth + ext Then  'Not on map edge horizontally
@@ -51,20 +51,24 @@ For q = LBound(openList) To UBound(openList)
     'loop until the number of steps in the direction specified from the current location = the destination
     Do Until openList(q).Xc + (extraX * openList(q).pathCount) = curX(0) And openList(q).Yc + (extraY * openList(q).pathCount) = curY(0)
         openList(q).pathCount = openList(q).pathCount + 1
-        If openList(q).Xc <> curX(0) Then ' If the x coord of the tile isnt the player tile
-            If openList(q).Yc <> curY(0) Then ' If the y coord of the tile isnt the player tile
-                If openList(q).Xc > curX(0) And openList(q).Yc > curY(0) Then
+        If openList(q).Xc + (extraX * openList(q).pathCount) <> curX(0) Then ' If the x coord of the tile isnt the player tile
+            If openList(q).Yc + (extraY * openList(q).pathCount) <> curY(0) Then ' If the y coord of the tile isnt the player tile
+                If openList(q).Xc + (extraX * openList(q).pathCount) > curX(0) And openList(q).Yc + (extraY * openList(q).pathCount) > curY(0) Then
                     extraX = -1
                     extraY = -1
-                ElseIf openList(q).Xc < curX(0) And openList(q).Yc > curY(0) Then
+                    openList(q).dir = "L"
+                ElseIf openList(q).Xc + (extraX * openList(q).pathCount) < curX(0) And openList(q).Yc + (extraY * openList(q).pathCount) > curY(0) Then
                     extraX = 1
                     extraY = -1
-                ElseIf openList(q).Xc > curX(0) And openList(q).Yc < curY(0) Then
+                    openList(q).dir = "U"
+                ElseIf openList(q).Xc + (extraX * openList(q).pathCount) > curX(0) And openList(q).Yc + (extraY * openList(q).pathCount) < curY(0) Then
                     extraX = -1
                     extraY = 1
-                ElseIf openList(q).Xc < curX(0) And openList(q).Yc < curY(0) Then
+                    openList(q).dir = "D"
+                ElseIf openList(q).Xc + (extraX * openList(q).pathCount) < curX(0) And openList(q).Yc + (extraY * openList(q).pathCount) < curY(0) Then
                     extraX = 1
                     extraY = 1
+                    openList(q).dir = "R"
                End If
             End If
         End If
@@ -72,14 +76,16 @@ For q = LBound(openList) To UBound(openList)
 Next q
 'Sort the choices by number of steps to player, holding on to the lowest amount
 Dim bestTile As terrain
-For q = LBound(openList) + 1 To UBound(openList)
-    If openList(q).pathCount < openList(q - 1).pathCount Then
-        If bestTile.pathCount > openList(q).pathCount Then
-            bestTile = openList(q)
+For q = LBound(openList) To UBound(openList) - 1
+    If openList(q + 1).pathCount < openList(q).pathCount Then
+        If bestTile.pathCount > openList(q + 1).pathCount Then
+            bestTile = openList(q + 1)
         End If
     End If
 Next q
+If UBound(openList) = 0 Then
+    bestTile = openList(0)
+End If
 'Send choice to movement part of engine
-nextX(index) = bestTile.Xc
-nextY(index) = bestTile.Yc
+Call getJump(index, bestTile.dir)
 End Function
