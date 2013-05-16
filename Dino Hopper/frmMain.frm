@@ -4091,6 +4091,7 @@ If counter = 20 Then
         tmrChar(index).Interval = 50
         tmrFrame(index).Interval = 50
     ElseIf tmrPow(index).Tag = "Freeze" Then
+        tmrChar(index).Tag = ""
     End If
     tmrPow(index).Tag = ""
     tmrPow(index).Enabled = False

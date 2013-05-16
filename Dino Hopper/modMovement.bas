@@ -39,6 +39,7 @@ Dim q As Integer
 With frmMain
 prevX(index) = curX(index)
 prevY(index) = curY(index)
+'tile(prevX(index),prevY(index)).picTile = (icetile)
 tile(curX(index), curY(index)).hasChar = False
 If (index = 0 And blnPlayerMoveable = True) Or index > 0 Then
     curX(index) = nextX(index)
