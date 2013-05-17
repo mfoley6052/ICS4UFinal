@@ -133,28 +133,28 @@ Begin VB.Form frmMain
    Begin VB.Timer tmrFrame 
       Enabled         =   0   'False
       Index           =   0
-      Interval        =   50
+      Interval        =   40
       Left            =   11040
       Top             =   3000
    End
    Begin VB.Timer tmrFrame 
       Enabled         =   0   'False
       Index           =   1
-      Interval        =   50
+      Interval        =   40
       Left            =   11040
       Top             =   3480
    End
    Begin VB.Timer tmrFrame 
       Enabled         =   0   'False
       Index           =   2
-      Interval        =   50
+      Interval        =   40
       Left            =   11040
       Top             =   3960
    End
    Begin VB.Timer tmrFrame 
       Enabled         =   0   'False
       Index           =   3
-      Interval        =   50
+      Interval        =   40
       Left            =   11040
       Top             =   4440
    End
@@ -189,21 +189,21 @@ Begin VB.Form frmMain
    Begin VB.Timer tmrChar 
       Enabled         =   0   'False
       Index           =   3
-      Interval        =   50
+      Interval        =   40
       Left            =   10560
       Top             =   4440
    End
    Begin VB.Timer tmrChar 
       Enabled         =   0   'False
       Index           =   2
-      Interval        =   50
+      Interval        =   40
       Left            =   10560
       Top             =   3960
    End
    Begin VB.Timer tmrChar 
       Enabled         =   0   'False
       Index           =   1
-      Interval        =   50
+      Interval        =   40
       Left            =   10560
       Top             =   3480
    End
@@ -274,7 +274,7 @@ Begin VB.Form frmMain
    Begin VB.Timer tmrChar 
       Enabled         =   0   'False
       Index           =   0
-      Interval        =   50
+      Interval        =   40
       Left            =   10560
       Top             =   3000
    End
@@ -4155,21 +4155,14 @@ intCounter = intCounter + 1
 End Sub
 
 Public Sub tmrPow_Timer(index As Integer)
-Static counter As Integer
-counter = counter + 1
-If counter = 20 Then
-    If tmrPow(index).Tag = "Scare" Then
-    ElseIf tmrPow(index).Tag = "Speed" Then
-        tmrChar(index).Interval = 50
-        tmrFrame(index).Interval = 50
-    ElseIf tmrPow(index).Tag = "Freeze" Then
-        tmrChar(index).Tag = ""
-    End If
+tmrPowCounter = tmrPowCounter + 1
+If tmrPowCounter >= 20 Then
+    Call getPowExpire(index, tmrPow(index).Tag)
+    tmrPowCounter = 0
     tmrPow(index).Tag = ""
     tmrPow(index).Enabled = False
 End If
 End Sub
-
 
 Private Sub tmrObjEvent_Timer()
 Dim intRand As Integer
