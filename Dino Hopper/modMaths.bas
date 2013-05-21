@@ -61,9 +61,13 @@ End If
 End Function
 
 Public Sub killObj(inputTile As terrain)
-Call PaintObj(inputTile.objType(0), inputTile.objType(1), 0, inputTile.Xc, inputTile.Yc, True)
-tile(inputTile.Xc, inputTile.Yc).objTimer = 0
-tile(inputTile.Xc, inputTile.Yc).hasObj = False
+inputTile.objTimer = 0
+If inputTile.objType(0) <> "Terrain" Then
+    Call PaintObj(inputTile.objType(0), inputTile.objType(1), 0, inputTile.Xc, inputTile.Yc, True)
+Else
+    Call getChangeTerrain(inputTile, Mid(inputTile.terType, 2, 1), True)
+End If
+inputTile.hasObj = False
 objTileCount = objTileCount - 1
 End Sub
 

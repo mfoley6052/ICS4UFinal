@@ -4061,10 +4061,15 @@ For o = 0 To tileCount - 1
             End If
         End If
         intObjTimer = curTile.objTimer
-        frameCount = intObjTimer - ((intObjTimer \ frameLim) * frameLim)
-        'paint object
-        Call PaintObj(curTile.objType(0), curTile.objType(1), frameCount, curTile.Xc, curTile.Yc, False)
-        'If objTimer (frame advancements on obj) is under objExpire, add 1 to it
+        If curTile.objType(0) <> "Terrain" Then 'if obj is not a terrain
+            'set frame count of object
+            frameCount = intObjTimer - ((intObjTimer \ frameLim) * frameLim)
+            'paint object
+            Call PaintObj(curTile.objType(0), curTile.objType(1), frameCount, curTile.Xc, curTile.Yc, False)
+        Else
+            Call clearTile(curTile, False, 0, "ObjXY")
+        End If
+        'if objTimer (frame advancements on obj) is under objExpire, add 1 to it
         If intObjTimer < objExpire Then
             tile(getTileFromInt(True, o), getTileFromInt(False, o)).objTimer = intObjTimer + 1
         'if objTimer is objExpire (or greater), disable obj and clear tile
@@ -4091,6 +4096,9 @@ If tmrFrame(index).Enabled Then
         strState(index) = "C"
     ElseIf frameCounter(index) = 5 Then
         strState(index) = "J"
+        If tmrChar(index).Tag = "Freeze" Then
+            Call getChangeTerrain(tile(curX(index), curY(index)), "I", False)
+        End If
     ElseIf frameCounter(index) = 10 Then
         strState(index) = "I"
     End If
@@ -4170,6 +4178,8 @@ If objTileCount < tileCount - 4 Then
     intRand = randInt(1, 100)
     Dim intType As Integer
     intType = randInt(1, 100)
+    intRand = 90
+    intType = 95
     If intRand < 85 Then 'Coin: 85%
         intRand = randInt(0, tileCount - 1)
         Do Until Not tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).hasObj And Not tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).hasChar

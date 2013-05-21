@@ -39,7 +39,6 @@ Dim q As Integer
 With frmMain
 prevX(index) = curX(index)
 prevY(index) = curY(index)
-'tile(prevX(index),prevY(index)).picTile = (icetile)
 tile(curX(index), curY(index)).hasChar = False
 If (index = 0 And blnPlayerMoveable = True) Or index > 0 Then
     curX(index) = nextX(index)
@@ -84,7 +83,7 @@ If index = 0 Then
             End If
         End If
     End If
-    If inputTile.terType = 0 Then
+    If inputTile.terType = "G" Then
         pScore = pScore + 25
     End If
     Call addScore(index, pScore)
@@ -96,6 +95,7 @@ End If
 If tile(curX(index), curY(index)).hasObj = True Then
     Call killObj(tile(curX(index), curY(index)))
 End If
+'freeze
 blnClearPrevTile(index) = True
 strState(index) = "I"
 .lblTest.Caption = "(" & curX(0) & ", " & curY(0) & ") (" & nextX(0) & ", " & nextY(0) & ")"

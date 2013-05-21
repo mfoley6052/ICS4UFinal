@@ -32,3 +32,30 @@ ElseIf .tmrPow(index).Tag = "Freeze" Then
 End If
 End With
 End Sub
+
+Public Sub getChangeTerrain(inputTile As terrain, strType As String, blnKill As Boolean)
+If Not blnKill Then
+    inputTile.hasObj = True
+    inputTile.objType(0) = "Terrain"
+    inputTile.objType(1) = strType
+    inputTile.terType = inputTile.terType & strType
+    Set inputTile.tempPic = inputTile.picTile
+    With frmMain
+    If inputTile.cutoff = "" Then
+        Set inputTile.picTile = .picTile(4)
+    ElseIf inputTile.cutoff = "L" Then
+        Set inputTile.picTile = .picTileL(4)
+    ElseIf inputTile.cutoff = "R" Then
+        Set inputTile.picTile = .picTileR(4)
+    ElseIf inputTile.cutoff = "LR" Then
+        Set inputTile.picTile = .picTileLR(4)
+    End If
+    End With
+    objTileCount = objTileCount + 1
+    Call clearTile(inputTile, False, -1, "ObjXYF")
+Else
+    inputTile.terType = Mid(inputTile.terType, 1, 1)
+    Set inputTile.picTile = inputTile.tempPic
+    Call clearTile(inputTile, False, -1, "ObjXYF")
+End If
+End Sub
