@@ -4140,8 +4140,6 @@ If objTileCount < tileCount - 4 Then
     intRand = randInt(1, 100)
     Dim intType As Integer
     intType = randInt(1, 100)
-    intRand = 90
-    intType = 95
     If intRand < 85 Then 'Coin: 85%
         intRand = randInt(0, tileCount - 1)
         Do Until Not tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).hasObj And Not tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).hasChar
