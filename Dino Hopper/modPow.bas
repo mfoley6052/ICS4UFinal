@@ -40,15 +40,19 @@ If Not blnKill Then
     inputTile.objType(1) = strType
     inputTile.terType = inputTile.terType & strType
     Set inputTile.tempPic = inputTile.picTile
+    Dim intType As Integer
+    If strType = "I" Then
+        intType = 4
+    End If
     With frmMain
     If inputTile.cutoff = "" Then
-        Set inputTile.picTile = .picTile(4)
+        Set inputTile.picTile = .picTile(intType)
     ElseIf inputTile.cutoff = "L" Then
-        Set inputTile.picTile = .picTileL(4)
+        Set inputTile.picTile = .picTileL(intType)
     ElseIf inputTile.cutoff = "R" Then
-        Set inputTile.picTile = .picTileR(4)
+        Set inputTile.picTile = .picTileR(intType)
     ElseIf inputTile.cutoff = "LR" Then
-        Set inputTile.picTile = .picTileLR(4)
+        Set inputTile.picTile = .picTileLR(intType)
     End If
     End With
     objTileCount = objTileCount + 1
