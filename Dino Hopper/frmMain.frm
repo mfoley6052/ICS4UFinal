@@ -130,34 +130,6 @@ Begin VB.Form frmMain
       Visible         =   0   'False
       Width           =   1500
    End
-   Begin VB.Timer tmrFrame 
-      Enabled         =   0   'False
-      Index           =   0
-      Interval        =   40
-      Left            =   11040
-      Top             =   3000
-   End
-   Begin VB.Timer tmrFrame 
-      Enabled         =   0   'False
-      Index           =   1
-      Interval        =   40
-      Left            =   11040
-      Top             =   3480
-   End
-   Begin VB.Timer tmrFrame 
-      Enabled         =   0   'False
-      Index           =   2
-      Interval        =   40
-      Left            =   11040
-      Top             =   3960
-   End
-   Begin VB.Timer tmrFrame 
-      Enabled         =   0   'False
-      Index           =   3
-      Interval        =   40
-      Left            =   11040
-      Top             =   4440
-   End
    Begin VB.Timer tmrHurt 
       Enabled         =   0   'False
       Index           =   0
@@ -230,7 +202,7 @@ Begin VB.Form frmMain
    End
    Begin VB.Timer tmrObjEvent 
       Enabled         =   0   'False
-      Interval        =   1500
+      Interval        =   5000
       Left            =   11520
       Top             =   600
    End
@@ -255,7 +227,7 @@ Begin VB.Form frmMain
    End
    Begin VB.Timer tmrObj 
       Enabled         =   0   'False
-      Interval        =   50
+      Interval        =   40
       Left            =   10080
       Top             =   600
    End
@@ -4036,7 +4008,7 @@ End Sub
 Private Sub tmrObj_Timer()
 Dim frameCount As Integer
 Dim frameLim As Integer
-Dim intObjTimer As Integer
+Dim intObjTimer As Long
 Dim curTile As terrain
 frmDbg.lstCoin.Clear
 For o = 0 To tileCount - 1
@@ -4061,10 +4033,8 @@ For o = 0 To tileCount - 1
             End If
         End If
         intObjTimer = curTile.objTimer
-        If curTile.objType(0) <> "Terrain" Then 'if obj is not a terrain
-            'set frame count of object
+        If curTile.objType(0) <> "Terrain" Then 'if obj is not a terrain, set frame count of object and paint object
             frameCount = intObjTimer - ((intObjTimer \ frameLim) * frameLim)
-            'paint object
             Call PaintObj(curTile.objType(0), curTile.objType(1), frameCount, curTile.Xc, curTile.Yc, False)
         Else
             Call clearTile(curTile, False, 0, "ObjXY")
@@ -4072,9 +4042,8 @@ For o = 0 To tileCount - 1
         'if objTimer (frame advancements on obj) is under objExpire, add 1 to it
         If intObjTimer < objExpire Then
             tile(getTileFromInt(True, o), getTileFromInt(False, o)).objTimer = intObjTimer + 1
-        'if objTimer is objExpire (or greater), disable obj and clear tile
-        Else
-            Call killObj(curTile)
+        Else 'if objTimer is objExpire (or greater), disable obj and clear tile
+            Call killObj(tile(getTileFromInt(True, o), getTileFromInt(False, o)))
         End If
     End If
 Next o
@@ -4086,21 +4055,25 @@ Static blnRev(0 To 3) As Boolean
 'call selection paint
 Call PaintSelector(index, picCount(index))
 'if jump timer is started
-If tmrFrame(index).Enabled Then
+If frameCounter(index) > 0 Then
     'show each jump frame for p1
     'If Index = 0 Then
         'MsgBox (intFrame(0))
     'End If
-    Call getCharJumpAnim(index, tile(curX(index), curY(index)), tile(nextX(index), nextY(index)))
+    Call getCharJumpAnim(index, frameCounter(index), tile(curX(index), curY(index)), tile(nextX(index), nextY(index)))
     If frameCounter(index) = 1 Then
         strState(index) = "C"
     ElseIf frameCounter(index) = 5 Then
         strState(index) = "J"
-        If tmrChar(index).Tag = "Freeze" Then
-            Call getChangeTerrain(tile(curX(index), curY(index)), "I", False)
-        End If
     ElseIf frameCounter(index) = 10 Then
         strState(index) = "I"
+    End If
+    If frameCounter(index) = frameLimit(index) Then
+        frameCounter(index) = 0
+        blnPlayerMoveable = True
+        Call getJumpComplete(index)
+    Else
+        frameCounter(index) = frameCounter(index) + 1
     End If
 Else
     spriteX(index) = tile(curX(index), curY(index)).x + 25
@@ -4118,17 +4091,6 @@ If picCount(index) >= 4 Or picCount(index) <= 0 Then
     Else
         blnRev(index) = False
     End If
-End If
-End Sub
-
-Private Sub tmrFrame_Timer(index As Integer)
-If frameCounter(index) = frameLimit(index) Then
-    frameCounter(index) = 0
-    blnPlayerMoveable = True
-    tmrFrame(index).Enabled = False
-    Call getJumpComplete(index)
-Else
-    frameCounter(index) = frameCounter(index) + 1
 End If
 End Sub
 

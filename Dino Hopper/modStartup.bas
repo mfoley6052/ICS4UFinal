@@ -15,7 +15,7 @@ With frmMain
 .tmrObj.Enabled = True
 If gameMode <> 1 Then
     .tmrObjEvent.Enabled = True
-    objExpire = 100
+    objExpire = 125
     .tmrCPUMove(1).Enabled = True
     counterLimit(1) = 1 'cpu 1 moves every (counterLimit + 1) seconds
 End If

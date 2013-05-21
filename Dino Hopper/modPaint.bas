@@ -8,7 +8,7 @@ Set tilePic = tileInput.picTile 'Set tilePic as tile's tile pic
 'if object not enabled on tile or bypassForObj is true (doesn't paint if bypassForObj is true and object is enabled on tile)
 If Not tileInput.hasObj Or Not bypassForObj Then
     If Not bypassForObj Then 'if object is caller of function
-        If tileInput.hasObj And (callID = "ObjXY" Or callID = "ObjXYF") Then
+        If tileInput.hasObj And Mid(callID, 1, 5) = "ObjXY" Then
             'paint over object
             If tileInput.objType(0) = "Coin" Then
                 'paint terrain over coin
@@ -48,25 +48,25 @@ If Not tileInput.hasObj Or Not bypassForObj Then
                 .PaintPicture tileInput.picMask.Image, tileInput.x + intObjxOffset, tileInput.y, 22, 30, intObjxOffset, 0, 22, 30, vbSrcAnd
                 .PaintPicture .picBuffer.Image, tileInput.x + intObjxOffset, tileInput.y, 22, 30, 0, 0, 22, 30, vbSrcPaint
             ElseIf tileInput.objType(0) = "Terrain" Then
-                    'paint over full tile
-                    .picBackground.PaintPicture tilePic.Image, tileInput.x, tileInput.y, 100, 100, 0, 0, 100, 100, vbSrcCopy
-                    .picBuffer.PaintPicture tilePic.Image, 0, 0, 100, 100, 0, 0, 100, 100, vbSrcCopy
-                    .PaintPicture tileInput.picMask.Image, tileInput.x, tileInput.y, 100, 100, 0, 0, 100, 100, vbSrcAnd
-                    .PaintPicture .picBuffer.Image, tileInput.x, tileInput.y, 100, 100, 0, 0, 100, 100, vbSrcPaint
+                'paint over full tile
+                .picBackground.PaintPicture tilePic.Image, tileInput.x, tileInput.y, 100, 100, 0, 0, 100, 100, vbSrcCopy
+                .picBuffer.PaintPicture tilePic.Image, 0, 0, 100, 100, 0, 0, 100, 100, vbSrcCopy
+                .PaintPicture tileInput.picMask.Image, tileInput.x, tileInput.y, 100, 100, 0, 0, 100, 100, vbSrcAnd
+                .PaintPicture .picBuffer.Image, tileInput.x, tileInput.y, 100, 100, 0, 0, 100, 100, vbSrcPaint
             End If
         Else 'no object on tile
             If callID = "ObjOddX-Y" Or callID = "ObjEven+X-Y" Then
                 'paint over bottom left half of tile
                 .picBackground.PaintPicture tilePic.Image, tileInput.x, tileInput.y + 50, 50, 50, 0, 50, 50, 50, vbSrcCopy
-                .picBuffer.PaintPicture tilePic.Image, 0, 0, 100, 100, 0, 0, 100, 100, vbSrcCopy
+                .picBuffer.PaintPicture tilePic.Image, 0, 0, 50, 50, 0, 50, 50, 50, vbSrcCopy
                 .PaintPicture tileInput.picMask.Image, tileInput.x, tileInput.y + 50, 50, 50, 0, 50, 50, 50, vbSrcAnd
-                .PaintPicture .picBuffer.Image, tileInput.x, tileInput.y + 50, 50, 50, 0, 50, 50, 50, vbSrcPaint
+                .PaintPicture .picBuffer.Image, tileInput.x, tileInput.y + 50, 50, 50, 0, 0, 50, 50, vbSrcPaint
             ElseIf callID = "ObjOdd-X-Y" Or callID = "ObjEvenX-Y" Then
                 'paint over bottom right half of tile
                 .picBackground.PaintPicture tilePic.Image, tileInput.x + 50, tileInput.y + 50, 50, 50, 50, 50, 50, 50, vbSrcCopy
-                .picBuffer.PaintPicture tilePic.Image, 0, 0, 100, 100, 0, 0, 100, 100, vbSrcCopy
+                .picBuffer.PaintPicture tilePic.Image, 0, 0, 50, 50, 50, 50, 50, 50, vbSrcCopy
                 .PaintPicture tileInput.picMask.Image, tileInput.x + 50, tileInput.y + 50, 50, 50, 50, 50, 50, 50, vbSrcAnd
-                .PaintPicture .picBuffer.Image, tileInput.x + 50, tileInput.y + 50, 50, 50, 50, 50, 50, 50, vbSrcPaint
+                .PaintPicture .picBuffer.Image, tileInput.x + 50, tileInput.y + 50, 50, 50, 0, 0, 50, 50, vbSrcPaint
             End If
         End If
     Else 'called by character

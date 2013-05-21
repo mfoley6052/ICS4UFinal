@@ -1,7 +1,7 @@
 Attribute VB_Name = "modMovement"
 Public Function getJump(ByVal index As Integer, ByVal strDirJ As String)
 With frmMain
-    If .tmrFrame(index).Enabled = False Then
+    If frameCounter(index) = 0 Then
         strDir(index) = strDirJ
         'blnPlayerMoveable = False
         If strDir(index) = "L" Then
@@ -29,7 +29,7 @@ With frmMain
             End If
             nextY(index) = curY(index) + 1
         End If
-        .tmrFrame(index).Enabled = True
+        frameCounter(index) = 1
     End If
 End With
 End Function
@@ -40,7 +40,7 @@ With frmMain
 prevX(index) = curX(index)
 prevY(index) = curY(index)
 tile(curX(index), curY(index)).hasChar = False
-If (index = 0 And blnPlayerMoveable = True) Or index > 0 Then
+If (index = 0 And blnPlayerMoveable) Or index > 0 Then
     curX(index) = nextX(index)
     curY(index) = nextY(index)
 End If
@@ -91,6 +91,7 @@ If index = 0 Then
 End If
 If inputTile.hasObj Then
     If inputTile.objType(0) <> "Terrain" Then
+        strState(index) = "I"
         Call killObj(tile(curX(index), curY(index)))
         If inputTile.objType(0) = "Pow" Then
             Call getPowEffect(index, inputTile.objType(1))
@@ -104,7 +105,6 @@ If inputTile.hasObj Then
     End If
 End If
 blnClearPrevTile(index) = True
-strState(index) = "I"
 .lblTest.Caption = "(" & curX(0) & ", " & curY(0) & ") (" & nextX(0) & ", " & nextY(0) & ")"
 .lblTest2.Caption = oddRow(curY(0)) & ", " & oddRow(nextY(0))
 End With

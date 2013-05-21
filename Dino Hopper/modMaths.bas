@@ -66,8 +66,11 @@ If inputTile.objType(0) <> "Terrain" Then
     Call PaintObj(inputTile.objType(0), inputTile.objType(1), 0, inputTile.Xc, inputTile.Yc, True)
 Else
     Call getChangeTerrain(inputTile, Mid(inputTile.terType, 2, 1), True)
+    Call clearTile(inputTile, False, -1, "ObjXYF")
 End If
 inputTile.hasObj = False
+inputTile.objType(0) = ""
+inputTile.objType(1) = ""
 objTileCount = objTileCount - 1
 End Sub
 
@@ -85,18 +88,32 @@ Else
 End If
 End Function
 
-'glitch: frames are often skipped (eg. 5, 6, 8, 9, 10) even though tmrFrame and tmrChar are same interval
-Public Function getCharJumpAnim(ByVal index As Integer, curTile As terrain, nextTile As terrain)
+Public Function getCharJumpAnim(ByVal index As Integer, ByVal curFrame As Integer, curTile As terrain, nextTile As terrain)
 'if frame 5 to 10
-If frameCounter(index) >= 5 And frameCounter(index) <= 10 Then
-    spriteX(index) = curTile.x + ((frameCounter(index) - 5) * Int((nextTile.x - curTile.x) / 5)) + 25
+If curFrame >= 5 And curFrame <= 10 Then
+    spriteX(index) = curTile.x + ((curFrame - 5) * Int((nextTile.x - curTile.x) / 5)) + 25
     '5 to 7 is jump up
-    If frameCounter(index) < 8 Then
-        spriteY(index) = (curTile.y + ((frameCounter(index) - 5) * Int((nextTile.y - curTile.y) / 5))) - (10 * (frameCounter(index) - 5)) - 15
+    If curFrame < 8 Then
+        spriteY(index) = (curTile.y + ((curFrame - 5) * Int((nextTile.y - curTile.y) / 5))) - (10 * (curFrame - 5)) - 15
     '8 to 10 is fall to ground
-    ElseIf frameCounter(index) <= 10 Then
-        spriteY(index) = (curTile.y + ((frameCounter(index) - 5) * Int((nextTile.y - curTile.y) / 5))) - (10 * (10 - frameCounter(index))) - 15
+    ElseIf curFrame <= 10 Then
+        spriteY(index) = (curTile.y + ((curFrame - 5) * Int((nextTile.y - curTile.y) / 5))) - (10 * (10 - curFrame)) - 15
     End If
+    With frmMain
+    If curFrame = 5 Then
+        If .tmrChar(index).Tag = "Freeze" Then 'if freeze, change terrain to ice and paint half-transparency ice tile
+            Call getChangeTerrain(curTile, "I", False)
+            .PaintPicture curTile.picTile.Image, curTile.x, curTile.y, 100, 100, 0, 0, 100, 100, vbSrcPaint
+        End If
+    ElseIf curFrame = 8 Then
+        If .tmrChar(index).Tag = "Freeze" Then 'if freeze power-up
+            'if terrain has no object (if it has an object yet the character is on it, the object is a terrain)
+            If Not tile(curX(index), curY(index)).hasObj Then
+                Call clearTile(curTile, False, -1, "ObjXYF") 'paint full-transparency ice tile
+            End If
+        End If
+    End If
+    End With
 End If
 End Function
 
