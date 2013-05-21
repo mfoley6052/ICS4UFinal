@@ -202,7 +202,7 @@ Begin VB.Form frmMain
    End
    Begin VB.Timer tmrObjEvent 
       Enabled         =   0   'False
-      Interval        =   5000
+      Interval        =   1500
       Left            =   11520
       Top             =   600
    End
