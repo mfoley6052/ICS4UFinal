@@ -4125,8 +4125,8 @@ Private Sub tmrFrame_Timer(index As Integer)
 If frameCounter(index) = frameLimit(index) Then
     frameCounter(index) = 0
     blnPlayerMoveable = True
-    Call getJumpComplete(index)
     tmrFrame(index).Enabled = False
+    Call getJumpComplete(index)
 Else
     frameCounter(index) = frameCounter(index) + 1
 End If

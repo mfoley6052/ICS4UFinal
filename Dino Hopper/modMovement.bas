@@ -90,22 +90,23 @@ If index = 0 Then
     Call refreshLabels(True, blnLives, blnMulti)
 End If
 If inputTile.hasObj Then
-    Call killObj(tile(curX(index), curY(index)))
-    If inputTile.objType(0) = "Pow" Then
-        Call getPowEffect(index, inputTile.objType(1))
+    If inputTile.objType(0) <> "Terrain" Then
+        Call killObj(tile(curX(index), curY(index)))
+        If inputTile.objType(0) = "Pow" Then
+            Call getPowEffect(index, inputTile.objType(1))
+        End If
+    Else
+        If inputTile.objType(1) = "I" Then
+            If evalMove(index, strDir(index)) Then
+                Call getJump(index, strDir(index))
+            End If
+        End If
     End If
 End If
 blnClearPrevTile(index) = True
 strState(index) = "I"
 .lblTest.Caption = "(" & curX(0) & ", " & curY(0) & ") (" & nextX(0) & ", " & nextY(0) & ")"
 .lblTest2.Caption = oddRow(curY(0)) & ", " & oddRow(nextY(0))
-If inputTile.objType(0) = "Terrain" Then
-    If inputTile.objType(1) = "I" Then
-        If evalMove(index, strDir(index)) Then
-            Call getJump(index, strDir(index))
-        End If
-    End If
-End If
 End With
 End Sub
 
