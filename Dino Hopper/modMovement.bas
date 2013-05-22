@@ -33,6 +33,21 @@ With frmMain
     End If
 End With
 End Function
+Public Function RandDir() As String
+Randomize Timer
+Dim temp As Integer
+temp = Int(Rnd() * 4)
+If temp = 0 Then
+    RandDir = "D"
+ElseIf temp = 1 Then
+    RandDir = "R"
+ElseIf temp = 2 Then
+    RandDir = "U"
+Else
+    RandDir = "L"
+End If
+End Function
+
 Public Sub getJumpComplete(ByVal index As Integer)
 Dim pScore As Integer
 Dim q As Integer
