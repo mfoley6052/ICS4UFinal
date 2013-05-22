@@ -182,21 +182,21 @@ Begin VB.Form frmMain
    Begin VB.Timer tmrCPUMove 
       Enabled         =   0   'False
       Index           =   3
-      Interval        =   1000
+      Interval        =   750
       Left            =   11520
       Top             =   2040
    End
    Begin VB.Timer tmrCPUMove 
       Enabled         =   0   'False
       Index           =   2
-      Interval        =   1000
+      Interval        =   750
       Left            =   11520
       Top             =   1560
    End
    Begin VB.Timer tmrCPUMove 
       Enabled         =   0   'False
       Index           =   1
-      Interval        =   1000
+      Interval        =   750
       Left            =   11520
       Top             =   1080
    End
@@ -5034,6 +5034,14 @@ End Sub
 
 Private Sub tmrCPUMove_Timer(index As Integer)
 Static intCounter As Integer
+If cpuInterval > 50 Then
+    cpuInterval = cpuInterval - 5
+    For x = 1 To 3
+        If tmrCPUMove(x).Enabled Then
+            tmrCPUMove(x).Interval = cpuInterval
+        End If
+    Next x
+End If
 'if counter limit is not reached by counter
 If intCounter < counterLimit(index) Then
     'increase counter
@@ -5041,12 +5049,13 @@ If intCounter < counterLimit(index) Then
 'if counter limit is reached
 Else
     'initiate cpu movement
-    'Call cpuAI(index)
+    Call cpuAI(index)
     intCounter = 0
 End If
 End Sub
 
 Private Sub Form_Load()
+cpuInterval = 750
 Call DrawMap(1)
 blnClearPrevTile(0) = False
 blnClearPrevTile(1) = False

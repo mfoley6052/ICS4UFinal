@@ -30,3 +30,4 @@ Public smallestY As Integer
 Public intObjxOffset As Integer
 Public key() As Integer
 Public DefaultKey() As Integer
+Public cpuInterval As Integer
