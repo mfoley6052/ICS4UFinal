@@ -88,16 +88,16 @@ Else
 End If
 End Function
 
-Public Function getCharJumpAnim(ByVal index As Integer, ByVal curFrame As Integer, curTile As terrain, nextTile As terrain)
+Public Function getCharJumpAnim(ByVal index As Integer, ByVal curFrame As Integer, curTile As terrain, ByVal nextX As Integer, ByVal nextY As Integer)
 'if frame 5 to 10
 If curFrame >= 5 And curFrame <= 10 Then
-    spriteX(index) = curTile.x + ((curFrame - 5) * Int((nextTile.x - curTile.x) / 5)) + 25
+    spriteX(index) = curTile.x + ((curFrame - 5) * Int((nextX - curTile.x) / 5)) + 25
     '5 to 7 is jump up
     If curFrame < 8 Then
-        spriteY(index) = (curTile.y + ((curFrame - 5) * Int((nextTile.y - curTile.y) / 5))) - (10 * (curFrame - 5)) - 15
+        spriteY(index) = (curTile.y + ((curFrame - 5) * Int((nextY - curTile.y) / 5))) - (10 * (curFrame - 5)) - 15
     '8 to 10 is fall to ground
     ElseIf curFrame <= 10 Then
-        spriteY(index) = (curTile.y + ((curFrame - 5) * Int((nextTile.y - curTile.y) / 5))) - (10 * (10 - curFrame)) - 15
+        spriteY(index) = (curTile.y + ((curFrame - 5) * Int((nextY - curTile.y) / 5))) - (10 * (10 - curFrame)) - 15
     End If
     With frmMain
     If curFrame = 5 Then
@@ -114,6 +114,9 @@ If curFrame >= 5 And curFrame <= 10 Then
         End If
     End If
     End With
+ElseIf curFrame > 10 And curFrame <= 15 Then
+    spriteX(index) = curTile.x + ((curFrame - 5) * Int((nextX - curTile.x) / 5)) + 25
+    spriteY(index) = (curTile.y + ((curFrame - 5) * Int((nextY - curTile.y) / 5))) - (10 * (10 - curFrame)) - 15
 End If
 End Function
 

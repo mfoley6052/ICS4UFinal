@@ -182,21 +182,21 @@ Begin VB.Form frmMain
    Begin VB.Timer tmrCPUMove 
       Enabled         =   0   'False
       Index           =   3
-      Interval        =   750
+      Interval        =   1000
       Left            =   11520
       Top             =   2040
    End
    Begin VB.Timer tmrCPUMove 
       Enabled         =   0   'False
       Index           =   2
-      Interval        =   750
+      Interval        =   1000
       Left            =   11520
       Top             =   1560
    End
    Begin VB.Timer tmrCPUMove 
       Enabled         =   0   'False
       Index           =   1
-      Interval        =   750
+      Interval        =   1000
       Left            =   11520
       Top             =   1080
    End
@@ -221,7 +221,7 @@ Begin VB.Form frmMain
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   18
       TabIndex        =   39
-      Top             =   6360
+      Top             =   5760
       Visible         =   0   'False
       Width           =   270
    End
@@ -4987,41 +4987,31 @@ End Sub
 Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
 If blnPlayerMoveable = True Then
     If KeyCode = key(0) Then 'Left
-        If evalMove(0, "L") Then
-            If gameMode <> 1 Or (gameMode = 1 And strDir(0) = "L") Then
-                Call getJump(0, "L")
-            ElseIf gameMode = 1 Then
-                strDir(0) = "L"
-            End If
+        If gameMode <> 1 Or (gameMode = 1 And strDir(0) = "L") Then
+            Call getJump(0, "L", evalMove(0, "L"))
+        ElseIf gameMode = 1 Then
+            strDir(0) = "L"
         End If
     ElseIf KeyCode = key(1) Then 'Up
-        If evalMove(0, "U") Then
-            If gameMode <> 1 Or (gameMode = 1 And strDir(0) = "U") Then
-                Call getJump(0, "U")
-            ElseIf gameMode = 1 Then
-                strDir(0) = "U"
-            End If
+        If gameMode <> 1 Or (gameMode = 1 And strDir(0) = "U") Then
+            Call getJump(0, "U", evalMove(0, "U"))
+        ElseIf gameMode = 1 Then
+            strDir(0) = "U"
         End If
     ElseIf KeyCode = key(2) Then 'Right
-        If evalMove(0, "R") Then
-            If gameMode <> 1 Or (gameMode = 1 And strDir(0) = "R") Then
-                Call getJump(0, "R")
-            ElseIf gameMode = 1 Then
-                strDir(0) = "R"
-            End If
+        If gameMode <> 1 Or (gameMode = 1 And strDir(0) = "R") Then
+            Call getJump(0, "R", evalMove(0, "R"))
+        ElseIf gameMode = 1 Then
+            strDir(0) = "R"
         End If
     ElseIf KeyCode = key(3) Then 'Down
-        If evalMove(0, "D") Then
-            If gameMode <> 1 Or (gameMode = 1 And strDir(0) = "D") Then
-                Call getJump(0, "D")
-            ElseIf gameMode = 1 Then
-                strDir(0) = "D"
-            End If
+        If gameMode <> 1 Or (gameMode = 1 And strDir(0) = "D") Then
+            Call getJump(0, "D", evalMove(0, "D"))
+        ElseIf gameMode = 1 Then
+            strDir(0) = "D"
         End If
     ElseIf KeyCode = key(4) Then 'Action
-        If evalMove(0, strDir(0)) Then
-            Call getJump(0, strDir(0))
-        End If
+        Call getJump(0, strDir(0), evalMove(0, strDir(0)))
     End If
 End If
 End Sub
@@ -5036,14 +5026,6 @@ End Sub
 
 Private Sub tmrCPUMove_Timer(index As Integer)
 Static intCounter As Integer
-If cpuInterval > 50 Then
-    cpuInterval = cpuInterval - 5
-    For x = 1 To 3
-        If tmrCPUMove(x).Enabled Then
-            tmrCPUMove(x).Interval = cpuInterval
-        End If
-    Next x
-End If
 'if counter limit is not reached by counter
 If intCounter < counterLimit(index) Then
     'increase counter
@@ -5051,13 +5033,12 @@ If intCounter < counterLimit(index) Then
 'if counter limit is reached
 Else
     'initiate cpu movement
-    Call cpuAI(index)
+    'Call cpuAI(index)
     intCounter = 0
 End If
 End Sub
 
 Private Sub Form_Load()
-cpuInterval = 750
 Call DrawMap(1)
 blnClearPrevTile(0) = False
 blnClearPrevTile(1) = False
@@ -5127,20 +5108,40 @@ If frameCounter(index) > 0 Then
     'If Index = 0 Then
         'MsgBox (intFrame(0))
     'End If
-    Call getCharJumpAnim(index, frameCounter(index), tile(curX(index), curY(index)), tile(nextX(index), nextY(index)))
     If frameCounter(index) = 1 Then
         strState(index) = "C"
     ElseIf frameCounter(index) = 5 Then
         strState(index) = "J"
-    ElseIf frameCounter(index) = 10 Then
-        strState(index) = "I"
     End If
-    If frameCounter(index) = frameLimit(index) Then
-        frameCounter(index) = 0
-        blnPlayerMoveable = True
-        Call getJumpComplete(index)
+    If (nextX(index) <> curX(index)) Or (nextY(index) <> curY(index)) Then
+        Call getCharJumpAnim(index, frameCounter(index), tile(curX(index), curY(index)), tile(nextX(index), nextY(index)).x, tile(nextX(index), nextY(index)).y)
+        If frameCounter(index) = 10 Then
+            strState(index) = "I"
+        End If
+        If frameCounter(index) = frameLimit(index) Then
+            frameCounter(index) = 0
+            blnPlayerMoveable = True
+            Call getJumpComplete(index)
+        Else
+            frameCounter(index) = frameCounter(index) + 1
+        End If
     Else
-        frameCounter(index) = frameCounter(index) + 1
+        If strDir(index) = "L" Then
+            Call getCharJumpAnim(index, frameCounter(index), tile(curX(index), curY(index)), tile(curX(index), curY(index)).x - 50, tile(curX(index), curY(index)).y - 75)
+        ElseIf strDir(index) = "U" Then
+            Call getCharJumpAnim(index, frameCounter(index), tile(curX(index), curY(index)), tile(curX(index), curY(index)).x + 50, tile(curX(index), curY(index)).y - 75)
+        ElseIf strDir(index) = "R" Then
+            Call getCharJumpAnim(index, frameCounter(index), tile(curX(index), curY(index)), tile(curX(index), curY(index)).x + 50, tile(curX(index), curY(index)).y + 75)
+        ElseIf strDir(index) = "R" Then
+            Call getCharJumpAnim(index, frameCounter(index), tile(curX(index), curY(index)), tile(curX(index), curY(index)).x - 50, tile(curX(index), curY(index)).y + 75)
+        End If
+        If frameCounter(index) = frameLimit(index) * 1.5 Then
+            frameCounter(index) = 0
+            blnPlayerMoveable = True
+            Call getJumpComplete(index)
+        Else
+            frameCounter(index) = frameCounter(index) + 1
+        End If
     End If
 Else
     spriteX(index) = tile(curX(index), curY(index)).x + 25

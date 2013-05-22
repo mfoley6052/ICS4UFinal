@@ -1,53 +1,40 @@
 Attribute VB_Name = "modMovement"
-Public Function getJump(ByVal index As Integer, ByVal strDirJ As String)
+Public Function getJump(ByVal index As Integer, ByVal strDirJ As String, ByVal blnTile As Boolean)
 With frmMain
     If frameCounter(index) = 0 Then
         strDir(index) = strDirJ
-        'blnPlayerMoveable = False
-        If strDir(index) = "L" Then
-            'if y row is odd
-            If oddRow(curY(index)) Then
-                nextX(index) = curX(index) - 1
+        If blnTile Then
+            'blnPlayerMoveable = False
+            If strDir(index) = "L" Then
+                'if y row is odd
+                If oddRow(curY(index)) Then
+                    nextX(index) = curX(index) - 1
+                End If
+                nextY(index) = curY(index) - 1
+            ElseIf strDir(index) = "U" Then
+                'if y row is even
+                If Not oddRow(curY(index)) Then
+                    nextX(index) = curX(index) + 1
+                End If
+                nextY(index) = curY(index) - 1
+            ElseIf strDir(index) = "R" Then
+                'if y row is even
+                If Not oddRow(curY(index)) Then
+                    nextX(index) = curX(index) + 1
+                End If
+                nextY(index) = curY(index) + 1
+            ElseIf strDir(index) = "D" Then
+                'if y row is odd
+                If oddRow(curY(index)) Then
+                    nextX(index) = curX(index) - 1
+                End If
+                nextY(index) = curY(index) + 1
             End If
-            nextY(index) = curY(index) - 1
-        ElseIf strDir(index) = "U" Then
-            'if y row is even
-            If Not oddRow(curY(index)) Then
-                nextX(index) = curX(index) + 1
-            End If
-            nextY(index) = curY(index) - 1
-        ElseIf strDir(index) = "R" Then
-            'if y row is even
-            If Not oddRow(curY(index)) Then
-                nextX(index) = curX(index) + 1
-            End If
-            nextY(index) = curY(index) + 1
-        ElseIf strDir(index) = "D" Then
-            'if y row is odd
-            If oddRow(curY(index)) Then
-                nextX(index) = curX(index) - 1
-            End If
-            nextY(index) = curY(index) + 1
         End If
         frameCounter(index) = 1
     End If
 End With
 End Function
-Public Function RandDir() As String
-Randomize Timer
-Dim temp As Integer
-temp = Int(Rnd() * 4)
-If temp = 0 Then
-    RandDir = "D"
-ElseIf temp = 1 Then
-    RandDir = "R"
-ElseIf temp = 2 Then
-    RandDir = "U"
-Else
-    RandDir = "L"
-End If
-End Function
-
 Public Sub getJumpComplete(ByVal index As Integer)
 Dim pScore As Integer
 Dim q As Integer
@@ -114,7 +101,7 @@ If inputTile.hasObj Then
     Else
         If inputTile.objType(1) = "I" Then
             If evalMove(index, strDir(index)) Then
-                Call getJump(index, strDir(index))
+                Call getJump(index, strDir(index), evalMove(index, strDir(index)))
             End If
         End If
     End If
