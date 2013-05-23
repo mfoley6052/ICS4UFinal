@@ -2,14 +2,16 @@ Attribute VB_Name = "modCpuAi"
 
 Public Function cpuAI(ByVal index As Integer)
 If curX(index) > curX(0) And curY(index) > curY(0) Then
-    Call getJump(index, "L")
+    Call getJump(index, "L", evalMove(index, "L"))
 ElseIf curX(index) > curX(0) And curY(index) < curY(0) Then
-    Call getJump(index, "D")
+    Call getJump(index, "D", evalMove(index, "D"))
 ElseIf curX(index) < curX(0) And curY(index) > curY(0) Then
-    Call getJump(index, "U")
+    Call getJump(index, "U", evalMove(index, "U"))
 ElseIf curX(index) < curX(0) And curY(index) < curY(0) Then
-    Call getJump(index, "R")
+    Call getJump(index, "R", evalMove(index, "R"))
 Else
-    Call getJump(index, RandDir)
+    Dim dirRand As String
+    dirRand = randDir
+    Call getJump(index, dirRand, evalMove(index, dirRand))
 End If
 End Function

@@ -18,7 +18,7 @@ End If
 End With
 End Sub
 
-Public Function tileTouchingChar(tileInput As terrain) As Boolean
+Public Function tileTouchingChar(ByVal index As Integer, tileInput As terrain) As Boolean
 tileTouchingChar = False
 If tileInput.Yc < mapHeight - 1 Then 'if above bottom row of tiles
     If oddRow(tileInput.Yc + 1) Then 'if tile row is odd
@@ -116,7 +116,7 @@ If curFrame >= 5 And curFrame <= 10 Then
     End With
 ElseIf curFrame > 10 And curFrame <= 15 Then
     spriteX(index) = curTile.x + ((curFrame - 5) * Int((nextX - curTile.x) / 5)) + 25
-    spriteY(index) = (curTile.y + ((curFrame - 5) * Int((nextY - curTile.y) / 5))) - (10 * (10 - curFrame)) - 15
+    spriteY(index) = (nextY - 10) + ((curFrame - 10) * (curFrame * 2))
 End If
 End Function
 
