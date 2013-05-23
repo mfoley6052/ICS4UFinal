@@ -165,9 +165,9 @@ With frmMain
         .PaintPicture .picSpacerMask.Image, tileInput.x, tileInput.y - 50, 50, 98, 0, 0, 50, 98, vbSrcAnd
         .PaintPicture .picBackground.Image, tileInput.x, tileInput.y - 50, 50, 98, 0, 0, 50, 98, vbSrcCopy
     ElseIf blnL Then
-        .picBackground.PaintPicture .picSpacer.Image, tileInput.x, tileInput.y - 50, 50, 98, 0, 0, 50, 98, vbSrcCopy
-        .PaintPicture .picSpacerMask.Image, tileInput.x, tileInput.y - 50, 50, 98, 0, 0, 50, 98, vbSrcAnd
-        .PaintPicture .picBackground.Image, tileInput.x, tileInput.y - 50, 50, 98, 0, 0, 50, 98, vbSrcCopy
+        .picBackground.PaintPicture .picSpacer.Image, tileInput.x, tileInput.y - 74, 50, 98, 0, 0, 50, 98, vbSrcCopy
+        .PaintPicture .picSpacerMask.Image, tileInput.x, tileInput.y - 74, 50, 98, 0, 0, 50, 98, vbSrcAnd
+        .PaintPicture .picBackground.Image, 0, 0, 50, 98, tileInput.x, tileInput.y - 75, 50, 98, vbSrcCopy
     ElseIf blnR Then
         .picBackground.PaintPicture .picSpacer.Image, tileInput.x + 50, tileInput.y - 50, 50, 98, 0, 0, 50, 98, vbSrcCopy
         .PaintPicture .picSpacerMask.Image, tileInput.x + 50, tileInput.y - 50, 50, 98, 0, 0, 50, 98, vbSrcAnd
@@ -538,8 +538,10 @@ End Sub
 
 Public Sub getTileAnim(ByVal intFrame As Integer, tileInput As terrain)
 With frmMain
-    .picBuffer.PaintPicture .picBackground.Image, 0, 0, 100, 100, 0, 0, 100, 100, vbSrcCopy
-    .PaintPicture .picBuffer.Image, tileInput.x, (tileInput.y - 400) + (intFrame - 1) * 50, 100, 100, 0, 0, 100, 100, vbSrcCopy
+    If ((tileInput.y - 400) + intFrame * 50) >= 0 Then
+        .picBuffer.PaintPicture .picBackground.Image, 0, 0, 100, 100, tileInput.x, (tileInput.y - 400) + intFrame * 50, 100, 100, vbSrcCopy
+        .PaintPicture .picBuffer.Image, tileInput.x, (tileInput.y - 400) + (intFrame - 1) * 50, 100, 100, 0, 0, 100, 100, vbSrcCopy
+    End If
     'paint tile mask with new y
     .PaintPicture tileInput.picMask.Image, tileInput.x, (tileInput.y - 400) + intFrame * 50, 100, 100, 0, 0, 100, 100, vbSrcAnd
     'paint tile with new y
