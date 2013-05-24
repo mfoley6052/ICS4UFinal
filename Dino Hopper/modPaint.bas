@@ -161,17 +161,13 @@ With frmMain
         '.picBackground.PaintPicture .picSpacer.Image, tileInput.x, tileInput.y - 50, 100, 98, 0, 0, 100, 98, vbSrcCopy
         '.PaintPicture .picSpacerMask.Image, tileInput.x, tileInput.y - 50, 100, 98, 0, 0, 100, 98, vbSrcAnd
         '.PaintPicture .picBackground.Image, tileInput.x, tileInput.y - 50, 100, 98, 0, 0, 100, 98, vbSrcCopy
-        .picBackground.PaintPicture .picSpacer.Image, tileInput.x, tileInput.y - 50, 50, 98, 0, 0, 50, 98, vbSrcCopy
-        .PaintPicture .picSpacerMask.Image, tileInput.x, tileInput.y - 50, 50, 98, 0, 0, 50, 98, vbSrcAnd
-        .PaintPicture .picBackground.Image, tileInput.x, tileInput.y - 50, 50, 98, 0, 0, 50, 98, vbSrcCopy
+        .PaintPicture picBG, tileInput.x, tileInput.y - 74, 100, 98, tileInput.x, tileInput.y - 74, 100, 98, vbSrcCopy
     ElseIf blnL Then
-        .picBackground.PaintPicture .picSpacer.Image, tileInput.x, tileInput.y - 74, 50, 98, 0, 0, 50, 98, vbSrcCopy
         .PaintPicture .picSpacerMask.Image, tileInput.x, tileInput.y - 74, 50, 98, 0, 0, 50, 98, vbSrcAnd
-        .PaintPicture .picBackground.Image, 0, 0, 50, 98, tileInput.x, tileInput.y - 75, 50, 98, vbSrcCopy
+        .PaintPicture picBG, tileInput.x, tileInput.y - 74, 50, 98, tileInput.x, tileInput.y - 74, 50, 98, vbSrcCopy
     ElseIf blnR Then
-        .picBackground.PaintPicture .picSpacer.Image, tileInput.x + 50, tileInput.y - 50, 50, 98, 0, 0, 50, 98, vbSrcCopy
-        .PaintPicture .picSpacerMask.Image, tileInput.x + 50, tileInput.y - 50, 50, 98, 0, 0, 50, 98, vbSrcAnd
-        .PaintPicture .picBackground.Image, tileInput.x + 50, tileInput.y - 50, 50, 98, tileInput.x + 50, 0, 50, 98, vbSrcCopy
+        .PaintPicture .picSpacerMask.Image, tileInput.x + 50, tileInput.y - 74, 50, 98, 0, 0, 50, 98, vbSrcAnd
+        .PaintPicture picBG, tileInput.x + 50, tileInput.y - 74, 50, 98, tileInput.x + 50, tileInput.y - 74, 50, 98, vbSrcCopy
     End If
 End With
 End Sub
