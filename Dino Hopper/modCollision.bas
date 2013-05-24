@@ -6,7 +6,7 @@ If intLives(0) > 1 Then
 Else
     MsgBox ("GameOver")
     frmStart.Show
-    Unload frmMain
+    frmMain.Hide
 End If
 Call refreshLabels(False, True, False)
 End Sub
