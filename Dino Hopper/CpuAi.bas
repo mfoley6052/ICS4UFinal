@@ -9,9 +9,11 @@ ElseIf curX(index) < curX(0) And curY(index) > curY(0) Then
     Call getJump(index, "U", evalMove(index, "U"))
 ElseIf curX(index) < curX(0) And curY(index) < curY(0) Then
     Call getJump(index, "R", evalMove(index, "R"))
+ElseIf curY(index) > curY(0) And curX(index) = curX(0) Then
+           
 Else
-    Dim dirRand As String
-    dirRand = randDir
-    Call getJump(index, dirRand, evalMove(index, dirRand))
+    Dim temp As String
+    temp = randDir
+    Call getJump(index, temp, evalMove(index, temp))
 End If
 End Function
