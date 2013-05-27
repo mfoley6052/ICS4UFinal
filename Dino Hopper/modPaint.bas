@@ -81,8 +81,8 @@ If Not tileInput.hasObj Or Not bypassForObj Then
                             tileAlt = tile(curX(index), curY(index) - 2)
                             Set tilePic = tileAlt.picTile
                             If callID <> "CharOdd-X-2Y" Then
-                                .PaintPicture picBG, tileInput.x, tileInput.y - 74, 50, 24, tileInput.x, tileInput.y - 74, 50, 24, vbSrcCopy
                                 Call clearVoid(tileInput, True, False) 'paint left spacer
+                                .PaintPicture picBG, tileInput.x, tileInput.y - 74, 50, 24, tileInput.x, tileInput.y - 74, 50, 24, vbSrcCopy
                             Else
                                 'paint over bottom left half of tile
                                 .picBackground.PaintPicture tilePic.Image, tileAlt.x, tileAlt.y + 50, 50, 50, tileAlt.x, tileAlt.y + 50, 50, 50, vbSrcCopy
@@ -125,7 +125,8 @@ If Not tileInput.hasObj Or Not bypassForObj Then
                     End If
                 End If
                 Set tilePic = tileInput.picTile
-                If Not tileTouchingChar(index, tileInput) Then 'if not touching a char, paint full tile
+                If frameCounter(index) = 0 Or ((nextX(index) <> curX(index)) Or (nextY(index) <> curY(index))) Or callID = "SelXY" Then
+                If Not tileTouchingChar(index, tileInput) Then  'if not touching a char, paint full tile
                     'frameCounter(index) = 0 Or ((nextX(index) <> curX(index)) Or (nextY(index) <> curY(index))) Then
                     'paint over tile
                     .picBackground.PaintPicture tilePic.Image, tileInput.x, tileInput.y, 100, 100, 0, 0, 100, 100, vbSrcCopy
@@ -138,6 +139,7 @@ If Not tileInput.hasObj Or Not bypassForObj Then
                     .picBuffer.PaintPicture tilePic.Image, 0, 0, 100, 50, 0, 0, 100, 50, vbSrcCopy
                     .PaintPicture tileInput.picMask.Image, tileInput.x, tileInput.y, 100, 50, 0, 0, 100, 50, vbSrcAnd
                     .PaintPicture .picBuffer.Image, tileInput.x, tileInput.y, 100, 50, 0, 0, 100, 50, vbSrcPaint
+                End If
                 End If
             End If
         Else 'if not character on tile
@@ -341,7 +343,6 @@ With frmMain
     .PaintPicture .picSelMask(imgIndex + 5 * index).Image, tile(curX(index), curY(index)).x, tile(curX(index), curY(index)).y, 100, 100, 0, 0, 100, 100, vbSrcAnd
     .PaintPicture .picSel(imgIndex + 5 * index).Image, tile(curX(index), curY(index)).x, tile(curX(index), curY(index)).y, 100, 100, 0, 0, 100, 100, vbSrcPaint
 End With
-Call PaintCharSprite(index, spriteX(index), spriteY(index))
 End Function
 
 Public Sub PaintCharSprite(ByVal index As Integer, ByVal charX As Integer, ByVal charY As Integer)
