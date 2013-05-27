@@ -5156,7 +5156,7 @@ If frameCounter(index) > 0 Then 'if jump timer is started
         End If
     Else
         If strDir(index) = "L" Then
-            If curX(index) = 0 And curY(index) > 0 Then
+            If curX(index) = 0 And curY(index) > 1 Then
                 Call clearTile(tile(curX(index), curY(index)), True, index, "CharOdd-X-2Y")
             Else
             End If
