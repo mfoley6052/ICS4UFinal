@@ -203,7 +203,7 @@ Begin VB.Form frmMain
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   18
       TabIndex        =   39
-      Top             =   5760
+      Top             =   6480
       Visible         =   0   'False
       Width           =   270
    End
@@ -5170,9 +5170,17 @@ If frameCounter(index) > 0 Then 'if jump timer is started
             Call getCharJumpAnim(index, frameCounter(index), tile(curX(index), curY(index)), tile(curX(index), curY(index)).x + 50, tile(curX(index), curY(index)).y - 75)
             Call PaintCharSprite(index, spriteX(index), spriteY(index))
         ElseIf strDir(index) = "R" Then
+            If curX(index) = mapWidth And curY(index) > 0 Then
+                Call clearTile(tile(curX(index), curY(index)), True, index, "CharOdd+X+2Y")
+            Else
+            End If
             Call getCharJumpAnim(index, frameCounter(index), tile(curX(index), curY(index)), tile(curX(index), curY(index)).x + 50, tile(curX(index), curY(index)).y + 75)
             Call PaintCharSprite(index, spriteX(index), spriteY(index))
         ElseIf strDir(index) = "D" Then
+            If curX(index) = 0 And curY(index) > 0 Then
+                Call clearTile(tile(curX(index), curY(index)), True, index, "CharOdd-X+2Y")
+            Else
+            End If
             Call getCharJumpAnim(index, frameCounter(index), tile(curX(index), curY(index)), tile(curX(index), curY(index)).x - 50, tile(curX(index), curY(index)).y + 75)
             Call PaintCharSprite(index, spriteX(index), spriteY(index))
         End If
