@@ -10,13 +10,13 @@ ElseIf curX(index) < curX(0) And curY(index) > curY(0) Then
 ElseIf curX(index) < curX(0) And curY(index) < curY(0) Then
     Call getJump(index, "R", evalMove(index, "R"))
 ElseIf curY(index) > curY(0) And curX(index) = curX(0) Then
-    Call getJump(index, "L", evalMove(index, "U"))
+    Call getJump(index, "L", evalMove(index, "L"))
 ElseIf curY(index) < curY(0) And curX(index) = curX(0) Then
-    Call getJump(index, "R", evalMove(index, "D"))
+    Call getJump(index, "R", evalMove(index, "R"))
 ElseIf curX(index) > curX(0) And curY(index) = curY(0) Then
     Call getJump(index, "D", evalMove(index, "D"))
 ElseIf curX(index) < curX(0) And curY(index) = curY(0) Then
-    Call getJump(index, "U", evalMove(index, "D"))
+    Call getJump(index, "U", evalMove(index, "U"))
 Else
     Dim temp As String
     temp = randDir

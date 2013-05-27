@@ -91,15 +91,21 @@ If Not tileInput.hasObj Or Not bypassForObj Then
                                 .PaintPicture .picBuffer.Image, tileAlt.x, tileAlt.y + 50, 50, 50, 0, 0, 50, 50, vbSrcPaint
                             End If
                         Else
+                            
                             Call clearVoid(tileInput, True, False) 'paint left spacer
                         End If
                     ElseIf tileInput.Xc = mapWidth Then 'if last column
-                        If callID = "CharOdd+X-2Y" Then 'if jumping off right edge
-                            'paint over bottom right half of tile
-                            .picBackground.PaintPicture tilePic.Image, tileAlt.x + 50, tileAlt.y + 50, 50, 50, 50, 50, 50, 50, vbSrcCopy
-                            .picBuffer.PaintPicture tilePic.Image, 0, 0, 50, 50, 50, 50, 50, 50, vbSrcCopy
-                            .PaintPicture tileAlt.picMask.Image, tileAlt.x, tileAlt.y + 50, 50, 50, 0, 50, 50, 50, vbSrcAnd
-                            .PaintPicture .picBuffer.Image, tileAlt.x + 50, tileAlt.y + 50, 50, 50, 0, 0, 50, 50, vbSrcPaint
+                        If frameCounter(index) > 0 And strDir(index) = "R" Then 'if jumping off right side edge
+                            If callID = "CharOdd+X-2Y" Then 'if jumping off right edge
+                                Call clearVoid(tileInput, False, True) 'paint right spacer
+                                .PaintPicture picBG, tileInput.x, tileInput.y - 74, 50, 24, tileInput.x, tileInput.y - 74, 50, 24, vbSrcCopy
+                            Else
+                                'paint over bottom right half of tile
+                                .picBackground.PaintPicture tilePic.Image, tileAlt.x + 50, tileAlt.y + 50, 50, 50, 50, 50, 50, 50, vbSrcCopy
+                                .picBuffer.PaintPicture tilePic.Image, 0, 0, 50, 50, 50, 50, 50, 50, vbSrcCopy
+                                .PaintPicture tileAlt.picMask.Image, tileAlt.x + 50, tileAlt.y + 50, 50, 50, 50, 50, 50, 50, vbSrcAnd
+                                .PaintPicture .picBuffer.Image, tileAlt.x + 50, tileAlt.y + 50, 50, 50, 0, 0, 50, 50, vbSrcPaint
+                            End If
                         Else
                             Call clearVoid(tileInput, False, True) 'paint right spacer
                         End If
@@ -177,18 +183,11 @@ End Sub
 Public Sub clearVoid(tileInput As terrain, ByVal blnL As Boolean, ByVal blnR As Boolean) 'clear empty spots on map
 With frmMain
     If blnL And blnR Then
-        '.picBackground.PaintPicture .picSpacer.Image, tileInput.x, tileInput.y - 50, 100, 98, 0, 0, 100, 98, vbSrcCopy
-        '.PaintPicture .picSpacerMask.Image, tileInput.x, tileInput.y - 50, 100, 98, 0, 0, 100, 98, vbSrcAnd
-        '.PaintPicture .picBackground.Image, tileInput.x, tileInput.y - 50, 100, 98, 0, 0, 100, 98, vbSrcCopy
         .PaintPicture picBG, tileInput.x, tileInput.y - 74, 100, 98, tileInput.x, tileInput.y - 74, 100, 98, vbSrcCopy
     ElseIf blnL Then
-        '.picBuffer.PaintPicture .picBackground.Image, 0, 0, 50, 98, tileInput.x, tileInput.y - 74, 50, 98, vbSrcCopy
-        '.picBackground.PaintPicture .picSpacerMask.Image, tileInput.x, tileInput.y - 74, 50, 98, 0, 0, 50, 98, vbSrcAnd
-        '.PaintPicture .picBuffer.Image, tileInput.x, tileInput.y - 74, 50, 98, 0, 0, 50, 98, vbSrcPaint
         .PaintPicture picBG, tileInput.x, tileInput.y - 50, 50, 74, tileInput.x, tileInput.y - 50, 50, 74, vbSrcCopy
     ElseIf blnR Then
-        .PaintPicture .picSpacerMask.Image, tileInput.x + 50, tileInput.y - 74, 50, 98, 0, 0, 50, 98, vbSrcAnd
-        .PaintPicture picBG, tileInput.x + 50, tileInput.y - 74, 50, 98, tileInput.x + 50, tileInput.y - 74, 50, 98, vbSrcCopy
+        .PaintPicture picBG, tileInput.x + 50, tileInput.y - 50, 50, 74, tileInput.x + 50, tileInput.y - 50, 50, 74, vbSrcCopy
     End If
 End With
 End Sub
