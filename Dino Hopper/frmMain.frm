@@ -5172,7 +5172,8 @@ If frameCounter(index) > 0 Then 'if jump timer is started
         ElseIf strDir(index) = "R" Then
             If curX(index) = mapWidth And curY(index) > 0 Then
                 Call clearTile(tile(curX(index), curY(index)), True, index, "CharOdd+X+2Y")
-            Else
+            ElseIf curY(index) = mapHeight - 1 Then
+                 Call clearTile(tile(curX(index), curY(index)), True, index, "CharBottom+X+Y")
             End If
             Call getCharJumpAnim(index, frameCounter(index), tile(curX(index), curY(index)), tile(curX(index), curY(index)).x + 50, tile(curX(index), curY(index)).y + 75)
             Call PaintCharSprite(index, spriteX(index), spriteY(index))
@@ -5186,6 +5187,7 @@ If frameCounter(index) > 0 Then 'if jump timer is started
             Call PaintCharSprite(index, spriteX(index), spriteY(index))
         End If
         If frameCounter(index) = frameLimit(index) * 1.5 Then
+            strState(index) = "I"
             frameCounter(index) = 0
             blnPlayerMoveable = True
             Call getJumpComplete(index)
