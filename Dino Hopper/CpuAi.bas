@@ -58,6 +58,6 @@ Else
 End If
 
 If counter Mod 5 = 0 And frmMain.tmrChar(index).Interval > 200 Then
-    frmMain.tmrChar(index).Interval = Int(frmMain.tmrChar(index).Interval - 10)
+    frmMain.tmrChar(index).Interval = Int(frmMain.tmrChar(index).Interval - 50)
 End If
 End Function
