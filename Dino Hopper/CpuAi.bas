@@ -1,7 +1,9 @@
 Attribute VB_Name = "modCpuAi"
 
 Public Function cpuAI(ByVal index As Integer)
+Static counter As Long
 Dim temp As String
+counter = counter + 1
 temp = randDir
 If curX(index) > curX(0) And curY(index) > curY(0) Then
     If evalMove(index, "L") Then
@@ -53,5 +55,9 @@ ElseIf curX(index) < curX(0) And curY(index) = curY(0) Then
     End If
 Else
     Call getJump(index, temp, evalMove(index, temp))
+End If
+
+If counter Mod 5 = 0 And frmMain.tmrChar(index).Interval > 200 Then
+    frmMain.tmrChar(index).Interval = Int(frmMain.tmrChar(index).Interval - 50)
 End If
 End Function

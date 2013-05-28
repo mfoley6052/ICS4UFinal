@@ -48,7 +48,7 @@ Begin VB.Form frmStart
       Alignment       =   2  'Center
       Caption         =   "Text"
       BeginProperty Font 
-         Name            =   "@ÇlÇr ÉSÉVÉbÉN"
+         Name            =   "@Arial Unicode MS"
          Size            =   27.75
          Charset         =   0
          Weight          =   400
@@ -57,7 +57,7 @@ Begin VB.Form frmStart
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H80000011&
-      Height          =   600
+      Height          =   840
       Index           =   2
       Left            =   8250
       TabIndex        =   4
@@ -68,7 +68,7 @@ Begin VB.Form frmStart
       Alignment       =   2  'Center
       Caption         =   "Text"
       BeginProperty Font 
-         Name            =   "@ÇlÇr ÉSÉVÉbÉN"
+         Name            =   "@Arial Unicode MS"
          Size            =   27.75
          Charset         =   0
          Weight          =   400
@@ -76,7 +76,7 @@ Begin VB.Form frmStart
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   600
+      Height          =   840
       Index           =   1
       Left            =   3750
       TabIndex        =   3
@@ -87,7 +87,7 @@ Begin VB.Form frmStart
       Alignment       =   2  'Center
       Caption         =   "Text"
       BeginProperty Font 
-         Name            =   "@ÇlÇr ÉSÉVÉbÉN"
+         Name            =   "@Arial Unicode MS"
          Size            =   27.75
          Charset         =   0
          Weight          =   400
@@ -96,7 +96,7 @@ Begin VB.Form frmStart
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H80000011&
-      Height          =   600
+      Height          =   840
       Index           =   0
       Left            =   -750
       TabIndex        =   2
@@ -132,8 +132,8 @@ frmStart.PaintPicture picTitleMainMask.Image, picTitleMainMask.Left, picTitleMai
 frmStart.PaintPicture picTitleMain.Image, picTitleMain.Left, picTitleMain.Top, picTitleMain.Width, picTitleMain.Height, 0, 0, picTitleMain.Width, picTitleMain.Height, vbSrcPaint
 End Sub
 
-Private Sub lblMenu_Click(Index As Integer)
-If Index = 0 Then 'left
+Private Sub lblMenu_Click(index As Integer)
+If index = 0 Then 'left
     For x = 0 To 2
         If Val(lblMenu(x).Tag) < 2 Then
             lblMenu(x).Tag = Val(lblMenu(x).Tag) + 1
@@ -148,7 +148,7 @@ If Index = 0 Then 'left
             lblMenu(x).Caption = "Exit"
         End If
     Next x
-ElseIf Index = 2 Then 'right
+ElseIf index = 2 Then 'right
     For x = 0 To 2
         If Val(lblMenu(x).Tag) > 0 Then
             lblMenu(x).Tag = Val(lblMenu(x).Tag) - 1

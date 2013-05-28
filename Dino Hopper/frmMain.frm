@@ -121,20 +121,6 @@ Begin VB.Form frmMain
    End
    Begin VB.Timer tmrHurt 
       Enabled         =   0   'False
-      Index           =   3
-      Interval        =   500
-      Left            =   11520
-      Top             =   4440
-   End
-   Begin VB.Timer tmrHurt 
-      Enabled         =   0   'False
-      Index           =   2
-      Interval        =   500
-      Left            =   11520
-      Top             =   3960
-   End
-   Begin VB.Timer tmrHurt 
-      Enabled         =   0   'False
       Index           =   1
       Interval        =   500
       Left            =   11520
@@ -5038,11 +5024,13 @@ End If
 End Sub
 
 Private Sub tmrHurt_Timer(index As Integer)
-Call getHurt(index)
+If index = 0 Then
+    Call getHurt(index)
 curX(index) = prevX(index)
 curY(index) = prevY(index)
 blnPlayerMoveable = True
 tmrHurt(index).Enabled = False
+End If
 End Sub
 
 Private Sub tmrCPUMove_Timer(index As Integer)
