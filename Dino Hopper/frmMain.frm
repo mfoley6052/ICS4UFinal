@@ -5109,6 +5109,7 @@ For o = 0 To tileCount - 1
         intObjTimer = curTile.objTimer
         If curTile.objType(0) <> "Terrain" Then 'if obj is not a terrain, set frame count of object and paint object
             frameCount = intObjTimer - ((intObjTimer \ frameLim) * frameLim)
+            tile(getTileFromInt(True, o), getTileFromInt(False, o)).objFrame = frameCount
             Call PaintObj(curTile.objType(0), curTile.objType(1), frameCount, curTile.Xc, curTile.Yc, False)
         Else
             Call clearTile(curTile, False, 0, "ObjXY")
@@ -5155,42 +5156,60 @@ If frameCounter(index) > 0 Then 'if jump timer is started
             frameCounter(index) = frameCounter(index) + 1
         End If
     Else
+        Dim curTile As terrain
+        curTile = tile(curX(index), curY(index))
+        Dim altTile As terrain
         If strDir(index) = "L" Then
-            If curX(index) = 0 And (curY(index) > 0 And curY(index) < mapHeight - 1) Then
-                Call clearTile(tile(curX(index), curY(index)), True, index, "CharOdd-X-2Y")
-            Else
-            End If
             Call getCharJumpAnim(index, frameCounter(index), tile(curX(index), curY(index)), tile(curX(index), curY(index)).x - 50, tile(curX(index), curY(index)).y - 75)
-            Call PaintCharSprite(index, spriteX(index), spriteY(index))
+            If curY(index) = 0 Then
+                altTile = tile(curTile.Xc - 1, curTile.Yc)
+                Call PaintCharSprite(index, spriteX(index), spriteY(index))
+                Call clearTile(curTile, True, index, "CharTop-X-Y")
+                If altTile.hasObj Then
+                    Call PaintObj(altTile.objType(0), altTile.objType(1), altTile.objFrame, altTile.Xc, altTile.Yc, False)
+                End If
+            ElseIf curX(index) = 0 And curY(index) > 0 Then
+                Call clearTile(curTile, True, index, "CharSide-X-Y")
+                Call PaintCharSprite(index, spriteX(index), spriteY(index))
+            End If
         ElseIf strDir(index) = "U" Then
-            If curX(index) = mapWidth And curY(index) > 0 Then
-                Call clearTile(tile(curX(index), curY(index)), True, index, "CharOdd+X-2Y")
-            Else
+            Call getCharJumpAnim(index, frameCounter(index), curTile, curTile.x + 50, curTile.y - 75)
+            If curY(index) = 0 Then
+                altTile = tile(curTile.Xc + 1, curTile.Yc)
+                Call PaintCharSprite(index, spriteX(index), spriteY(index))
+                Call clearTile(curTile, True, index, "CharTop+X-Y")
+                If altTile.hasObj Then
+                    Call PaintObj(altTile.objType(0), altTile.objType(1), altTile.objFrame, altTile.Xc, altTile.Yc, False)
+                End If
+            ElseIf curX(index) = mapWidth And curY(index) > 0 Then
+                Call clearTile(curTile, True, index, "CharSide+X-Y")
+                Call PaintCharSprite(index, spriteX(index), spriteY(index))
             End If
-            Call getCharJumpAnim(index, frameCounter(index), tile(curX(index), curY(index)), tile(curX(index), curY(index)).x + 50, tile(curX(index), curY(index)).y - 75)
-            Call PaintCharSprite(index, spriteX(index), spriteY(index))
         ElseIf strDir(index) = "R" Then
+            Call getCharJumpAnim(index, frameCounter(index), curTile, curTile.x + 50, curTile.y + 75)
             If curX(index) = mapWidth And curY(index) > 0 Then
-                Call clearTile(tile(curX(index), curY(index)), True, index, "CharOdd+X+2Y")
+                Call clearTile(curTile, True, index, "CharSide+X+Y")
             ElseIf curY(index) = mapHeight - 1 Then
-                 Call clearTile(tile(curX(index), curY(index)), True, index, "CharBottom+X+Y")
+                 Call clearTile(curTile, True, index, "CharBottom+X+Y")
             End If
-            Call getCharJumpAnim(index, frameCounter(index), tile(curX(index), curY(index)), tile(curX(index), curY(index)).x + 50, tile(curX(index), curY(index)).y + 75)
             Call PaintCharSprite(index, spriteX(index), spriteY(index))
         ElseIf strDir(index) = "D" Then
+            Call getCharJumpAnim(index, frameCounter(index), curTile, curTile.x - 50, curTile.y + 75)
             If curX(index) = 0 And (curY(index) > 0 And curY(index) < mapHeight - 1) Then
-                Call clearTile(tile(curX(index), curY(index)), True, index, "CharOdd-X+2Y")
+                Call clearTile(curTile, True, index, "CharSide-X+Y")
             ElseIf curY(index) = mapHeight - 1 Then
-                Call clearTile(tile(curX(index), curY(index)), True, index, "CharBottom-X+Y")
+                Call clearTile(curTile, True, index, "CharBottom-X+Y")
             End If
-            Call getCharJumpAnim(index, frameCounter(index), tile(curX(index), curY(index)), tile(curX(index), curY(index)).x - 50, tile(curX(index), curY(index)).y + 75)
             Call PaintCharSprite(index, spriteX(index), spriteY(index))
         End If
         If frameCounter(index) = frameLimit(index) * 1.5 Then
             strState(index) = "I"
             frameCounter(index) = 0
             blnPlayerMoveable = True
+            Call getHurt(index)
             Call getJumpComplete(index)
+            spriteX(index) = curTile.x + 25
+            spriteY(index) = curTile.y - 15
         Else
             frameCounter(index) = frameCounter(index) + 1
         End If

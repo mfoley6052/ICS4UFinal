@@ -62,6 +62,7 @@ End Function
 
 Public Sub killObj(inputTile As terrain)
 inputTile.objTimer = 0
+inputTile.objFrame = 0
 If inputTile.objType(0) <> "Terrain" Then
     Call PaintObj(inputTile.objType(0), inputTile.objType(1), 0, inputTile.Xc, inputTile.Yc, True)
 Else
@@ -71,6 +72,7 @@ End If
 inputTile.hasObj = False
 inputTile.objType(0) = ""
 inputTile.objType(1) = ""
+tile(inputTile.Xc, inputTile.Yc) = inputTile
 objTileCount = objTileCount - 1
 End Sub
 
@@ -114,7 +116,7 @@ If curFrame >= 5 And curFrame <= 10 Then
         End If
     End If
     End With
-ElseIf curFrame > 10 And curFrame <= 15 Then
+ElseIf curFrame > 10 And curFrame <= 14 Then
     spriteX(index) = curTile.x + ((curFrame - 5) * Int((nextX - curTile.x) / 5)) + 25
     spriteY(index) = (nextY - 10) + ((curFrame - 10) * (curFrame * 2))
 End If
