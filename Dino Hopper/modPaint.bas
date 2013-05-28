@@ -228,11 +228,22 @@ If Not tileInput.hasObj Or Not bypassForObj Then
                 '.picBuffer.PaintPicture tilePic.Image, 0, 0, 100, 50, 0, 0, 100, 50, vbSrcCopy
                 '.PaintPicture tileInput.picMask.Image, tileInput.x, tileInput.y, 100, 50, 0, 0, 100, 50, vbSrcAnd
                 '.PaintPicture .picBuffer.Image, tileInput.x, tileInput.y, 100, 50, 0, 0, 100, 50, vbSrcPaint
-                'paint over tile
-                .picBackground.PaintPicture tilePic.Image, tileInput.x, tileInput.y, 100, 100, 0, 0, 100, 100, vbSrcCopy
-                .picBuffer.PaintPicture tilePic.Image, 0, 0, 100, 100, 0, 0, 100, 100, vbSrcCopy
-                .PaintPicture tileInput.picMask.Image, tileInput.x, tileInput.y, 100, 100, 0, 0, 100, 100, vbSrcAnd
-                .PaintPicture .picBuffer.Image, tileInput.x, tileInput.y, 100, 100, 0, 0, 100, 100, vbSrcPaint
+                If callID = "CharEven+X-Y" Or callID = "CharOddX-Y" Then 'paint over bottom left of tile
+                    .picBackground.PaintPicture tilePic.Image, tileInput.x, tileInput.y + 50, 50, 50, 0, 50, 50, 50, vbSrcCopy
+                    .picBuffer.PaintPicture tilePic.Image, 0, 0, 50, 50, 0, 50, 50, 50, vbSrcCopy
+                    .PaintPicture tileInput.picMask.Image, tileInput.x, tileInput.y + 50, 50, 50, 0, 50, 50, 50, vbSrcAnd
+                    .PaintPicture .picBuffer.Image, tileInput.x, tileInput.y + 50, 50, 50, 0, 0, 50, 50, vbSrcPaint
+                ElseIf callID = "CharEvenX-Y" Or callID = "CharOdd-X-Y" Then 'paint over bottom right of tile
+                    .picBackground.PaintPicture tilePic.Image, tileInput.x + 50, tileInput.y + 50, 50, 50, 50, 50, 50, 50, vbSrcCopy
+                    .picBuffer.PaintPicture tilePic.Image, 0, 0, 50, 50, 50, 50, 50, 50, vbSrcCopy
+                    .PaintPicture tileInput.picMask.Image, tileInput.x + 50, tileInput.y + 50, 50, 50, 50, 50, 50, 50, vbSrcAnd
+                    .PaintPicture .picBuffer.Image, tileInput.x + 50, tileInput.y + 50, 50, 50, 0, 0, 50, 50, vbSrcPaint
+                Else 'paint over full tile
+                    .picBackground.PaintPicture tilePic.Image, tileInput.x, tileInput.y, 100, 100, 0, 0, 100, 100, vbSrcCopy
+                    .picBuffer.PaintPicture tilePic.Image, 0, 0, 100, 100, 0, 0, 100, 100, vbSrcCopy
+                    .PaintPicture tileInput.picMask.Image, tileInput.x, tileInput.y, 100, 100, 0, 0, 100, 100, vbSrcAnd
+                    .PaintPicture .picBuffer.Image, tileInput.x, tileInput.y, 100, 100, 0, 0, 100, 100, vbSrcPaint
+                End If
             End If
         End If
     End If
