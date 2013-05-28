@@ -116,7 +116,7 @@ If curFrame >= 5 And curFrame <= 10 Then
         End If
     End If
     End With
-ElseIf curFrame > 10 And curFrame <= 14 Then
+ElseIf curFrame > 10 And curFrame <= 16 Then
     spriteX(index) = curTile.x + ((curFrame - 5) * Int((nextX - curTile.x) / 5)) + 25
     spriteY(index) = (nextY - 10) + ((curFrame - 10) * (curFrame * 2))
 End If

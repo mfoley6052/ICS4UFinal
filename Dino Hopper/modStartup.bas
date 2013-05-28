@@ -3,7 +3,6 @@ Option Explicit
 
 
 Public Sub gameStart()
-
 With frmMain
 .lblScore.Visible = True
 .lblLives.Visible = True
@@ -11,7 +10,7 @@ With frmMain
 .PaintPicture frmMain.picEggMask(0).Image, .lblLives.Left - 24, 0, 22, 30, 0, 0, 22, 30, vbSrcAnd
 .PaintPicture frmMain.picEggG(0).Image, .lblLives.Left - 24, 0, 22, 30, 0, 0, 22, 30, vbSrcPaint
 .tmrChar(0).Enabled = True
-.tmrChar(1).Enabled = True
+'.tmrChar(1).Enabled = True
 .tmrObj.Enabled = True
 If gameMode <> 1 Then
     .tmrObjEvent.Enabled = True
