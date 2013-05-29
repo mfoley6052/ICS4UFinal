@@ -14,7 +14,7 @@ Begin VB.Form frmMain
    StartUpPosition =   2  'CenterScreen
    Begin VB.Timer tmrAlternate 
       Enabled         =   0   'False
-      Interval        =   500
+      Interval        =   250
       Left            =   11040
       Top             =   2520
    End
@@ -5077,7 +5077,7 @@ End Sub
 
 Private Sub tmrHurt_Timer(index As Integer)
 If index = 0 Then
-    Call getHurt(index)
+    Call getHurt(index, index)
 curX(index) = prevX(index)
 curY(index) = prevY(index)
 blnPlayerMoveable = True
@@ -5150,15 +5150,17 @@ For o = 0 To tileCount - 1
         If curTile.objType(0) <> "Terrain" Then 'if obj is not a terrain, set frame count of object and paint object
             If gameMode <> 1 Then
                 frameCount = intObjTimer - ((intObjTimer \ frameLim) * frameLim)
+                tile(getTileFromInt(True, o), getTileFromInt(False, o)).objFrame = frameCount
+                Call PaintObj(curTile.objType(0), curTile.objType(1), frameCount, curTile.Xc, curTile.Yc, False)
             ElseIf gameMode = 1 Then
-                If curTile.objFrame = frameLim - 1 Then
+                If curTile.objFrame >= frameLim - 1 Then
                     frameCount = 0
                 Else
                     frameCount = curTile.objFrame + 1
                 End If
+                Call PaintObj(curTile.objType(0), curTile.objType(1), curTile.objFrame, curTile.Xc, curTile.Yc, False)
+                tile(getTileFromInt(True, o), getTileFromInt(False, o)).objFrame = frameCount
             End If
-            tile(getTileFromInt(True, o), getTileFromInt(False, o)).objFrame = frameCount
-            Call PaintObj(curTile.objType(0), curTile.objType(1), frameCount, curTile.Xc, curTile.Yc, False)
         Else
             Call clearTile(curTile, False, 0, "ObjXY")
         End If
@@ -5264,7 +5266,7 @@ If frameCounter(index) > 0 Then 'if jump timer is started
             strState(index) = "I"
             frameCounter(index) = 0
             blnPlayerMoveable = True
-            Call getHurt(index)
+            Call getHurt(index, index)
             Call getJumpComplete(index)
             spriteX(index) = curTile.x + 25
             spriteY(index) = curTile.y - 15
@@ -5323,13 +5325,7 @@ intCounter = intCounter + 1
 End Sub
 
 Public Sub tmrPow_Timer(index As Integer)
-tmrPowCounter = tmrPowCounter + 1
-If tmrPowCounter >= 20 Then
-    Call getPowExpire(index, tmrPow(index).Tag)
-    tmrPowCounter = 0
-    tmrPow(index).Tag = ""
-    tmrPow(index).Enabled = False
-End If
+Call getPowTick(index)
 End Sub
 
 Public Sub tmrObjEvent_Timer()
@@ -5380,9 +5376,6 @@ If objTileCount < tileCount - 4 Then
         End If
     End If
     objTileCount = objTileCount + 1
-    If gameMode = 1 Then
-        tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).objFrame = -1
-    End If
 End If
 End Sub
 

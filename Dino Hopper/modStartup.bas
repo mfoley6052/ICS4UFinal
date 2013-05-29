@@ -4,7 +4,6 @@ Option Explicit
 
 Public Sub gameStart()
 With frmMain
-gameMode = 1
 .lblScore.Visible = True
 .lblLives.Visible = True
 .lblMulti.Visible = True
@@ -18,10 +17,12 @@ If gameMode <> 1 Then
     objExpire = 125
     .tmrCPUMove(1).Enabled = True
     counterLimit(1) = 1 'cpu 1 moves every (counterLimit + 1) seconds
+    tmrPowLimit = 20
 ElseIf gameMode = 1 Then
     objExpire = 8
-    .tmrAlternate.Enabled = True
+    tmrPowLimit = 8
 End If
+.tmrAlternate.Enabled = True
 blnPlayerMoveable = True
 intLives(0) = 3
 intMulti(0) = 1

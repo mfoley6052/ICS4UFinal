@@ -1,10 +1,13 @@
 Attribute VB_Name = "modMovement"
 Public Function getJump(ByVal index As Integer, ByVal strDirJ As String, ByVal blnTile As Boolean)
 With frmMain
-    If index = 0 And gameMode = 1 Then
-        Call getTick
-    End If
     If frameCounter(index) = 0 Then
+        If index = 0 Then
+            blnPlayerMoveable = False
+            If gameMode = 1 Then
+                Call getTick
+            End If
+        End If
         strDir(index) = strDirJ
         If blnTile Then
             'blnPlayerMoveable = False
@@ -185,11 +188,16 @@ End Function
 
 Public Sub getTick()
 With frmMain
-For e = 1 To 3
-    If .tmrChar(e).Enabled Then
-        Call cpuAI(e)
+For c = 0 To 3
+    If c > 0 Then
+        If .tmrChar(c).Enabled Then
+            Call cpuAI(c)
+        End If
     End If
-Next e
+    If .tmrChar(c).Tag <> "" Then
+        Call getPowTick(c)
+    End If
+Next c
 For t = 0 To tileCount - 1
     If tile(getTileFromInt(True, t), getTileFromInt(False, t)).hasObj Then
         tile(getTileFromInt(True, t), getTileFromInt(False, t)).objTimer = tile(getTileFromInt(True, t), getTileFromInt(False, t)).objTimer + 1

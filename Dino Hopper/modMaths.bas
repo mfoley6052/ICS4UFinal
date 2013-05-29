@@ -1,7 +1,7 @@
 Attribute VB_Name = "modMaths"
 Option Explicit
-Public Sub addScore(ByVal index As Integer, ByVal intAdd As Integer)
-intScore(index) = intScore(index) + (intMulti(index) * intAdd)
+Public Sub addScore(ByVal Index As Integer, ByVal intAdd As Integer)
+intScore(Index) = intScore(Index) + (intMulti(Index) * intAdd)
 End Sub
 
 Public Sub refreshLabels(ByVal blnScore As Boolean, ByVal blnLives As Boolean, ByVal blnMulti As Boolean)
@@ -18,29 +18,28 @@ End If
 End With
 End Sub
 
-Public Function tileTouchingChar(ByVal index As Integer, tileInput As terrain) As Boolean
-tileTouchingChar = False
-If tileInput.Yc < mapHeight - 1 Then 'if above bottom row of tiles
-    If oddRow(tileInput.Yc + 1) Then 'if tile row is odd
-        If tile(tileInput.Xc, tileInput.Yc + 1).hasChar Then 'if other below tile is taken by a character
-            tileTouchingChar = True
-        Else 'if tile (TileInput.xc, TileInput.yc + 1) is not taken by a character
-            If tileInput.Xc > 0 Then 'if column is less than last column
-                If tile(tileInput.Xc - 1, tileInput.Yc + 1).hasChar Then 'if tile (TileInput.xc - 1, TileInput.yc + 1) is taken by a character
-                    tileTouchingChar = True
+Public Function charOnTile(ByVal Index As Integer, tileInput As terrain) As Boolean
+charOnTile = False
+Dim charCheck As Integer
+For charCheck = 0 To 3 Step 1
+    If charCheck <> Index Then
+        If curX(charCheck) = tileInput.Xc And curY(charCheck) = tileInput.Yc Then
+            charOnTile = True
+        ElseIf oddRow(curY(charCheck)) Then
+            If curY(charCheck) = tileInput.Yc - 1 Then
+                If curX(charCheck) = tileInput.Xc Or curX(charCheck) - 1 = tileInput.Xc Then
+                    charOnTile = True
+                End If
+            End If
+        Else
+            If curY(charCheck) = tileInput.Yc - 1 Then
+                If curX(charCheck) = tileInput.Xc Or curX(charCheck) + 1 = tileInput.Xc Then
+                    charOnTile = True
                 End If
             End If
         End If
-    Else 'if tile row is even
-        If tile(tileInput.Xc, tileInput.Yc + 1).hasChar Then 'if tile (TileInput.xc, TileInput.yc + 1) is taken by a character
-            tileTouchingChar = True
-        ElseIf tileInput.Xc < mapWidth - 1 Then 'if column is greater than first
-            If tile(tileInput.Xc + 1, tileInput.Yc + 1).hasChar Then 'if other below tile is taken by a character
-                tileTouchingChar = True
-            End If
-        End If
     End If
-End If
+Next charCheck
 End Function
 
 Public Function checkClearVoid(tileInput As terrain, ByVal blnL As Boolean, ByVal blnR As Boolean) As Boolean
@@ -76,59 +75,65 @@ tile(inputTile.Xc, inputTile.Yc) = inputTile
 objTileCount = objTileCount - 1
 End Sub
 
-Public Function paintMask(tileInput As terrain) As Boolean
-If gameMode <> 1 Then
-    Dim ratExpire As Single
-    If tileInput.objTimer < 0.7 * objExpire Then
-        paintMask = True
-    Else
-        ratExpire = tileInput.objTimer / objExpire
-        If (ratExpire >= 0.75 And ratExpire < 0.8) Or (ratExpire >= 0.85 And ratExpire < 0.88) Or (ratExpire >= 0.91 And ratExpire < 0.94) Or (ratExpire >= 0.96 And ratExpire < 0.97) Or (ratExpire >= 0.98 And ratExpire < 0.99) Then
+Public Function paintMask(tileInput As terrain, ByVal Index As Integer) As Boolean
+If Index < 0 Then
+    If gameMode <> 1 Then
+        Dim ratExpire As Single
+        If tileInput.objTimer < 0.7 * objExpire Then
             paintMask = True
         Else
-            paintMask = False
+            ratExpire = tileInput.objTimer / objExpire
+            If (ratExpire >= 0.75 And ratExpire < 0.8) Or (ratExpire >= 0.85 And ratExpire < 0.88) Or (ratExpire >= 0.91 And ratExpire < 0.94) Or (ratExpire >= 0.96 And ratExpire < 0.97) Or (ratExpire >= 0.98 And ratExpire < 0.99) Then
+                paintMask = True
+            Else
+                paintMask = False
+            End If
+        End If
+    ElseIf gameMode = 1 Then
+        If tileInput.objTimer = objExpire - 1 Then
+            With frmMain
+            paintMask = .tmrAlternate.Tag
+            End With
+        Else
+            paintMask = True
         End If
     End If
-ElseIf gameMode = 1 Then
-    If tileInput.objTimer = objExpire - 1 Then
-        With frmMain
+ElseIf blnRecover(Index) Then
+    With frmMain
         paintMask = .tmrAlternate.Tag
-        End With
-    Else
-        paintMask = True
-    End If
+    End With
 End If
 End Function
 
-Public Function getCharJumpAnim(ByVal index As Integer, ByVal curFrame As Integer, curTile As terrain, ByVal nextX As Integer, ByVal nextY As Integer)
+Public Function getCharJumpAnim(ByVal Index As Integer, ByVal curFrame As Integer, curTile As terrain, ByVal nextX As Integer, ByVal nextY As Integer)
 'if frame 5 to 10
 If curFrame >= 5 And curFrame <= 10 Then
-    spriteX(index) = curTile.x + ((curFrame - 5) * Int((nextX - curTile.x) / 5)) + 25
+    spriteX(Index) = curTile.x + ((curFrame - 5) * Int((nextX - curTile.x) / 5)) + 25
     '5 to 7 is jump up
     If curFrame < 8 Then
-        spriteY(index) = (curTile.y + ((curFrame - 5) * Int((nextY - curTile.y) / 5))) - (10 * (curFrame - 5)) - 15
+        spriteY(Index) = (curTile.y + ((curFrame - 5) * Int((nextY - curTile.y) / 5))) - (10 * (curFrame - 5)) - 15
     '8 to 10 is fall to ground
     ElseIf curFrame <= 10 Then
-        spriteY(index) = (curTile.y + ((curFrame - 5) * Int((nextY - curTile.y) / 5))) - (10 * (10 - curFrame)) - 15
+        spriteY(Index) = (curTile.y + ((curFrame - 5) * Int((nextY - curTile.y) / 5))) - (10 * (10 - curFrame)) - 15
     End If
     With frmMain
     If curFrame = 5 Then
-        If .tmrChar(index).Tag = "Freeze" Then 'if freeze, change terrain to ice and paint half-transparency ice tile
+        If .tmrChar(Index).Tag = "Freeze" Then 'if freeze, change terrain to ice and paint half-transparency ice tile
             Call getChangeTerrain(curTile, "I", False)
             .PaintPicture curTile.picTile.Image, curTile.x, curTile.y, 100, 100, 0, 0, 100, 100, vbSrcPaint
         End If
     ElseIf curFrame = 8 Then
-        If .tmrChar(index).Tag = "Freeze" Then 'if freeze power-up
+        If .tmrChar(Index).Tag = "Freeze" Then 'if freeze power-up
             'if terrain has no object (if it has an object yet the character is on it, the object is a terrain)
-            If Not tile(curX(index), curY(index)).hasObj Then
+            If Not tile(curX(Index), curY(Index)).hasObj Then
                 Call clearTile(curTile, False, -1, "ObjXYF") 'paint full-transparency ice tile
             End If
         End If
     End If
     End With
 ElseIf curFrame > 10 And curFrame <= 16 Then
-    spriteX(index) = curTile.x + ((curFrame - 5) * Int((nextX - curTile.x) / 5)) + 25
-    spriteY(index) = (nextY - 10) + ((curFrame - 10) * (curFrame * 2))
+    spriteX(Index) = curTile.x + ((curFrame - 5) * Int((nextX - curTile.x) / 5)) + 25
+    spriteY(Index) = (nextY - 10) + ((curFrame - 10) * (curFrame * 2))
 End If
 End Function
 

@@ -19,9 +19,11 @@ Public prevX(0 To 3) As Integer
 Public prevY(0 To 3) As Integer
 Public nextX(0 To 3) As Integer
 Public nextY(0 To 3) As Integer
+Public blnRecover(0 To 3) As Boolean
 Public objExpire As Integer
 Public objTileCount As Integer
 Public tmrPowCounter As Integer
+Public tmrPowLimit As Integer
 Public blnClearPrevTile(0 To 3) As Boolean
 Public tileSwitch(0 To 100) As Boolean
 Public limswitch As Long

@@ -19,7 +19,7 @@ ElseIf curX(index) > curX(0) And curY(index) < curY(0) Then
     End If
 ElseIf curX(index) < curX(0) And curY(index) > curY(0) Then
     If evalMove(index, "U") Then
-         Call getJump(index, "U", evalMove(index, "U"))
+        Call getJump(index, "U", evalMove(index, "U"))
     Else
         Call getJump(index, temp, evalMove(index, temp))
     End If
