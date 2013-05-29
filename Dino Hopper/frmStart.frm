@@ -56,6 +56,46 @@ Begin VB.Form frmStart
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
+      Height          =   840
+      Index           =   4
+      Left            =   3720
+      TabIndex        =   6
+      Top             =   6720
+      Visible         =   0   'False
+      Width           =   4500
+   End
+   Begin VB.Label lblMenu 
+      Alignment       =   2  'Center
+      Caption         =   "Text"
+      BeginProperty Font 
+         Name            =   "@Arial Unicode MS"
+         Size            =   27.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   840
+      Index           =   3
+      Left            =   3720
+      TabIndex        =   5
+      Top             =   5520
+      Visible         =   0   'False
+      Width           =   4500
+   End
+   Begin VB.Label lblMenu 
+      Alignment       =   2  'Center
+      Caption         =   "Text"
+      BeginProperty Font 
+         Name            =   "@Arial Unicode MS"
+         Size            =   27.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       ForeColor       =   &H80000011&
       Height          =   840
       Index           =   2
@@ -163,14 +203,24 @@ ElseIf index = 2 Then 'right
             lblMenu(x).Caption = "Exit"
         End If
     Next x
-Else ' Select
+ElseIf index = 1 Then ' Select
     If lblMenu(1).Tag = 2 Then
         End
     ElseIf lblMenu(1).Tag = 1 Then
         frmSettings.Show
     Else
+        lblMenu(3).Visible = True
+        lblMenu(3).Caption = "Arcade Mode"
+        lblMenu(4).Caption = "Puzzle Mode"
+        lblMenu(4).Visible = True
+    End If
+ElseIf index = 3 Then
+        gameMode = 0
         frmStart.Hide
         frmMain.Show
-    End If
+ElseIf index = 4 Then
+        gameMode = 1
+        frmStart.Hide
+        frmMain.Show
 End If
 End Sub
