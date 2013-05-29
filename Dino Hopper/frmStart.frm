@@ -78,7 +78,7 @@ Begin VB.Form frmStart
       EndProperty
       Height          =   840
       Index           =   1
-      Left            =   3750
+      Left            =   3720
       TabIndex        =   3
       Top             =   4290
       Width           =   4500

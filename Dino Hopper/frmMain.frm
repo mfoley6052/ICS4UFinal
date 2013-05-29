@@ -5132,7 +5132,15 @@ For o = 0 To tileCount - 1
         End If
         intObjTimer = curTile.objTimer
         If curTile.objType(0) <> "Terrain" Then 'if obj is not a terrain, set frame count of object and paint object
-            frameCount = intObjTimer - ((intObjTimer \ frameLim) * frameLim)
+            If gameMode <> 1 Then
+                frameCount = intObjTimer - ((intObjTimer \ frameLim) * frameLim)
+            ElseIf gameMode = 1 Then
+                If curTile.objFrame = frameLim Then
+                    frameCount = 0
+                Else
+                    frameCount = curTile.objFrame + 1
+                End If
+            End If
             tile(getTileFromInt(True, o), getTileFromInt(False, o)).objFrame = frameCount
             Call PaintObj(curTile.objType(0), curTile.objType(1), frameCount, curTile.Xc, curTile.Yc, False)
         Else
@@ -5140,7 +5148,9 @@ For o = 0 To tileCount - 1
         End If
         'if objTimer (frame advancements on obj) is under objExpire, add 1 to it
         If intObjTimer < objExpire Then
-            tile(getTileFromInt(True, o), getTileFromInt(False, o)).objTimer = intObjTimer + 1
+            If gameMode <> 1 Then
+                tile(getTileFromInt(True, o), getTileFromInt(False, o)).objTimer = intObjTimer + 1
+            End If
         Else 'if objTimer is objExpire (or greater), disable obj and clear tile
             Call killObj(tile(getTileFromInt(True, o), getTileFromInt(False, o)))
         End If
@@ -5306,7 +5316,7 @@ If tmrPowCounter >= 20 Then
 End If
 End Sub
 
-Private Sub tmrObjEvent_Timer()
+Public Sub tmrObjEvent_Timer()
 Dim intRand As Integer
 If objTileCount < tileCount - 4 Then
     intRand = randInt(1, 100)
@@ -5354,6 +5364,9 @@ If objTileCount < tileCount - 4 Then
         End If
     End If
     objTileCount = objTileCount + 1
+    If gameMode = 1 Then
+        tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).objFrame = -1
+    End If
 End If
 End Sub
 

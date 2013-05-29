@@ -77,15 +77,30 @@ objTileCount = objTileCount - 1
 End Sub
 
 Public Function paintMask(tileInput As terrain) As Boolean
-Dim ratExpire As Single
-If tileInput.objTimer < 0.7 * objExpire Then
-    paintMask = True
-Else
-    ratExpire = tileInput.objTimer / objExpire
-    If (ratExpire >= 0.75 And ratExpire < 0.8) Or (ratExpire >= 0.85 And ratExpire < 0.88) Or (ratExpire >= 0.91 And ratExpire < 0.94) Or (ratExpire >= 0.96 And ratExpire < 0.97) Or (ratExpire >= 0.98 And ratExpire < 0.99) Then
+If gameMode <> 1 Then
+    Dim ratExpire As Single
+    If tileInput.objTimer < 0.7 * objExpire Then
         paintMask = True
     Else
-        paintMask = False
+        ratExpire = tileInput.objTimer / objExpire
+        If (ratExpire >= 0.75 And ratExpire < 0.8) Or (ratExpire >= 0.85 And ratExpire < 0.88) Or (ratExpire >= 0.91 And ratExpire < 0.94) Or (ratExpire >= 0.96 And ratExpire < 0.97) Or (ratExpire >= 0.98 And ratExpire < 0.99) Then
+            paintMask = True
+        Else
+            paintMask = False
+        End If
+    End If
+ElseIf gameMode = 1 Then
+    Static intAlternate As Integer
+    If tileInput.objTimer = objExpire - 1 Then
+        intAlternate = intAlternate + 1
+        If intAlternate <= 5 Then
+            paintMask = True
+        Else
+            paintMask = False
+        End If
+        If intAlternate > 10 Then
+            intAlternate = 0
+        End If
     End If
 End If
 End Function
