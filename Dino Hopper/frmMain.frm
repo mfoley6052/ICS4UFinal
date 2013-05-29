@@ -5186,7 +5186,7 @@ If frameCounter(index) > 0 Then 'if jump timer is started
         If strDir(index) = "L" Then
             Call getCharJumpAnim(index, frameCounter(index), tile(curX(index), curY(index)), tile(curX(index), curY(index)).x - 50, tile(curX(index), curY(index)).y - 75)
             If curY(index) = 0 Then
-                If spriteY(index) < curTile.y + 25 Or (spriteX(index) > -35 And spriteX(index) < tile(mapWidth - 1, 0).x + 100) Then
+                If spriteY(index) < curTile.y + 50 Or (spriteX(index) > -35 And spriteX(index) < tile(mapWidth - 1, 0).x + 135 And spriteY(index) < curTile.y + 25) Then
                     Call PaintCharSprite(index, spriteX(index), spriteY(index))
                 End If
                 Call clearTile(curTile, True, index, "CharTop-X-Y")
@@ -5203,7 +5203,7 @@ If frameCounter(index) > 0 Then 'if jump timer is started
         ElseIf strDir(index) = "U" Then
             Call getCharJumpAnim(index, frameCounter(index), curTile, curTile.x + 50, curTile.y - 75)
             If curY(index) = 0 Then
-                If spriteY(index) < curTile.y + 25 Or (spriteX(index) > -35 And spriteX(index) < tile(mapWidth - 1, 0).x + 135) Then
+                If spriteY(index) < curTile.y + 50 Or (spriteX(index) > -35 And spriteX(index) < tile(mapWidth - 1, 0).x + 135 And spriteY(index) < curTile.y + 25) Then
                     Call PaintCharSprite(index, spriteX(index), spriteY(index))
                 End If
                 Call clearTile(curTile, True, index, "CharTop+X-Y")
