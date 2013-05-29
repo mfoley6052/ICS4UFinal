@@ -20,6 +20,7 @@ If gameMode <> 1 Then
     counterLimit(1) = 1 'cpu 1 moves every (counterLimit + 1) seconds
 ElseIf gameMode = 1 Then
     objExpire = 8
+    .tmrAlternate.Enabled = True
 End If
 blnPlayerMoveable = True
 intLives(0) = 3

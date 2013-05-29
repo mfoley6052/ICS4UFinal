@@ -12,6 +12,12 @@ Begin VB.Form frmMain
    ScaleMode       =   3  'Pixel
    ScaleWidth      =   800
    StartUpPosition =   2  'CenterScreen
+   Begin VB.Timer tmrAlternate 
+      Enabled         =   0   'False
+      Interval        =   500
+      Left            =   11040
+      Top             =   2520
+   End
    Begin VB.PictureBox picTile 
       Appearance      =   0  'Flat
       AutoRedraw      =   -1  'True
@@ -5059,6 +5065,16 @@ If blnPlayerMoveable = True Then
 End If
 End Sub
 
+Private Sub tmrAlternate_Timer()
+Static blnAlt As Boolean
+If blnAlt Then
+    blnAlt = False
+Else
+    blnAlt = True
+End If
+tmrAlternate.Tag = blnAlt
+End Sub
+
 Private Sub tmrHurt_Timer(index As Integer)
 If index = 0 Then
     Call getHurt(index)
@@ -5135,7 +5151,7 @@ For o = 0 To tileCount - 1
             If gameMode <> 1 Then
                 frameCount = intObjTimer - ((intObjTimer \ frameLim) * frameLim)
             ElseIf gameMode = 1 Then
-                If curTile.objFrame = frameLim Then
+                If curTile.objFrame = frameLim - 1 Then
                     frameCount = 0
                 Else
                     frameCount = curTile.objFrame + 1

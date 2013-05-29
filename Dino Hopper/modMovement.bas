@@ -190,7 +190,7 @@ For e = 1 To 3
         Call cpuAI(e)
     End If
 Next e
-For t = 0 To tileCount
+For t = 0 To tileCount - 1
     tile(getTileFromInt(True, t), getTileFromInt(False, t)).objTimer = tile(getTileFromInt(True, t), getTileFromInt(False, t)).objTimer + 1
 Next t
 Call .tmrObjEvent_Timer

@@ -90,17 +90,12 @@ If gameMode <> 1 Then
         End If
     End If
 ElseIf gameMode = 1 Then
-    Static intAlternate As Integer
     If tileInput.objTimer = objExpire - 1 Then
-        intAlternate = intAlternate + 1
-        If intAlternate <= 5 Then
-            paintMask = True
-        Else
-            paintMask = False
-        End If
-        If intAlternate > 10 Then
-            intAlternate = 0
-        End If
+        With frmMain
+        paintMask = .tmrAlternate.Tag
+        End With
+    Else
+        paintMask = True
     End If
 End If
 End Function
