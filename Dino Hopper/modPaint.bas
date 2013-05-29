@@ -477,7 +477,7 @@ If (curX(index) <> nextX(index) Or curY(index) <> nextY(index)) Then
             End If
         ElseIf strDir(index) = "U" Then
             If oddRow(nextY(index)) Then
-                If nextX(index) <= mapWidth - 1 Then
+                If nextX(index) < mapWidth Then
                     Call clearTile(tile(nextX(index), nextY(index) - 1), True, index, "CharNOddNXN-Y") 'clear (nextX, nextY - 1)
                 End If
                 If nextX(index) > 0 Then
@@ -487,17 +487,17 @@ If (curX(index) <> nextX(index) Or curY(index) <> nextY(index)) Then
                 If nextX(index) <= mapWidth Then
                     Call clearTile(tile(nextX(index), nextY(index) - 1), True, index, "CharNEvenNXN-Y") 'clear (nextX, nextY - 1)
                 End If
-                If nextX(index) < mapWidth - 1 Then
+                If nextX(index) < mapWidth Then
                     Call clearTile(tile(nextX(index) + 1, nextY(index) - 1), True, index, "CharNEvenN+XN-Y") 'clear (nextX + 1, nextY - 1)
                 End If
             End If
         ElseIf strDir(index) = "R" Then
             If oddRow(nextY(index)) Then
-                If nextY(index) < mapHeight - 1 Or nextY(index) <> curY(index) Then
+                If nextY(index) < mapHeight - 1 Or (nextY(index) <> curY(index) And nextX(index) < mapWidth) Then
                     Call clearTile(tile(nextX(index), nextY(index) - 1), True, index, "CharNOddNXN+Y") 'clear (nextX, nextY - 1)
                 End If
             Else
-                If nextX(index) < mapWidth - 1 Or nextY(index) <> curY(index) Then
+                If nextX(index) < mapWidth And nextY(index) <> curY(index) Then
                     Call clearTile(tile(nextX(index) + 1, nextY(index) - 1), True, index, "CharNEvenN+XN+Y") 'clear (nextX + 1, nextY - 1)
                 End If
             End If
