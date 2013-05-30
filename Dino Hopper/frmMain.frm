@@ -5185,7 +5185,7 @@ If frameCounter(index) > 0 Then 'if jump timer is started
                 If charIndex <> index Then
                     If nextX(index) = curX(charIndex) And nextY(index) = curY(charIndex) Then
                         targIndex = charIndex
-                        Call getCharJumpAnim(index, frameCounter(index), tile(curX(index), curY(index)), tile(nextX(index), nextY(index)).x, tile(nextX(index), nextY(index)).y - spriteY(targIndex))
+                        Call getCharJumpAnim(index, frameCounter(index), tile(curX(index), curY(index)), tile(nextX(index), nextY(index)).x, spriteY(targIndex))
                     End If
                 End If
             Next charIndex
@@ -5200,7 +5200,9 @@ If frameCounter(index) > 0 Then 'if jump timer is started
             Call getJumpComplete(index)
             If gameMode <> 0 And targIndex >= 0 Then
                 If nextX(index) = curX(targIndex) And nextY(index) = curY(targIndex) Then
+                    intMoves(index) = intMoves(index) + 1
                     Call getJump(index, strDir(index), evalMove(index, strDir(index)))
+                    intMoves(index) = intMoves(index) - 1
                 End If
             End If
         Else
