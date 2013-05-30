@@ -119,9 +119,7 @@ If inputTile.hasObj Then
         End If
     Else
         If inputTile.objType(1) = "I" Then
-            If evalMove(index, strDir(index)) Then
-                Call getJump(index, strDir(index), evalMove(index, strDir(index)))
-            End If
+            Call getJump(index, strDir(index), evalMove(index, strDir(index)))
         End If
     End If
 End If
