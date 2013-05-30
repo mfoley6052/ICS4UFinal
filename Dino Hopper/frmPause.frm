@@ -14,33 +14,33 @@ Begin VB.Form frmPause
    Begin VB.CommandButton cmdQuit 
       Caption         =   "Quit"
       Height          =   495
-      Left            =   3720
+      Left            =   4440
       TabIndex        =   3
-      Top             =   3720
+      Top             =   5280
       Width           =   3375
    End
    Begin VB.CommandButton cmdMenu 
       Caption         =   "Main Menu"
       Height          =   495
-      Left            =   3720
+      Left            =   4440
       TabIndex        =   2
-      Top             =   3000
+      Top             =   4560
       Width           =   3375
    End
    Begin VB.CommandButton cmdOpt 
       Caption         =   "Options"
       Height          =   495
-      Left            =   3720
+      Left            =   4440
       TabIndex        =   1
-      Top             =   2280
+      Top             =   3840
       Width           =   3375
    End
    Begin VB.CommandButton cmdGo 
       Caption         =   "Continue"
       Height          =   495
-      Left            =   3720
+      Left            =   4440
       TabIndex        =   0
-      Top             =   1560
+      Top             =   3120
       Width           =   3375
    End
 End
@@ -98,6 +98,8 @@ Private Sub Form_Load()
     SetWindowLong Me.hwnd, GWL_EXSTYLE, GetWindowLong(Me.hwnd, GWL_EXSTYLE) Or WS_EX_LAYERED
     SetLayeredWindowAttributes Me.hwnd, vbCyan, 0&, LWA_COLORKEY
     frmPause.Left = frmMain.Left
+    frmPause.Height = frmMain.Height
+    frmPause.Width = frmMain.Width
     frmPause.Top = frmMain.Top
 End Sub
 
