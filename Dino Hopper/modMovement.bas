@@ -2,10 +2,9 @@ Attribute VB_Name = "modMovement"
 Public Function getJump(ByVal index As Integer, ByVal strDirJ As String, ByVal blnTile As Boolean)
 With frmMain
     If frameCounter(index) = 0 Then
-        blnPlayerMoveable(index) = False
         strDir(index) = strDirJ
-        If blnTile Then
-            'blnPlayerMoveable(index) = False
+        If blnTile And blnPlayerMoveable(index) Then
+            blnPlayerMoveable(index) = False
             If strDir(index) = "L" Then
                 'if y row is odd
                 If oddRow(curY(index)) Then
@@ -33,18 +32,18 @@ With frmMain
             End If
         End If
         If gameMode = 1 And index = 0 And tile(nextX(index), nextY(index)).hasChar Then
-            Call getTick
             If curY(index) < nextY(index) Then
                 frameCounter(index) = 1
             Else
                 nextX(index) = curX(index)
                 nextY(index) = curY(index)
             End If
+            Call getTick
         Else
+            frameCounter(index) = 1
             If gameMode = 1 And index = 0 Then
                 Call getTick
             End If
-            frameCounter(index) = 1
         End If
     End If
 End With
@@ -202,9 +201,10 @@ If intMoveCount = intMoves(0) Then
             blnPlayerMoveable(c) = False
         End If
         For m = 1 To intMoves(c)
-            If .tmrChar(c).Enabled And blnPlayerMoveable(c) Then
+            If .tmrChar(c).Enabled Then
                 Call cpuAI(c)
             End If
+            blnPlayerMoveable(c) = True
         Next m
         If .tmrPow(c).Tag <> "" Then
             Call getPowTick(c)
