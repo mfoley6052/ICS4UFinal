@@ -80,7 +80,7 @@ If Not tileInput.hasObj Or Not bypassForObj Then
             If (tileInput.Xc = curX(index) And tileInput.Yc = curY(index)) Then 'if character on tile is character that called clear
                 Dim tileAlt As terrain
                 If tileInput.Yc = 0 Then '(x, 0)
-                    If frameCounter(index) > 0 And strDir(index) = "L" Then
+                    If frameCounter(index) > 0 And strDir(index) = "L" And blnEdgeJump(index) Then
                         If callID = "SelXY" Then
                             Call clearVoid(tileInput, True, True) 'paint spacer
                             If tileInput.Xc > 0 Then
@@ -103,7 +103,7 @@ If Not tileInput.hasObj Or Not bypassForObj Then
                             .PaintPicture tileAlt.picMask.Image, tileAlt.x, tileAlt.y, 100, 100, 0, 0, 100, 100, vbSrcAnd
                             .PaintPicture .picBuffer.Image, tileAlt.x, tileAlt.y, 100, 100, 0, 0, 100, 100, vbSrcPaint
                         End If
-                    ElseIf frameCounter(index) > 0 And strDir(index) = "U" Then
+                    ElseIf frameCounter(index) > 0 And strDir(index) = "U" And blnEdgeJump(index) Then
                         If callID = "SelXY" Then
                             Call clearVoid(tileInput, True, True) 'paint spacer
                             If tileInput.Xc < mapWidth - 1 Then
@@ -129,7 +129,7 @@ If Not tileInput.hasObj Or Not bypassForObj Then
                     Else
                         Call clearVoid(tileInput, True, True) 'paint spacer
                     End If
-                ElseIf oddRow(tileInput.Yc) Then '(x, odd)
+                ElseIf oddRow(tileInput.Yc) And blnEdgeJump(index) Then '(x, odd)
                     If tileInput.Xc = 0 Then 'if first column
                         If frameCounter(index) > 0 And strDir(index) = "L" Then 'if jumping off left side edge
                             If callID <> "CharSide-X-Y" Then
@@ -189,7 +189,7 @@ If Not tileInput.hasObj Or Not bypassForObj Then
                             Call clearVoid(tileInput, False, True) 'paint right spacer
                         End If
                     End If
-                ElseIf tileInput.Yc = mapHeight - 1 Then
+                ElseIf tileInput.Yc = mapHeight - 1 And blnEdgeJump(index) Then
                     If frameCounter(index) > 0 And strDir(index) = "R" Then
                         If callID = "CharBottom+X+Y" Then
                             If tileInput.Xc = mapWidth - 1 Then

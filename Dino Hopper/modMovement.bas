@@ -3,6 +3,7 @@ Public Function getJump(ByVal index As Integer, ByVal strDirJ As String, ByVal b
 With frmMain
     If frameCounter(index) = 0 Then
         strDir(index) = strDirJ
+        blnEdgeJump(index) = Not blnTile
         If blnTile And blnPlayerMoveable(index) Then
             blnPlayerMoveable(index) = False
             If strDir(index) = "L" Then
@@ -31,17 +32,18 @@ With frmMain
                 nextY(index) = curY(index) + 1
             End If
         End If
-        If gameMode = 1 And index = 0 And tile(nextX(index), nextY(index)).hasChar Then
-            If curY(index) < nextY(index) Then
-                frameCounter(index) = 1
+        If gameMode = 1 Then
+            If tile(nextX(index), nextY(index)).hasChar Then
+                If curY(index) < nextY(index) Then
+                    frameCounter(index) = 1
+                Else
+                    nextX(index) = curX(index)
+                    nextY(index) = curY(index)
+                End If
             Else
-                nextX(index) = curX(index)
-                nextY(index) = curY(index)
+                frameCounter(index) = 1
             End If
-            Call getTick
-        Else
-            frameCounter(index) = 1
-            If gameMode = 1 And index = 0 Then
+            If index = 0 Then
                 Call getTick
             End If
         End If
@@ -61,25 +63,21 @@ Else
     randDir = "U"
 End If
 End Function
-Public Sub getJumpComplete(ByVal index As Integer)
+Public Sub getJumpComplete(ByVal index As Integer, ByVal blnBounce As Boolean)
 Dim pScore As Integer
 Dim q As Integer
 With frmMain
 prevX(index) = curX(index)
 prevY(index) = curY(index)
-tile(curX(index), curY(index)).hasChar = False
+If Not blnBounce Then
+    tile(curX(index), curY(index)).hasChar = False
+End If
 If (index = 0 And blnPlayerMoveable(index)) Or index > 0 Then
     curX(index) = nextX(index)
     curY(index) = nextY(index)
 End If
 Dim inputTile As terrain
 inputTile = tile(curX(index), curY(index))
-If index > 0 Then
-    If inputTile.Xc = curX(0) And inputTile.Yc = curY(0) And blnPlayerMoveable(index) Then
-        Call getHurt(0, index)
-    End If
-Else
-End If
 tile(curX(index), curY(index)).hasChar = True
 If index = 0 Then
     If inputTile.hasObj Then
@@ -109,6 +107,8 @@ If index = 0 Then
                 blnLives = True
             End If
         End If
+    ElseIf blnBounce Then 'jumping on enemy
+        pScore = 1000
     End If
     If inputTile.terType = "G" Then
         pScore = pScore + 25
@@ -196,19 +196,19 @@ Static intMoveCount As Integer
 intMoveCount = intMoveCount + 1
 If intMoveCount >= intMoves(0) Then
     intMoveCount = 0
-    For c = 1 To 3
-        If nextX(0) = curX(c) And nextY(0) = curY(c) And frameCounter(0) > 0 Then
-            blnPlayerMoveable(c) = False
+    For C = 1 To 3
+        If nextX(0) = curX(C) And nextY(0) = curY(C) And frameCounter(0) > 0 Then
+            blnPlayerMoveable(C) = False
         End If
-        For m = 1 To intMoves(c)
-            If .tmrChar(c).Enabled Then
-                Call cpuAI(c)
+        For m = 1 To intMoves(C)
+            If .tmrChar(C).Enabled Then
+                Call cpuAI(C)
             End If
         Next m
-        If .tmrPow(c).Tag <> "" Then
-            Call getPowTick(c)
+        If .tmrPow(C).Tag <> "" Then
+            Call getPowTick(C)
         End If
-    Next c
+    Next C
 End If
 If .tmrPow(0).Tag <> "" Then
     Call getPowTick(0)

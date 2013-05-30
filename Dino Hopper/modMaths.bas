@@ -105,6 +105,14 @@ ElseIf blnRecover(index) Then
 End If
 End Function
 
+Public Function isPlayer(ByVal index As Integer) As Boolean
+If index = 0 Then
+    isPlayer = True
+Else
+    isPlayer = False
+End If
+End Function
+
 Public Function getCharJumpAnim(ByVal index As Integer, ByVal curFrame As Integer, curTile As terrain, ByVal nextX As Integer, ByVal nextY As Integer)
 'if frame 5 to 10
 If curFrame >= 5 And curFrame <= 10 Then

@@ -5063,16 +5063,6 @@ End If
 tmrAlternate.Tag = blnAlt
 End Sub
 
-Private Sub tmrHurt_Timer(index As Integer)
-If index = 0 Then
-    Call getHurt(index, index)
-curX(index) = prevX(index)
-curY(index) = prevY(index)
-blnPlayerMoveable = True
-tmrHurt(index).Enabled = False
-End If
-End Sub
-
 Private Sub tmrCPUMove_Timer(index As Integer)
 Static intCounter As Integer
 'if counter limit is not reached by counter
@@ -5185,22 +5175,32 @@ If frameCounter(index) > 0 Then 'if jump timer is started
     ElseIf frameCounter(index) = 5 Then
         strState(index) = "J"
     End If
-    If (nextX(index) <> curX(index)) Or (nextY(index) <> curY(index)) Then
+    If Not blnEdgeJump(index) Then
         If gameMode <> 0 Then
             Dim targIndex As Integer
             targIndex = -1
         End If
+        Dim nextTile As terrain
+        nextTile = tile(nextX(index), nextY(index))
         If Not tile(nextX(index), nextY(index)).hasChar Or gameMode = 0 Then
-            Call getCharJumpAnim(index, frameCounter(index), tile(curX(index), curY(index)), tile(nextX(index), nextY(index)).x, tile(nextX(index), nextY(index)).y)
+            Call getCharJumpAnim(index, frameCounter(index), tile(curX(index), curY(index)), nextTile.x, nextTile.y)
         ElseIf gameMode <> 0 Then
             For charIndex = 0 To 3
-                If charIndex <> index Then
-                    If nextX(index) = curX(charIndex) And nextY(index) = curY(charIndex) Then
+                With frmMain
+                If charIndex <> index And .tmrChar(charIndex).Enabled Then
+                    If nextX(index) = curX(charIndex) And nextY(index) = curY(charIndex) And curX(charIndex) = nextX(charIndex) And curY(charIndex) = nextY(charIndex) Then
                         targIndex = charIndex
-                        Call getCharJumpAnim(index, frameCounter(index), tile(curX(index), curY(index)), tile(nextX(index), nextY(index)).x, spriteY(targIndex))
+                        Call getCharJumpAnim(index, frameCounter(index), tile(curX(index), curY(index)), nextTile.x, spriteY(targIndex))
+                    ElseIf curX(index) = curX(charIndex) And curY(index) = curY(charIndex) Then
+                        targIndex = charIndex
+                        Call getCharJumpAnim(index, frameCounter(index), tile(curX(index), curY(index)), nextTile.x, spriteY(targIndex))
                     End If
                 End If
+                End With
             Next charIndex
+        End If
+        If targIndex < 0 Then
+            Call getCharJumpAnim(index, frameCounter(index), tile(curX(index), curY(index)), tile(nextX(index), nextY(index)).x, tile(nextX(index), nextY(index)).y)
         End If
         Call PaintCharSprite(index, spriteX(index), spriteY(index))
         If frameCounter(index) = 10 Then
@@ -5209,20 +5209,38 @@ If frameCounter(index) > 0 Then 'if jump timer is started
         If frameCounter(index) = frameLimit(index) Then
             frameCounter(index) = 0
             blnPlayerMoveable(index) = True
-            Call getJumpComplete(index)
             If gameMode <> 0 And targIndex >= 0 Then
                 If nextX(index) = curX(targIndex) And nextY(index) = curY(targIndex) Then
+                    Call getJumpComplete(index, False)
+                    Call getHurt(targIndex, index)
                     intMoves(index) = intMoves(index) + 1
+                    blnBounceJump(index) = True
                     Call getJump(index, strDir(index), evalMove(index, strDir(index)))
                     intMoves(index) = intMoves(index) - 1
-                Else
+                ElseIf curX(index) = curY(targIndex) And curX(index) = curY(targIndex) Then
+                    Call getJumpComplete(index, False)
                     blnPlayerMoveable(targIndex) = True
                 End If
+            ElseIf blnBounceJump(index) Then
+                Dim prevTarg As Integer
+                For checkPrev = 0 To 3
+                    With frmMain
+                    If checkPrev <> index And .tmrChar(checkPrev).Enabled Then
+                        If prevX(index) = curX(checkPrev) And prevY(index) = curY(checkPrev) And curX(checkPrev) = nextX(checkPrev) And curY(checkPrev) = nextY(checkPrev) And Not blnEdgeJump(checkPrev) Then
+                            prevTarg = checkPrev
+                            Call getJumpComplete(index, True)
+                            blnBounceJump(index) = False
+                        End If
+                    End If
+                    End With
+                Next checkPrev
+            Else
+                Call getJumpComplete(index, False)
             End If
         Else
             frameCounter(index) = frameCounter(index) + 1
         End If
-    Else
+    Else 'jump off edge
         Dim curTile As terrain
         curTile = tile(curX(index), curY(index))
         Dim altTile As terrain
@@ -5282,7 +5300,7 @@ If frameCounter(index) > 0 Then 'if jump timer is started
             frameCounter(index) = 0
             blnPlayerMoveable(0) = True
             Call getHurt(0, index)
-            Call getJumpComplete(index)
+            Call getJumpComplete(index, False)
             spriteX(index) = curTile.x + 25
             spriteY(index) = curTile.y - 15
         Else
