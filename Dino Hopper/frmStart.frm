@@ -174,6 +174,8 @@ End Sub
 
 Private Sub lblMenu_Click(index As Integer)
 If index = 0 Then 'left
+     lblMenu(3).Visible = False
+     lblMenu(4).Visible = False
     For x = 0 To 2
         If Val(lblMenu(x).Tag) < 2 Then
             lblMenu(x).Tag = Val(lblMenu(x).Tag) + 1
@@ -189,6 +191,8 @@ If index = 0 Then 'left
         End If
     Next x
 ElseIf index = 2 Then 'right
+     lblMenu(3).Visible = False
+     lblMenu(4).Visible = False
     For x = 0 To 2
         If Val(lblMenu(x).Tag) > 0 Then
             lblMenu(x).Tag = Val(lblMenu(x).Tag) - 1
