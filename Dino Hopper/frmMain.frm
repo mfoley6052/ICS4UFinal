@@ -5010,12 +5010,14 @@ If KeyCode = 123 Then 'F12
         frmDbg.Visible = False
         frmDbg.Hide
     End If
-ElseIf KeyCode = 122 Then
+ElseIf KeyCode = 122 Then 'F11
         If frmSettings.Visible = False Then
         frmSettings.Visible = True
     Else
         frmSettings.Visible = False
     End If
+ElseIf KeyCode = 27 Then 'Esc
+    frmPause.Show
 End If
 End Sub
 
@@ -5059,6 +5061,16 @@ Else
     blnAlt = True
 End If
 tmrAlternate.Tag = blnAlt
+End Sub
+
+Private Sub tmrHurt_Timer(index As Integer)
+If index = 0 Then
+    Call getHurt(index, index)
+curX(index) = prevX(index)
+curY(index) = prevY(index)
+blnPlayerMoveable = True
+tmrHurt(index).Enabled = False
+End If
 End Sub
 
 Private Sub tmrCPUMove_Timer(index As Integer)
@@ -5198,6 +5210,7 @@ If frameCounter(index) > 0 Then 'if jump timer is started
             frameCounter(index) = 0
             blnPlayerMoveable(index) = True
             Call getJumpComplete(index)
+
             If gameMode <> 0 And targIndex >= 0 Then
                 If nextX(index) = curX(targIndex) And nextY(index) = curY(targIndex) Then
                     intMoves(index) = intMoves(index) + 1
@@ -5377,7 +5390,6 @@ If objTileCount < tileCount - 4 Then
         End If
     End If
     objTileCount = objTileCount + 1
-    Call clearTile(tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)), False, -1, "ObjTopXY")
 End If
 End Sub
 
