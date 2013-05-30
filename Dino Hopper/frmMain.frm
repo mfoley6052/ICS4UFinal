@@ -5075,16 +5075,6 @@ End If
 tmrAlternate.Tag = blnAlt
 End Sub
 
-Private Sub tmrHurt_Timer(index As Integer)
-If index = 0 Then
-    Call getHurt(index, index)
-curX(index) = prevX(index)
-curY(index) = prevY(index)
-blnPlayerMoveable = True
-tmrHurt(index).Enabled = False
-End If
-End Sub
-
 Private Sub tmrCPUMove_Timer(index As Integer)
 Static intCounter As Integer
 'if counter limit is not reached by counter
@@ -5197,11 +5187,11 @@ If frameCounter(index) > 0 Then 'if jump timer is started
     If (nextX(index) <> curX(index)) Or (nextY(index) <> curY(index)) Then
         If Not tile(nextX(index), nextY(index)).hasChar Or gameMode = 0 Then
             Call getCharJumpAnim(index, frameCounter(index), tile(curX(index), curY(index)), tile(nextX(index), nextY(index)).x, tile(nextX(index), nextY(index)).y)
-        ElseIf gameMode = 2 Then
+        ElseIf gameMode <> 1 Then
             For charIndex = 0 To 3
                 Dim targIndex As Integer
                 If charIndex <> index Then
-                    If tile(curX(charIndex), curY(charIndex)) = tile(nextX(index), nextY(index)) Then
+                    If nextX(index) = curX(targIndex) And nextY(index) = curY(targIndex) Then
                         targIndex = charIndex
                         Call getCharJumpAnim(index, frameCounter(index), tile(curX(index), curY(index)), tile(nextX(index), nextY(index)).x, tile(nextX(index), nextY(index)).y - spriteY(charIndex))
                     End If
@@ -5216,7 +5206,11 @@ If frameCounter(index) > 0 Then 'if jump timer is started
             frameCounter(index) = 0
             blnPlayerMoveable = True
             Call getJumpComplete(index)
-            if
+            If gameMode <> 1 Then
+                If curX(index) = curX(targIndex) And curY(index) = curY(targIndex) Then
+                    Call getJump(index, strDir(index), evalMove(index, strDir(index)))
+                End If
+            End If
         Else
             frameCounter(index) = frameCounter(index) + 1
         End If
@@ -5279,7 +5273,7 @@ If frameCounter(index) > 0 Then 'if jump timer is started
             strState(index) = "I"
             frameCounter(index) = 0
             blnPlayerMoveable = True
-            Call getHurt(index, index)
+            Call getHurt(0, index)
             Call getJumpComplete(index)
             spriteX(index) = curTile.x + 25
             spriteY(index) = curTile.y - 15

@@ -7,6 +7,8 @@ With frmMain
             If gameMode = 1 Then
                 Call getTick
             End If
+        Else
+            blnPlayerMoveable = False
         End If
         strDir(index) = strDirJ
         If blnTile Then
@@ -69,8 +71,7 @@ Dim inputTile As terrain
 inputTile = tile(curX(index), curY(index))
 If index > 0 Then
     If inputTile.Xc = curX(0) And inputTile.Yc = curY(0) Then
-        blnPlayerMoveable = False
-        .tmrHurt(index).Enabled = True
+        Call getHurt(0, index)
     End If
 Else
 End If

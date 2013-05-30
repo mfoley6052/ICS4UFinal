@@ -16,6 +16,9 @@ If strType = "Scare" Then
 ElseIf strType = "Speed" Then
     If gameMode <> 1 Then
         .tmrChar(index).Interval = 20
+        If index > 0 Then
+            .tmrCPUMove(index).Interval = 150
+        End If
     Else
         intMoves(index) = 2
     End If
@@ -33,6 +36,9 @@ ElseIf .tmrPow(index).Tag = "Scare" Then
 ElseIf .tmrPow(index).Tag = "Speed" Then
     If gameMode <> 1 Then
         .tmrChar(index).Interval = 40
+        If index > 0 Then
+            .tmrCPUMove(index).Interval = 300
+        End If
     Else
         intMoves(index) = 1
     End If
