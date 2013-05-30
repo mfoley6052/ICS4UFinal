@@ -3,7 +3,7 @@ Public gameMode As Integer
 Public selType(0 To 3) As String
 Public picCount(0 To 3) As Integer
 Public strDir(0 To 3) As String
-Public blnPlayerMoveable As Boolean
+Public blnPlayerMoveable(0 To 3) As Boolean
 Public counterLimit(1 To 3) As Integer
 Public frameCounter(0 To 3) As Integer
 Public frameLimit(0 To 3) As Integer

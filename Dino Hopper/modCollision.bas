@@ -13,7 +13,7 @@ If blnRecover(0) = False Then
         blnRecover(0) = True
         Call getPowEffect(index, "Recover")
     End If
-    blnPlayerMoveable = True
+    blnPlayerMoveable(index) = True
     Call refreshLabels(False, True, False)
 End If
 End Sub
