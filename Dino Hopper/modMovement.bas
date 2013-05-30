@@ -33,11 +33,15 @@ With frmMain
             End If
         End If
         If gameMode = 1 And index = 0 And tile(nextX(index), nextY(index)).hasChar Then
+            Call getTick
             If curY(index) < nextY(index) Then
                 frameCounter(index) = 1
+            Else
+                nextX(index) = curX(index)
+                nextY(index) = curY(index)
             End If
         Else
-            If gameMode = 1 Then
+            If gameMode = 1 And index = 0 Then
                 Call getTick
             End If
             frameCounter(index) = 1
