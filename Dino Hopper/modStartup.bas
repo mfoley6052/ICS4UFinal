@@ -21,6 +21,8 @@ If gameMode <> 1 Then
 ElseIf gameMode = 1 Then
     objExpire = 8
     tmrPowLimit = 8
+    intMoves(0) = 1
+    intMoves(1) = 1
 End If
 .tmrAlternate.Enabled = True
 blnPlayerMoveable = True

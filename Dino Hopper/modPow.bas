@@ -5,7 +5,7 @@ If .tmrPow(index).Tag <> "" Then
     Call getPowExpire(index, .tmrPow(index).Tag)
 End If
 .tmrPow(index).Tag = strType
-tmrPowCounter = 0
+tmrPowCounter(index) = 0
 If gameMode <> 1 Then
     .tmrPow(index).Enabled = True
 End If
@@ -14,7 +14,11 @@ If strType = "Scare" Then
         'make enemies run from player
     End If
 ElseIf strType = "Speed" Then
-    .tmrChar(index).Interval = 20
+    If gameMode <> 1 Then
+        .tmrChar(index).Interval = 20
+    Else
+        intMoves(index) = 2
+    End If
 ElseIf strType = "Freeze" Then
     .tmrChar(index).Tag = strType
 End If
@@ -27,7 +31,11 @@ If .tmrPow(index).Tag = "Recover" Then
     blnRecover(index) = False
 ElseIf .tmrPow(index).Tag = "Scare" Then
 ElseIf .tmrPow(index).Tag = "Speed" Then
-    .tmrChar(index).Interval = 40
+    If gameMode <> 1 Then
+        .tmrChar(index).Interval = 40
+    Else
+        intMoves(index) = 1
+    End If
 ElseIf .tmrPow(index).Tag = "Freeze" Then
     .tmrChar(index).Tag = ""
 End If
@@ -36,16 +44,16 @@ End With
 End Sub
 
 Public Sub getPowTick(ByVal index As Integer)
-tmrPowCounter = tmrPowCounter + 1
+tmrPowCounter(index) = tmrPowCounter(index) + 1
 With frmMain
-If tmrPowCounter >= tmrPowLimit And .tmrChar(index).Tag <> "Recover" Then
+If tmrPowCounter(index) >= tmrPowLimit And .tmrChar(index).Tag <> "Recover" Then
     Call getPowExpire(index, .tmrPow(index).Tag)
-    tmrPowCounter = 0
+    tmrPowCounter(index) = 0
     .tmrPow(index).Tag = ""
     .tmrPow(index).Enabled = False
-ElseIf .tmrChar(index).Tag = "Recover" And tmrPowCounter >= tmrPowLimit * 0.75 Then
+ElseIf .tmrChar(index).Tag = "Recover" And tmrPowCounter(index) >= tmrPowLimit * 0.75 Then
     Call getPowExpire(index, .tmrPow(index).Tag)
-    tmrPowCounter = 0
+    tmrPowCounter(index) = 0
     .tmrPow(index).Tag = ""
     .tmrPow(index).Enabled = False
 End If

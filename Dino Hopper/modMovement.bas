@@ -188,16 +188,24 @@ End Function
 
 Public Sub getTick()
 With frmMain
-For c = 0 To 3
-    If c > 0 Then
-        If .tmrChar(c).Enabled Then
-            Call cpuAI(c)
+Static intMoveCount As Integer
+intMoveCount = intMoveCount + 1
+If intMoveCount = intMoves(0) Then
+    intMoveCount = 0
+    For c = 1 To 3
+        For m = 1 To intMoves(c)
+            If .tmrChar(c).Enabled Then
+                Call cpuAI(c)
+            End If
+        Next m
+        If .tmrPow(c).Tag <> "" Then
+            Call getPowTick(c)
         End If
-    End If
-    If .tmrChar(c).Tag <> "" Then
-        Call getPowTick(c)
-    End If
-Next c
+    Next c
+End If
+If .tmrPow(0).Tag <> "" Then
+    Call getPowTick(0)
+End If
 For t = 0 To tileCount - 1
     If tile(getTileFromInt(True, t), getTileFromInt(False, t)).hasObj Then
         tile(getTileFromInt(True, t), getTileFromInt(False, t)).objTimer = tile(getTileFromInt(True, t), getTileFromInt(False, t)).objTimer + 1
