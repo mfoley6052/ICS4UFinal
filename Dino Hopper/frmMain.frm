@@ -5210,12 +5210,13 @@ If frameCounter(index) > 0 Then 'if jump timer is started
             frameCounter(index) = 0
             blnPlayerMoveable(index) = True
             Call getJumpComplete(index)
-
             If gameMode <> 0 And targIndex >= 0 Then
                 If nextX(index) = curX(targIndex) And nextY(index) = curY(targIndex) Then
                     intMoves(index) = intMoves(index) + 1
                     Call getJump(index, strDir(index), evalMove(index, strDir(index)))
                     intMoves(index) = intMoves(index) - 1
+                Else
+                    blnPlayerMoveable(targIndex) = True
                 End If
             End If
         Else

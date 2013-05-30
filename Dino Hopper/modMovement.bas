@@ -75,7 +75,7 @@ End If
 Dim inputTile As terrain
 inputTile = tile(curX(index), curY(index))
 If index > 0 Then
-    If inputTile.Xc = curX(0) And inputTile.Yc = curY(0) Then
+    If inputTile.Xc = curX(0) And inputTile.Yc = curY(0) And blnPlayerMoveable(index) Then
         Call getHurt(0, index)
     End If
 Else
@@ -194,7 +194,7 @@ Public Sub getTick()
 With frmMain
 Static intMoveCount As Integer
 intMoveCount = intMoveCount + 1
-If intMoveCount = intMoves(0) Then
+If intMoveCount >= intMoves(0) Then
     intMoveCount = 0
     For c = 1 To 3
         If nextX(0) = curX(c) And nextY(0) = curY(c) And frameCounter(0) > 0 Then
@@ -204,7 +204,6 @@ If intMoveCount = intMoves(0) Then
             If .tmrChar(c).Enabled Then
                 Call cpuAI(c)
             End If
-            blnPlayerMoveable(c) = True
         Next m
         If .tmrPow(c).Tag <> "" Then
             Call getPowTick(c)
