@@ -5195,7 +5195,19 @@ If frameCounter(index) > 0 Then 'if jump timer is started
         strState(index) = "J"
     End If
     If (nextX(index) <> curX(index)) Or (nextY(index) <> curY(index)) Then
-        Call getCharJumpAnim(index, frameCounter(index), tile(curX(index), curY(index)), tile(nextX(index), nextY(index)).x, tile(nextX(index), nextY(index)).y)
+        If Not tile(nextX(index), nextY(index)).hasChar Or gameMode = 0 Then
+            Call getCharJumpAnim(index, frameCounter(index), tile(curX(index), curY(index)), tile(nextX(index), nextY(index)).x, tile(nextX(index), nextY(index)).y)
+        ElseIf gameMode = 2 Then
+            For charIndex = 0 To 3
+                Dim targIndex As Integer
+                If charIndex <> index Then
+                    If tile(curX(charIndex), curY(charIndex)) = tile(nextX(index), nextY(index)) Then
+                        targIndex = charIndex
+                        Call getCharJumpAnim(index, frameCounter(index), tile(curX(index), curY(index)), tile(nextX(index), nextY(index)).x, tile(nextX(index), nextY(index)).y - spriteY(charIndex))
+                    End If
+                End If
+            Next charIndex
+        End If
         Call PaintCharSprite(index, spriteX(index), spriteY(index))
         If frameCounter(index) = 10 Then
             strState(index) = "I"
@@ -5204,6 +5216,7 @@ If frameCounter(index) > 0 Then 'if jump timer is started
             frameCounter(index) = 0
             blnPlayerMoveable = True
             Call getJumpComplete(index)
+            if
         Else
             frameCounter(index) = frameCounter(index) + 1
         End If
@@ -5376,6 +5389,7 @@ If objTileCount < tileCount - 4 Then
         End If
     End If
     objTileCount = objTileCount + 1
+    Call clearTile(tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)), False, -1, "ObjTopXY")
 End If
 End Sub
 

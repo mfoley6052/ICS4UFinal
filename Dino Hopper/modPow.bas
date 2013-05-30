@@ -87,4 +87,5 @@ Else
     inputTile.terType = Mid(inputTile.terType, 1, 1)
     Set inputTile.picTile = inputTile.tempPic
 End If
+tile(inputTile.Xc, inputTile.Yc) = inputTile
 End Sub
