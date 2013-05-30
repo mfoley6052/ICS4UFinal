@@ -73,13 +73,19 @@ Private Const LWA_COLORKEY = &H1
 Private Const LWA_ALPHA = &H2
 
 Private Sub cmdGo_Click()
+frmMain.Show
+Unload Me
 'Activate the timers and resume playing
 End Sub
 
 'Go back to the menu
 Private Sub cmdMenu_Click()
-frmMain.Show
+frmStart.Show
 Unload Me
+End Sub
+
+Private Sub cmdOpt_Click()
+frmSettings.Show vbModal
 End Sub
 
 'Exit the game

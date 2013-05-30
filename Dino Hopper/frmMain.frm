@@ -5017,7 +5017,7 @@ ElseIf KeyCode = 122 Then 'F11
         frmSettings.Visible = False
     End If
 ElseIf KeyCode = 27 Then 'Esc
-    Load frmPause
+    frmPause.Show
 End If
 End Sub
 
@@ -5186,16 +5186,18 @@ If frameCounter(index) > 0 Then 'if jump timer is started
         strState(index) = "J"
     End If
     If (nextX(index) <> curX(index)) Or (nextY(index) <> curY(index)) Then
-        If Not tile(nextX(index), nextY(index)).hasChar Or gameMode = 0 Then
-            Call getCharJumpAnim(index, frameCounter(index), tile(curX(index), curY(index)), tile(nextX(index), nextY(index)).x, tile(nextX(index), nextY(index)).y)
-        ElseIf gameMode <> 1 Then
+        If gameMode <> 0 Then
             Dim targIndex As Integer
             targIndex = -1
+        End If
+        If Not tile(nextX(index), nextY(index)).hasChar Or gameMode = 0 Then
+            Call getCharJumpAnim(index, frameCounter(index), tile(curX(index), curY(index)), tile(nextX(index), nextY(index)).x, tile(nextX(index), nextY(index)).y)
+        ElseIf gameMode <> 0 Then
             For charIndex = 0 To 3
                 If charIndex <> index Then
-                    If nextX(index) = curX(targIndex) And nextY(index) = curY(targIndex) Then
+                    If nextX(index) = curX(charIndex) And nextY(index) = curY(charIndex) Then
                         targIndex = charIndex
-                        Call getCharJumpAnim(index, frameCounter(index), tile(curX(index), curY(index)), tile(nextX(index), nextY(index)).x, tile(nextX(index), nextY(index)).y - spriteY(charIndex))
+                        Call getCharJumpAnim(index, frameCounter(index), tile(curX(index), curY(index)), tile(nextX(index), nextY(index)).x, tile(nextX(index), nextY(index)).y - spriteY(targIndex))
                     End If
                 End If
             Next charIndex
@@ -5208,6 +5210,12 @@ If frameCounter(index) > 0 Then 'if jump timer is started
             frameCounter(index) = 0
             blnPlayerMoveable(index) = True
             Call getJumpComplete(index)
+
+            If gameMode <> 0 And targIndex >= 0 Then
+                If nextX(index) = curX(targIndex) And nextY(index) = curY(targIndex) Then
+                    Call getJump(index, strDir(index), evalMove(index, strDir(index)))
+                End If
+            End If
         Else
             frameCounter(index) = frameCounter(index) + 1
         End If
