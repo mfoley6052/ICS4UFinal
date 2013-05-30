@@ -2,17 +2,10 @@ Attribute VB_Name = "modMovement"
 Public Function getJump(ByVal index As Integer, ByVal strDirJ As String, ByVal blnTile As Boolean)
 With frmMain
     If frameCounter(index) = 0 Then
-        If index = 0 Then
-            blnPlayerMoveable = False
-            If gameMode = 1 Then
-                Call getTick
-            End If
-        Else
-            blnPlayerMoveable = False
-        End If
+        blnPlayerMoveable(index) = False
         strDir(index) = strDirJ
         If blnTile Then
-            'blnPlayerMoveable = False
+            'blnPlayerMoveable(index) = False
             If strDir(index) = "L" Then
                 'if y row is odd
                 If oddRow(curY(index)) Then
@@ -39,7 +32,16 @@ With frmMain
                 nextY(index) = curY(index) + 1
             End If
         End If
-        frameCounter(index) = 1
+        If gameMode = 1 And index = 0 And tile(nextX(index), nextY(index)).hasChar Then
+            If curY(index) < nextY(index) Then
+                frameCounter(index) = 1
+            End If
+        Else
+            If gameMode = 1 Then
+                Call getTick
+            End If
+            frameCounter(index) = 1
+        End If
     End If
 End With
 End Function
@@ -63,7 +65,7 @@ With frmMain
 prevX(index) = curX(index)
 prevY(index) = curY(index)
 tile(curX(index), curY(index)).hasChar = False
-If (index = 0 And blnPlayerMoveable) Or index > 0 Then
+If (index = 0 And blnPlayerMoveable(index)) Or index > 0 Then
     curX(index) = nextX(index)
     curY(index) = nextY(index)
 End If
@@ -192,8 +194,11 @@ intMoveCount = intMoveCount + 1
 If intMoveCount = intMoves(0) Then
     intMoveCount = 0
     For c = 1 To 3
+        If nextX(0) = curX(c) And nextY(0) = curY(c) And frameCounter(0) > 0 Then
+            blnPlayerMoveable(c) = False
+        End If
         For m = 1 To intMoves(c)
-            If .tmrChar(c).Enabled Then
+            If .tmrChar(c).Enabled And blnPlayerMoveable(c) Then
                 Call cpuAI(c)
             End If
         Next m

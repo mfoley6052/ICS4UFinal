@@ -25,7 +25,8 @@ ElseIf gameMode = 1 Then
     intMoves(1) = 1
 End If
 .tmrAlternate.Enabled = True
-blnPlayerMoveable = True
+blnPlayerMoveable(0) = True
+blnPlayerMoveable(1) = True
 intLives(0) = 3
 intMulti(0) = 1
 curX(0) = (mapWidth - 1) \ 2
