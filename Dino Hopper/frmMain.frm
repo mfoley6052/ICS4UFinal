@@ -5024,12 +5024,14 @@ If KeyCode = 123 Then 'F12
         frmDbg.Visible = False
         frmDbg.Hide
     End If
-ElseIf KeyCode = 122 Then
+ElseIf KeyCode = 122 Then 'F11
         If frmSettings.Visible = False Then
         frmSettings.Visible = True
     Else
         frmSettings.Visible = False
     End If
+ElseIf KeyCode = 27 Then 'Esc
+    Load frmPause
 End If
 End Sub
 
@@ -5073,6 +5075,16 @@ Else
     blnAlt = True
 End If
 tmrAlternate.Tag = blnAlt
+End Sub
+
+Private Sub tmrHurt_Timer(index As Integer)
+If index = 0 Then
+    Call getHurt(index, index)
+curX(index) = prevX(index)
+curY(index) = prevY(index)
+blnPlayerMoveable = True
+tmrHurt(index).Enabled = False
+End If
 End Sub
 
 Private Sub tmrCPUMove_Timer(index As Integer)
@@ -5185,19 +5197,7 @@ If frameCounter(index) > 0 Then 'if jump timer is started
         strState(index) = "J"
     End If
     If (nextX(index) <> curX(index)) Or (nextY(index) <> curY(index)) Then
-        If Not tile(nextX(index), nextY(index)).hasChar Or gameMode = 0 Then
-            Call getCharJumpAnim(index, frameCounter(index), tile(curX(index), curY(index)), tile(nextX(index), nextY(index)).x, tile(nextX(index), nextY(index)).y)
-        ElseIf gameMode <> 1 Then
-            For charIndex = 0 To 3
-                Dim targIndex As Integer
-                If charIndex <> index Then
-                    If nextX(index) = curX(targIndex) And nextY(index) = curY(targIndex) Then
-                        targIndex = charIndex
-                        Call getCharJumpAnim(index, frameCounter(index), tile(curX(index), curY(index)), tile(nextX(index), nextY(index)).x, tile(nextX(index), nextY(index)).y - spriteY(charIndex))
-                    End If
-                End If
-            Next charIndex
-        End If
+        Call getCharJumpAnim(index, frameCounter(index), tile(curX(index), curY(index)), tile(nextX(index), nextY(index)).x, tile(nextX(index), nextY(index)).y)
         Call PaintCharSprite(index, spriteX(index), spriteY(index))
         If frameCounter(index) = 10 Then
             strState(index) = "I"
@@ -5206,11 +5206,6 @@ If frameCounter(index) > 0 Then 'if jump timer is started
             frameCounter(index) = 0
             blnPlayerMoveable = True
             Call getJumpComplete(index)
-            If gameMode <> 1 Then
-                If curX(index) = curX(targIndex) And curY(index) = curY(targIndex) Then
-                    Call getJump(index, strDir(index), evalMove(index, strDir(index)))
-                End If
-            End If
         Else
             frameCounter(index) = frameCounter(index) + 1
         End If
@@ -5273,7 +5268,7 @@ If frameCounter(index) > 0 Then 'if jump timer is started
             strState(index) = "I"
             frameCounter(index) = 0
             blnPlayerMoveable = True
-            Call getHurt(0, index)
+            Call getHurt(index, index)
             Call getJumpComplete(index)
             spriteX(index) = curTile.x + 25
             spriteY(index) = curTile.y - 15
@@ -5383,7 +5378,6 @@ If objTileCount < tileCount - 4 Then
         End If
     End If
     objTileCount = objTileCount + 1
-    Call clearTile(tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)), False, -1, "ObjTopXY")
 End If
 End Sub
 
