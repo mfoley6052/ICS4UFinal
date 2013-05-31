@@ -204,13 +204,14 @@ For setMove = 0 To 3
     If blnMove(setMove) And tile(nextX(setMove), nextY(setMove)).hasChar Then 'if character can move and next tile has a char
         For checkMoveable = 0 To 3
             If checkMoveable <> setMove And blnMove(checkMoveable) Then 'if index is different and checkMoveable char can move
-                'if checkMoveable char is lower on map than setMove char
-                If curY(setMove) < curY(checkMoveable) Then
+                If curY(setMove) < curY(checkMoveable) Then 'if checkMoveable char is lower on map than setMove char
                     'if checkMoveable char (lower on map) is jumping where setMove char is jumping
                     If nextX(checkMoveable) = curX(setMove) And nextY(checkMoveable) = curY(setMove) Then
                         blnMove(checkMoveable) = False 'checkMoveable char can no longer move
                     End If
                 End If
+            ElseIf Not blnMove(checkMoveable) And .tmrChar(checkMoveable).Enabled Then
+                blnMove(checkMoveable) = False 'if checkMoveable char can't move but is enabled, charMoveable char can't move
             End If
         Next checkMoveable
     End If
