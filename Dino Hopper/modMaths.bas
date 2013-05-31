@@ -180,6 +180,37 @@ ElseIf blnX = False Then
 End If
 End Function
 
+Public Sub setCharRespawn(ByVal index As Integer, tileInput As terrain)
+Dim newX As Integer
+Dim newY As Integer
+If curY(index) = mapHeight - 1 Then
+    newX = curX(index)
+    newY = 0
+ElseIf curY(index) = 0 Then
+    newX = curX(index)
+    newY = mapHeight - 1
+ElseIf curX(index) = 0 Then
+    If oddRow(curY(index)) Then
+        newX = mapWidth
+    Else
+        newX = mapWidth - 1
+    End If
+    newY = curY(index)
+Else
+    newX = 0
+    newY = curY(index)
+End If
+If tile(newX, newY).hasChar Then
+    newY = 3
+    newX = 3
+    If tile(3, newY).hasChar Then
+        newX = 4
+    End If
+End If
+nextX(index) = newX
+nextY(index) = newY
+End Sub
+
 Public Function getAbs(ByVal valInput As Single) As Integer
 If valInput < 0 Then
     valInput = 0

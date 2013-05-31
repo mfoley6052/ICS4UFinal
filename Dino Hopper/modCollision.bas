@@ -6,7 +6,7 @@ If blnRecover(index) = False Then
         If intLives(index) > 1 Then
             intLives(index) = intLives(index) - 1
         Else
-            MsgBox ("GameOver")
+            MsgBox ("Game Over")
             frmStart.Show
             frmMain.Hide
         End If

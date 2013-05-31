@@ -5114,9 +5114,9 @@ blnClearPrevTile(0) = False
 blnClearPrevTile(1) = False
 blnPlayerMoveable(0) = False
 blnPlayerMoveable(1) = False
-For t = 0 To 100
-    tileSwitch(t) = False
-Next t
+For T = 0 To 100
+    tileSwitch(T) = False
+Next T
 limswitch = 1000
 End Sub
 
@@ -5233,7 +5233,9 @@ If frameCounter(index) > 0 Then 'if jump timer is started
                 If nextX(index) = curX(targIndex) And nextY(index) = curY(targIndex) Then
                     blnBounceJump(index) = True
                     Call getJumpComplete(index)
-                    Call getHurt(targIndex, index)
+                    If Not blnRecover(targIndex) Then
+                        Call getHurt(targIndex, index)
+                    End If
                     Call getJump(index, strDir(index), evalMove(index, strDir(index)))
                     frameCounter(index) = 1
                 ElseIf curX(index) = curY(targIndex) And curX(index) = curY(targIndex) Then
@@ -5269,7 +5271,7 @@ If frameCounter(index) > 0 Then 'if jump timer is started
                 If spriteY(index) < curTile.y + 50 Or (spriteX(index) > -35 And spriteX(index) < tile(mapWidth - 1, 0).x + 135 And spriteY(index) < curTile.y + 25) Then
                     Call PaintCharSprite(index, spriteX(index), spriteY(index))
                 End If
-                Call clearTile(curTile, True, index, "CharTop-X-Y")
+                Call clearTile(curTile, True, index, "CharTop+X-Y")
                 If curX(index) > 0 Then
                     altTile = tile(curTile.Xc - 1, curTile.Yc)
                     If altTile.hasObj Then
@@ -5318,8 +5320,9 @@ If frameCounter(index) > 0 Then 'if jump timer is started
             strState(index) = "I"
             frameCounter(index) = 0
             blnPlayerMoveable(0) = True
-            Call getHurt(0, index)
+            Call getHurt(index, index)
             Call getJumpComplete(index)
+            curTile = tile(curX(index), curY(index))
             spriteX(index) = curTile.x + 25
             spriteY(index) = curTile.y - 15
         Else

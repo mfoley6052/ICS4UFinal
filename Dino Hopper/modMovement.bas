@@ -4,32 +4,44 @@ With frmMain
     If frameCounter(index) = 0 Then
         strDir(index) = strDirJ
         blnEdgeJump(index) = Not blnTile
-        If blnTile And blnPlayerMoveable(index) Then
+        If blnPlayerMoveable(index) Then
             blnPlayerMoveable(index) = False
-            If strDir(index) = "L" Then
-                'if y row is odd
-                If oddRow(curY(index)) Then
-                    nextX(index) = curX(index) - 1
+            If blnTile Then
+                If strDir(index) = "L" Then
+                    'if y row is odd
+                    If oddRow(curY(index)) Then
+                        nextX(index) = curX(index) - 1
+                    Else
+                        nextX(index) = curX(index)
+                    End If
+                    nextY(index) = curY(index) - 1
+                ElseIf strDir(index) = "U" Then
+                    'if y row is even
+                    If Not oddRow(curY(index)) Then
+                        nextX(index) = curX(index) + 1
+                    Else
+                        nextX(index) = curX(index)
+                    End If
+                    nextY(index) = curY(index) - 1
+                ElseIf strDir(index) = "R" Then
+                    'if y row is even
+                    If Not oddRow(curY(index)) Then
+                        nextX(index) = curX(index) + 1
+                    Else
+                        nextX(index) = curX(index)
+                    End If
+                    nextY(index) = curY(index) + 1
+                ElseIf strDir(index) = "D" Then
+                    'if y row is odd
+                    If oddRow(curY(index)) Then
+                        nextX(index) = curX(index) - 1
+                    Else
+                        nextX(index) = curX(index)
+                    End If
+                    nextY(index) = curY(index) + 1
                 End If
-                nextY(index) = curY(index) - 1
-            ElseIf strDir(index) = "U" Then
-                'if y row is even
-                If Not oddRow(curY(index)) Then
-                    nextX(index) = curX(index) + 1
-                End If
-                nextY(index) = curY(index) - 1
-            ElseIf strDir(index) = "R" Then
-                'if y row is even
-                If Not oddRow(curY(index)) Then
-                    nextX(index) = curX(index) + 1
-                End If
-                nextY(index) = curY(index) + 1
-            ElseIf strDir(index) = "D" Then
-                'if y row is odd
-                If oddRow(curY(index)) Then
-                    nextX(index) = curX(index) - 1
-                End If
-                nextY(index) = curY(index) + 1
+            ElseIf Not blnRecover(index) Then
+                Call setCharRespawn(index, tile(curX(index), curY(index)))
             End If
             If gameMode <> 1 Then
                 frameCounter(index) = 1
@@ -129,7 +141,7 @@ If strDirMove = "L" Then
     If oddRow(curY(index)) Then
         If curX(index) = 0 Then
             evalMove = False
-        ElseIf curY(index) < mapWidth Then
+        ElseIf curY(index) > 0 Then
             evalMove = True
         Else
             evalMove = False
@@ -238,11 +250,11 @@ For getMove = 0 To 3 'get movement (or not)
         nextY(getMove) = curY(getMove)
     End If
 Next getMove
-For t = 0 To tileCount - 1 'check each tile for object, if it has one, call an object timer tick
-    If tile(getTileFromInt(True, t), getTileFromInt(False, t)).hasObj Then
-        tile(getTileFromInt(True, t), getTileFromInt(False, t)).objTimer = tile(getTileFromInt(True, t), getTileFromInt(False, t)).objTimer + 1
+For T = 0 To tileCount - 1 'check each tile for object, if it has one, call an object timer tick
+    If tile(getTileFromInt(True, T), getTileFromInt(False, T)).hasObj Then
+        tile(getTileFromInt(True, T), getTileFromInt(False, T)).objTimer = tile(getTileFromInt(True, T), getTileFromInt(False, T)).objTimer + 1
     End If
-Next t
+Next T
 Call .tmrObjEvent_Timer 'call an object to appear
 End With
 End Sub
