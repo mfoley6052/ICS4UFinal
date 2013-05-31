@@ -11,32 +11,80 @@ Begin VB.Form frmPause
    MinButton       =   0   'False
    ScaleHeight     =   7635
    ScaleWidth      =   11565
-   Begin VB.CommandButton cmdQuit 
+   Begin VB.Label lblQuit 
+      Alignment       =   2  'Center
+      BackStyle       =   0  'Transparent
       Caption         =   "Quit"
+      BeginProperty Font 
+         Name            =   "Monospac821 BT"
+         Size            =   14.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00C0C000&
       Height          =   495
       Left            =   4440
       TabIndex        =   3
       Top             =   5280
       Width           =   3375
    End
-   Begin VB.CommandButton cmdMenu 
+   Begin VB.Label lblMenu 
+      Alignment       =   2  'Center
+      BackStyle       =   0  'Transparent
       Caption         =   "Main Menu"
+      BeginProperty Font 
+         Name            =   "Monospac821 BT"
+         Size            =   14.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00C0C000&
       Height          =   495
       Left            =   4440
       TabIndex        =   2
       Top             =   4560
       Width           =   3375
    End
-   Begin VB.CommandButton cmdOpt 
+   Begin VB.Label lblOpt 
+      Alignment       =   2  'Center
+      BackStyle       =   0  'Transparent
       Caption         =   "Options"
+      BeginProperty Font 
+         Name            =   "Monospac821 BT"
+         Size            =   14.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00C0C000&
       Height          =   495
       Left            =   4440
       TabIndex        =   1
       Top             =   3840
       Width           =   3375
    End
-   Begin VB.CommandButton cmdGo 
+   Begin VB.Label lblGo 
+      Alignment       =   2  'Center
+      BackStyle       =   0  'Transparent
       Caption         =   "Continue"
+      BeginProperty Font 
+         Name            =   "Monospac821 BT"
+         Size            =   14.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00C0C000&
       Height          =   495
       Left            =   4440
       TabIndex        =   0
@@ -70,30 +118,13 @@ Private Const WS_EX_LAYERED = &H80000
 Private Const LWA_COLORKEY = &H1
 Private Const LWA_ALPHA = &H2
 
-Private Sub cmdGo_Click()
-Call ChangeTimers("Go")
-frmMain.Show
-Unload Me
-'Activate the timers and resume playing
-End Sub
-
-'Go back to the menu
-Private Sub cmdMenu_Click()
-frmStart.Show
-Unload Me
-End Sub
-
-Private Sub cmdOpt_Click()
-frmSettings.Show vbModal
-End Sub
-
-'Exit the game
-Private Sub cmdQuit_Click()
-End
-End Sub
 'Sets any thing that is vbCyan to transparent and sets the background to cyan
 Private Sub Form_Load()
     Me.BackColor = vbCyan
+'    lblMenu.BackColor = vbCyan
+'    lblGo.BackColor = vbCyan
+'    lblQuit.BackColor = vbCyan
+'    lblOpt.BackColor = vbCyan
     SetWindowLong Me.hwnd, GWL_EXSTYLE, GetWindowLong(Me.hwnd, GWL_EXSTYLE) Or WS_EX_LAYERED
     SetLayeredWindowAttributes Me.hwnd, vbCyan, 0&, LWA_COLORKEY
     frmPause.Left = frmMain.Left
@@ -149,3 +180,22 @@ With frmMain
     
 End With
 End Function
+
+Private Sub lblGo_Click()
+Call ChangeTimers("Go")
+frmMain.Show
+Unload Me
+End Sub
+
+Private Sub lblMenu_Click()
+frmStart.Show
+Unload Me
+End Sub
+
+Private Sub lblOpt_Click()
+frmSettings.Show vbModal
+End Sub
+
+Private Sub lblQuit_Click()
+End
+End Sub
