@@ -5231,13 +5231,13 @@ If frameCounter(index) > 0 Then 'if jump timer is started
             blnPlayerMoveable(index) = True
             If gameMode <> 0 And targIndex >= 0 Then
                 If nextX(index) = curX(targIndex) And nextY(index) = curY(targIndex) Then
-                    Call getJumpComplete(index, False)
                     blnBounceJump(index) = True
+                    Call getJumpComplete(index)
                     Call getHurt(targIndex, index)
                     Call getJump(index, strDir(index), evalMove(index, strDir(index)))
                     frameCounter(index) = 1
                 ElseIf curX(index) = curY(targIndex) And curX(index) = curY(targIndex) Then
-                    Call getJumpComplete(index, False)
+                    Call getJumpComplete(index)
                     blnPlayerMoveable(targIndex) = True
                 End If
             ElseIf blnBounceJump(index) Then
@@ -5247,14 +5247,14 @@ If frameCounter(index) > 0 Then 'if jump timer is started
                     If checkPrev <> index And .tmrChar(checkPrev).Enabled Then
                         If curX(index) = curX(checkPrev) And curY(index) = curY(checkPrev) And curX(checkPrev) = nextX(checkPrev) And curY(checkPrev) = nextY(checkPrev) And Not blnEdgeJump(checkPrev) Then
                             prevTarg = checkPrev
-                            Call getJumpComplete(index, True)
-                            blnBounceJump(index) = False
+                            Call getJumpComplete(index)
+                            blnPlayerMoveable(checkPrev) = True
                         End If
                     End If
                     End With
                 Next checkPrev
             Else
-                Call getJumpComplete(index, False)
+                Call getJumpComplete(index)
             End If
         Else
             frameCounter(index) = frameCounter(index) + 1
@@ -5319,7 +5319,7 @@ If frameCounter(index) > 0 Then 'if jump timer is started
             frameCounter(index) = 0
             blnPlayerMoveable(0) = True
             Call getHurt(0, index)
-            Call getJumpComplete(index, False)
+            Call getJumpComplete(index)
             spriteX(index) = curTile.x + 25
             spriteY(index) = curTile.y - 15
         Else
