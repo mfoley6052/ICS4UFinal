@@ -5024,31 +5024,51 @@ End Sub
 Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
 If blnPlayerMoveable(0) = True Then
     If KeyCode = key(0) Then 'Left
-        If gameMode <> 1 Or (gameMode = 1 And strDir(0) = "L") Then
+        If gameMode <> 1 Then
             Call getJump(0, "L", evalMove(0, "L"))
         ElseIf gameMode = 1 Then
-            strDir(0) = "L"
+            If strDir(0) = "L" Then
+                Call getTick
+            Else
+                strDir(0) = "L"
+            End If
         End If
     ElseIf KeyCode = key(1) Then 'Up
-        If gameMode <> 1 Or (gameMode = 1 And strDir(0) = "U") Then
+        If gameMode <> 1 Then
             Call getJump(0, "U", evalMove(0, "U"))
         ElseIf gameMode = 1 Then
-            strDir(0) = "U"
+            If strDir(0) = "U" Then
+                Call getTick
+            Else
+                strDir(0) = "U"
+            End If
         End If
     ElseIf KeyCode = key(2) Then 'Right
-        If gameMode <> 1 Or (gameMode = 1 And strDir(0) = "R") Then
+        If gameMode <> 1 Then
             Call getJump(0, "R", evalMove(0, "R"))
         ElseIf gameMode = 1 Then
-            strDir(0) = "R"
+            If strDir(0) = "R" Then
+                Call getTick
+            Else
+                strDir(0) = "R"
+            End If
         End If
     ElseIf KeyCode = key(3) Then 'Down
-        If gameMode <> 1 Or (gameMode = 1 And strDir(0) = "D") Then
+        If gameMode <> 1 Then
             Call getJump(0, "D", evalMove(0, "D"))
         ElseIf gameMode = 1 Then
-            strDir(0) = "D"
+            If strDir(0) = "D" Then
+                Call getTick
+            Else
+                strDir(0) = "D"
+            End If
         End If
     ElseIf KeyCode = key(4) Then 'Action
-        Call getJump(0, strDir(0), evalMove(0, strDir(0)))
+        If gameMode <> 1 Then
+            Call getJump(0, strDir(0), evalMove(0, strDir(0)))
+        Else
+            Call getTick
+        End If
     End If
 End If
 End Sub
@@ -5212,11 +5232,10 @@ If frameCounter(index) > 0 Then 'if jump timer is started
             If gameMode <> 0 And targIndex >= 0 Then
                 If nextX(index) = curX(targIndex) And nextY(index) = curY(targIndex) Then
                     Call getJumpComplete(index, False)
-                    Call getHurt(targIndex, index)
-                    intMoves(index) = intMoves(index) + 1
                     blnBounceJump(index) = True
+                    Call getHurt(targIndex, index)
                     Call getJump(index, strDir(index), evalMove(index, strDir(index)))
-                    intMoves(index) = intMoves(index) - 1
+                    frameCounter(index) = 1
                 ElseIf curX(index) = curY(targIndex) And curX(index) = curY(targIndex) Then
                     Call getJumpComplete(index, False)
                     blnPlayerMoveable(targIndex) = True
@@ -5226,7 +5245,7 @@ If frameCounter(index) > 0 Then 'if jump timer is started
                 For checkPrev = 0 To 3
                     With frmMain
                     If checkPrev <> index And .tmrChar(checkPrev).Enabled Then
-                        If prevX(index) = curX(checkPrev) And prevY(index) = curY(checkPrev) And curX(checkPrev) = nextX(checkPrev) And curY(checkPrev) = nextY(checkPrev) And Not blnEdgeJump(checkPrev) Then
+                        If curX(index) = curX(checkPrev) And curY(index) = curY(checkPrev) And curX(checkPrev) = nextX(checkPrev) And curY(checkPrev) = nextY(checkPrev) And Not blnEdgeJump(checkPrev) Then
                             prevTarg = checkPrev
                             Call getJumpComplete(index, True)
                             blnBounceJump(index) = False

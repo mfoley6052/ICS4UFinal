@@ -32,21 +32,6 @@ With frmMain
                 nextY(index) = curY(index) + 1
             End If
         End If
-        If gameMode = 1 Then
-            If tile(nextX(index), nextY(index)).hasChar Then
-                If curY(index) < nextY(index) Then
-                    frameCounter(index) = 1
-                Else
-                    nextX(index) = curX(index)
-                    nextY(index) = curY(index)
-                End If
-            Else
-                frameCounter(index) = 1
-            End If
-            If index = 0 Then
-                Call getTick
-            End If
-        End If
     End If
 End With
 End Function
@@ -136,7 +121,7 @@ End With
 End Sub
 
 
-Public Function evalMove(index As Integer, ByVal strDirMove As String) As Boolean
+Public Function evalMove(ByVal index As Integer, ByVal strDirMove As String) As Boolean
 If strDirMove = "L" Then
     If oddRow(curY(index)) Then
         If curX(index) = 0 Then
@@ -192,32 +177,64 @@ End Function
 
 Public Sub getTick()
 With frmMain
-Static intMoveCount As Integer
-intMoveCount = intMoveCount + 1
-If intMoveCount >= intMoves(0) Then
-    intMoveCount = 0
-    For C = 1 To 3
-        If nextX(0) = curX(C) And nextY(0) = curY(C) And frameCounter(0) > 0 Then
-            blnPlayerMoveable(C) = False
+Static intMoveCount As Integer 'counter for moves to assign which characters move
+Dim blnMove(0 To 3) As Boolean 'boolean for characters moving on this tick
+Dim highestMove As Integer 'highest move count out of all characters
+highestMove = 1 'set highest move to default
+For moveCheck = 0 To 3
+    If .tmrChar(moveCheck).Enabled Then 'check for highest move and set it
+        If intMoves(moveCheck) > highestMove Then
+            highestMove = intMoves(moveCheck)
         End If
-        For m = 1 To intMoves(C)
-            If .tmrChar(C).Enabled Then
-                Call cpuAI(C)
+    End If
+Next moveCheck
+For moveCheck2 = 0 To 3 'disable blnMove for characters that are not set to move according to higher character speeds
+    If intMoves(moveCheck2) < highestMove - intMoveCount Then
+        blnMove(moveCheck2) = False
+    ElseIf .tmrChar(moveCheck2).Enabled Then
+        blnMove(moveCheck2) = True
+    End If
+Next moveCheck2
+For setMove = 0 To 3
+    If isPlayer(setMove) Then 'if setMove is a player, call getJump (direction change and next values set)
+        Call getJump(setMove, strDir(setMove), evalMove(setMove, strDir(setMove)))
+    Else 'if computer player, call AI (direction change and next values)
+        Call cpuAI(setMove)
+    End If
+    If blnMove(setMove) And tile(nextX(setMove), nextY(setMove)).hasChar Then 'if character can move and next tile has a char
+        For checkMoveable = 0 To 3
+            If checkMoveable <> setMove And blnMove(checkMoveable) Then 'if index is different and checkMoveable char can move
+                'if checkMoveable char is lower on map than setMove char
+                If curY(setMove) < curY(checkMoveable) Then
+                    'if checkMoveable char (lower on map) is jumping where setMove char is jumping
+                    If nextX(checkMoveable) = curX(setMove) And nextY(checkMoveable) = curY(setMove) Then
+                        blnMove(checkMoveable) = False 'checkMoveable char can no longer move
+                    End If
+                End If
             End If
-        Next m
-        If .tmrPow(C).Tag <> "" Then
-            Call getPowTick(C)
-        End If
-    Next C
+        Next checkMoveable
+    End If
+Next setMove
+intMoveCount = intMoveCount + 1 'move count increases by one
+If highestMove - intMoveCount = 1 Then 'reset intMoveCount if it, subtracted from the highest move, is the lowest speed
+    intMoveCount = 0
 End If
-If .tmrPow(0).Tag <> "" Then
-    Call getPowTick(0)
-End If
-For t = 0 To tileCount - 1
+For getMove = 0 To 3 'get movement (or not)
+    If .tmrPow(getMove).Tag <> "" Then 'if corresponding pow timer has a tag (power-up activated), call a tick
+        Call getPowTick(getMove)
+    End If
+    If blnMove(getMove) Then 'if char can move, set it to start animation
+        frameCounter(getMove) = 1
+    Else 'if not, set next values to current values
+        nextX(getMove) = curX(getMove)
+        nextY(getMove) = curY(getMove)
+    End If
+Next getMove
+For t = 0 To tileCount - 1 'check each tile for object, if it has one, call an object timer tick
     If tile(getTileFromInt(True, t), getTileFromInt(False, t)).hasObj Then
         tile(getTileFromInt(True, t), getTileFromInt(False, t)).objTimer = tile(getTileFromInt(True, t), getTileFromInt(False, t)).objTimer + 1
     End If
 Next t
-Call .tmrObjEvent_Timer
+Call .tmrObjEvent_Timer 'call an object to appear
 End With
 End Sub
