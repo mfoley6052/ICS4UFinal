@@ -1,7 +1,4 @@
 Attribute VB_Name = "modStartup"
-Option Explicit
-
-
 Public Sub gameStart()
 With frmMain
 .lblScore.Visible = True
@@ -9,6 +6,41 @@ With frmMain
 .lblMulti.Visible = True
 .PaintPicture frmMain.picEggMask(0).Image, .lblLives.Left - 24, 0, 22, 30, 0, 0, 22, 30, vbSrcAnd
 .PaintPicture frmMain.picEggG(0).Image, .lblLives.Left - 24, 0, 22, 30, 0, 0, 22, 30, vbSrcPaint
+defaultTile(0) = tile(mapWidth - 1, mapHeight - 1)
+defaultTile(1) = tile(0, mapHeight - 1)
+defaultTile(2) = tile(0, 0)
+defaultTile(3) = tile(mapWidth - 1, 0)
+Dim dtVal(0 To 3) As Integer
+For dt = 0 To 3
+    If dt > 0 Then
+        Dim openVal As Boolean
+        Do Until openVal
+            dtVal(dt) = randInt(0, 3)
+            openVal = True
+            For dtv = 0 To dt - 1
+                If dtVal(dt) = dtVal(dtv) Then
+                    openVal = False
+                End If
+            Next dtv
+        Loop
+    Else
+        dtVal(dt) = randInt(0, 3)
+    End If
+    curX(dt) = defaultTile(dtVal(dt)).Xc
+    curY(dt) = defaultTile(dtVal(dt)).Yc
+    defaultTile(dtVal(dt)).hasChar = True
+    If dtVal(dt) = 0 Then
+        strDir(dt) = "L"
+    ElseIf dtVal(dt) = 1 Then
+        strDir(dt) = "U"
+    ElseIf dtVal(dt) = 2 Then
+        strDir(dt) = "R"
+    ElseIf dtVal(dt) = 3 Then
+        strDir(dt) = "D"
+    End If
+    spriteX(dt) = defaultTile(dtVal(dt)).x + 25
+    spriteY(dt) = defaultTile(dtVal(dt)).y - 15
+Next dt
 .tmrChar(0).Enabled = True
 .tmrChar(1).Enabled = True
 .tmrObj.Enabled = True
@@ -29,24 +61,8 @@ blnPlayerMoveable(0) = True
 blnPlayerMoveable(1) = True
 intLives(0) = 3
 intMulti(0) = 1
-curX(0) = (mapWidth - 1) \ 2
-curY(0) = (mapHeight - 1) \ 2
-nextX(0) = (mapWidth - 1) \ 2
-nextY(0) = (mapHeight - 1) \ 2
-curX(1) = 0
-curY(1) = 0
-nextX(1) = 0
-nextY(1) = 0
-tile(curX(0), curY(0)).hasChar = True
-tile(curX(1), curY(1)).hasChar = True
-spriteX(0) = tile(curX(0), curY(0)).x + 25
-spriteY(0) = tile(curX(0), curY(0)).y - 15
-spriteX(1) = tile(curX(1), curY(1)).x + 25
-spriteY(1) = tile(curX(1), curY(1)).y - 15
 strState(0) = "I"
 strState(1) = "I"
-strDir(0) = "L"
-strDir(1) = "R"
 frameLimit(0) = 10
 frameLimit(1) = 10
 frameLimit(2) = 10

@@ -31,6 +31,9 @@ With frmMain
                 End If
                 nextY(index) = curY(index) + 1
             End If
+            If gameMode <> 1 Then
+                frameCounter(index) = 1
+            End If
         End If
     End If
 End With
@@ -41,20 +44,20 @@ temp = Int(Rnd() * 4) + 1
 If temp = 1 Then
     randDir = "L"
 ElseIf temp = 2 Then
-    randDir = "R"
-ElseIf temp = 3 Then
-    randDir = "D"
-Else
     randDir = "U"
+ElseIf temp = 3 Then
+    randDir = "R"
+Else
+    randDir = "D"
 End If
 End Function
-Public Sub getJumpComplete(ByVal index As Integer, ByVal blnBounce As Boolean)
+Public Sub getJumpComplete(ByVal index As Integer)
 Dim pScore As Integer
 Dim q As Integer
 With frmMain
 prevX(index) = curX(index)
 prevY(index) = curY(index)
-If Not blnBounce Then
+If Not blnBounceJump(index) Then
     tile(curX(index), curY(index)).hasChar = False
 End If
 If (index = 0 And blnPlayerMoveable(index)) Or index > 0 Then
@@ -92,7 +95,7 @@ If index = 0 Then
                 blnLives = True
             End If
         End If
-    ElseIf blnBounce Then 'jumping on enemy
+    ElseIf blnBounceJump(index) Then 'jumping on enemy
         pScore = 1000
     End If
     If inputTile.terType = "G" Then
@@ -123,27 +126,27 @@ End Sub
 
 Public Function evalMove(ByVal index As Integer, ByVal strDirMove As String) As Boolean
 If strDirMove = "L" Then
-    If oddRow(curY(index)) Then
-        If curX(index) = 0 Then
-            evalMove = False
+    If oddRow(curY(index)) And curY(index) > 0 Then
+        If curX(index) > 0 Then
+            evalMove = True
         ElseIf curY(index) < mapWidth Then
             evalMove = True
         Else
             evalMove = False
         End If
-    ElseIf curY(index) > 0 Then
+    ElseIf curX(index) > 0 Then
         evalMove = True
     Else
         evalMove = False
     End If
 ElseIf strDirMove = "U" Then
     If oddRow(curY(index)) Then
-        If curX(index) < mapWidth Then
+        If curX(index) < mapWidth And curY(index) > 0 Then
             evalMove = True
         Else
             evalMove = False
         End If
-    ElseIf curX(index) < (mapWidth) And curY(index) > 0 Then
+    ElseIf curX(index) < (mapWidth - 1) Then
         evalMove = True
     Else
         evalMove = False
@@ -152,10 +155,10 @@ ElseIf strDirMove = "R" Then
     If oddRow(curY(index)) Then
         If curX(index) = mapWidth Then
             evalMove = False
-        ElseIf curY(index) > 0 Then
+        ElseIf curY(index) < mapHeight - 1 Then
             evalMove = True
         End If
-    ElseIf curY(index) < (mapWidth - 1) And curX(index) < mapWidth Then
+    ElseIf curY(index) < (mapHeight - 1) And curX(index) < mapWidth Then
         evalMove = True
     Else
         evalMove = False
@@ -201,21 +204,25 @@ For setMove = 0 To 3
     Else 'if computer player, call AI (direction change and next values)
         Call cpuAI(setMove)
     End If
-    If blnMove(setMove) And tile(nextX(setMove), nextY(setMove)).hasChar Then 'if character can move and next tile has a char
+Next setMove
+For moveCheck3 = 0 To 3
+    If blnMove(moveCheck3) And tile(nextX(moveCheck3), nextY(moveCheck3)).hasChar Then 'if character can move and next tile has a char
         For checkMoveable = 0 To 3
-            If checkMoveable <> setMove And blnMove(checkMoveable) Then 'if index is different and checkMoveable char can move
-                If curY(setMove) < curY(checkMoveable) Then 'if checkMoveable char is lower on map than setMove char
-                    'if checkMoveable char (lower on map) is jumping where setMove char is jumping
-                    If nextX(checkMoveable) = curX(setMove) And nextY(checkMoveable) = curY(setMove) Then
-                        blnMove(checkMoveable) = False 'checkMoveable char can no longer move
+            If checkMoveable <> moveCheck3 Then
+                If blnMove(checkMoveable) Then 'if index is different and checkMoveable char can move
+                    If curY(moveCheck3) < curY(checkMoveable) Then 'if checkMoveable char is lower on map than moveCheck3 char
+                        'if checkMoveable char (lower on map) is jumping where moveCheck3 char is jumping
+                        If nextX(checkMoveable) = curX(moveCheck3) And nextY(checkMoveable) = curY(moveCheck3) Then
+                            blnMove(checkMoveable) = False 'checkMoveable char can no longer move
+                        End If
                     End If
+                ElseIf Not blnMove(checkMoveable) And .tmrChar(checkMoveable).Enabled Then
+                    blnMove(checkMoveable) = False 'if checkMoveable char can't move but is enabled, checkMoveable char can't move
                 End If
-            ElseIf Not blnMove(checkMoveable) And .tmrChar(checkMoveable).Enabled Then
-                blnMove(checkMoveable) = False 'if checkMoveable char can't move but is enabled, charMoveable char can't move
             End If
         Next checkMoveable
     End If
-Next setMove
+Next moveCheck3
 intMoveCount = intMoveCount + 1 'move count increases by one
 If highestMove - intMoveCount = 1 Then 'reset intMoveCount if it, subtracted from the highest move, is the lowest speed
     intMoveCount = 0

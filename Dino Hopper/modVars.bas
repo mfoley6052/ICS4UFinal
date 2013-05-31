@@ -21,6 +21,7 @@ Public prevX(0 To 3) As Integer
 Public prevY(0 To 3) As Integer
 Public nextX(0 To 3) As Integer
 Public nextY(0 To 3) As Integer
+Public defaultTile(0 To 3) As terrain
 Public intMoves(0 To 3) As Integer
 Public blnRecover(0 To 3) As Boolean
 Public objExpire As Integer

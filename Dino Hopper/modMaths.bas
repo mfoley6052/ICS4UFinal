@@ -188,7 +188,7 @@ getAbs = valInput
 End Function
 
 Public Function randInt(ByVal min As Integer, ByVal max As Integer) As Integer
-randInt = Int(Rnd() * max) + min + 1
+randInt = Int(Rnd() * max) + min
 End Function
 
 Public Function oddRow(ByVal intY As Integer) As Boolean
