@@ -126,27 +126,27 @@ End Sub
 
 Public Function evalMove(ByVal index As Integer, ByVal strDirMove As String) As Boolean
 If strDirMove = "L" Then
-    If oddRow(curY(index)) And curY(index) > 0 Then
-        If curX(index) > 0 Then
-            evalMove = True
+    If oddRow(curY(index)) Then
+        If curX(index) = 0 Then
+            evalMove = False
         ElseIf curY(index) < mapWidth Then
             evalMove = True
         Else
             evalMove = False
         End If
-    ElseIf curX(index) > 0 Then
+    ElseIf curY(index) > 0 Then
         evalMove = True
     Else
         evalMove = False
     End If
 ElseIf strDirMove = "U" Then
     If oddRow(curY(index)) Then
-        If curX(index) < mapWidth And curY(index) > 0 Then
+        If curX(index) < mapWidth Then
             evalMove = True
         Else
             evalMove = False
         End If
-    ElseIf curX(index) < (mapWidth - 1) Then
+    ElseIf curX(index) < (mapWidth) And curY(index) > 0 Then
         evalMove = True
     Else
         evalMove = False
@@ -155,10 +155,10 @@ ElseIf strDirMove = "R" Then
     If oddRow(curY(index)) Then
         If curX(index) = mapWidth Then
             evalMove = False
-        ElseIf curY(index) < mapHeight - 1 Then
+        ElseIf curY(index) > 0 Then
             evalMove = True
         End If
-    ElseIf curY(index) < (mapHeight - 1) And curX(index) < mapWidth Then
+    ElseIf curY(index) < (mapWidth - 1) And curX(index) < mapWidth Then
         evalMove = True
     Else
         evalMove = False
