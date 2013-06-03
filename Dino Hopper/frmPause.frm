@@ -159,25 +159,31 @@ With frmMain
         tempTag(4) = .tmrTileAnimDelay.Enabled
         .tmrTileAnimDelay.Enabled = setVal
     End If
-    For x = 0 To 3
-        If .tmrChar(x).Enabled = True Or tempTag(5 + x) = "True" Then
-            tempTag(5 + x) = .tmrChar(x).Enabled
-            .tmrChar(x).Enabled = setVal
+    For X = 0 To 3
+        If .tmrChar(X).Enabled = True Or tempTag(5 + X) = "True" Then
+            tempTag(5 + X) = .tmrChar(X).Enabled
+            .tmrChar(X).Enabled = setVal
         End If
-        If .tmrPow(x).Enabled = True Or tempTag(9 + x) = "True" Then
-            tempTag(9 + x) = .tmrPow(x).Enabled
-            .tmrPow(x).Enabled = setVal
+        If .tmrPow(X).Enabled = True Or tempTag(9 + X) = "True" Then
+            tempTag(9 + X) = .tmrPow(X).Enabled
+            .tmrPow(X).Enabled = setVal
         End If
-    Next x
-    For x = 1 To 3
-        If .tmrCPUMove(x).Enabled = True Or tempTag(12 + x) = "True" Then
-            tempTag(12 + x) = .tmrCPUMove(x).Enabled
-            .tmrCPUMove(x).Enabled = setVal
+    Next X
+    For X = 1 To 3
+        If .tmrCPUMove(X).Enabled = True Or tempTag(12 + X) = "True" Then
+            tempTag(12 + X) = .tmrCPUMove(X).Enabled
+            .tmrCPUMove(X).Enabled = setVal
         End If
-    Next x
+    Next X
     
 End With
 End Function
+
+Private Sub Form_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+If Y > lblGo.Top And Y < (lblGo.Top + lblGo.Height) And X > lblGo.Left And X < lblGo.Left + lblGo.Width Then
+    Call lblGo_Click
+End If
+End Sub
 
 Private Sub lblGo_Click()
 Call ChangeTimers("Go")
