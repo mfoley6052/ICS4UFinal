@@ -5208,10 +5208,7 @@ If frameCounter(index) > 0 Then 'if jump timer is started
             For charIndex = 0 To 3
                 With frmMain
                 If charIndex <> index And .tmrChar(charIndex).Enabled Then
-                    If nextX(index) = curX(charIndex) And nextY(index) = curY(charIndex) And curX(charIndex) = nextX(charIndex) And curY(charIndex) = nextY(charIndex) Then
-                        targIndex = charIndex
-                        Call getCharJumpAnim(index, frameCounter(index), tile(curX(index), curY(index)), nextTile.x, spriteY(targIndex))
-                    ElseIf curX(index) = curX(charIndex) And curY(index) = curY(charIndex) Then
+                    If nextX(index) = nextX(charIndex) And nextY(index) = nextY(charIndex) Then
                         targIndex = charIndex
                         Call getCharJumpAnim(index, frameCounter(index), tile(curX(index), curY(index)), nextTile.x, spriteY(targIndex))
                     End If
@@ -5230,27 +5227,22 @@ If frameCounter(index) > 0 Then 'if jump timer is started
             frameCounter(index) = 0
             blnPlayerMoveable(index) = True
             If gameMode <> 0 And targIndex >= 0 Then
-                If nextX(index) = curX(targIndex) And nextY(index) = curY(targIndex) Then
-                    blnBounceJump(index) = True
-                    Call getJumpComplete(index)
-                    If Not blnRecover(targIndex) Then
-                        Call getHurt(targIndex, index)
-                    End If
-                    Call getJump(index, strDir(index), evalMove(index, strDir(index)))
-                    frameCounter(index) = 1
-                ElseIf curX(index) = curY(targIndex) And curX(index) = curY(targIndex) Then
-                    Call getJumpComplete(index)
-                    blnPlayerMoveable(targIndex) = True
+                blnBounceJump(index) = True
+                Call getJumpComplete(index)
+                If Not blnRecover(targIndex) Then
+                    Call getHurt(targIndex, index)
                 End If
+                Call getJump(index, strDir(index), evalMove(index, strDir(index)))
+                frameCounter(index) = 1
             ElseIf blnBounceJump(index) Then
                 Dim prevTarg As Integer
                 For checkPrev = 0 To 3
                     With frmMain
                     If checkPrev <> index And .tmrChar(checkPrev).Enabled Then
-                        If curX(index) = curX(checkPrev) And curY(index) = curY(checkPrev) And curX(checkPrev) = nextX(checkPrev) And curY(checkPrev) = nextY(checkPrev) And Not blnEdgeJump(checkPrev) Then
+                        If curX(index) = curX(checkPrev) And curY(index) = curY(checkPrev) And Not blnEdgeJump(checkPrev) Then
                             prevTarg = checkPrev
                             Call getJumpComplete(index)
-                            blnPlayerMoveable(checkPrev) = True
+                            blnPlayerMoveable(prevTarg) = True
                         End If
                     End If
                     End With

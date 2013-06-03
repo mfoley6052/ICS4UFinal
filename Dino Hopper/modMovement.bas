@@ -218,21 +218,17 @@ For setMove = 0 To 3
     End If
 Next setMove
 For moveCheck3 = 0 To 3
-    If blnMove(moveCheck3) And tile(nextX(moveCheck3), nextY(moveCheck3)).hasChar Then 'if character can move and next tile has a char
-        For checkMoveable = 0 To 3
-            If checkMoveable <> moveCheck3 Then
-                If blnMove(checkMoveable) Then 'if index is different and checkMoveable char can move
-                    If curY(moveCheck3) < curY(checkMoveable) Then 'if checkMoveable char is lower on map than moveCheck3 char
-                        'if checkMoveable char (lower on map) is jumping where moveCheck3 char is jumping
-                        If nextX(checkMoveable) = curX(moveCheck3) And nextY(checkMoveable) = curY(moveCheck3) Then
-                            blnMove(checkMoveable) = False 'checkMoveable char can no longer move
-                        End If
+    If blnMove(moveCheck3) Then 'if character can move
+        For checkTarg = 0 To 3
+            If checkTarg <> moveCheck3 And .tmrChar(checkTarg).Enabled Then 'if index is different and checkTarg char is active
+                'if checkMove3 char and checkTarg char are moving toward eachother
+                If nextX(moveCheck3) = curX(checkTarg) And nextY(moveCheck3) = curY(checkTarg) And curX(moveCheck3) = nextX(checkTarg) And curY(moveCheck3) = nextY(checkTarg) Then
+                    If curY(moveCheck3) < curY(checkTarg) Then 'if checkTarg char is lower on map
+                        blnMove(checkTarg) = False 'checkTarg char can no longer move
                     End If
-                ElseIf Not blnMove(checkMoveable) And .tmrChar(checkMoveable).Enabled Then
-                    blnMove(checkMoveable) = False 'if checkMoveable char can't move but is enabled, checkMoveable char can't move
                 End If
             End If
-        Next checkMoveable
+        Next checkTarg
     End If
 Next moveCheck3
 intMoveCount = intMoveCount + 1 'move count increases by one
