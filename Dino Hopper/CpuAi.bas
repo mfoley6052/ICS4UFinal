@@ -3,51 +3,59 @@ Attribute VB_Name = "modCpuAi"
 Public Function cpuAI(ByVal index As Integer)
 Static counter As Long
 Dim temp As String
+Dim target As Integer
 counter = counter + 1
 temp = randDir
-If curX(index) > curX(0) And curY(index) > curY(0) Then
+For X = 0 To 3
+    If isPlayer(X) Then
+        If Abs(curX(index) - curX(X)) + Abs(curY(index) - curY(X)) < Abs(curX(index) - curX(target)) + Abs(curY(index) - curY(target)) Then
+            target = X
+        End If
+    End If
+Next X
+If curX(index) > curX(target) And curY(index) > curY(target) Then
     If evalMove(index, "L") Then
         Call getJump(index, "L", evalMove(index, "L"))
     Else
         Call getJump(index, temp, evalMove(index, temp))
     End If
-ElseIf curX(index) > curX(0) And curY(index) < curY(0) Then
+ElseIf curX(index) > curX(target) And curY(index) < curY(target) Then
     If evalMove(index, "D") Then
         Call getJump(index, "D", evalMove(index, "D"))
     Else
         Call getJump(index, temp, evalMove(index, temp))
     End If
-ElseIf curX(index) < curX(0) And curY(index) > curY(0) Then
+ElseIf curX(index) < curX(target) And curY(index) > curY(target) Then
     If evalMove(index, "U") Then
         Call getJump(index, "U", evalMove(index, "U"))
     Else
         Call getJump(index, temp, evalMove(index, temp))
     End If
-ElseIf curX(index) < curX(0) And curY(index) < curY(0) Then
+ElseIf curX(index) < curX(target) And curY(index) < curY(target) Then
     If evalMove(index, "R") Then
         Call getJump(index, "R", evalMove(index, "R"))
     Else
         Call getJump(index, temp, evalMove(index, temp))
     End If
-ElseIf curY(index) > curY(0) And curX(index) = curX(0) Then
+ElseIf curY(index) > curY(target) And curX(index) = curX(target) Then
     If evalMove(index, "L") Then
         Call getJump(index, "L", evalMove(index, "L"))
     Else
         Call getJump(index, temp, evalMove(index, temp))
     End If
-ElseIf curY(index) < curY(0) And curX(index) = curX(0) Then
+ElseIf curY(index) < curY(target) And curX(index) = curX(target) Then
     If evalMove(index, "R") Then
         Call getJump(index, "R", evalMove(index, "R"))
     Else
         Call getJump(index, temp, evalMove(index, temp))
     End If
-ElseIf curX(index) > curX(0) And curY(index) = curY(0) Then
+ElseIf curX(index) > curX(target) And curY(index) = curY(target) Then
     If evalMove(index, "D") Then
         Call getJump(index, "D", evalMove(index, "D"))
     Else
         Call getJump(index, temp, evalMove(index, temp))
     End If
-ElseIf curX(index) < curX(0) And curY(index) = curY(0) Then
+ElseIf curX(index) < curX(target) And curY(index) = curY(target) Then
     If evalMove(index, "U") Then
         Call getJump(index, "U", evalMove(index, "U"))
     Else
