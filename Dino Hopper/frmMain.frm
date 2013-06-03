@@ -5188,8 +5188,8 @@ End If
 If frameCounter(index) > 0 Then 'if jump timer is started
     Call charAction(index, tile(nextX(index), nextY(index)))
 Else
-    spriteX(index) = tile(curX(index), curY(index)).x + 25
-    spriteY(index) = tile(curX(index), curY(index)).y - 15
+    spriteX(index) = tile(curX(index), curY(index)).X + 25
+    spriteY(index) = tile(curX(index), curY(index)).Y - 15
 End If
 If blnRev(index) = False Then
     picCount(index) = picCount(index) + 1
@@ -5209,11 +5209,11 @@ End Sub
 
 Private Sub tmrTileAnim_Timer()
 Static intCounter As Integer
-For x = 0 To tileCount - 1
-    If tileSwitch(x) = True And intCounter - (1 * ((tileCount - 1) - x)) <= 8 Then
-        Call getTileAnim(intCounter - (1 * ((tileCount - 1) - x)), tile(getTileFromInt(True, x), getTileFromInt(False, x)))
+For X = 0 To tileCount - 1
+    If tileSwitch(X) = True And intCounter - (1 * ((tileCount - 1) - X)) <= 8 Then
+        Call getTileAnim(intCounter - (1 * ((tileCount - 1) - X)), tile(getTileFromInt(True, X), getTileFromInt(False, X)))
     End If
-Next x
+Next X
 intCounter = intCounter + 1
 End Sub
 

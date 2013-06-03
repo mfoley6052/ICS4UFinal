@@ -6,8 +6,10 @@ Public strDir(0 To 3) As String
 Public blnPlayerMoveable(0 To 3) As Boolean
 Public blnEdgeJump(0 To 3) As Boolean
 Public blnBounceJump(0 To 3) As Boolean
+Public blnMoveOnTick(0 To 3) As Boolean
 Public counterLimit(1 To 3) As Integer
 Public frameCounter(0 To 3) As Integer
+Public frameProg(0 To 3) As Integer
 Public frameLimit(0 To 3) As Integer
 Public strState(0 To 3) As String
 Public intScore(0 To 1) As Long
@@ -21,6 +23,7 @@ Public prevX(0 To 3) As Integer
 Public prevY(0 To 3) As Integer
 Public nextX(0 To 3) As Integer
 Public nextY(0 To 3) As Integer
+Public targIndex(0 To 3) As Integer
 Public defaultTile(0 To 3) As terrain
 Public intMoves(0 To 3) As Integer
 Public blnRecover(0 To 3) As Boolean

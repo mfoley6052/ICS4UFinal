@@ -38,8 +38,8 @@ For dt = 0 To 3
     ElseIf dtVal(dt) = 3 Then
         strDir(dt) = "D"
     End If
-    spriteX(dt) = defaultTile(dtVal(dt)).x + 25
-    spriteY(dt) = defaultTile(dtVal(dt)).y - 15
+    spriteX(dt) = defaultTile(dtVal(dt)).X + 25
+    spriteY(dt) = defaultTile(dtVal(dt)).Y - 15
 Next dt
 .tmrChar(0).Enabled = True
 .tmrChar(1).Enabled = True
@@ -67,6 +67,10 @@ frameLimit(0) = 10
 frameLimit(1) = 10
 frameLimit(2) = 10
 frameLimit(3) = 10
+frameProg(0) = 1
+frameProg(1) = 1
+frameProg(2) = 1
+frameProg(3) = 1
 End With
 End Sub
 
