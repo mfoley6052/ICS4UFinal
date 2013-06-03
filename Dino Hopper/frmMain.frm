@@ -5017,7 +5017,7 @@ ElseIf KeyCode = 122 Then 'F11
         frmSettings.Visible = False
     End If
 ElseIf KeyCode = 27 Then 'Esc
-    frmPause.Show
+    frmPause.Show vbModal
 End If
 End Sub
 

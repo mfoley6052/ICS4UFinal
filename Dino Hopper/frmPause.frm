@@ -13,7 +13,6 @@ Begin VB.Form frmPause
    ScaleWidth      =   11565
    Begin VB.Label lblQuit 
       Alignment       =   2  'Center
-      BackStyle       =   0  'Transparent
       Caption         =   "Quit"
       BeginProperty Font 
          Name            =   "Monospac821 BT"
@@ -33,7 +32,6 @@ Begin VB.Form frmPause
    End
    Begin VB.Label lblMenu 
       Alignment       =   2  'Center
-      BackStyle       =   0  'Transparent
       Caption         =   "Main Menu"
       BeginProperty Font 
          Name            =   "Monospac821 BT"
@@ -53,7 +51,6 @@ Begin VB.Form frmPause
    End
    Begin VB.Label lblOpt 
       Alignment       =   2  'Center
-      BackStyle       =   0  'Transparent
       Caption         =   "Options"
       BeginProperty Font 
          Name            =   "Monospac821 BT"
@@ -73,7 +70,6 @@ Begin VB.Form frmPause
    End
    Begin VB.Label lblGo 
       Alignment       =   2  'Center
-      BackStyle       =   0  'Transparent
       Caption         =   "Continue"
       BeginProperty Font 
          Name            =   "Monospac821 BT"
@@ -121,10 +117,10 @@ Private Const LWA_ALPHA = &H2
 'Sets any thing that is vbCyan to transparent and sets the background to cyan
 Private Sub Form_Load()
     Me.BackColor = vbCyan
-'    lblMenu.BackColor = vbCyan
-'    lblGo.BackColor = vbCyan
-'    lblQuit.BackColor = vbCyan
-'    lblOpt.BackColor = vbCyan
+    lblGo.BackColor = vbCyan
+    lblOpt.BackColor = vbCyan
+    lblQuit.BackColor = vbCyan
+    lblMenu.BackColor = vbCyan
     SetWindowLong Me.hwnd, GWL_EXSTYLE, GetWindowLong(Me.hwnd, GWL_EXSTYLE) Or WS_EX_LAYERED
     SetLayeredWindowAttributes Me.hwnd, vbCyan, 0&, LWA_COLORKEY
     frmPause.Left = frmMain.Left
@@ -135,45 +131,47 @@ Private Sub Form_Load()
 End Sub
 Private Function ChangeTimers(ByVal io As String)
 Dim setVal As Boolean
+Static tempTag(15) As Boolean
+
 If io = "Pause" Then
     setVal = False
 Else
     setVal = True
 End If
 With frmMain
-    If .tmrAlternate.Enabled = True Or .tmrAlternate.Tag = "True" Then
-        .tmrAlternate.Tag = .tmrAlternate.Enabled
+    If .tmrAlternate.Enabled = True Or tempTag(0) Then
+        tempTag(0) = .tmrAlternate.Enabled
         .tmrAlternate.Enabled = setVal
     End If
-    If .tmrObj.Enabled = True Or .tmrObj.Tag = "True" Then
-        .tmrObj.Tag = .tmrObj.Enabled
+    If .tmrObj.Enabled = True Or tempTag(1) Then
+        tempTag(1) = .tmrObj.Enabled
         .tmrObj.Enabled = setVal
     End If
-    If .tmrObjEvent.Enabled = True Or .tmrObjEvent.Tag = "True" Then
-        .tmrObjEvent.Tag = .tmrObjEvent.Enabled
+    If .tmrObjEvent.Enabled = True Or tempTag(2) Then
+       tempTag(2) = .tmrObjEvent.Enabled
         .tmrObjEvent.Enabled = setVal
     End If
-    If .tmrTileAnim.Enabled = True Or .tmrTileAnim.Tag = "True" Then
-        .tmrTileAnim.Tag = .tmrTileAnim.Enabled
+    If .tmrTileAnim.Enabled = True Or tempTag(3) Then
+        tempTag(3) = .tmrTileAnim.Enabled
         .tmrTileAnim.Enabled = setVal
     End If
-    If .tmrTileAnimDelay.Enabled = True Or .tmrTileAnimDelay.Tag = "True" Then
-        .tmrTileAnimDelay.Tag = .tmrTileAnimDelay.Enabled
+    If .tmrTileAnimDelay.Enabled = True Or tempTag(4) = "True" Then
+        tempTag(4) = .tmrTileAnimDelay.Enabled
         .tmrTileAnimDelay.Enabled = setVal
     End If
     For x = 0 To 3
-        If .tmrChar(x).Enabled = True Or .tmrChar(x).Tag = "True" Then
-            .tmrChar(x).Tag = .tmrChar(x).Enabled
+        If .tmrChar(x).Enabled = True Or tempTag(5 + x) = "True" Then
+            tempTag(5 + x) = .tmrChar(x).Enabled
             .tmrChar(x).Enabled = setVal
         End If
-        If .tmrPow(x).Enabled = True Or .tmrPow(x).Tag = "True" Then
-            .tmrPow(x).Tag = .tmrPow(x).Enabled
+        If .tmrPow(x).Enabled = True Or tempTag(9 + x) = "True" Then
+            tempTag(9 + x) = .tmrPow(x).Enabled
             .tmrPow(x).Enabled = setVal
         End If
     Next x
     For x = 1 To 3
-        If .tmrCPUMove(x).Enabled = True Or .tmrCPUMove(x).Tag = "True" Then
-            .tmrCPUMove(x).Tag = .tmrCPUMove(x).Enabled
+        If .tmrCPUMove(x).Enabled = True Or tempTag(12 + x) = "True" Then
+            tempTag(12 + x) = .tmrCPUMove(x).Enabled
             .tmrCPUMove(x).Enabled = setVal
         End If
     Next x
@@ -183,6 +181,7 @@ End Function
 
 Private Sub lblGo_Click()
 Call ChangeTimers("Go")
+Me.Hide
 frmMain.Show
 Unload Me
 End Sub
