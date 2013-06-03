@@ -1,8 +1,8 @@
 Attribute VB_Name = "modMovement"
-Public Sub charAction(ByVal index As Integer, nextTile As terrain)
-If frameCounter(index) = 1 Then
+Public Sub charAction(ByVal index As Integer, nextTile As terrain, ByVal intCharFrame As Integer)
+If intCharFrame = 1 Then
     strState(index) = "C"
-ElseIf frameCounter(index) = 5 Then
+ElseIf intCharFrame = 5 Then
     strState(index) = "J"
 End If
 If Not blnEdgeJump(index) Then
@@ -11,28 +11,29 @@ If Not blnEdgeJump(index) Then
         targIndex = -1
     End If
     If Not tile(nextX(index), nextY(index)).hasChar Or gameMode = 0 Then
-        Call getCharJumpAnim(index, frameCounter(index), tile(curX(index), curY(index)), nextTile.x, nextTile.y)
+        Call getCharJumpAnim(index, intCharFrame, tile(curX(index), curY(index)), nextTile.x, nextTile.y)
     ElseIf gameMode <> 0 Then
         For charIndex = 0 To 3
             With frmMain
             If charIndex <> index And .tmrChar(charIndex).Enabled Then
                 If nextX(index) = nextX(charIndex) And nextY(index) = nextY(charIndex) Then
                     targIndex = charIndex
-                    Call getCharJumpAnim(index, frameCounter(index), tile(curX(index), curY(index)), nextTile.x, spriteY(targIndex))
+                    Call getCharJumpAnim(index, intCharFrame, tile(curX(index), curY(index)), nextTile.x, spriteY(targIndex))
                 End If
             End If
             End With
         Next charIndex
     End If
     If targIndex < 0 Then
-        Call getCharJumpAnim(index, frameCounter(index), tile(curX(index), curY(index)), tile(nextX(index), nextY(index)).x, tile(nextX(index), nextY(index)).y)
+        Call getCharJumpAnim(index, intCharFrame, tile(curX(index), curY(index)), tile(nextX(index), nextY(index)).x, tile(nextX(index), nextY(index)).y)
     End If
     Call PaintCharSprite(index, spriteX(index), spriteY(index))
-    If frameCounter(index) = 10 Then
+    If intCharFrame = 10 Then
         strState(index) = "I"
     End If
-    If frameCounter(index) = frameLimit(index) Then
-        frameCounter(index) = 0
+    If intCharFrame = frameLimit(index) Then
+        intCharFrame = 0
+        frameCounter(index) = intCharFrame
         blnPlayerMoveable(index) = True
         If gameMode <> 0 And targIndex >= 0 Then
             blnBounceJump(index) = True
@@ -41,7 +42,7 @@ If Not blnEdgeJump(index) Then
                 Call getHurt(targIndex, index)
             End If
             Call getJump(index, strDir(index), evalMove(index, strDir(index)))
-            frameCounter(index) = 1
+            intCharFrame = 1
         ElseIf blnBounceJump(index) Then
             Dim prevTarg As Integer
             For checkPrev = 0 To 3
@@ -60,14 +61,15 @@ If Not blnEdgeJump(index) Then
             Call getJumpComplete(index)
         End If
     Else
-        frameCounter(index) = frameCounter(index) + 1
+        intCharFrame = intCharFrame + 1
+        frameCounter(index) = intCharFrame
     End If
 Else 'jump off edge
     Dim curTile As terrain
     curTile = tile(curX(index), curY(index))
     Dim altTile As terrain
     If strDir(index) = "L" Then
-        Call getCharJumpAnim(index, frameCounter(index), tile(curX(index), curY(index)), tile(curX(index), curY(index)).x - 50, tile(curX(index), curY(index)).y - 75)
+        Call getCharJumpAnim(index, intCharFrame, tile(curX(index), curY(index)), tile(curX(index), curY(index)).x - 50, tile(curX(index), curY(index)).y - 75)
         If curY(index) = 0 Then
             If spriteY(index) < curTile.y + 50 Or (spriteX(index) > -35 And spriteX(index) < tile(mapWidth - 1, 0).x + 135 And spriteY(index) < curTile.y + 25) Then
                 Call PaintCharSprite(index, spriteX(index), spriteY(index))
@@ -84,7 +86,7 @@ Else 'jump off edge
             Call PaintCharSprite(index, spriteX(index), spriteY(index))
         End If
     ElseIf strDir(index) = "U" Then
-        Call getCharJumpAnim(index, frameCounter(index), curTile, curTile.x + 50, curTile.y - 75)
+        Call getCharJumpAnim(index, intCharFrame, curTile, curTile.x + 50, curTile.y - 75)
         If curY(index) = 0 Then
             If spriteY(index) < curTile.y + 50 Or (spriteX(index) > -35 And spriteX(index) < tile(mapWidth - 1, 0).x + 135 And spriteY(index) < curTile.y + 25) Then
                 Call PaintCharSprite(index, spriteX(index), spriteY(index))
@@ -101,7 +103,7 @@ Else 'jump off edge
             Call PaintCharSprite(index, spriteX(index), spriteY(index))
         End If
     ElseIf strDir(index) = "R" Then
-        Call getCharJumpAnim(index, frameCounter(index), curTile, curTile.x + 50, curTile.y + 75)
+        Call getCharJumpAnim(index, intCharFrame, curTile, curTile.x + 50, curTile.y + 75)
         If curX(index) = mapWidth And curY(index) > 0 Then
             Call clearTile(curTile, True, index, "CharSide+X+Y")
         ElseIf curY(index) = mapHeight - 1 Then
@@ -109,7 +111,7 @@ Else 'jump off edge
         End If
         Call PaintCharSprite(index, spriteX(index), spriteY(index))
     ElseIf strDir(index) = "D" Then
-        Call getCharJumpAnim(index, frameCounter(index), curTile, curTile.x - 50, curTile.y + 75)
+        Call getCharJumpAnim(index, intCharFrame, curTile, curTile.x - 50, curTile.y + 75)
         If curX(index) = 0 And (curY(index) > 0 And curY(index) < mapHeight - 1) Then
             Call clearTile(curTile, True, index, "CharSide-X+Y")
         ElseIf curY(index) = mapHeight - 1 Then
@@ -117,9 +119,10 @@ Else 'jump off edge
         End If
         Call PaintCharSprite(index, spriteX(index), spriteY(index))
     End If
-    If frameCounter(index) = frameLimit(index) * 1.6 Then
+    If intCharFrame = frameLimit(index) * 1.6 Then
         strState(index) = "I"
-        frameCounter(index) = 0
+        intCharFrame = 0
+        frameCounter(index) = intCharFrame
         blnPlayerMoveable(0) = True
         Call getHurt(index, index)
         Call getJumpComplete(index)
@@ -127,7 +130,8 @@ Else 'jump off edge
         spriteX(index) = curTile.x + 25
         spriteY(index) = curTile.y - 15
     Else
-        frameCounter(index) = frameCounter(index) + 1
+        intCharFrame = intCharFrame + 1
+        frameCounter(index) = intCharFrame
     End If
 End If
 End Sub

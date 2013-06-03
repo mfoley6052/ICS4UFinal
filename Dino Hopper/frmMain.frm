@@ -5186,7 +5186,7 @@ If frameCounter(index) = 0 Then
     Call PaintCharSprite(index, spriteX(index), spriteY(index))
 End If
 If frameCounter(index) > 0 Then 'if jump timer is started
-    Call charAction(index, tile(nextX(index), nextY(index)))
+    Call charAction(index, tile(nextX(index), nextY(index)), frameCounter(index))
 Else
     spriteX(index) = tile(curX(index), curY(index)).x + 25
     spriteY(index) = tile(curX(index), curY(index)).y - 15
