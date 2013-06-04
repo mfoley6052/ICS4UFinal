@@ -41,3 +41,5 @@ Public key() As Integer
 Public DefaultKey() As Integer
 Public cpuInterval As Integer
 Public picBG As Object
+Public numPlayers As Integer
+

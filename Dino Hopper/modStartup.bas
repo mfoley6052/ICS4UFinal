@@ -38,7 +38,7 @@ For dt = 0 To 3
     ElseIf dtVal(dt) = 3 Then
         strDir(dt) = "D"
     End If
-    spriteX(dt) = defaultTile(dtVal(dt)).X + 25
+    spriteX(dt) = defaultTile(dtVal(dt)).x + 25
     spriteY(dt) = defaultTile(dtVal(dt)).Y - 15
 Next dt
 .tmrChar(0).Enabled = True
@@ -50,6 +50,8 @@ If gameMode <> 1 Then
     objExpire = 125
     .tmrCPUMove(1).Enabled = True
     counterLimit(1) = 1 'cpu 1 moves every (counterLimit + 1) seconds
+    .tmrCPUMove(2).Enabled = True
+    counterLimit(2) = 1
     tmrPowLimit = 20
 ElseIf gameMode = 1 Then
     objExpire = 8
@@ -75,6 +77,7 @@ frameProg(0) = 1
 frameProg(1) = 1
 frameProg(2) = 1
 frameProg(3) = 1
+numPlayers = 1
 End With
 End Sub
 

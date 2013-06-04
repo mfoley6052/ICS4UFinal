@@ -1,18 +1,21 @@
 Attribute VB_Name = "modCpuAi"
 
 Public Function cpuAI(ByVal index As Integer)
+
 Static counter As Long
 Dim temp As String
 Dim target As Integer
 counter = counter + 1
 temp = randDir
-For X = 0 To 3
-    If isPlayer(X) Then
-        If Abs(curX(index) - curX(X)) + Abs(curY(index) - curY(X)) < Abs(curX(index) - curX(target)) + Abs(curY(index) - curY(target)) Then
-            target = X
+If numPlayers <> 1 Then
+    For x = 0 To 3
+        If isPlayer(x) Then
+            If Abs(curX(index) - curX(x)) + Abs(curY(index) - curY(x)) < Abs(curX(index) - curX(target)) + Abs(curY(index) - curY(target)) Then
+                target = x
+            End If
         End If
-    End If
-Next X
+    Next x
+End If
 If curX(index) > curX(target) And curY(index) > curY(target) Then
     If evalMove(index, "L") Then
         Call getJump(index, "L", evalMove(index, "L"))
