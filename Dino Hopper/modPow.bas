@@ -21,6 +21,7 @@ ElseIf strType = "Speed" Then
         End If
     Else
         intMoves(index) = 2
+        intMoveCount = 0
     End If
 ElseIf strType = "Freeze" Then
     .tmrChar(index).Tag = strType

@@ -29,7 +29,7 @@ For dt = 0 To 3
     End If
     curX(dt) = defaultTile(dtVal(dt)).Xc
     curY(dt) = defaultTile(dtVal(dt)).Yc
-    defaultTile(dtVal(dt)).hasChar = True
+    tile(defaultTile(dtVal(dt)).Xc, defaultTile(dtVal(dt)).Yc).hasChar = True
     If dtVal(dt) = 0 Then
         strDir(dt) = "L"
     ElseIf dtVal(dt) = 1 Then
@@ -44,8 +44,8 @@ For dt = 0 To 3
 Next dt
 .tmrChar(0).Enabled = True
 .tmrChar(1).Enabled = True
-.tmrChar(2).Enabled = True
-.tmrChar(3).Enabled = True
+'.tmrChar(2).Enabled = True
+'.tmrChar(3).Enabled = True
 .tmrObj.Enabled = True
 If gameMode <> 1 Then
     .tmrObjEvent.Enabled = True

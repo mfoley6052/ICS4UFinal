@@ -120,7 +120,7 @@ With frmMain
     If frameCounter(index) = 0 Then
         strDir(index) = strDirJ
         blnEdgeJump(index) = Not blnTile
-        If blnPlayerMoveable(index) Then
+        If blnPlayerMoveable(index) Or (gameMode <> 0 And blnMoveOnTick(index)) Then
             blnPlayerMoveable(index) = False
             If blnTile Then
                 If strDir(index) = "L" Then
@@ -258,7 +258,9 @@ If inputTile.hasObj Then
         End If
     End If
 End If
-blnClearPrevTile(index) = True
+If Not blnBounceJump(index) Then
+    blnClearPrevTile(index) = True
+End If
 .lblTest.Caption = "(" & curX(0) & ", " & curY(0) & ") (" & nextX(0) & ", " & nextY(0) & ")"
 .lblTest2.Caption = oddRow(curY(0)) & ", " & oddRow(nextY(0))
 End With
@@ -366,7 +368,6 @@ End Sub
 
 Public Sub getTick()
 With frmMain
-Static intMoveCount As Integer 'counter for moves to assign which characters move
 Dim highestMove As Integer 'highest move count out of all characters
 highestMove = 1 'set highest move to default
 For moveCheck = 0 To 3
@@ -405,7 +406,7 @@ For movecheck3 = 0 To 3
     End If
 Next movecheck3
 intMoveCount = intMoveCount + 1 'move count increases by one
-If highestMove - intMoveCount = 1 Then 'reset intMoveCount if it, subtracted from the highest move, is the lowest speed
+If highestMove - intMoveCount <= 0 Then 'reset intMoveCount if it, subtracted from the highest move, is below default speed
     intMoveCount = 0
 End If
 For getMove = 0 To 3 'get movement (or not)

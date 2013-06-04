@@ -8,13 +8,13 @@ Dim target As Integer
 counter = counter + 1
 temp = randDir
 If numPlayers <> 1 Then
-    For x = 0 To 3
-        If isPlayer(x) Then
-            If Abs(curX(index) - curX(x)) + Abs(curY(index) - curY(x)) < Abs(curX(index) - curX(target)) + Abs(curY(index) - curY(target)) Then
-                target = x
+    For X = 0 To 3
+        If isPlayer(X) Then
+            If Abs(curX(index) - curX(X)) + Abs(curY(index) - curY(X)) < Abs(curX(index) - curX(target)) + Abs(curY(index) - curY(target)) Then
+                target = X
             End If
         End If
-    Next x
+    Next X
 End If
 If curX(index) > curX(target) And curY(index) > curY(target) Then
     If evalMove(index, "L") Then

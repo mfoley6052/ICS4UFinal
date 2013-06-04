@@ -22,23 +22,25 @@ Public Function charTouchingTile(ByVal index As Integer, tileInput As terrain) A
 charTouchingTile = False
 Dim charCheck As Integer
 For charCheck = 0 To 3 Step 1
-    If charCheck <> index Then
+    With frmMain
+    If charCheck <> index And .tmrChar(charCheck).Enabled Then
         If curX(charCheck) = tileInput.Xc And curY(charCheck) = tileInput.Yc Then
             charTouchingTile = True
         ElseIf oddRow(curY(charCheck)) Then
-            If curY(charCheck) = tileInput.Yc - 1 Then
+            If curY(charCheck) = tileInput.Yc + 1 Then
                 If curX(charCheck) = tileInput.Xc Or curX(charCheck) - 1 = tileInput.Xc Then
                     charTouchingTile = True
                 End If
             End If
         Else
-            If curY(charCheck) = tileInput.Yc - 1 Then
+            If curY(charCheck) = tileInput.Yc + 1 Then
                 If curX(charCheck) = tileInput.Xc Or curX(charCheck) + 1 = tileInput.Xc Then
                     charTouchingTile = True
                 End If
             End If
         End If
     End If
+    End With
 Next charCheck
 End Function
 

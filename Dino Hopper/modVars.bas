@@ -11,6 +11,7 @@ Public counterLimit(1 To 3) As Integer
 Public frameCounter(0 To 3) As Integer
 Public frameProg(0 To 3) As Integer
 Public frameLimit(0 To 3) As Integer
+Public intMoveCount As Integer
 Public strState(0 To 3) As String
 Public intScore(0 To 1) As Long
 Public intLives(0 To 1) As Integer
@@ -42,4 +43,3 @@ Public DefaultKey() As Integer
 Public cpuInterval As Integer
 Public picBG As Object
 Public numPlayers As Integer
-
