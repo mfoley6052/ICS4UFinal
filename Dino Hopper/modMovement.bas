@@ -190,10 +190,10 @@ strState(index) = "I"
 frameCounter(index) = 0
 blnPlayerMoveable(index) = True
 
-If Not blnBounceJump(index) Then
-    tile(curX(index), curY(index)).hasChar = False
-ElseIf blnBounceJump(index) And targIndex(index) >= 0 Then
+tile(curX(index), curY(index)).hasChar = False
+If blnBounceJump(index) And targIndex(index) >= 0 Then
     blnBounceJump(index) = False
+    tile(curX(targIndex(index)), curY(targIndex(index))).hasChar = False
 End If
 If blnEdgeJump(index) Then
     tile(curX(index), curY(index)).hasChar = False
@@ -254,6 +254,7 @@ If inputTile.hasObj Then
     Else
         If inputTile.objType(1) = "I" Then
             Call getJump(index, strDir(index), evalMove(index, strDir(index)))
+            frameCounter(index) = 1
         End If
     End If
 End If
