@@ -14,6 +14,7 @@ Dim dtVal(0 To 3) As Integer
 For dt = 0 To 3
     If dt > 0 Then
         Dim openVal As Boolean
+        openVal = False
         Do Until openVal
             openVal = True
             dtVal(dt) = randInt(0, 3)
@@ -38,12 +39,13 @@ For dt = 0 To 3
     ElseIf dtVal(dt) = 3 Then
         strDir(dt) = "D"
     End If
-    spriteX(dt) = defaultTile(dtVal(dt)).x + 25
+    spriteX(dt) = defaultTile(dtVal(dt)).X + 25
     spriteY(dt) = defaultTile(dtVal(dt)).Y - 15
 Next dt
 .tmrChar(0).Enabled = True
 .tmrChar(1).Enabled = True
 .tmrChar(2).Enabled = True
+.tmrChar(3).Enabled = True
 .tmrObj.Enabled = True
 If gameMode <> 1 Then
     .tmrObjEvent.Enabled = True
@@ -51,7 +53,9 @@ If gameMode <> 1 Then
     .tmrCPUMove(1).Enabled = True
     counterLimit(1) = 1 'cpu 1 moves every (counterLimit + 1) seconds
     .tmrCPUMove(2).Enabled = True
+    .tmrCPUMove(3).Enabled = True
     counterLimit(2) = 1
+    counterLimit(3) = 1
     tmrPowLimit = 20
 ElseIf gameMode = 1 Then
     objExpire = 8
@@ -59,16 +63,19 @@ ElseIf gameMode = 1 Then
     intMoves(0) = 1
     intMoves(1) = 1
     intMoves(2) = 1
+    intMoves(3) = 1
 End If
 .tmrAlternate.Enabled = True
 blnPlayerMoveable(0) = True
 blnPlayerMoveable(1) = True
 blnPlayerMoveable(2) = True
+blnPlayerMoveable(3) = True
 intLives(0) = 3
 intMulti(0) = 1
 strState(0) = "I"
 strState(1) = "I"
 strState(2) = "I"
+strState(3) = "I"
 frameLimit(0) = 10
 frameLimit(1) = 10
 frameLimit(2) = 10

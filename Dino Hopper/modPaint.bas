@@ -649,9 +649,9 @@ Else
                 .PaintPicture .picP1JU.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
             ElseIf index = 1 Then
                 .PaintPicture .picP2JU.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
-            ElseIf index = 3 Then
+            ElseIf index = 2 Then
                 .PaintPicture .picP3JU.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
-            ElseIf index = 4 Then
+            ElseIf index = 3 Then
                 .PaintPicture .picP4JU.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
             End If
         ElseIf strDir(index) = "R" Then

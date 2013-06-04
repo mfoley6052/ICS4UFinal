@@ -116,19 +116,19 @@ End Function
 Public Function getCharJumpAnim(ByVal index As Integer, ByVal curFrame As Integer, curTile As terrain, ByVal nextX As Integer, ByVal nextY As Integer)
 'if frame 5 to 10
 If curFrame >= 5 And curFrame <= 10 Then
-    spriteX(index) = curTile.x + ((curFrame - 5) * Int((nextX - curTile.x) / 5)) + 25
+    spriteX(index) = curTile.X + ((curFrame - 5) * Int((nextX - curTile.X) / 5)) + 25
     '5 to 7 is jump up
     If curFrame < 8 Then
-        spriteY(index) = (curTile.y + ((curFrame - 5) * Int((nextY - curTile.y) / 5))) - (10 * (curFrame - 5)) - 15
+        spriteY(index) = (curTile.Y + ((curFrame - 5) * Int((nextY - curTile.Y) / 5))) - (10 * (curFrame - 5)) - 15
     '8 to 10 is fall to ground
     ElseIf curFrame <= 10 Then
-        spriteY(index) = (curTile.y + ((curFrame - 5) * Int((nextY - curTile.y) / 5))) - (10 * (10 - curFrame)) - 15
+        spriteY(index) = (curTile.Y + ((curFrame - 5) * Int((nextY - curTile.Y) / 5))) - (10 * (10 - curFrame)) - 15
     End If
     With frmMain
     If curFrame = 5 Then
         If .tmrChar(index).Tag = "Freeze" Then 'if freeze, change terrain to ice and paint half-transparency ice tile
             Call getChangeTerrain(curTile, "I", False)
-            .PaintPicture curTile.picTile.Image, curTile.x, curTile.y, 100, 100, 0, 0, 100, 100, vbSrcPaint
+            .PaintPicture curTile.picTile.Image, curTile.X, curTile.Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
         End If
     ElseIf curFrame = 8 Then
         If .tmrChar(index).Tag = "Freeze" Then 'if freeze power-up
@@ -140,7 +140,7 @@ If curFrame >= 5 And curFrame <= 10 Then
     End If
     End With
 ElseIf curFrame > 10 And curFrame <= 16 Then
-    spriteX(index) = curTile.x + ((curFrame - 5) * Int((nextX - curTile.x) / 5)) + 25
+    spriteX(index) = curTile.X + ((curFrame - 5) * Int((nextX - curTile.X) / 5)) + 25
     spriteY(index) = (nextY - 10) + ((curFrame - 10) * (curFrame * 2))
 End If
 End Function
@@ -219,7 +219,7 @@ getAbs = valInput
 End Function
 
 Public Function randInt(ByVal min As Integer, ByVal max As Integer) As Integer
-randInt = Int(Rnd() * max) + min
+randInt = Int(Rnd() * (max + 1)) + min
 End Function
 
 Public Function oddRow(ByVal intY As Integer) As Boolean
