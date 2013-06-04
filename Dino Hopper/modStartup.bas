@@ -15,8 +15,8 @@ For dt = 0 To 3
     If dt > 0 Then
         Dim openVal As Boolean
         Do Until openVal
-            dtVal(dt) = randInt(0, 3)
             openVal = True
+            dtVal(dt) = randInt(0, 3)
             For dtv = 0 To dt - 1
                 If dtVal(dt) = dtVal(dtv) Then
                     openVal = False
@@ -43,6 +43,7 @@ For dt = 0 To 3
 Next dt
 .tmrChar(0).Enabled = True
 .tmrChar(1).Enabled = True
+.tmrChar(2).Enabled = True
 .tmrObj.Enabled = True
 If gameMode <> 1 Then
     .tmrObjEvent.Enabled = True
@@ -55,14 +56,17 @@ ElseIf gameMode = 1 Then
     tmrPowLimit = 8
     intMoves(0) = 1
     intMoves(1) = 1
+    intMoves(2) = 1
 End If
 .tmrAlternate.Enabled = True
 blnPlayerMoveable(0) = True
 blnPlayerMoveable(1) = True
+blnPlayerMoveable(2) = True
 intLives(0) = 3
 intMulti(0) = 1
 strState(0) = "I"
 strState(1) = "I"
+strState(2) = "I"
 frameLimit(0) = 10
 frameLimit(1) = 10
 frameLimit(2) = 10

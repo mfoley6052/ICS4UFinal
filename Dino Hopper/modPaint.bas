@@ -415,8 +415,13 @@ End If
 Call clearTile(tile(curX(index), curY(index)), True, index, "SelXY")
 'paint sel
 With frmMain
-    .PaintPicture .picSelMask(imgIndex + 5 * index).Image, tile(curX(index), curY(index)).X, tile(curX(index), curY(index)).Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
-    .PaintPicture .picSel(imgIndex + 5 * index).Image, tile(curX(index), curY(index)).X, tile(curX(index), curY(index)).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
+    If isPlayer(index) Then
+        .PaintPicture .picSelMask(imgIndex).Image, tile(curX(index), curY(index)).X, tile(curX(index), curY(index)).Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
+        .PaintPicture .picSel(imgIndex).Image, tile(curX(index), curY(index)).X, tile(curX(index), curY(index)).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
+    Else
+        .PaintPicture .picSelMask(imgIndex + 5).Image, tile(curX(index), curY(index)).X, tile(curX(index), curY(index)).Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
+        .PaintPicture .picSel(imgIndex + 5).Image, tile(curX(index), curY(index)).X, tile(curX(index), curY(index)).Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
+    End If
 End With
 End Function
 
@@ -671,9 +676,9 @@ Else
             ElseIf index = 1 Then
                 .PaintPicture .picP2JD.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
             ElseIf index = 2 Then
-                .PaintPicture .picP2JD.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+                .PaintPicture .picP3JD.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
             ElseIf index = 3 Then
-                .PaintPicture .picP2JD.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
+                .PaintPicture .picP4JD.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
             End If
         End If
     End If
