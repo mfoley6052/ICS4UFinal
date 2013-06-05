@@ -6,6 +6,11 @@ With frmMain
 .lblMulti.Visible = True
 .PaintPicture frmMain.picEggMask(0).Image, .lblLives.Left - 24, 0, 22, 30, 0, 0, 22, 30, vbSrcAnd
 .PaintPicture frmMain.picEggG(0).Image, .lblLives.Left - 24, 0, 22, 30, 0, 0, 22, 30, vbSrcPaint
+.tmrChar(0).Enabled = True
+.tmrChar(1).Enabled = True
+'.tmrChar(2).Enabled = True
+'.tmrChar(3).Enabled = True
+numPlayers = 2
 defaultTile(0) = tile(mapWidth - 1, mapHeight - 1)
 defaultTile(1) = tile(0, mapHeight - 1)
 defaultTile(2) = tile(0, 0)
@@ -45,10 +50,6 @@ For dt = 0 To 3
     spriteX(dt) = defaultTile(dtVal(dt)).X + 25
     spriteY(dt) = defaultTile(dtVal(dt)).Y - 15
 Next dt
-.tmrChar(0).Enabled = True
-.tmrChar(1).Enabled = True
-'.tmrChar(2).Enabled = True
-'.tmrChar(3).Enabled = True
 .tmrObj.Enabled = True
 If gameMode <> 1 Then
     .tmrObjEvent.Enabled = True
@@ -93,7 +94,6 @@ frameProg(0) = 1
 frameProg(1) = 1
 frameProg(2) = 1
 frameProg(3) = 1
-numPlayers = 2
 End With
 End Sub
 
