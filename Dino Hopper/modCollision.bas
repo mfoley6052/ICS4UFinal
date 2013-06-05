@@ -12,7 +12,7 @@ If blnRecover(index) = False Then
         End If
         Call refreshLabels(False, True, False)
     End If
-    If gameMode <> 1 Then
+    If gameMode = 0 Then
         blnRecover(index) = True
         Call getPowEffect(index, "Recover")
     End If

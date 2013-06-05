@@ -6,7 +6,7 @@ If .tmrPow(index).Tag <> "" Then
 End If
 .tmrPow(index).Tag = strType
 tmrPowCounter(index) = 0
-If gameMode <> 1 Then
+If gameMode = 0 Then
     .tmrPow(index).Enabled = True
 End If
 If strType = "Scare" Then
@@ -14,7 +14,7 @@ If strType = "Scare" Then
         isScared = True
     End If
 ElseIf strType = "Speed" Then
-    If gameMode <> 1 Then
+    If gameMode = 0 Then
         .tmrChar(index).Interval = 20
         If index > 0 Then
             .tmrCPUMove(index).Interval = 150
@@ -36,7 +36,7 @@ If .tmrPow(index).Tag = "Recover" Then
 ElseIf .tmrPow(index).Tag = "Scare" Then
     isScared = False
 ElseIf .tmrPow(index).Tag = "Speed" Then
-    If gameMode <> 1 Then
+    If gameMode = 0 Then
         .tmrChar(index).Interval = 40
         If index > 0 Then
             .tmrCPUMove(index).Interval = 300

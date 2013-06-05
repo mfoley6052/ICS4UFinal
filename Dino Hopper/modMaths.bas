@@ -79,7 +79,7 @@ End Sub
 
 Public Function paintMask(tileInput As terrain, ByVal index As Integer) As Boolean
 If index < 0 Then
-    If gameMode <> 1 Then
+    If gameMode = 0 Then
         Dim ratExpire As Single
         If tileInput.objTimer < 0.7 * objExpire Then
             paintMask = True
@@ -91,7 +91,7 @@ If index < 0 Then
                 paintMask = False
             End If
         End If
-    ElseIf gameMode = 1 Then
+    Else
         If tileInput.objTimer = objExpire - 1 Then
             With frmMain
             paintMask = .tmrAlternate.Tag

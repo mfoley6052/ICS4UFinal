@@ -1,6 +1,7 @@
 Attribute VB_Name = "modStartup"
 Public Sub gameStart()
 With frmMain
+gameMode = 2
 .lblScore.Visible = True
 .lblLives.Visible = True
 .lblMulti.Visible = True
@@ -51,7 +52,7 @@ For dt = 0 To 3
     spriteY(dt) = defaultTile(dtVal(dt)).Y - 15
 Next dt
 .tmrObj.Enabled = True
-If gameMode <> 1 Then
+If gameMode = 0 Then
     .tmrObjEvent.Enabled = True
     objExpire = 125
     If isPlayer(1) Then
@@ -67,7 +68,7 @@ If gameMode <> 1 Then
         counterLimit(3) = 1
     End If
     tmrPowLimit = 20
-ElseIf gameMode = 1 Then
+Else
     objExpire = 8
     tmrPowLimit = 8
     intMoves(0) = 1

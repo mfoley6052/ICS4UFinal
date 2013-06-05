@@ -99,7 +99,7 @@ ElseIf curX(index) < curX(target) And curY(index) = curY(target) Then
 Else
     Call getJump(index, temp, evalMove(index, temp))
 End If
-If gameMode <> 1 Then
+If gameMode = 0 Then
     If counter Mod 5 = 0 And frmMain.tmrChar(index).Interval > 200 Then
         frmMain.tmrChar(index).Interval = Int(frmMain.tmrChar(index).Interval - 50)
     End If
