@@ -108,7 +108,7 @@ End If
 End Function
 
 Public Function isPlayer(ByVal index As Integer) As Boolean
-If index = 0 Then
+If index <= numPlayers Then
     isPlayer = True
 Else
     isPlayer = False
