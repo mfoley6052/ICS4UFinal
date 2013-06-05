@@ -5034,9 +5034,9 @@ If blnPlayerMoveable(playerIndex) = True Then
     If KeyCode = key(0 + (5 * playerIndex)) Then 'Left
         If gameMode = 0 Then
             Call getJump(playerIndex, "L", evalMove(playerIndex, "L"))
-        ElseIf gameMode <> 0 Then
+        ElseIf gameMode = 1 Or (gameMode = 2 And blnMoveOnTick(playerIndex)) Then
             If strDir(playerIndex) = "L" Then
-                Call getTick
+                Call getTick(playerIndex)
             Else
                 strDir(playerIndex) = "L"
             End If
@@ -5044,9 +5044,9 @@ If blnPlayerMoveable(playerIndex) = True Then
     ElseIf KeyCode = key(1 + (5 * playerIndex)) Then 'Up
         If gameMode = 0 Then
             Call getJump(playerIndex, "U", evalMove(playerIndex, "U"))
-        ElseIf gameMode <> 0 Then
+        ElseIf gameMode = 1 Or (gameMode = 2 And blnMoveOnTick(playerIndex)) Then
             If strDir(playerIndex) = "U" Then
-                Call getTick
+                Call getTick(playerIndex)
             Else
                 strDir(playerIndex) = "U"
             End If
@@ -5054,9 +5054,9 @@ If blnPlayerMoveable(playerIndex) = True Then
     ElseIf KeyCode = key(2 + (5 * playerIndex)) Then 'Right
         If gameMode = 0 Then
             Call getJump(playerIndex, "R", evalMove(playerIndex, "R"))
-        ElseIf gameMode <> 0 Then
+        ElseIf gameMode = 1 Or (gameMode = 2 And blnMoveOnTick(playerIndex)) Then
             If strDir(playerIndex) = "R" Then
-                Call getTick
+                Call getTick(playerIndex)
             Else
                 strDir(playerIndex) = "R"
             End If
@@ -5064,9 +5064,9 @@ If blnPlayerMoveable(playerIndex) = True Then
     ElseIf KeyCode = key(3 + (5 * playerIndex)) Then 'Down
         If gameMode = 0 Then
             Call getJump(playerIndex, "D", evalMove(playerIndex, "D"))
-        ElseIf gameMode <> 0 Then
+        ElseIf gameMode = 1 Or (gameMode = 2 And blnMoveOnTick(playerIndex)) Then
             If strDir(playerIndex) = "D" Then
-                Call getTick
+                Call getTick(playerIndex)
             Else
                 strDir(playerIndex) = "D"
             End If
@@ -5074,8 +5074,8 @@ If blnPlayerMoveable(playerIndex) = True Then
     ElseIf KeyCode = key(4 + (5 * playerIndex)) Then 'Action
         If gameMode = 0 Then
             Call getJump(playerIndex, strDir(playerIndex), evalMove(playerIndex, strDir(0)))
-        Else
-            Call getTick
+        ElseIf gameMode = 1 Or (gameMode = 2 And blnMoveOnTick(playerIndex)) Then
+            Call getTick(playerIndex)
         End If
     End If
 End If

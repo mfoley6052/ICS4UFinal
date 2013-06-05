@@ -1,7 +1,7 @@
 Attribute VB_Name = "modStartup"
 Public Sub gameStart()
 With frmMain
-gameMode = 2
+'gameMode = 2
 .lblScore.Visible = True
 .lblLives.Visible = True
 .lblMulti.Visible = True
@@ -75,6 +75,9 @@ Else
     intMoves(1) = 1
     intMoves(2) = 1
     intMoves(3) = 1
+    If gameMode = 2 Then
+        blnMoveOnTick(0) = True
+    End If
 End If
 .tmrAlternate.Enabled = True
 blnPlayerMoveable(0) = True

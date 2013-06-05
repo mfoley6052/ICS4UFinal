@@ -47,7 +47,9 @@ If Not blnEdgeJump(index) Then
         ElseIf gameMode = 2 Then
             Call getTickComplete(index)
             If index < 3 Then
-                Call getTick(index + 1)
+                If Not isPlayer(index + 1) Then
+                    Call getTick(index + 1)
+                End If
             End If
         End If
     Else
@@ -120,7 +122,9 @@ Else 'jump off edge
         ElseIf gameMode = 2 Then
             Call getTickComplete(index)
             If index < 3 Then
-                Call getTick(index + 1)
+                If Not isPlayer(index + 1) Then
+                    Call getTick(index + 1)
+                End If
             End If
         End If
     Else
@@ -373,6 +377,13 @@ If .tmrChar(index).Enabled And blnMoveOnTick(index) Then
         End If
         Call getJump(index, strDir(index), evalMove(index, strDir(index)))
         frameCounter(index) = 1
+    ElseIf gameMode = 2 And index < 3 Then
+        blnMoveOnTick(index) = False
+        If isPlayer(index + 1) Then
+            blnMoveOnTick(index + 1) = True
+        Else
+            Call getTick(index + 1)
+        End If
     End If
 End If
 End With
@@ -388,11 +399,18 @@ If gameMode = 1 Then
 ElseIf gameMode = 2 Then
     loopMin = index
     loopMax = index
+    With frmMain
+    For disableMove = 0 To 3
+        If disableMove <> index And .tmrChar(disableMove).Enabled Then
+            blnMoveOnTick(disableMove) = False
+        End If
+    Next disableMove
+    End With
 End If
 With frmMain
 Dim highestMove As Integer 'highest move count out of all characters
 highestMove = 1 'set highest move to default
-For moveCheck = loopMin To loopMax
+For moveCheck = 0 To 3
     If .tmrChar(moveCheck).Enabled Then 'check for highest move and set it
         If intMoves(moveCheck) > highestMove Then
             highestMove = intMoves(moveCheck)
@@ -409,8 +427,8 @@ Next moveCheck2
 For setMove = loopMin To loopMax
     If isPlayer(setMove) Then 'if setMove is a player, call getJump (direction change and next values set)
         Call getJump(setMove, strDir(setMove), evalMove(setMove, strDir(setMove)))
-    Else 'if computer player, call AI (direction change and next values)
-        Call cpuAI(setMove)
+    ElseIf gameMode = 1 Or (gameMode = 2 And blnMoveOnTick(setMove)) Then
+        Call cpuAI(setMove) 'if computer player, call AI (direction change and next values)
     End If
 Next setMove
 For moveCheck3 = loopMin To loopMax
@@ -443,7 +461,11 @@ For getMove = loopMin To loopMax 'get movement (or not)
         nextX(getMove) = curX(getMove)
         nextY(getMove) = curY(getMove)
         If gameMode = 2 And index < 3 Then
-            Call getTick(index + 1)
+            If isPlayer(index + 1) Then
+                blnMoveOnTick(index + 1) = True
+            Else
+                Call getTick(index + 1)
+            End If
         End If
     End If
 Next getMove
@@ -459,16 +481,7 @@ If gameMode = 1 Or (gameMode = 2 And index = 3) Then
     Next T
     Call .tmrObjEvent_Timer 'call an object to appear
     If gameMode = 2 Then
-        Dim skipPlayer As Boolean
-        skipPlayer = False
-        For X = 0 To numPlayers
-            If intMoves(X) < highestMove - intMoveCount Then
-                skipPlayer = True
-            End If
-        Next X
-        If skipPlayer Then
-            Call getTick(0)
-        End If
+        blnMoveOnTick(0) = True
     End If
 End If
 End With
