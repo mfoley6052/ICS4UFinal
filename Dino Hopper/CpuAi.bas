@@ -18,49 +18,81 @@ If numPlayers <> 1 Then
 End If
 If curX(index) > curX(target) And curY(index) > curY(target) Then
     If evalMove(index, "L") Then
-        Call getJump(index, "L", evalMove(index, "L"))
+        If Not isScared Then
+            Call getJump(index, "L", evalMove(index, "L"))
+        Else
+            Call getJump(index, "R", evalMove(index, "R"))
+        End If
     Else
         Call getJump(index, temp, evalMove(index, temp))
     End If
 ElseIf curX(index) > curX(target) And curY(index) < curY(target) Then
     If evalMove(index, "D") Then
-        Call getJump(index, "D", evalMove(index, "D"))
+        If Not isScared Then
+            Call getJump(index, "D", evalMove(index, "D"))
+        Else
+            Call getJump(index, "U", evalMove(index, "U"))
+        End If
     Else
         Call getJump(index, temp, evalMove(index, temp))
     End If
 ElseIf curX(index) < curX(target) And curY(index) > curY(target) Then
     If evalMove(index, "U") Then
-        Call getJump(index, "U", evalMove(index, "U"))
+        If Not isScared Then
+            Call getJump(index, "U", evalMove(index, "U"))
+        Else
+            Call getJump(index, "D", evalMove(index, "D"))
+        End If
     Else
         Call getJump(index, temp, evalMove(index, temp))
     End If
 ElseIf curX(index) < curX(target) And curY(index) < curY(target) Then
     If evalMove(index, "R") Then
-        Call getJump(index, "R", evalMove(index, "R"))
+        If Not isScared Then
+            Call getJump(index, "R", evalMove(index, "R"))
+        Else
+            Call getJump(index, "L", evalMove(index, "L"))
+        End If
     Else
         Call getJump(index, temp, evalMove(index, temp))
     End If
 ElseIf curY(index) > curY(target) And curX(index) = curX(target) Then
     If evalMove(index, "L") Then
-        Call getJump(index, "L", evalMove(index, "L"))
+        If Not isScared Then
+            Call getJump(index, "L", evalMove(index, "L"))
+        Else
+            Call getJump(index, "R", evalMove(index, "R"))
+        End If
     Else
         Call getJump(index, temp, evalMove(index, temp))
     End If
 ElseIf curY(index) < curY(target) And curX(index) = curX(target) Then
     If evalMove(index, "R") Then
-        Call getJump(index, "R", evalMove(index, "R"))
+        If Not isScared Then
+            Call getJump(index, "R", evalMove(index, "R"))
+        Else
+            Call getJump(index, "L", evalMove(index, "L"))
+        End If
     Else
         Call getJump(index, temp, evalMove(index, temp))
     End If
 ElseIf curX(index) > curX(target) And curY(index) = curY(target) Then
     If evalMove(index, "D") Then
-        Call getJump(index, "D", evalMove(index, "D"))
+        If Not isScared Then
+            Call getJump(index, "D", evalMove(index, "D"))
+        Else
+            Call getJump(index, "U", evalMove(index, "U"))
+        End If
     Else
         Call getJump(index, temp, evalMove(index, temp))
     End If
 ElseIf curX(index) < curX(target) And curY(index) = curY(target) Then
     If evalMove(index, "U") Then
-        Call getJump(index, "U", evalMove(index, "U"))
+        If Not isScared Then
+            Call getJump(index, "U", evalMove(index, "U"))
+        Else
+            Call getJump(index, "D", evalMove(index, "D"))
+        End If
     Else
         Call getJump(index, temp, evalMove(index, temp))
     End If

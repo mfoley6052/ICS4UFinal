@@ -11,7 +11,7 @@ If gameMode <> 1 Then
 End If
 If strType = "Scare" Then
     If index = 0 Then
-        'make enemies run from player
+        isScared = True
     End If
 ElseIf strType = "Speed" Then
     If gameMode <> 1 Then
@@ -34,6 +34,7 @@ With frmMain
 If .tmrPow(index).Tag = "Recover" Then
     blnRecover(index) = False
 ElseIf .tmrPow(index).Tag = "Scare" Then
+    isScared = False
 ElseIf .tmrPow(index).Tag = "Speed" Then
     If gameMode <> 1 Then
         .tmrChar(index).Interval = 40
