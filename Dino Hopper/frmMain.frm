@@ -5022,50 +5022,58 @@ End If
 End Sub
 
 Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
-If blnPlayerMoveable(0) = True Then
-    If KeyCode = key(0) Then 'Left
+Dim playerIndex As Integer
+If KeyCode = key(0) Or KeyCode = key(1) Or KeyCode = key(2) Or KeyCode = key(3) Or KeyCode = key(4) Then
+    playerIndex = 0
+ElseIf KeyCode = key(5) Or KeyCode = key(6) Or KeyCode = key(7) Or KeyCode = key(8) Or KeyCode = key(9) Then
+    playerIndex = 1
+ElseIf KeyCode = key(10) Or KeyCode = key(11) Or KeyCode = key(12) Or KeyCode = key(13) Or KeyCode = key(14) Then
+    playerIndex = 2
+End If
+If blnPlayerMoveable(playerIndex) = True Then
+    If KeyCode = key(0 + (5 * playerIndex)) Then 'Left
         If gameMode <> 1 Then
-            Call getJump(0, "L", evalMove(0, "L"))
+            Call getJump(playerIndex, "L", evalMove(playerIndex, "L"))
         ElseIf gameMode = 1 Then
-            If strDir(0) = "L" Then
+            If strDir(playerIndex) = "L" Then
                 Call getTick
             Else
-                strDir(0) = "L"
+                strDir(playerIndex) = "L"
             End If
         End If
-    ElseIf KeyCode = key(1) Then 'Up
+    ElseIf KeyCode = key(1 + (5 * playerIndex)) Then 'Up
         If gameMode <> 1 Then
-            Call getJump(0, "U", evalMove(0, "U"))
+            Call getJump(playerIndex, "U", evalMove(playerIndex, "U"))
         ElseIf gameMode = 1 Then
-            If strDir(0) = "U" Then
+            If strDir(playerIndex) = "U" Then
                 Call getTick
             Else
-                strDir(0) = "U"
+                strDir(playerIndex) = "U"
             End If
         End If
-    ElseIf KeyCode = key(2) Then 'Right
+    ElseIf KeyCode = key(2 + (5 * playerIndex)) Then 'Right
         If gameMode <> 1 Then
-            Call getJump(0, "R", evalMove(0, "R"))
+            Call getJump(playerIndex, "R", evalMove(playerIndex, "R"))
         ElseIf gameMode = 1 Then
-            If strDir(0) = "R" Then
+            If strDir(playerIndex) = "R" Then
                 Call getTick
             Else
-                strDir(0) = "R"
+                strDir(playerIndex) = "R"
             End If
         End If
-    ElseIf KeyCode = key(3) Then 'Down
+    ElseIf KeyCode = key(3 + (5 * playerIndex)) Then 'Down
         If gameMode <> 1 Then
-            Call getJump(0, "D", evalMove(0, "D"))
+            Call getJump(playerIndex, "D", evalMove(playerIndex, "D"))
         ElseIf gameMode = 1 Then
-            If strDir(0) = "D" Then
+            If strDir(playerIndex) = "D" Then
                 Call getTick
             Else
-                strDir(0) = "D"
+                strDir(playerIndex) = "D"
             End If
         End If
-    ElseIf KeyCode = key(4) Then 'Action
+    ElseIf KeyCode = key(4 + (5 * playerIndex)) Then 'Action
         If gameMode <> 1 Then
-            Call getJump(0, strDir(0), evalMove(0, strDir(0)))
+            Call getJump(playerIndex, strDir(playerIndex), evalMove(playerIndex, strDir(0)))
         Else
             Call getTick
         End If
