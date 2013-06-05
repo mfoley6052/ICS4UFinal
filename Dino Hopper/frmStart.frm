@@ -150,23 +150,43 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Private Sub Form_Load()
-ReDim DefaultKey(4) As Integer
-ReDim key(4) As Integer
-key(0) = 37
-key(1) = 38
-key(2) = 39
-key(3) = 40
-key(4) = 32
-DefaultKey(0) = 37
-DefaultKey(1) = 38
-DefaultKey(2) = 39
-DefaultKey(3) = 40
-DefaultKey(4) = 32
-lblMenu(0).Caption = "Options"
+ReDim DefaultKey(14) As Integer
+ReDim key(14) As Integer
+key(0) = vbKeyLeft
+key(1) = vbKeyUp
+key(2) = vbKeyRight
+key(3) = vbKeyDown
+key(4) = vbKeyReturn
+key(5) = vbKeyA
+key(6) = vbKeyW
+key(7) = vbKeyD
+key(8) = vbKeyS
+key(9) = vbKeySpace
+key(10) = vbKeyNumpad4
+key(11) = vbKeyNumpad8
+key(12) = vbKeyNumpad6
+key(13) = vbKeyNumpad5
+key(14) = vbKeySeparator
+DefaultKey(0) = vbKeyLeft
+DefaultKey(1) = vbKeyUp
+DefaultKey(2) = vbKeyRight
+DefaultKey(3) = vbKeyDown
+DefaultKey(4) = vbKeyReturn
+DefaultKey(5) = vbKeyA
+DefaultKey(6) = vbKeyW
+DefaultKey(7) = vbKeyD
+DefaultKey(8) = vbKeyS
+DefaultKey(9) = vbKeySpace
+DefaultKey(10) = vbKeyNumpad4
+DefaultKey(11) = vbKeyNumpad8
+DefaultKey(12) = vbKeyNumpad6
+DefaultKey(13) = vbKeyNumpad5
+DefaultKey(14) = vbKeySeparator
+lblMenu(0).Caption = "Multiplayer"
 lblMenu(0).Tag = 1
 lblMenu(1).Caption = "Single Player"
 lblMenu(1).Tag = 0
-lblMenu(2).Caption = "Exit"
+lblMenu(2).Caption = "Options"
 lblMenu(2).Tag = 2
 frmStart.PaintPicture picTitleMainMask.Image, picTitleMainMask.Left, picTitleMainMask.Top, picTitleMainMask.Width, picTitleMainMask.Height, 0, 0, picTitleMainMask.Width, picTitleMainMask.Height, vbSrcAnd
 frmStart.PaintPicture picTitleMain.Image, picTitleMain.Left, picTitleMain.Top, picTitleMain.Width, picTitleMain.Height, 0, 0, picTitleMain.Width, picTitleMain.Height, vbSrcPaint
@@ -176,47 +196,53 @@ Private Sub lblMenu_Click(index As Integer)
 If index = 0 Then 'left
      lblMenu(3).Visible = False
      lblMenu(4).Visible = False
-    For x = 0 To 2
-        If Val(lblMenu(x).Tag) < 2 Then
-            lblMenu(x).Tag = Val(lblMenu(x).Tag) + 1
+    For X = 0 To 2
+        If Val(lblMenu(X).Tag) < 3 Then
+            lblMenu(X).Tag = Val(lblMenu(X).Tag) + 1
         Else
-            lblMenu(x).Tag = 0
+            lblMenu(X).Tag = 0
         End If
-        If lblMenu(x).Tag = 0 Then
-            lblMenu(x).Caption = "Single Player"
-        ElseIf lblMenu(x).Tag = 1 Then
-            lblMenu(x).Caption = "Options"
+        If lblMenu(X).Tag = 0 Then
+            lblMenu(X).Caption = "Single Player"
+        ElseIf lblMenu(X).Tag = 1 Then
+            lblMenu(X).Caption = "Multiplayer"
+        ElseIf lblMenu(X).Tag = 2 Then
+            lblMenu(X).Caption = "Options"
         Else
-            lblMenu(x).Caption = "Exit"
+            lblMenu(X).Caption = "Exit"
         End If
-    Next x
+    Next X
 ElseIf index = 2 Then 'right
      lblMenu(3).Visible = False
      lblMenu(4).Visible = False
-    For x = 0 To 2
-        If Val(lblMenu(x).Tag) > 0 Then
-            lblMenu(x).Tag = Val(lblMenu(x).Tag) - 1
+    For X = 0 To 2
+        If Val(lblMenu(X).Tag) > 0 Then
+            lblMenu(X).Tag = Val(lblMenu(X).Tag) - 1
         Else
-            lblMenu(x).Tag = 2
+            lblMenu(X).Tag = 3
         End If
-        If lblMenu(x).Tag = 0 Then
-            lblMenu(x).Caption = "Single Player"
-        ElseIf lblMenu(x).Tag = 1 Then
-            lblMenu(x).Caption = "Options"
+        If lblMenu(X).Tag = 0 Then
+            lblMenu(X).Caption = "Single Player"
+        ElseIf lblMenu(X).Tag = 1 Then
+            lblMenu(X).Caption = "MultiPlayer"
+        ElseIf lblMenu(X).Tag = 2 Then
+            lblMenu(X).Caption = "Options"
         Else
-            lblMenu(x).Caption = "Exit"
+            lblMenu(X).Caption = "Exit"
         End If
-    Next x
+    Next X
 ElseIf index = 1 Then ' Select
-    If lblMenu(1).Tag = 2 Then
+    If lblMenu(1).Tag = 3 Then
         End
-    ElseIf lblMenu(1).Tag = 1 Then
+    ElseIf lblMenu(1).Tag = 2 Then
         frmSettings.Show
-    Else
+    ElseIf lblMenu(1).Tag = 0 Then
         lblMenu(3).Visible = True
         lblMenu(3).Caption = "Arcade Mode"
         lblMenu(4).Caption = "Puzzle Mode"
         lblMenu(4).Visible = True
+    Else
+        
     End If
 ElseIf index = 3 Then
         gameMode = 0
