@@ -183,11 +183,11 @@ DefaultKey(12) = vbKeyNumpad6
 DefaultKey(13) = vbKeyNumpad5
 DefaultKey(14) = vbKeySeparator
 lblMenu(0).Caption = "Multiplayer"
-lblMenu(0).Tag = 1
+lblMenu(0).Tag = 2
 lblMenu(1).Caption = "Single Player"
 lblMenu(1).Tag = 0
 lblMenu(2).Caption = "Options"
-lblMenu(2).Tag = 2
+lblMenu(2).Tag = 3
 frmStart.PaintPicture picTitleMainMask.Image, picTitleMainMask.Left, picTitleMainMask.Top, picTitleMainMask.Width, picTitleMainMask.Height, 0, 0, picTitleMainMask.Width, picTitleMainMask.Height, vbSrcAnd
 frmStart.PaintPicture picTitleMain.Image, picTitleMain.Left, picTitleMain.Top, picTitleMain.Width, picTitleMain.Height, 0, 0, picTitleMain.Width, picTitleMain.Height, vbSrcPaint
 End Sub
