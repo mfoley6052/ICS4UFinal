@@ -8,9 +8,11 @@ With frmMain
 .PaintPicture frmMain.picEggMask(0).Image, .lblLives.Left - 24, 0, 22, 30, 0, 0, 22, 30, vbSrcAnd
 .PaintPicture frmMain.picEggG(0).Image, .lblLives.Left - 24, 0, 22, 30, 0, 0, 22, 30, vbSrcPaint
 .tmrChar(0).Enabled = True
-.tmrChar(1).Enabled = True
-'.tmrChar(2).Enabled = True
-'.tmrChar(3).Enabled = True
+If numCPU >= 1 Then
+    For X = 1 To numCPU
+        .tmrChar(X).Enabled = True
+    Next X
+End If
 numPlayers = 1
 defaultTile(0) = tile(mapWidth - 1, mapHeight - 1)
 defaultTile(1) = tile(0, mapHeight - 1)
@@ -101,25 +103,25 @@ frameProg(3) = 1
 End With
 End Sub
 
-Private Sub assignSprites(ByVal Index As Integer)
+Private Sub assignSprites(ByVal index As Integer)
 With frmMain
 Dim strPath As String
-If isPlayer(Index) Then
-    If Index = 1 Then
+If isPlayer(index) Then
+    If index = 1 Then
         strPath = "Y\"
-    ElseIf Index = 2 Then
+    ElseIf index = 2 Then
         strPath = "G\"
     End If
 Else
-    If Index = 1 Then
+    If index = 1 Then
         strPath = "R1\"
-    ElseIf Index = 2 Then
+    ElseIf index = 2 Then
         strPath = "R2\"
-    ElseIf Index = 3 Then
+    ElseIf index = 3 Then
         strPath = "R3\"
     End If
 End If
-If Index = 1 Then
+If index = 1 Then
     .picP2IR.Picture = LoadPicture(App.Path & "\Images\Char\" & strPath & "IdleR.gif")
     .picP2CR(1).Picture = LoadPicture(App.Path & "\Images\Char\" & strPath & "Crouch1R.gif")
     .picP2CR(2).Picture = LoadPicture(App.Path & "\Images\Char\" & strPath & "Crouch2R.gif")
@@ -140,7 +142,7 @@ If Index = 1 Then
     .picP2CL(2).Picture = LoadPicture(App.Path & "\Images\Char\" & strPath & "Crouch2L.gif")
     .picP2CL(3).Picture = LoadPicture(App.Path & "\Images\Char\" & strPath & "Crouch3L.gif")
     .picP2JL.Picture = LoadPicture(App.Path & "\Images\Char\" & strPath & "JumpL.gif")
-ElseIf Index = 2 Then
+ElseIf index = 2 Then
     .picP3IR.Picture = LoadPicture(App.Path & "\Images\Char\" & strPath & "IdleR.gif")
     .picP3CR(1).Picture = LoadPicture(App.Path & "\Images\Char\" & strPath & "Crouch1R.gif")
     .picP3CR(2).Picture = LoadPicture(App.Path & "\Images\Char\" & strPath & "Crouch2R.gif")
@@ -161,7 +163,7 @@ ElseIf Index = 2 Then
     .picP3CL(2).Picture = LoadPicture(App.Path & "\Images\Char\" & strPath & "Crouch2L.gif")
     .picP3CL(3).Picture = LoadPicture(App.Path & "\Images\Char\" & strPath & "Crouch3L.gif")
     .picP3JL.Picture = LoadPicture(App.Path & "\Images\Char\" & strPath & "JumpL.gif")
-ElseIf Index = 3 Then
+ElseIf index = 3 Then
     .picP4IR.Picture = LoadPicture(App.Path & "\Images\Char\" & strPath & "IdleR.gif")
     .picP4CR(1).Picture = LoadPicture(App.Path & "\Images\Char\" & strPath & "Crouch1R.gif")
     .picP4CR(2).Picture = LoadPicture(App.Path & "\Images\Char\" & strPath & "Crouch2R.gif")

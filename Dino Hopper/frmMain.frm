@@ -5025,6 +5025,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+'2677 lines as of June 6
 Dim formW As Integer
 Dim formH As Integer
 
@@ -5119,17 +5120,17 @@ End If
 tmrAlternate.Tag = blnAlt
 End Sub
 
-Private Sub tmrCPUMove_Timer(Index As Integer)
+Private Sub tmrCPUMove_Timer(index As Integer)
 Static intCounter As Integer
 'if counter limit is not reached by counter
-If intCounter < counterLimit(Index) Then
+If intCounter < counterLimit(index) Then
     'increase counter
     intCounter = intCounter + 1
 'if counter limit is reached
 Else
     'initiate cpu movement
-    If blnPlayerMoveable(Index) Then
-        Call cpuAI(Index)
+    If blnPlayerMoveable(index) Then
+        Call cpuAI(index)
     End If
     intCounter = 0
 End If
@@ -5213,43 +5214,43 @@ For o = 0 To tileCount - 1
 Next o
 End Sub
 
-Private Sub tmrChar_Timer(Index As Integer)
+Private Sub tmrChar_Timer(index As Integer)
 'reverse boolean for select
 Static blnRev(0 To 3) As Boolean
 'call selection paint
-Call PaintSelector(Index, picCount(Index))
-If frameCounter(Index) = 0 Then
-    Call PaintCharSprite(Index, spriteX(Index), spriteY(Index))
+Call PaintSelector(index, picCount(index))
+If frameCounter(index) = 0 Then
+    Call PaintCharSprite(index, spriteX(index), spriteY(index))
 End If
-If frameCounter(Index) > 0 Then 'if jump timer is started
-    Call charAction(Index, tile(nextX(Index), nextY(Index)))
+If frameCounter(index) > 0 Then 'if jump timer is started
+    Call charAction(index, tile(nextX(index), nextY(index)))
 Else
-    spriteX(Index) = tile(curX(Index), curY(Index)).X + 25
-    spriteY(Index) = tile(curX(Index), curY(Index)).Y - 15
+    spriteX(index) = tile(curX(index), curY(index)).X + 25
+    spriteY(index) = tile(curX(index), curY(index)).Y - 15
 End If
-If blnRev(Index) = False Then
-    picCount(Index) = picCount(Index) + 1
+If blnRev(index) = False Then
+    picCount(index) = picCount(index) + 1
 End If
-If blnRev(Index) = True Then
-    picCount(Index) = picCount(Index) - 1
+If blnRev(index) = True Then
+    picCount(index) = picCount(index) - 1
 End If
-If picCount(Index) >= 4 Or picCount(Index) <= 0 Then
-    If blnRev(Index) = False Then
-        blnRev(Index) = True
+If picCount(index) >= 4 Or picCount(index) <= 0 Then
+    If blnRev(index) = False Then
+        blnRev(index) = True
     Else
-        blnRev(Index) = False
+        blnRev(index) = False
     End If
 End If
 lblTest3.Caption = tile(curX(0), curY(0)).hasChar
 End Sub
 
-Private Sub tmrStun_Timer(Index As Integer)
-If isPlayer(Index) Then
-    blnPlayerMoveable(Index) = True
+Private Sub tmrStun_Timer(index As Integer)
+If isPlayer(index) Then
+    blnPlayerMoveable(index) = True
 Else
-    tmrCPUMove(Index).Enabled = True
+    tmrCPUMove(index).Enabled = True
 End If
-tmrStun(Index).Enabled = False
+tmrStun(index).Enabled = False
 End Sub
 
 Private Sub tmrTileAnim_Timer()
@@ -5282,8 +5283,8 @@ End If
 intCounter = intCounter + 1
 End Sub
 
-Public Sub tmrPow_Timer(Index As Integer)
-Call getPowTick(Index)
+Public Sub tmrPow_Timer(index As Integer)
+Call getPowTick(index)
 End Sub
 
 Public Sub tmrObjEvent_Timer()

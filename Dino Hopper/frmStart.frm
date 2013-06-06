@@ -10,6 +10,54 @@ Begin VB.Form frmStart
    ScaleMode       =   3  'Pixel
    ScaleWidth      =   800
    StartUpPosition =   2  'CenterScreen
+   Begin VB.Frame fraPlayers 
+      Caption         =   "Player Options"
+      Height          =   4815
+      Left            =   4440
+      TabIndex        =   8
+      Top             =   4080
+      Visible         =   0   'False
+      Width           =   3135
+      Begin VB.CommandButton cmdCancel 
+         Caption         =   "Cancel"
+         Height          =   375
+         Left            =   1680
+         TabIndex        =   13
+         Top             =   4320
+         Width           =   1335
+      End
+      Begin VB.CommandButton cmdPlay 
+         Caption         =   "Play"
+         Height          =   375
+         Left            =   120
+         TabIndex        =   12
+         Top             =   4320
+         Width           =   1455
+      End
+      Begin VB.CommandButton cmdRemove 
+         Caption         =   "Remove Player"
+         Height          =   375
+         Left            =   1680
+         TabIndex        =   11
+         Top             =   3840
+         Width           =   1335
+      End
+      Begin VB.CommandButton cmdAdd 
+         Caption         =   "Add Player"
+         Height          =   375
+         Left            =   120
+         TabIndex        =   10
+         Top             =   3840
+         Width           =   1455
+      End
+      Begin VB.ListBox lstPlayers 
+         Height          =   3570
+         Left            =   120
+         TabIndex        =   9
+         Top             =   240
+         Width           =   2895
+      End
+   End
    Begin VB.PictureBox picTitleMain 
       Appearance      =   0  'Flat
       AutoRedraw      =   -1  'True
@@ -169,9 +217,74 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+Dim players() As Integer
+Dim cpus() As Integer
+Private Sub cmdAdd_Click()
+If numPlayers + numCPU < 4 Then
+    If cmdAdd.Caption = "Add Player" Then
+        numPlayers = numPlayers + 1
+        lstPlayers.AddItem "Player " & numPlayers
+        ReDim Preserve players(numPlayers) As Integer
+        players(numPlayers) = lstPlayers.ListCount
+    Else
+        numCPU = numCPU + 1
+        lstPlayers.AddItem "CPU " & numCPU
+        ReDim Preserve cpus(numCPU) As Integer
+        cpus(numCPU) = lstPlayers.ListCount
+    End If
+Else
+    cmdAdd.Enabled = False
+    cmdRemove.Enabled = True
+End If
+End Sub
+
+Private Sub cmdCancel_Click()
+numPlayers = 1
+numCPU = 0
+lstPlayers.Clear
+lstPlayers.AddItem "Player 1"
+fraPlayers.Visible = False
+For X = 0 To 5
+    lblMenu(X).Enabled = True
+Next X
+End Sub
+
+Private Sub cmdPlay_Click()
+frmStart.Hide
+frmMain.Show
+End Sub
+
+Private Sub cmdRemove_Click()
+If numPlayers + numCPU > 1 Then
+    If cmdRemove.Caption = "Remove Player" Then
+        numPlayers = numPlayers - 1
+        lstPlayers.RemoveItem players(numPlayers)
+        If numPlayers = 1 Then
+            cmdRemove.Enabled = True
+            cmdAdd.Enabled = False
+            lstPlayers.Clear
+            lstPlayers.AddItem "Player 1"
+        End If
+    Else
+        numCPU = numCPU - 1
+        ReDim Preserve cpus(numCPU) As Integer
+        lstPlayers.RemoveItem cpus(numCPU)
+        If numCPU = 1 Then
+            cmdRemove.Enabled = False
+            cmdAdd.Enabled = True
+            lstPlayers.Clear
+            lstPlayers.AddItem "Player 1"
+        End If
+    End If
+
+End If
+End Sub
+
 Private Sub Form_Load()
 ReDim DefaultKey(14) As Integer
 ReDim key(14) As Integer
+numPlayers = 1
+lstPlayers.AddItem "Player " & numPlayers
 key(0) = vbKeyLeft
 key(1) = vbKeyUp
 key(2) = vbKeyRight
@@ -266,16 +379,27 @@ ElseIf index = 1 Then ' Select
         
     End If
 ElseIf index = 3 Then
-        gameMode = 0
-        frmStart.Hide
-        frmMain.Show
+    gameMode = 0
+    Call getPlayers
 ElseIf index = 4 Then
-        gameMode = 1
-        frmStart.Hide
-        frmMain.Show
+    gameMode = 1
+    Call getPlayers
 ElseIf index = 5 Then
-        gameMode = 2
-        frmStart.Hide
-        frmMain.Show
+    gameMode = 2
+    Call getPlayers
 End If
+End Sub
+
+Private Sub getPlayers()
+For X = 0 To 5
+    lblMenu(X).Enabled = False
+Next X
+If lblMenu(1).Caption = "Single Player" Then
+    cmdAdd.Caption = "Add CPU"
+    cmdRemove.Caption = "Remove CPU"
+Else
+    cmdAdd.Caption = "Add Player"
+    cmdRemove.Caption = "Remove Player"
+End If
+fraPlayers.Visible = True
 End Sub
