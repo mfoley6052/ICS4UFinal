@@ -23,7 +23,7 @@ Begin VB.Form frmStart
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   604
       TabIndex        =   0
-      Top             =   1500
+      Top             =   420
       Visible         =   0   'False
       Width           =   9060
    End
@@ -40,7 +40,7 @@ Begin VB.Form frmStart
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   604
       TabIndex        =   1
-      Top             =   1500
+      Top             =   420
       Visible         =   0   'False
       Width           =   9060
    End
@@ -60,7 +60,7 @@ Begin VB.Form frmStart
       Index           =   5
       Left            =   3720
       TabIndex        =   7
-      Top             =   7920
+      Top             =   6600
       Visible         =   0   'False
       Width           =   4500
    End
@@ -80,7 +80,7 @@ Begin VB.Form frmStart
       Index           =   4
       Left            =   3720
       TabIndex        =   6
-      Top             =   6720
+      Top             =   5400
       Visible         =   0   'False
       Width           =   4500
    End
@@ -100,7 +100,7 @@ Begin VB.Form frmStart
       Index           =   3
       Left            =   3720
       TabIndex        =   5
-      Top             =   5520
+      Top             =   4200
       Visible         =   0   'False
       Width           =   4500
    End
@@ -121,7 +121,7 @@ Begin VB.Form frmStart
       Index           =   2
       Left            =   8250
       TabIndex        =   4
-      Top             =   4290
+      Top             =   2970
       Width           =   4500
    End
    Begin VB.Label lblMenu 
@@ -140,7 +140,7 @@ Begin VB.Form frmStart
       Index           =   1
       Left            =   3720
       TabIndex        =   3
-      Top             =   4290
+      Top             =   2970
       Width           =   4500
    End
    Begin VB.Label lblMenu 
@@ -160,7 +160,7 @@ Begin VB.Form frmStart
       Index           =   0
       Left            =   -750
       TabIndex        =   2
-      Top             =   4320
+      Top             =   3000
       Width           =   4500
    End
 End
