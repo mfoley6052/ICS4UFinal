@@ -1,10 +1,10 @@
 Attribute VB_Name = "modCollision"
-Public Sub getHurt(ByVal index As Integer, ByVal enemyIndex As Integer)
+Public Sub getHurt(ByVal Index As Integer, ByVal enemyIndex As Integer)
 'MsgBox ("You got hurt.")
-If blnRecover(index) = False Then
-    If isPlayer(index) Then
-        If intLives(index) > 1 Then
-            intLives(index) = intLives(index) - 1
+If blnRecover(Index) = False Then
+    If isPlayer(Index) Then
+        If intLives(Index) > 1 Then
+            intLives(Index) = intLives(Index) - 1
         Else
             MsgBox ("Game Over")
             frmStart.Show
@@ -13,9 +13,15 @@ If blnRecover(index) = False Then
         Call refreshLabels(False, True, False)
     End If
     If gameMode = 0 Then
-        blnRecover(index) = True
-        Call getPowEffect(index, "Recover")
+        If isPlayer(Index) Then
+            blnPlayerMoveable(Index) = False
+        Else
+            frmMain.tmrCPUMove(Index).Enabled = False
+        End If
+        frmMain.tmrStun(Index).Enabled = True
+        blnRecover(Index) = True
+        Call getPowEffect(Index, "Recover")
     End If
-    blnPlayerMoveable(index) = True
+    blnPlayerMoveable(Index) = True
 End If
 End Sub

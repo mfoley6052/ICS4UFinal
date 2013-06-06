@@ -11,7 +11,7 @@ With frmMain
 .tmrChar(1).Enabled = True
 '.tmrChar(2).Enabled = True
 '.tmrChar(3).Enabled = True
-numPlayers = 2
+numPlayers = 1
 defaultTile(0) = tile(mapWidth - 1, mapHeight - 1)
 defaultTile(1) = tile(0, mapHeight - 1)
 defaultTile(2) = tile(0, 0)
@@ -55,15 +55,15 @@ Next dt
 If gameMode = 0 Then
     .tmrObjEvent.Enabled = True
     objExpire = 125
-    If isPlayer(1) Then
+    If Not isPlayer(1) Then
         .tmrCPUMove(1).Enabled = True
         counterLimit(1) = 1 'cpu 1 moves every (counterLimit + 1) seconds
     End If
-    If isPlayer(2) Then
+    If Not isPlayer(2) Then
         .tmrCPUMove(2).Enabled = True
          counterLimit(2) = 1
     End If
-    If isPlayer(3) Then
+    If Not isPlayer(3) Then
         .tmrCPUMove(3).Enabled = True
         counterLimit(3) = 1
     End If
@@ -101,25 +101,25 @@ frameProg(3) = 1
 End With
 End Sub
 
-Private Sub assignSprites(ByVal index As Integer)
+Private Sub assignSprites(ByVal Index As Integer)
 With frmMain
 Dim strPath As String
-If isPlayer(index) Then
-    If index = 1 Then
+If isPlayer(Index) Then
+    If Index = 1 Then
         strPath = "Y\"
-    ElseIf index = 2 Then
+    ElseIf Index = 2 Then
         strPath = "G\"
     End If
 Else
-    If index = 1 Then
+    If Index = 1 Then
         strPath = "R1\"
-    ElseIf index = 2 Then
+    ElseIf Index = 2 Then
         strPath = "R2\"
-    ElseIf index = 3 Then
+    ElseIf Index = 3 Then
         strPath = "R3\"
     End If
 End If
-If index = 1 Then
+If Index = 1 Then
     .picP2IR.Picture = LoadPicture(App.Path & "\Images\Char\" & strPath & "IdleR.gif")
     .picP2CR(1).Picture = LoadPicture(App.Path & "\Images\Char\" & strPath & "Crouch1R.gif")
     .picP2CR(2).Picture = LoadPicture(App.Path & "\Images\Char\" & strPath & "Crouch2R.gif")
@@ -140,7 +140,7 @@ If index = 1 Then
     .picP2CL(2).Picture = LoadPicture(App.Path & "\Images\Char\" & strPath & "Crouch2L.gif")
     .picP2CL(3).Picture = LoadPicture(App.Path & "\Images\Char\" & strPath & "Crouch3L.gif")
     .picP2JL.Picture = LoadPicture(App.Path & "\Images\Char\" & strPath & "JumpL.gif")
-ElseIf index = 2 Then
+ElseIf Index = 2 Then
     .picP3IR.Picture = LoadPicture(App.Path & "\Images\Char\" & strPath & "IdleR.gif")
     .picP3CR(1).Picture = LoadPicture(App.Path & "\Images\Char\" & strPath & "Crouch1R.gif")
     .picP3CR(2).Picture = LoadPicture(App.Path & "\Images\Char\" & strPath & "Crouch2R.gif")
@@ -161,7 +161,7 @@ ElseIf index = 2 Then
     .picP3CL(2).Picture = LoadPicture(App.Path & "\Images\Char\" & strPath & "Crouch2L.gif")
     .picP3CL(3).Picture = LoadPicture(App.Path & "\Images\Char\" & strPath & "Crouch3L.gif")
     .picP3JL.Picture = LoadPicture(App.Path & "\Images\Char\" & strPath & "JumpL.gif")
-ElseIf index = 3 Then
+ElseIf Index = 3 Then
     .picP4IR.Picture = LoadPicture(App.Path & "\Images\Char\" & strPath & "IdleR.gif")
     .picP4CR(1).Picture = LoadPicture(App.Path & "\Images\Char\" & strPath & "Crouch1R.gif")
     .picP4CR(2).Picture = LoadPicture(App.Path & "\Images\Char\" & strPath & "Crouch2R.gif")
