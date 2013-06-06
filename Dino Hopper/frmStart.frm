@@ -49,7 +49,27 @@ Begin VB.Form frmStart
       Caption         =   "Text"
       BeginProperty Font 
          Name            =   "@Arial Unicode MS"
-         Size            =   27.75
+         Size            =   21.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   840
+      Index           =   5
+      Left            =   3720
+      TabIndex        =   7
+      Top             =   7920
+      Visible         =   0   'False
+      Width           =   4500
+   End
+   Begin VB.Label lblMenu 
+      Alignment       =   2  'Center
+      Caption         =   "Text"
+      BeginProperty Font 
+         Name            =   "@Arial Unicode MS"
+         Size            =   21.75
          Charset         =   0
          Weight          =   400
          Underline       =   0   'False
@@ -69,7 +89,7 @@ Begin VB.Form frmStart
       Caption         =   "Text"
       BeginProperty Font 
          Name            =   "@Arial Unicode MS"
-         Size            =   27.75
+         Size            =   21.75
          Charset         =   0
          Weight          =   400
          Underline       =   0   'False
@@ -89,7 +109,7 @@ Begin VB.Form frmStart
       Caption         =   "Text"
       BeginProperty Font 
          Name            =   "@Arial Unicode MS"
-         Size            =   27.75
+         Size            =   24
          Charset         =   0
          Weight          =   400
          Underline       =   0   'False
@@ -109,7 +129,7 @@ Begin VB.Form frmStart
       Caption         =   "Text"
       BeginProperty Font 
          Name            =   "@Arial Unicode MS"
-         Size            =   27.75
+         Size            =   24
          Charset         =   0
          Weight          =   400
          Underline       =   0   'False
@@ -128,7 +148,7 @@ Begin VB.Form frmStart
       Caption         =   "Text"
       BeginProperty Font 
          Name            =   "@Arial Unicode MS"
-         Size            =   27.75
+         Size            =   24
          Charset         =   0
          Weight          =   400
          Underline       =   0   'False
@@ -182,66 +202,67 @@ DefaultKey(11) = vbKeyNumpad8
 DefaultKey(12) = vbKeyNumpad6
 DefaultKey(13) = vbKeyNumpad5
 DefaultKey(14) = vbKeySeparator
-lblMenu(0).Caption = "Multiplayer"
-lblMenu(0).Tag = 2
+lblMenu(0).Caption = "MultiPlayer"
 lblMenu(1).Caption = "Single Player"
-lblMenu(1).Tag = 0
 lblMenu(2).Caption = "Options"
-lblMenu(2).Tag = 3
 frmStart.PaintPicture picTitleMainMask.Image, picTitleMainMask.Left, picTitleMainMask.Top, picTitleMainMask.Width, picTitleMainMask.Height, 0, 0, picTitleMainMask.Width, picTitleMainMask.Height, vbSrcAnd
 frmStart.PaintPicture picTitleMain.Image, picTitleMain.Left, picTitleMain.Top, picTitleMain.Width, picTitleMain.Height, 0, 0, picTitleMain.Width, picTitleMain.Height, vbSrcPaint
 End Sub
 
 Private Sub lblMenu_Click(index As Integer)
 If index = 0 Then 'left
-     lblMenu(3).Visible = False
-     lblMenu(4).Visible = False
+    lblMenu(3).Visible = False
+    lblMenu(4).Visible = False
+    lblMenu(5).Visible = False
     For X = 0 To 2
-        If Val(lblMenu(X).Tag) < 3 Then
-            lblMenu(X).Tag = Val(lblMenu(X).Tag) + 1
-        Else
-            lblMenu(X).Tag = 0
-        End If
-        If lblMenu(X).Tag = 0 Then
+        If lblMenu(X).Caption = "Options" Then
             lblMenu(X).Caption = "Single Player"
-        ElseIf lblMenu(X).Tag = 1 Then
-            lblMenu(X).Caption = "Multiplayer"
-        ElseIf lblMenu(X).Tag = 2 Then
-            lblMenu(X).Caption = "Options"
-        Else
+            
+        ElseIf lblMenu(X).Caption = "Single Player" Then
+            lblMenu(X).Caption = "MultiPlayer"
+            
+        ElseIf lblMenu(X).Caption = "MultiPlayer" Then
             lblMenu(X).Caption = "Exit"
+            
+        Else
+            lblMenu(X).Caption = "Options"
         End If
     Next X
 ElseIf index = 2 Then 'right
-     lblMenu(3).Visible = False
-     lblMenu(4).Visible = False
+    lblMenu(3).Visible = False
+    lblMenu(4).Visible = False
+    lblMenu(5).Visible = False
     For X = 0 To 2
-        If Val(lblMenu(X).Tag) > 0 Then
-            lblMenu(X).Tag = Val(lblMenu(X).Tag) - 1
-        Else
-            lblMenu(X).Tag = 3
-        End If
-        If lblMenu(X).Tag = 0 Then
+        If lblMenu(X).Caption = "MultiPlayer" Then
             lblMenu(X).Caption = "Single Player"
-        ElseIf lblMenu(X).Tag = 1 Then
+            
+        ElseIf lblMenu(X).Caption = "Exit" Then
             lblMenu(X).Caption = "MultiPlayer"
-        ElseIf lblMenu(X).Tag = 2 Then
-            lblMenu(X).Caption = "Options"
-        Else
+            
+        ElseIf lblMenu(X).Caption = "Options" Then
             lblMenu(X).Caption = "Exit"
+            
+        Else
+            lblMenu(X).Caption = "Options"
         End If
     Next X
 ElseIf index = 1 Then ' Select
-    If lblMenu(1).Tag = 3 Then
+    If lblMenu(1).Caption = "Exit" Then
         End
-    ElseIf lblMenu(1).Tag = 2 Then
+    ElseIf lblMenu(1).Caption = "Exit" Then
         frmSettings.Show
-    ElseIf lblMenu(1).Tag = 0 Then
+    ElseIf lblMenu(1).Caption = "Single Player" Then
         lblMenu(3).Visible = True
         lblMenu(3).Caption = "Arcade Mode"
-        lblMenu(4).Caption = "Puzzle Mode"
+        lblMenu(4).Caption = "Turn-Based"
+        lblMenu(5).Caption = "Puzzle Mode"
+        lblMenu(5).Visible = True
         lblMenu(4).Visible = True
-    Else
+    ElseIf lblMenu(1).Caption = "MultiPlayer" Then
+        lblMenu(3).Visible = True
+        lblMenu(3).Caption = "Arcade Mode"
+        lblMenu(4).Caption = "Turn-Based"
+        lblMenu(4).Visible = True
         
     End If
 ElseIf index = 3 Then
@@ -250,6 +271,10 @@ ElseIf index = 3 Then
         frmMain.Show
 ElseIf index = 4 Then
         gameMode = 1
+        frmStart.Hide
+        frmMain.Show
+ElseIf index = 5 Then
+        gameMode = 2
         frmStart.Hide
         frmMain.Show
 End If
