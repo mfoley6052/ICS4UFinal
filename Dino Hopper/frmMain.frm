@@ -4972,6 +4972,10 @@ Attribute VB_Exposed = False
 Dim formW As Integer
 Dim formH As Integer
 
+Private Sub Form_GotFocus()
+frmGUI.SetFocus
+End Sub
+
 Private Sub Form_KeyUp(keyCode As Integer, Shift As Integer)
 If keyCode = 123 Then 'F12
     If frmDbg.Visible = False Then

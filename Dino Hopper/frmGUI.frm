@@ -102,8 +102,6 @@ Private Const WS_EX_LAYERED = &H80000
 Private Const LWA_COLORKEY = &H1
 Private Const LWA_ALPHA = &H2
 
-
-
 Private Sub Form_KeyDown(keyCode As Integer, Shift As Integer)
 Call keyHandler(keyCode, Shift)
 End Sub
