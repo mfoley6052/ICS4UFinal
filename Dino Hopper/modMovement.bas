@@ -342,8 +342,6 @@ End If
 If Not blnBounceJump(index) Then
     blnClearPrevTile(index) = True
 End If
-.lblTest.Caption = "(" & curX(0) & ", " & curY(0) & ") (" & nextX(0) & ", " & nextY(0) & ")"
-.lblTest2.Caption = oddRow(curY(0)) & ", " & oddRow(nextY(0))
 End With
 End Sub
 

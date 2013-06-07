@@ -5,7 +5,7 @@ intScore(index) = intScore(index) + (intMulti(index) * intAdd)
 End Sub
 
 Public Sub refreshLabels(ByVal blnScore As Boolean, ByVal blnLives As Boolean, ByVal blnMulti As Boolean)
-With frmMain
+With frmGUI
 If blnScore Then
     .lblScore = "Score: " & Format(intScore(0), "0000000")
 End If

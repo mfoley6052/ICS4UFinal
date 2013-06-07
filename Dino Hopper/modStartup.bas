@@ -1,22 +1,21 @@
 Attribute VB_Name = "modStartup"
 Public Sub gameStart()
-With frmMain
+With frmGUI
 'gameMode = 2
 .lblScore.Visible = True
 .lblLives.Visible = True
 .lblMulti.Visible = True
-.PaintPicture frmMain.picEggMask(0).Image, .lblLives.Left - 24, 0, 22, 30, 0, 0, 22, 30, vbSrcAnd
-.PaintPicture frmMain.picEggG(0).Image, .lblLives.Left - 24, 0, 22, 30, 0, 0, 22, 30, vbSrcPaint
-.tmrChar(0).Enabled = True
-If numPlayers >= 2 Then
-    For X = 1 To numPlayers
-        .tmrChar(X).Enabled = True
-    Next X
-End If
-If numCPU >= 1 Then
-    For X = 1 To numCPU
-        .tmrChar(X).Enabled = True
-    Next X
+.PaintPicture frmMain.picEggMask(0).Image, .lblLives.Left - 24, .lblLives.Top - ((frmMain.picEggG(0).Height - .lblLives.Height) * 0.5), 22, 30, 0, 0, 22, 30, vbSrcAnd
+.PaintPicture frmMain.picEggG(0).Image, .lblLives.Left - 24, .lblLives.Top - ((frmMain.picEggG(0).Height - .lblLives.Height) * 0.5), 22, 30, 0, 0, 22, 30, vbSrcPaint
+End With
+With frmMain
+For X = 0 To numPlayers - 1
+    .tmrChar(X).Enabled = True
+Next X
+If numCPU > 0 Then
+    For Y = 1 To numCPU
+        .tmrChar(Y).Enabled = True
+    Next Y
 End If
 defaultTile(0) = tile(mapWidth - 1, mapHeight - 1)
 defaultTile(1) = tile(0, mapHeight - 1)
@@ -46,7 +45,9 @@ For dt = 0 To 3
     curY(dt) = defaultTile(dtVal(dt)).Yc
     nextX(dt) = defaultTile(dtVal(dt)).Xc
     nextY(dt) = defaultTile(dtVal(dt)).Yc
-    tile(defaultTile(dtVal(dt)).Xc, defaultTile(dtVal(dt)).Yc).hasChar = True
+    If .tmrChar(dt).Enabled Then
+        tile(defaultTile(dtVal(dt)).Xc, defaultTile(dtVal(dt)).Yc).hasChar = True
+    End If
     If dtVal(dt) = 0 Then
         strDir(dt) = "L"
     ElseIf dtVal(dt) = 1 Then
@@ -63,17 +64,11 @@ Next dt
 If gameMode = 0 Then
     .tmrObjEvent.Enabled = True
     objExpire = 125
-    If Not isPlayer(1) Then
-        .tmrCPUMove(1).Enabled = True
-        counterLimit(1) = 1 'cpu 1 moves every (counterLimit + 1) seconds
-    End If
-    If Not isPlayer(2) Then
-        .tmrCPUMove(2).Enabled = True
-         counterLimit(2) = 1
-    End If
-    If Not isPlayer(3) Then
-        .tmrCPUMove(3).Enabled = True
-        counterLimit(3) = 1
+    If numCPU > 0 Then
+        For enableCPU = 1 To numCPU
+            .tmrCPUMove(enableCPU).Enabled = True
+            counterLimit(enableCPU) = 1 'cpu 1 moves every (counterLimit + 1) seconds
+        Next enableCPU
     End If
     tmrPowLimit = 20
 Else

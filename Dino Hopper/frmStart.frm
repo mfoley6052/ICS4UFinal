@@ -253,7 +253,7 @@ End Sub
 
 Private Sub cmdPlay_Click()
 frmStart.Hide
-frmMain.Show
+mdiMain.Show
 End Sub
 
 Private Sub cmdRemove_Click()
@@ -282,7 +282,7 @@ If numPlayers + numCPU > 1 Then
 End If
 End Sub
 
-Private Sub Form_Load()
+Private Sub form_load()
 ReDim DefaultKey(14) As Integer
 ReDim key(14) As Integer
 numPlayers = 1
