@@ -222,10 +222,12 @@ Dim cpus() As Integer
 Private Sub cmdAdd_Click()
 If numPlayers + numCPU < 4 Then
     If cmdAdd.Caption = "Add Player" Then
-        numPlayers = numPlayers + 1
-        lstPlayers.AddItem "Player " & numPlayers
-        ReDim Preserve players(numPlayers) As Integer
-        players(numPlayers) = lstPlayers.ListCount
+        If numPlayers < 3 Then
+            numPlayers = numPlayers + 1
+            lstPlayers.AddItem "Player " & numPlayers
+            ReDim Preserve players(numPlayers) As Integer
+            players(numPlayers) = lstPlayers.ListCount
+        End If
     Else
         numCPU = numCPU + 1
         lstPlayers.AddItem "CPU " & numCPU
@@ -382,10 +384,10 @@ ElseIf index = 3 Then
     gameMode = 0
     Call getPlayers
 ElseIf index = 4 Then
-    gameMode = 1
+    gameMode = 2
     Call getPlayers
 ElseIf index = 5 Then
-    gameMode = 2
+    gameMode = 1
     Call getPlayers
 End If
 End Sub
@@ -398,6 +400,7 @@ If lblMenu(1).Caption = "Single Player" Then
     cmdAdd.Caption = "Add CPU"
     cmdRemove.Caption = "Remove CPU"
 Else
+    numCPU = 0
     cmdAdd.Caption = "Add Player"
     cmdRemove.Caption = "Remove Player"
 End If

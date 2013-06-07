@@ -8,12 +8,16 @@ With frmMain
 .PaintPicture frmMain.picEggMask(0).Image, .lblLives.Left - 24, 0, 22, 30, 0, 0, 22, 30, vbSrcAnd
 .PaintPicture frmMain.picEggG(0).Image, .lblLives.Left - 24, 0, 22, 30, 0, 0, 22, 30, vbSrcPaint
 .tmrChar(0).Enabled = True
+If numPlayers >= 2 Then
+    For X = 1 To numPlayers
+        .tmrChar(X).Enabled = True
+    Next X
+End If
 If numCPU >= 1 Then
     For X = 1 To numCPU
         .tmrChar(X).Enabled = True
     Next X
 End If
-numPlayers = 1
 defaultTile(0) = tile(mapWidth - 1, mapHeight - 1)
 defaultTile(1) = tile(0, mapHeight - 1)
 defaultTile(2) = tile(0, 0)
