@@ -23,4 +23,5 @@ frmGUI.Top = 0
 frmGUI.Left = 0
 frmGUI.BackColor = vbCyan
 frmGUI.Show
+frmGUI.SetFocus
 End Sub

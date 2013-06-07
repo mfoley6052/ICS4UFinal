@@ -10,7 +10,6 @@ Begin VB.Form frmGUI
    ClientWidth     =   12000
    LinkTopic       =   "GUI"
    MDIChild        =   -1  'True
-   Picture         =   "frmGUI.frx":0000
    ScaleHeight     =   87
    ScaleMode       =   3  'Pixel
    ScaleWidth      =   800
@@ -33,7 +32,6 @@ Begin VB.Form frmGUI
       Left            =   9090
       TabIndex        =   2
       Top             =   120
-      Visible         =   0   'False
       Width           =   1950
    End
    Begin VB.Label lblMulti 
@@ -54,7 +52,6 @@ Begin VB.Form frmGUI
       Left            =   0
       TabIndex        =   1
       Top             =   120
-      Visible         =   0   'False
       Width           =   1665
    End
    Begin VB.Label lblLives 
@@ -76,7 +73,6 @@ Begin VB.Form frmGUI
       Left            =   11490
       TabIndex        =   0
       Top             =   90
-      Visible         =   0   'False
       Width           =   300
    End
 End
@@ -85,3 +81,29 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+Private Declare Function GetWindowLong Lib "user32" Alias "GetWindowLongA" ( _
+                ByVal hwnd As Long, _
+                ByVal nIndex As Long) As Long
+
+Private Declare Function SetWindowLong Lib "user32" Alias "SetWindowLongA" ( _
+                ByVal hwnd As Long, _
+                ByVal nIndex As Long, _
+                ByVal dwNewLong As Long) As Long
+                
+Private Declare Function SetLayeredWindowAttributes Lib "user32" ( _
+                ByVal hwnd As Long, _
+                ByVal crKey As Long, _
+                ByVal bAlpha As Byte, _
+                ByVal dwFlags As Long) As Long
+
+Private Const GWL_STYLE = (-16)
+Private Const GWL_EXSTYLE = (-20)
+Private Const WS_EX_LAYERED = &H80000
+Private Const LWA_COLORKEY = &H1
+Private Const LWA_ALPHA = &H2
+
+
+
+Private Sub Form_KeyDown(keyCode As Integer, Shift As Integer)
+Call keyHandler(keyCode, Shift)
+End Sub

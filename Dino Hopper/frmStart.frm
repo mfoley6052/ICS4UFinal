@@ -282,7 +282,7 @@ If numPlayers + numCPU > 1 Then
 End If
 End Sub
 
-Private Sub form_load()
+Private Sub Form_Load()
 ReDim DefaultKey(14) As Integer
 ReDim key(14) As Integer
 numPlayers = 1

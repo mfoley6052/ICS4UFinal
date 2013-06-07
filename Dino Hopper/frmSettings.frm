@@ -157,31 +157,31 @@ End Sub
 Private Sub cmdMap_Click()
 If cmdMap.Tag = "lock" Then
     cmdMap.Tag = "edit"
-    For x = txtCTR.LBound To txtCTR.UBound
-        txtCTR(x).Enabled = True
-    Next x
+    For X = txtCTR.LBound To txtCTR.UBound
+        txtCTR(X).Enabled = True
+    Next X
     cmdMap.Caption = "Save Binding"
 Else
     cmdMap.Tag = "lock"
-    For x = txtCTR.LBound To txtCTR.UBound
-        txtCTR(x).Enabled = False
-    Next x
+    For X = txtCTR.LBound To txtCTR.UBound
+        txtCTR(X).Enabled = False
+    Next X
     cmdMap.Caption = "Rebind Keys"
 End If
 End Sub
 
 Private Sub Form_Load()
-For x = txtCTR.LBound To txtCTR.UBound
-    If key(x) <> DefaultKey(x) Then
-        txtCTR(x).Text = Chr(key(x))
+For X = txtCTR.LBound To txtCTR.UBound
+    If key(X) <> DefaultKey(X) Then
+        txtCTR(X).Text = Chr(key(X))
     End If
-Next x
+Next X
 End Sub
 
-Private Sub txtCTR_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
-key(Index) = KeyCode
-txtCTR(Index).Enabled = False
-txtCTR(Index).Text = Chr(KeyCode)
+Private Sub txtCTR_KeyDown(index As Integer, keyCode As Integer, Shift As Integer)
+key(index) = keyCode
+txtCTR(index).Enabled = False
+txtCTR(index).Text = Chr(keyCode)
 'MsgBox (KeyCode & ": " & Chr(KeyCode))
 
 End Sub

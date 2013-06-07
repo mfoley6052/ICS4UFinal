@@ -15,7 +15,7 @@ Begin VB.Form frmPause
       Alignment       =   2  'Center
       Caption         =   "Quit"
       BeginProperty Font 
-         Name            =   "Monospac821 BT"
+         Name            =   "Arial"
          Size            =   14.25
          Charset         =   0
          Weight          =   700
@@ -34,7 +34,7 @@ Begin VB.Form frmPause
       Alignment       =   2  'Center
       Caption         =   "Main Menu"
       BeginProperty Font 
-         Name            =   "Monospac821 BT"
+         Name            =   "Arial"
          Size            =   14.25
          Charset         =   0
          Weight          =   700
@@ -53,7 +53,7 @@ Begin VB.Form frmPause
       Alignment       =   2  'Center
       Caption         =   "Options"
       BeginProperty Font 
-         Name            =   "Monospac821 BT"
+         Name            =   "Arial"
          Size            =   14.25
          Charset         =   0
          Weight          =   700
@@ -72,7 +72,7 @@ Begin VB.Form frmPause
       Alignment       =   2  'Center
       Caption         =   "Continue"
       BeginProperty Font 
-         Name            =   "Monospac821 BT"
+         Name            =   "Arial"
          Size            =   14.25
          Charset         =   0
          Weight          =   700
