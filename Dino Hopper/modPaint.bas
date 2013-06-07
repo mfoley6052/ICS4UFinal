@@ -88,6 +88,8 @@ If Not tileInput.hasObj Or Not bypassForObj Then
                             .picBuffer.PaintPicture tilePic.Image, 0, 0, 100, 100, 0, 0, 100, 100, vbSrcCopy
                             .PaintPicture tileAlt.picMask.Image, tileAlt.X, tileAlt.Y, 100, 100, 0, 0, 100, 100, vbSrcAnd
                             .PaintPicture .picBuffer.Image, tileAlt.X, tileAlt.Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
+                            .PaintPicture frmMain.picEggMask(0).Image, .lblLives.Left - 24, 0, 22, 30, 0, 0, 22, 30, vbSrcAnd
+                            .PaintPicture frmMain.picEggG(0).Image, .lblLives.Left - 24, 0, 22, 30, 0, 0, 22, 30, vbSrcPaint
                         End If
                     Else
                         Call clearVoid(tileInput, True, True) 'paint spacer
