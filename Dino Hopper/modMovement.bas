@@ -25,11 +25,61 @@ If Not blnEdgeJump(index) Then
                     End If
                     Call getCharJumpAnim(index, frameCounter(index), tile(curX(index), curY(index)), nextTile.X, nextTile.Y)
                 End If
-            ElseIf nextX(index) = curX(charIndex) And nextY(index) = curY(charIndex) And gameMode = 0 Then
-                If frameCounter(charIndex) <= 5 And frameCounter(index) = 9 Then
+            ElseIf gameMode = 0 And frameCounter(index) = 9 Then
+                If nextX(index) = curX(charIndex) And nextY(index) = curY(charIndex) Then
                     frameProg(index) = -1
-                    If Not blnRecover(charIndex) Then
-                        Call getHurt(charIndex, index)
+                    If frameCounter(charIndex) > 5 Then
+                        frameProg(charIndex) = -1
+                        If Not blnRecover(charIndex) Then
+                            Call getHurt(charIndex, index)
+                        End If
+                        If Not blnRecover(index) And frameCounter(charIndex) = 9 Then
+                            Call getHurt(index, charIndex)
+                        End If
+                    Else
+                        If Not blnRecover(charIndex) Then
+                            Call getJump(charIndex, strDir(index), evalMove(charIndex, strDir(index)))
+                            If strDir(index) = "L" Then
+                                strDir(charIndex) = "R"
+                            ElseIf strDir(index) = "U" Then
+                                strDir(charIndex) = "D"
+                            ElseIf strDir(index) = "R" Then
+                                strDir(charIndex) = "L"
+                            ElseIf strDir(index) = "D" Then
+                                strDir(charIndex) = "U"
+                            End If
+                            Call getHurt(charIndex, index)
+                            frameCounter(charIndex) = 6
+                        End If
+                    End If
+                ElseIf nextX(index) = nextX(charIndex) And nextY(index) = nextY(charIndex) Then 'going toward same tile
+                    If frameCounter(index) < frameCounter(charIndex) Then 'current char ahead of charIndex char
+                        If Not blnRecover(charIndex) Then
+                            Call getJump(charIndex, strDir(index), evalMove(charIndex, strDir(index)))
+                            If strDir(index) = "L" Then
+                                strDir(charIndex) = "R"
+                            ElseIf strDir(index) = "U" Then
+                                strDir(charIndex) = "D"
+                            ElseIf strDir(index) = "R" Then
+                                strDir(charIndex) = "L"
+                            ElseIf strDir(index) = "D" Then
+                                strDir(charIndex) = "U"
+                            End If
+                            Call getHurt(charIndex, index)
+                            frameCounter(charIndex) = 6
+                        Else
+                            frameProg(index) = -1
+                            Call getHurt(index, charIndex)
+                        End If
+                    ElseIf frameCounter(index) = frameCounter(charIndex) Then 'both chars at same frame; head-on collision
+                        frameProg(index) = -1
+                        frameProg(charIndex) = -1
+                        If Not blnRecover(index) Then
+                            Call getHurt(index, charIndex)
+                        End If
+                        If Not blnRecover(charIndex) Then
+                            Call getHurt(charIndex, index)
+                        End If
                     End If
                 End If
             End If

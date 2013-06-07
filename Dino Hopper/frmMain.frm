@@ -15,28 +15,28 @@ Begin VB.Form frmMain
    Begin VB.Timer tmrStun 
       Enabled         =   0   'False
       Index           =   3
-      Interval        =   500
+      Interval        =   1000
       Left            =   11520
       Top             =   4440
    End
    Begin VB.Timer tmrStun 
       Enabled         =   0   'False
       Index           =   2
-      Interval        =   500
+      Interval        =   1000
       Left            =   11520
       Top             =   3960
    End
    Begin VB.Timer tmrStun 
       Enabled         =   0   'False
       Index           =   1
-      Interval        =   500
+      Interval        =   1000
       Left            =   11520
       Top             =   3480
    End
    Begin VB.Timer tmrStun 
       Enabled         =   0   'False
       Index           =   0
-      Interval        =   500
+      Interval        =   1000
       Left            =   11520
       Top             =   3000
    End
@@ -5059,7 +5059,7 @@ ElseIf KeyCode = key(5) Or KeyCode = key(6) Or KeyCode = key(7) Or KeyCode = key
 ElseIf KeyCode = key(10) Or KeyCode = key(11) Or KeyCode = key(12) Or KeyCode = key(13) Or KeyCode = key(14) Then
     playerIndex = 2
 End If
-If blnPlayerMoveable(playerIndex) = True Then
+If blnPlayerMoveable(playerIndex) = True And frameCounter(playerIndex) = 0 Then
     If KeyCode = key(0 + (5 * playerIndex)) Then 'Left
         If gameMode = 0 Then
             Call getJump(playerIndex, "L", evalMove(playerIndex, "L"))
