@@ -19,7 +19,7 @@ If Not blnEdgeJump(index) Then
                 If curY(index) < curY(charIndex) Then
                     targIndex(index) = charIndex
                     Call getCharJumpAnim(index, frameCounter(index), tile(curX(index), curY(index)), nextTile.X, spriteY(targIndex(index)))
-                ElseIf curY(index) = curY(charIndex) Then
+                ElseIf gameMode = 1 And curY(index) = curY(charIndex) Then
                     If frameCounter(index) = 9 Then
                         frameProg(index) = -1
                     End If
@@ -444,7 +444,7 @@ If .tmrChar(index).Enabled And blnMoveOnTick(index) Then
         blnMoveOnTick(index) = False
         If isPlayer(index + 1) Then
             blnMoveOnTick(index + 1) = True
-        Else
+        ElseIf numPlayers = 1 Then
             Call getTick(index + 1)
         End If
     End If
@@ -526,7 +526,7 @@ For getMove = loopMin To loopMax 'get movement (or not)
         If gameMode = 2 And index < 3 Then
             If isPlayer(index + 1) Then
                 blnMoveOnTick(index + 1) = True
-            Else
+            ElseIf numPlayers = 1 Then
                 Call getTick(index + 1)
             End If
         End If
