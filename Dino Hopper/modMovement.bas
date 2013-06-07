@@ -1,192 +1,192 @@
 Attribute VB_Name = "modMovement"
-Public Sub charAction(ByVal Index As Integer, nextTile As terrain)
-If frameCounter(Index) = 1 Then
-    strState(Index) = "C"
-ElseIf frameCounter(Index) = 5 Then
-    strState(Index) = "J"
+Public Sub charAction(ByVal index As Integer, nextTile As terrain)
+If frameCounter(index) = 1 Then
+    strState(index) = "C"
+ElseIf frameCounter(index) = 5 Then
+    strState(index) = "J"
 End If
 If gameMode <> 0 Then
-    targIndex(Index) = -1
+    targIndex(index) = -1
 End If
-If Not blnEdgeJump(Index) Then
+If Not blnEdgeJump(index) Then
     If gameMode = 0 Then
-        Call getCharJumpAnim(Index, frameCounter(Index), tile(curX(Index), curY(Index)), nextTile.X, nextTile.Y)
+        Call getCharJumpAnim(index, frameCounter(index), tile(curX(index), curY(index)), nextTile.X, nextTile.Y)
     End If
     For charIndex = 0 To 3
         With frmMain
-        If charIndex <> Index And .tmrChar(charIndex).Enabled Then
-            If nextX(Index) = nextX(charIndex) And nextY(Index) = nextY(charIndex) And gameMode <> 0 Then
-                If curY(Index) < curY(charIndex) Then
-                    targIndex(Index) = charIndex
-                    Call getCharJumpAnim(Index, frameCounter(Index), tile(curX(Index), curY(Index)), nextTile.X, spriteY(targIndex(Index)))
-                ElseIf curY(Index) = curY(charIndex) Then
-                    If frameCounter(Index) = 9 Then
-                        frameProg(Index) = -1
+        If charIndex <> index And .tmrChar(charIndex).Enabled Then
+            If nextX(index) = nextX(charIndex) And nextY(index) = nextY(charIndex) And gameMode <> 0 Then
+                If curY(index) < curY(charIndex) Then
+                    targIndex(index) = charIndex
+                    Call getCharJumpAnim(index, frameCounter(index), tile(curX(index), curY(index)), nextTile.X, spriteY(targIndex(index)))
+                ElseIf curY(index) = curY(charIndex) Then
+                    If frameCounter(index) = 9 Then
+                        frameProg(index) = -1
                     End If
-                    Call getCharJumpAnim(Index, frameCounter(Index), tile(curX(Index), curY(Index)), nextTile.X, nextTile.Y)
+                    Call getCharJumpAnim(index, frameCounter(index), tile(curX(index), curY(index)), nextTile.X, nextTile.Y)
                 End If
-            ElseIf nextX(Index) = curX(charIndex) And nextY(Index) = curY(charIndex) And gameMode = 0 Then
-                If frameCounter(charIndex) <= 5 And frameCounter(Index) = 9 Then
-                    frameProg(Index) = -1
+            ElseIf nextX(index) = curX(charIndex) And nextY(index) = curY(charIndex) And gameMode = 0 Then
+                If frameCounter(charIndex) <= 5 And frameCounter(index) = 9 Then
+                    frameProg(index) = -1
                     If Not blnRecover(charIndex) Then
-                        Call getHurt(charIndex, Index)
+                        Call getHurt(charIndex, index)
                     End If
                 End If
             End If
         End If
         End With
     Next charIndex
-    If targIndex(Index) < 0 Then
-        Call getCharJumpAnim(Index, frameCounter(Index), tile(curX(Index), curY(Index)), tile(nextX(Index), nextY(Index)).X, tile(nextX(Index), nextY(Index)).Y)
+    If targIndex(index) < 0 Then
+        Call getCharJumpAnim(index, frameCounter(index), tile(curX(index), curY(index)), tile(nextX(index), nextY(index)).X, tile(nextX(index), nextY(index)).Y)
     End If
-    Call PaintCharSprite(Index, spriteX(Index), spriteY(Index))
-    If frameCounter(Index) = 10 Then
-        strState(Index) = "I"
+    Call PaintCharSprite(index, spriteX(index), spriteY(index))
+    If frameCounter(index) = 10 Then
+        strState(index) = "I"
     End If
-    If (frameCounter(Index) = frameLimit(Index)) Or (frameProg(Index) < 0 And frameCounter(Index) <= 5) Then
+    If (frameCounter(index) = frameLimit(index)) Or (frameProg(index) < 0 And frameCounter(index) <= 5) Then
         If gameMode = 0 Then
-            Call getJumpComplete(Index)
-            frameProg(Index) = 1
+            Call getJumpComplete(index)
+            frameProg(index) = 1
         ElseIf checkTickComplete And gameMode = 1 Then
             For getNext = 0 To 3
                 Call getTickComplete(getNext)
             Next getNext
         ElseIf gameMode = 2 Then
-            Call getTickComplete(Index)
-            If Index < 3 Then
-                If Not isPlayer(Index + 1) Then
-                    Call getTick(Index + 1)
+            Call getTickComplete(index)
+            If index < 3 Then
+                If Not isPlayer(index + 1) Then
+                    Call getTick(index + 1)
                 End If
             End If
         End If
     Else
-        frameCounter(Index) = frameCounter(Index) + frameProg(Index)
+        frameCounter(index) = frameCounter(index) + frameProg(index)
     End If
 Else 'jump off edge
     Dim curTile As terrain
-    curTile = tile(curX(Index), curY(Index))
+    curTile = tile(curX(index), curY(index))
     Dim altTile As terrain
-    If strDir(Index) = "L" Then
-        Call getCharJumpAnim(Index, frameCounter(Index), tile(curX(Index), curY(Index)), tile(curX(Index), curY(Index)).X - 50, tile(curX(Index), curY(Index)).Y - 75)
-        If curY(Index) = 0 Then
-            If spriteY(Index) < curTile.Y + 50 Or (spriteX(Index) > -35 And spriteX(Index) < tile(mapWidth - 1, 0).X + 135 And spriteY(Index) < curTile.Y + 25) Then
-                Call PaintCharSprite(Index, spriteX(Index), spriteY(Index))
+    If strDir(index) = "L" Then
+        Call getCharJumpAnim(index, frameCounter(index), tile(curX(index), curY(index)), tile(curX(index), curY(index)).X - 50, tile(curX(index), curY(index)).Y - 75)
+        If curY(index) = 0 Then
+            If spriteY(index) < curTile.Y + 50 Or (spriteX(index) > -35 And spriteX(index) < tile(mapWidth - 1, 0).X + 135 And spriteY(index) < curTile.Y + 25) Then
+                Call PaintCharSprite(index, spriteX(index), spriteY(index))
             End If
-            Call clearTile(curTile, True, Index, "CharTop+X-Y")
-            If curX(Index) > 0 Then
+            Call clearTile(curTile, True, index, "CharTop+X-Y")
+            If curX(index) > 0 Then
                 altTile = tile(curTile.Xc - 1, curTile.Yc)
                 If altTile.hasObj Then
                     Call PaintObj(altTile.objType(0), altTile.objType(1), altTile.objFrame, altTile.Xc, altTile.Yc, False)
                 End If
             End If
-        ElseIf curX(Index) = 0 And curY(Index) > 0 Then
-            Call clearTile(curTile, True, Index, "CharSide-X-Y")
-            Call PaintCharSprite(Index, spriteX(Index), spriteY(Index))
+        ElseIf curX(index) = 0 And curY(index) > 0 Then
+            Call clearTile(curTile, True, index, "CharSide-X-Y")
+            Call PaintCharSprite(index, spriteX(index), spriteY(index))
         End If
-    ElseIf strDir(Index) = "U" Then
-        Call getCharJumpAnim(Index, frameCounter(Index), curTile, curTile.X + 50, curTile.Y - 75)
-        If curY(Index) = 0 Then
-            If spriteY(Index) < curTile.Y + 50 Or (spriteX(Index) > -35 And spriteX(Index) < tile(mapWidth - 1, 0).X + 135 And spriteY(Index) < curTile.Y + 25) Then
-                Call PaintCharSprite(Index, spriteX(Index), spriteY(Index))
+    ElseIf strDir(index) = "U" Then
+        Call getCharJumpAnim(index, frameCounter(index), curTile, curTile.X + 50, curTile.Y - 75)
+        If curY(index) = 0 Then
+            If spriteY(index) < curTile.Y + 50 Or (spriteX(index) > -35 And spriteX(index) < tile(mapWidth - 1, 0).X + 135 And spriteY(index) < curTile.Y + 25) Then
+                Call PaintCharSprite(index, spriteX(index), spriteY(index))
             End If
-            Call clearTile(curTile, True, Index, "CharTop+X-Y")
-            If curX(Index) < mapWidth - 1 Then
+            Call clearTile(curTile, True, index, "CharTop+X-Y")
+            If curX(index) < mapWidth - 1 Then
                 altTile = tile(curTile.Xc + 1, curTile.Yc)
                 If altTile.hasObj Then
                     Call PaintObj(altTile.objType(0), altTile.objType(1), altTile.objFrame, altTile.Xc, altTile.Yc, False)
                 End If
             End If
-        ElseIf curX(Index) = mapWidth And curY(Index) > 0 Then
-            Call clearTile(curTile, True, Index, "CharSide+X-Y")
-            Call PaintCharSprite(Index, spriteX(Index), spriteY(Index))
+        ElseIf curX(index) = mapWidth And curY(index) > 0 Then
+            Call clearTile(curTile, True, index, "CharSide+X-Y")
+            Call PaintCharSprite(index, spriteX(index), spriteY(index))
         End If
-    ElseIf strDir(Index) = "R" Then
-        Call getCharJumpAnim(Index, frameCounter(Index), curTile, curTile.X + 50, curTile.Y + 75)
-        If curX(Index) = mapWidth And curY(Index) > 0 Then
-            Call clearTile(curTile, True, Index, "CharSide+X+Y")
-        ElseIf curY(Index) = mapHeight - 1 Then
-            Call clearTile(curTile, True, Index, "CharBottom+X+Y")
+    ElseIf strDir(index) = "R" Then
+        Call getCharJumpAnim(index, frameCounter(index), curTile, curTile.X + 50, curTile.Y + 75)
+        If curX(index) = mapWidth And curY(index) > 0 Then
+            Call clearTile(curTile, True, index, "CharSide+X+Y")
+        ElseIf curY(index) = mapHeight - 1 Then
+            Call clearTile(curTile, True, index, "CharBottom+X+Y")
         End If
-        Call PaintCharSprite(Index, spriteX(Index), spriteY(Index))
-    ElseIf strDir(Index) = "D" Then
-        Call getCharJumpAnim(Index, frameCounter(Index), curTile, curTile.X - 50, curTile.Y + 75)
-        If curX(Index) = 0 And (curY(Index) > 0 And curY(Index) < mapHeight - 1) Then
-            Call clearTile(curTile, True, Index, "CharSide-X+Y")
-        ElseIf curY(Index) = mapHeight - 1 Then
-            Call clearTile(curTile, True, Index, "CharBottom-X+Y")
+        Call PaintCharSprite(index, spriteX(index), spriteY(index))
+    ElseIf strDir(index) = "D" Then
+        Call getCharJumpAnim(index, frameCounter(index), curTile, curTile.X - 50, curTile.Y + 75)
+        If curX(index) = 0 And (curY(index) > 0 And curY(index) < mapHeight - 1) Then
+            Call clearTile(curTile, True, index, "CharSide-X+Y")
+        ElseIf curY(index) = mapHeight - 1 Then
+            Call clearTile(curTile, True, index, "CharBottom-X+Y")
         End If
-        Call PaintCharSprite(Index, spriteX(Index), spriteY(Index))
+        Call PaintCharSprite(index, spriteX(index), spriteY(index))
     End If
-    If frameCounter(Index) = frameLimit(Index) * 1.6 Then
-        spriteX(Index) = tile(curX(Index), curY(Index)).X + 25
-        spriteY(Index) = tile(curX(Index), curY(Index)).Y - 15
+    If frameCounter(index) = frameLimit(index) * 1.6 Then
+        spriteX(index) = tile(nextX(index), nextY(index)).X + 25
+        spriteY(index) = tile(nextX(index), nextY(index)).Y - 15
         If gameMode = 0 Then
-            Call getJumpComplete(Index)
-            frameProg(Index) = 1
+            Call getJumpComplete(index)
+            frameProg(index) = 1
         ElseIf checkTickComplete And gameMode = 1 Then
             For getNext = 0 To 3
                 Call getTickComplete(getNext)
             Next getNext
         ElseIf gameMode = 2 Then
-            Call getTickComplete(Index)
-            If Index < 3 Then
-                If Not isPlayer(Index + 1) Then
-                    Call getTick(Index + 1)
+            Call getTickComplete(index)
+            If index < 3 Then
+                If Not isPlayer(index + 1) Then
+                    Call getTick(index + 1)
                 End If
             End If
         End If
     Else
-        frameCounter(Index) = frameCounter(Index) + frameProg(Index)
+        frameCounter(index) = frameCounter(index) + frameProg(index)
     End If
 End If
 End Sub
 
-Public Function getJump(ByVal Index As Integer, ByVal strDirJ As String, ByVal blnTile As Boolean)
+Public Function getJump(ByVal index As Integer, ByVal strDirJ As String, ByVal blnTile As Boolean)
 With frmMain
-    If frameCounter(Index) = 0 Then
-        strDir(Index) = strDirJ
-        blnEdgeJump(Index) = Not blnTile
-        If blnPlayerMoveable(Index) Or (gameMode <> 0 And blnMoveOnTick(Index)) Then
-            blnPlayerMoveable(Index) = False
+    If frameCounter(index) = 0 Then
+        strDir(index) = strDirJ
+        blnEdgeJump(index) = Not blnTile
+        If blnPlayerMoveable(index) Or (gameMode <> 0 And blnMoveOnTick(index)) Then
+            blnPlayerMoveable(index) = False
             If blnTile Then
-                If strDir(Index) = "L" Then
+                If strDir(index) = "L" Then
                     'if y row is odd
-                    If oddRow(curY(Index)) Then
-                        nextX(Index) = curX(Index) - 1
+                    If oddRow(curY(index)) Then
+                        nextX(index) = curX(index) - 1
                     Else
-                        nextX(Index) = curX(Index)
+                        nextX(index) = curX(index)
                     End If
-                    nextY(Index) = curY(Index) - 1
-                ElseIf strDir(Index) = "U" Then
+                    nextY(index) = curY(index) - 1
+                ElseIf strDir(index) = "U" Then
                     'if y row is even
-                    If Not oddRow(curY(Index)) Then
-                        nextX(Index) = curX(Index) + 1
+                    If Not oddRow(curY(index)) Then
+                        nextX(index) = curX(index) + 1
                     Else
-                        nextX(Index) = curX(Index)
+                        nextX(index) = curX(index)
                     End If
-                    nextY(Index) = curY(Index) - 1
-                ElseIf strDir(Index) = "R" Then
+                    nextY(index) = curY(index) - 1
+                ElseIf strDir(index) = "R" Then
                     'if y row is even
-                    If Not oddRow(curY(Index)) Then
-                        nextX(Index) = curX(Index) + 1
+                    If Not oddRow(curY(index)) Then
+                        nextX(index) = curX(index) + 1
                     Else
-                        nextX(Index) = curX(Index)
+                        nextX(index) = curX(index)
                     End If
-                    nextY(Index) = curY(Index) + 1
-                ElseIf strDir(Index) = "D" Then
+                    nextY(index) = curY(index) + 1
+                ElseIf strDir(index) = "D" Then
                     'if y row is odd
-                    If oddRow(curY(Index)) Then
-                        nextX(Index) = curX(Index) - 1
+                    If oddRow(curY(index)) Then
+                        nextX(index) = curX(index) - 1
                     Else
-                        nextX(Index) = curX(Index)
+                        nextX(index) = curX(index)
                     End If
-                    nextY(Index) = curY(Index) + 1
+                    nextY(index) = curY(index) + 1
                 End If
-            ElseIf Not blnRecover(Index) Then
-                Call setCharRespawn(Index, tile(curX(Index), curY(Index)))
+            ElseIf Not blnRecover(index) Then
+                Call setCharRespawn(index, tile(curX(index), curY(index)))
             End If
             If gameMode = 0 Then
-                frameCounter(Index) = 1
+                frameCounter(index) = 1
             End If
         End If
     End If
@@ -205,40 +205,40 @@ Else
     randDir = "D"
 End If
 End Function
-Public Sub getJumpComplete(ByVal Index As Integer)
+Public Sub getJumpComplete(ByVal index As Integer)
 Dim pScore As Integer
 Dim q As Integer
 With frmMain
-prevX(Index) = curX(Index)
-prevY(Index) = curY(Index)
+prevX(index) = curX(index)
+prevY(index) = curY(index)
 
-strState(Index) = "I"
-frameCounter(Index) = 0
-blnPlayerMoveable(Index) = True
+strState(index) = "I"
+frameCounter(index) = 0
+blnPlayerMoveable(index) = True
 
-tile(curX(Index), curY(Index)).hasChar = False
-If blnBounceJump(Index) And targIndex(Index) >= 0 Then
-    blnBounceJump(Index) = False
-    tile(curX(targIndex(Index)), curY(targIndex(Index))).hasChar = False
+tile(curX(index), curY(index)).hasChar = False
+If blnBounceJump(index) And targIndex(index) >= 0 Then
+    blnBounceJump(index) = False
+    tile(curX(targIndex(index)), curY(targIndex(index))).hasChar = False
 End If
-If blnEdgeJump(Index) Then
-    tile(curX(Index), curY(Index)).hasChar = False
-    Call getHurt(Index, Index)
-End If
-
-If gameMode = 0 And frameProg(Index) <= 0 Then
-    nextX(Index) = curX(Index)
-    nextY(Index) = curY(Index)
+If blnEdgeJump(index) Then
+    tile(curX(index), curY(index)).hasChar = False
+    Call getHurt(index, index)
 End If
 
-curX(Index) = nextX(Index)
-curY(Index) = nextY(Index)
+If gameMode = 0 And frameProg(index) <= 0 Then
+    nextX(index) = curX(index)
+    nextY(index) = curY(index)
+End If
+
+curX(index) = nextX(index)
+curY(index) = nextY(index)
 
 Dim inputTile As terrain
-inputTile = tile(curX(Index), curY(Index))
+inputTile = tile(curX(index), curY(index))
 
-tile(curX(Index), curY(Index)).hasChar = True
-If isPlayer(Index) Then
+tile(curX(index), curY(index)).hasChar = True
+If isPlayer(index) Then
     If inputTile.hasObj Then
         Dim blnMulti As Boolean
         Dim blnLives As Boolean
@@ -258,92 +258,92 @@ If isPlayer(Index) Then
             End If
         ElseIf inputTile.objType(0) = "Egg" Then
             If inputTile.objType(1) = "M" Then
-                intMulti(Index) = intMulti(Index) + 1
+                intMulti(index) = intMulti(index) + 1
                 pScore = 1000
                 blnMulti = True
             ElseIf inputTile.objType(1) = "G" Then
-                intLives(Index) = intLives(Index) + 1
+                intLives(index) = intLives(index) + 1
                 blnLives = True
             End If
         End If
-    ElseIf blnBounceJump(Index) Then 'jumping on enemy
+    ElseIf blnBounceJump(index) Then 'jumping on enemy
         pScore = 1000
     End If
     If inputTile.terType = "G" Then
         pScore = pScore + 25
     End If
-    Call addScore(Index, pScore)
+    Call addScore(index, pScore)
     Call refreshLabels(True, blnLives, blnMulti)
 End If
 If inputTile.hasObj Then
     If inputTile.objType(0) <> "Terrain" Then
-        strState(Index) = "I"
-        Call killObj(tile(curX(Index), curY(Index)))
+        strState(index) = "I"
+        Call killObj(tile(curX(index), curY(index)))
         If inputTile.objType(0) = "Pow" Then
-            Call getPowEffect(Index, inputTile.objType(1))
+            Call getPowEffect(index, inputTile.objType(1))
         End If
     Else
         If inputTile.objType(1) = "I" Then
-            Call getJump(Index, strDir(Index), evalMove(Index, strDir(Index)))
-            frameCounter(Index) = 1
+            Call getJump(index, strDir(index), evalMove(index, strDir(index)))
+            frameCounter(index) = 1
         End If
     End If
 End If
-If Not blnBounceJump(Index) Then
-    blnClearPrevTile(Index) = True
+If Not blnBounceJump(index) Then
+    blnClearPrevTile(index) = True
 End If
 .lblTest.Caption = "(" & curX(0) & ", " & curY(0) & ") (" & nextX(0) & ", " & nextY(0) & ")"
 .lblTest2.Caption = oddRow(curY(0)) & ", " & oddRow(nextY(0))
 End With
 End Sub
 
-Public Function evalMove(ByVal Index As Integer, ByVal strDirMove As String) As Boolean
+Public Function evalMove(ByVal index As Integer, ByVal strDirMove As String) As Boolean
 If strDirMove = "L" Then
-    If oddRow(curY(Index)) Then
-        If curX(Index) = 0 Then
+    If oddRow(curY(index)) Then
+        If curX(index) = 0 Then
             evalMove = False
-        ElseIf curY(Index) > 0 Then
+        ElseIf curY(index) > 0 Then
             evalMove = True
         Else
             evalMove = False
         End If
-    ElseIf curY(Index) > 0 Then
+    ElseIf curY(index) > 0 Then
         evalMove = True
     Else
         evalMove = False
     End If
 ElseIf strDirMove = "U" Then
-    If oddRow(curY(Index)) Then
-        If curX(Index) < mapWidth Then
+    If oddRow(curY(index)) Then
+        If curX(index) < mapWidth Then
             evalMove = True
         Else
             evalMove = False
         End If
-    ElseIf curX(Index) < (mapWidth) And curY(Index) > 0 Then
+    ElseIf curX(index) < (mapWidth) And curY(index) > 0 Then
         evalMove = True
     Else
         evalMove = False
     End If
 ElseIf strDirMove = "R" Then
-    If oddRow(curY(Index)) Then
-        If curX(Index) = mapWidth Then
+    If oddRow(curY(index)) Then
+        If curX(index) = mapWidth Then
             evalMove = False
-        ElseIf curY(Index) > 0 Then
+        ElseIf curY(index) > 0 Then
             evalMove = True
         End If
-    ElseIf curY(Index) < (mapWidth - 1) And curX(Index) < mapWidth Then
+    ElseIf curY(index) < (mapWidth - 1) And curX(index) < mapWidth Then
         evalMove = True
     Else
         evalMove = False
     End If
 ElseIf strDirMove = "D" Then
-    If oddRow(curY(Index)) Then
-        If curX(Index) > 0 And curY(Index) < mapHeight Then
+    If oddRow(curY(index)) Then
+        If curX(index) > 0 And curY(index) < mapHeight Then
             evalMove = True
         Else
             evalMove = False
         End If
-    ElseIf curY(Index) < (mapHeight - 1) Then
+    ElseIf curY(index) < (mapHeight - 1) Then
         evalMove = True
     Else
         evalMove = False
@@ -374,47 +374,47 @@ Next checkCharJump
 End With
 End Function
 
-Public Sub getTickComplete(ByVal Index As Integer)
+Public Sub getTickComplete(ByVal index As Integer)
 With frmMain
-If .tmrChar(Index).Enabled And blnMoveOnTick(Index) Then
-    If frameProg(Index) < 0 Then
-        frameProg(Index) = 1
-        nextX(Index) = curX(Index)
-        nextY(Index) = curY(Index)
+If .tmrChar(index).Enabled And blnMoveOnTick(index) Then
+    If frameProg(index) < 0 Then
+        frameProg(index) = 1
+        nextX(index) = curX(index)
+        nextY(index) = curY(index)
     End If
-    Call getJumpComplete(Index)
-    If Not blnBounceJump(Index) And targIndex(Index) >= 0 Then
-        blnBounceJump(Index) = True
-        If Not blnRecover(targIndex(Index)) Then
-            Call getHurt(targIndex(Index), Index)
+    Call getJumpComplete(index)
+    If Not blnBounceJump(index) And targIndex(index) >= 0 Then
+        blnBounceJump(index) = True
+        If Not blnRecover(targIndex(index)) Then
+            Call getHurt(targIndex(index), index)
         End If
-        Call getJump(Index, strDir(Index), evalMove(Index, strDir(Index)))
-        frameCounter(Index) = 1
-    ElseIf gameMode = 2 And Index < 3 Then
-        blnMoveOnTick(Index) = False
-        If isPlayer(Index + 1) Then
-            blnMoveOnTick(Index + 1) = True
+        Call getJump(index, strDir(index), evalMove(index, strDir(index)))
+        frameCounter(index) = 1
+    ElseIf gameMode = 2 And index < 3 Then
+        blnMoveOnTick(index) = False
+        If isPlayer(index + 1) Then
+            blnMoveOnTick(index + 1) = True
         Else
-            Call getTick(Index + 1)
+            Call getTick(index + 1)
         End If
     End If
 End If
 End With
 End Sub
 
-Public Sub getTick(Optional Index As Integer)
+Public Sub getTick(Optional index As Integer)
 Dim loopMin As Integer
 Dim loopMax As Integer
 If gameMode = 1 Then
-    Index = -1
+    index = -1
     loopMin = 0
     loopMax = 3
 ElseIf gameMode = 2 Then
-    loopMin = Index
-    loopMax = Index
+    loopMin = index
+    loopMax = index
     With frmMain
     For disableMove = 0 To 3
-        If disableMove <> Index And .tmrChar(disableMove).Enabled Then
+        If disableMove <> index And .tmrChar(disableMove).Enabled Then
             blnMoveOnTick(disableMove) = False
         End If
     Next disableMove
@@ -473,16 +473,16 @@ For getMove = loopMin To loopMax 'get movement (or not)
     Else 'if not, set next values to current values
         nextX(getMove) = curX(getMove)
         nextY(getMove) = curY(getMove)
-        If gameMode = 2 And Index < 3 Then
-            If isPlayer(Index + 1) Then
-                blnMoveOnTick(Index + 1) = True
+        If gameMode = 2 And index < 3 Then
+            If isPlayer(index + 1) Then
+                blnMoveOnTick(index + 1) = True
             Else
-                Call getTick(Index + 1)
+                Call getTick(index + 1)
             End If
         End If
     End If
 Next getMove
-If gameMode = 1 Or (gameMode = 2 And Index = 3) Then
+If gameMode = 1 Or (gameMode = 2 And index = 3) Then
     intMoveCount = intMoveCount + 1 'move count increases by one
     If highestMove - intMoveCount <= 0 Then 'reset intMoveCount if it, subtracted from the highest move, is below default speed
         intMoveCount = 0

@@ -40,6 +40,8 @@ For dt = 0 To 3
     End If
     curX(dt) = defaultTile(dtVal(dt)).Xc
     curY(dt) = defaultTile(dtVal(dt)).Yc
+    nextX(dt) = defaultTile(dtVal(dt)).Xc
+    nextY(dt) = defaultTile(dtVal(dt)).Yc
     tile(defaultTile(dtVal(dt)).Xc, defaultTile(dtVal(dt)).Yc).hasChar = True
     If dtVal(dt) = 0 Then
         strDir(dt) = "L"
