@@ -9,6 +9,7 @@ If blnRecover(Index) = False Then
             MsgBox ("Game Over")
             frmStart.Show
             Call getGameEnd
+            Exit Sub
         End If
         Call refreshLabels(Index, False, True, False)
     End If

@@ -220,7 +220,8 @@ Attribute VB_Exposed = False
 Dim players() As Integer
 Dim cpus() As Integer
 Private Sub cmdAdd_Click()
-If numPlayers + numCPU < 4 Then
+If (numPlayers + numCPU < 3 And cmdAdd.Caption = "Add Player") Or (numPlayers + numCPU < 4 And cmdAdd.Caption = "Add CPU") Then
+    cmdRemove.Enabled = True
     If cmdAdd.Caption = "Add Player" Then
         If numPlayers < 3 Then
             numPlayers = numPlayers + 1
@@ -234,7 +235,8 @@ If numPlayers + numCPU < 4 Then
         ReDim Preserve cpus(numCPU) As Integer
         cpus(numCPU) = lstPlayers.ListCount
     End If
-Else
+End If
+If (numPlayers + numCPU >= 3 And cmdAdd.Caption = "Add Player") Or (numPlayers + numCPU >= 4 And cmdAdd.Caption = "Add CPU") Then
     cmdAdd.Enabled = False
     cmdRemove.Enabled = True
 End If
@@ -259,12 +261,14 @@ End Sub
 
 Private Sub cmdRemove_Click()
 If numPlayers + numCPU > 1 Then
+    cmdAdd.Enabled = True
     If cmdRemove.Caption = "Remove Player" Then
         numPlayers = numPlayers - 1
-        lstPlayers.RemoveItem players(numPlayers)
+        lstPlayers.RemoveItem (players(numPlayers))
+        ReDim Preserve cpus(numPlayers) As Integer
         If numPlayers = 1 Then
-            cmdRemove.Enabled = True
-            cmdAdd.Enabled = False
+            cmdRemove.Enabled = False
+            cmdAdd.Enabled = True
             lstPlayers.Clear
             lstPlayers.AddItem "Player 1"
         End If
@@ -272,14 +276,16 @@ If numPlayers + numCPU > 1 Then
         numCPU = numCPU - 1
         ReDim Preserve cpus(numCPU) As Integer
         lstPlayers.RemoveItem cpus(numCPU)
-        If numCPU = 1 Then
+        If numCPU = 0 Then
             cmdRemove.Enabled = False
             cmdAdd.Enabled = True
             lstPlayers.Clear
             lstPlayers.AddItem "Player 1"
         End If
     End If
-
+Else
+    cmdAdd.Enabled = True
+    cmdRemove.Enabled = False
 End If
 End Sub
 
@@ -321,8 +327,8 @@ DefaultKey(14) = vbKeySeparator
 lblMenu(0).Caption = "MultiPlayer"
 lblMenu(1).Caption = "Single Player"
 lblMenu(2).Caption = "Options"
-frmStart.PaintPicture picTitleMainMask.Image, picTitleMainMask.Left, picTitleMainMask.Top, picTitleMainMask.width, picTitleMainMask.height, 0, 0, picTitleMainMask.width, picTitleMainMask.height, vbSrcAnd
-frmStart.PaintPicture picTitleMain.Image, picTitleMain.Left, picTitleMain.Top, picTitleMain.width, picTitleMain.height, 0, 0, picTitleMain.width, picTitleMain.height, vbSrcPaint
+frmStart.PaintPicture picTitleMainMask.Image, picTitleMainMask.Left, picTitleMainMask.Top, picTitleMainMask.Width, picTitleMainMask.Height, 0, 0, picTitleMainMask.Width, picTitleMainMask.Height, vbSrcAnd
+frmStart.PaintPicture picTitleMain.Image, picTitleMain.Left, picTitleMain.Top, picTitleMain.Width, picTitleMain.Height, 0, 0, picTitleMain.Width, picTitleMain.Height, vbSrcPaint
 End Sub
 
 Private Sub lblMenu_Click(Index As Integer)

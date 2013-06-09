@@ -8,8 +8,8 @@ For x = numPlayers - 1 To 0 Step -1
     .lblScore(x).Visible = True
     .lblLives(x).Visible = True
     .lblMulti(x).Visible = True
-    .PaintPicture frmMain.picEggMask(0).Image, .lblLives(x).Left - 24, .lblLives(x).Top - (frmMain.picEggG(0).height - .lblLives(x).height), 22, 30, 0, 0, 22, 30, vbSrcAnd
-    .PaintPicture frmMain.picEggG(0).Image, .lblLives(x).Left - 24, .lblLives(x).Top - (frmMain.picEggG(0).height - .lblLives(x).height), 22, 30, 0, 0, 22, 30, vbSrcPaint
+    .PaintPicture frmMain.picEggMask(0).Image, .lblLives(x).Left - 24, .lblLives(x).Top - (frmMain.picEggG(0).Height - .lblLives(x).Height), 22, 30, 0, 0, 22, 30, vbSrcAnd
+    .PaintPicture frmMain.picEggG(0).Image, .lblLives(x).Left - 24, .lblLives(x).Top - (frmMain.picEggG(0).Height - .lblLives(x).Height), 22, 30, 0, 0, 22, 30, vbSrcPaint
     intLives(x) = 3
     intMulti(x) = 1
     intScore(x) = 0
@@ -197,7 +197,6 @@ With frmMain
 .tmrObj.Enabled = False
 .tmrAlternate.Enabled = False
 .tmrRefresh.Enabled = False
-intMoveCount = 0
 For x = 0 To 3
     blnRecover(x) = False
     tmrPowCounter(x) = False
@@ -213,9 +212,17 @@ For x = 0 To 3
         frmGUI.lblScore(x).Enabled = False
     End If
 Next x
-For T = 0 To 100
+Dim curTile As terrain
+For T = 0 To intTileCount
     tileSwitch(T) = False
+    If tile(getTileFromInt(True, T), getTileFromInt(False, T)).hasObj Then
+        tile(getTileFromInt(True, T), getTileFromInt(False, T)).objTimer = 0
+        tile(getTileFromInt(True, T), getTileFromInt(False, T)).objType(0) = ""
+        tile(getTileFromInt(True, T), getTileFromInt(False, T)).objFrame = 0
+        tile(getTileFromInt(True, T), getTileFromInt(False, T)).hasObj = False
+    End If
 Next T
+intMoveCount = 0
 frmMain.Hide
 Unload frmMain
 Set frmMain = Nothing

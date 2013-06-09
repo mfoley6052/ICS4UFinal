@@ -69,7 +69,7 @@ Begin VB.Form frmMain
       ScaleHeight     =   100
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   100
-      TabIndex        =   204
+      TabIndex        =   201
       Top             =   2520
       Visible         =   0   'False
       Width           =   1500
@@ -87,7 +87,7 @@ Begin VB.Form frmMain
       ScaleHeight     =   100
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   100
-      TabIndex        =   203
+      TabIndex        =   200
       Top             =   2640
       Visible         =   0   'False
       Width           =   1500
@@ -105,7 +105,7 @@ Begin VB.Form frmMain
       ScaleHeight     =   100
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   100
-      TabIndex        =   202
+      TabIndex        =   199
       Top             =   2760
       Visible         =   0   'False
       Width           =   1500
@@ -123,7 +123,7 @@ Begin VB.Form frmMain
       ScaleHeight     =   100
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   100
-      TabIndex        =   201
+      TabIndex        =   198
       Top             =   2880
       Visible         =   0   'False
       Width           =   1500
@@ -218,7 +218,7 @@ Begin VB.Form frmMain
       ScaleHeight     =   35
       ScaleMode       =   3  'Pixel
       ScaleWidth      =   18
-      TabIndex        =   39
+      TabIndex        =   38
       Top             =   6480
       Visible         =   0   'False
       Width           =   270
@@ -277,7 +277,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
-         TabIndex        =   269
+         TabIndex        =   266
          Top             =   7320
          Visible         =   0   'False
          Width           =   1500
@@ -295,7 +295,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   75
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
-         TabIndex        =   268
+         TabIndex        =   265
          Top             =   7320
          Visible         =   0   'False
          Width           =   1500
@@ -313,7 +313,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   33
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   267
+         TabIndex        =   264
          Top             =   480
          Visible         =   0   'False
          Width           =   270
@@ -331,7 +331,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   98
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
-         TabIndex        =   266
+         TabIndex        =   263
          Top             =   7320
          Visible         =   0   'False
          Width           =   1500
@@ -349,7 +349,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
-         TabIndex        =   265
+         TabIndex        =   262
          Top             =   7320
          Visible         =   0   'False
          Width           =   1500
@@ -366,7 +366,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   264
+         TabIndex        =   261
          Top             =   3600
          Visible         =   0   'False
          Width           =   750
@@ -383,7 +383,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   263
+         TabIndex        =   260
          Top             =   3600
          Visible         =   0   'False
          Width           =   750
@@ -401,7 +401,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   262
+         TabIndex        =   259
          Top             =   3600
          Visible         =   0   'False
          Width           =   750
@@ -419,7 +419,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   261
+         TabIndex        =   258
          Top             =   3600
          Visible         =   0   'False
          Width           =   750
@@ -437,7 +437,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   260
+         TabIndex        =   257
          Top             =   3600
          Visible         =   0   'False
          Width           =   750
@@ -454,7 +454,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   259
+         TabIndex        =   256
          Top             =   3360
          Visible         =   0   'False
          Width           =   750
@@ -471,7 +471,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   258
+         TabIndex        =   255
          Top             =   3360
          Visible         =   0   'False
          Width           =   750
@@ -489,7 +489,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   257
+         TabIndex        =   254
          Top             =   3360
          Visible         =   0   'False
          Width           =   750
@@ -507,7 +507,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   256
+         TabIndex        =   253
          Top             =   3360
          Visible         =   0   'False
          Width           =   750
@@ -525,7 +525,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   255
+         TabIndex        =   252
          Top             =   3360
          Visible         =   0   'False
          Width           =   750
@@ -542,7 +542,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   254
+         TabIndex        =   251
          Top             =   3600
          Visible         =   0   'False
          Width           =   750
@@ -559,7 +559,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   253
+         TabIndex        =   250
          Top             =   3600
          Visible         =   0   'False
          Width           =   750
@@ -577,7 +577,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   252
+         TabIndex        =   249
          Top             =   3600
          Visible         =   0   'False
          Width           =   750
@@ -595,7 +595,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   251
+         TabIndex        =   248
          Top             =   3600
          Visible         =   0   'False
          Width           =   750
@@ -613,7 +613,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   250
+         TabIndex        =   247
          Top             =   3600
          Visible         =   0   'False
          Width           =   750
@@ -630,7 +630,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   249
+         TabIndex        =   246
          Top             =   3360
          Visible         =   0   'False
          Width           =   750
@@ -647,7 +647,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   248
+         TabIndex        =   245
          Top             =   3360
          Visible         =   0   'False
          Width           =   750
@@ -665,7 +665,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   247
+         TabIndex        =   244
          Top             =   3360
          Visible         =   0   'False
          Width           =   750
@@ -683,7 +683,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   246
+         TabIndex        =   243
          Top             =   3360
          Visible         =   0   'False
          Width           =   750
@@ -701,7 +701,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   245
+         TabIndex        =   242
          Top             =   3360
          Visible         =   0   'False
          Width           =   750
@@ -718,7 +718,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   244
+         TabIndex        =   241
          Top             =   3120
          Visible         =   0   'False
          Width           =   750
@@ -735,7 +735,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   243
+         TabIndex        =   240
          Top             =   3120
          Visible         =   0   'False
          Width           =   750
@@ -753,7 +753,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   242
+         TabIndex        =   239
          Top             =   3120
          Visible         =   0   'False
          Width           =   750
@@ -771,7 +771,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   241
+         TabIndex        =   238
          Top             =   3120
          Visible         =   0   'False
          Width           =   750
@@ -789,7 +789,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   240
+         TabIndex        =   237
          Top             =   3120
          Visible         =   0   'False
          Width           =   750
@@ -806,7 +806,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   239
+         TabIndex        =   236
          Top             =   2880
          Visible         =   0   'False
          Width           =   750
@@ -823,7 +823,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   238
+         TabIndex        =   235
          Top             =   2880
          Visible         =   0   'False
          Width           =   750
@@ -841,7 +841,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   237
+         TabIndex        =   234
          Top             =   2880
          Visible         =   0   'False
          Width           =   750
@@ -859,7 +859,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   236
+         TabIndex        =   233
          Top             =   2880
          Visible         =   0   'False
          Width           =   750
@@ -877,7 +877,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   235
+         TabIndex        =   232
          Top             =   2880
          Visible         =   0   'False
          Width           =   750
@@ -894,7 +894,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   234
+         TabIndex        =   231
          Top             =   3120
          Visible         =   0   'False
          Width           =   750
@@ -911,7 +911,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   233
+         TabIndex        =   230
          Top             =   3120
          Visible         =   0   'False
          Width           =   750
@@ -929,7 +929,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   232
+         TabIndex        =   229
          Top             =   3120
          Visible         =   0   'False
          Width           =   750
@@ -947,7 +947,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   231
+         TabIndex        =   228
          Top             =   3120
          Visible         =   0   'False
          Width           =   750
@@ -965,7 +965,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   230
+         TabIndex        =   227
          Top             =   3120
          Visible         =   0   'False
          Width           =   750
@@ -982,7 +982,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   229
+         TabIndex        =   226
          Top             =   2880
          Visible         =   0   'False
          Width           =   750
@@ -999,7 +999,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   228
+         TabIndex        =   225
          Top             =   2880
          Visible         =   0   'False
          Width           =   750
@@ -1017,7 +1017,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   227
+         TabIndex        =   224
          Top             =   2880
          Visible         =   0   'False
          Width           =   750
@@ -1035,7 +1035,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   226
+         TabIndex        =   223
          Top             =   2880
          Visible         =   0   'False
          Width           =   750
@@ -1053,7 +1053,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   225
+         TabIndex        =   222
          Top             =   2880
          Visible         =   0   'False
          Width           =   750
@@ -1070,7 +1070,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   224
+         TabIndex        =   221
          Top             =   2640
          Visible         =   0   'False
          Width           =   750
@@ -1087,7 +1087,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   223
+         TabIndex        =   220
          Top             =   2640
          Visible         =   0   'False
          Width           =   750
@@ -1105,7 +1105,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   222
+         TabIndex        =   219
          Top             =   2640
          Visible         =   0   'False
          Width           =   750
@@ -1123,7 +1123,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   221
+         TabIndex        =   218
          Top             =   2640
          Visible         =   0   'False
          Width           =   750
@@ -1141,7 +1141,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   220
+         TabIndex        =   217
          Top             =   2640
          Visible         =   0   'False
          Width           =   750
@@ -1158,7 +1158,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   219
+         TabIndex        =   216
          Top             =   2400
          Visible         =   0   'False
          Width           =   750
@@ -1175,7 +1175,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   218
+         TabIndex        =   215
          Top             =   2400
          Visible         =   0   'False
          Width           =   750
@@ -1193,7 +1193,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   217
+         TabIndex        =   214
          Top             =   2400
          Visible         =   0   'False
          Width           =   750
@@ -1211,7 +1211,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   216
+         TabIndex        =   213
          Top             =   2400
          Visible         =   0   'False
          Width           =   750
@@ -1229,7 +1229,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   215
+         TabIndex        =   212
          Top             =   2400
          Visible         =   0   'False
          Width           =   750
@@ -1246,7 +1246,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   214
+         TabIndex        =   211
          Top             =   2640
          Visible         =   0   'False
          Width           =   750
@@ -1263,7 +1263,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   213
+         TabIndex        =   210
          Top             =   2640
          Visible         =   0   'False
          Width           =   750
@@ -1281,7 +1281,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   212
+         TabIndex        =   209
          Top             =   2640
          Visible         =   0   'False
          Width           =   750
@@ -1299,7 +1299,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   211
+         TabIndex        =   208
          Top             =   2640
          Visible         =   0   'False
          Width           =   750
@@ -1317,7 +1317,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   210
+         TabIndex        =   207
          Top             =   2640
          Visible         =   0   'False
          Width           =   750
@@ -1334,7 +1334,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   209
+         TabIndex        =   206
          Top             =   2400
          Visible         =   0   'False
          Width           =   750
@@ -1351,7 +1351,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   208
+         TabIndex        =   205
          Top             =   2400
          Visible         =   0   'False
          Width           =   750
@@ -1369,7 +1369,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   207
+         TabIndex        =   204
          Top             =   2400
          Visible         =   0   'False
          Width           =   750
@@ -1387,7 +1387,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   206
+         TabIndex        =   203
          Top             =   2400
          Visible         =   0   'False
          Width           =   750
@@ -1405,7 +1405,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   205
+         TabIndex        =   202
          Top             =   2400
          Visible         =   0   'False
          Width           =   750
@@ -1423,7 +1423,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   120
+         TabIndex        =   119
          Top             =   2160
          Visible         =   0   'False
          Width           =   750
@@ -1441,7 +1441,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   119
+         TabIndex        =   118
          Top             =   2160
          Visible         =   0   'False
          Width           =   750
@@ -1459,7 +1459,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   118
+         TabIndex        =   117
          Top             =   2160
          Visible         =   0   'False
          Width           =   750
@@ -1476,7 +1476,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   117
+         TabIndex        =   116
          Top             =   2160
          Visible         =   0   'False
          Width           =   750
@@ -1493,7 +1493,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   115
+         TabIndex        =   114
          Top             =   2160
          Visible         =   0   'False
          Width           =   750
@@ -1511,7 +1511,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   100
+         TabIndex        =   99
          Top             =   2160
          Visible         =   0   'False
          Width           =   750
@@ -1529,7 +1529,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   99
+         TabIndex        =   98
          Top             =   2160
          Visible         =   0   'False
          Width           =   750
@@ -1547,7 +1547,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   98
+         TabIndex        =   97
          Top             =   2160
          Visible         =   0   'False
          Width           =   750
@@ -1564,7 +1564,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   97
+         TabIndex        =   96
          Top             =   2160
          Visible         =   0   'False
          Width           =   750
@@ -1581,7 +1581,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   95
+         TabIndex        =   94
          Top             =   2160
          Visible         =   0   'False
          Width           =   750
@@ -1598,7 +1598,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   37
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   36
-         TabIndex        =   200
+         TabIndex        =   197
          Top             =   4320
          Visible         =   0   'False
          Width           =   540
@@ -1616,7 +1616,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   37
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   36
-         TabIndex        =   199
+         TabIndex        =   196
          Top             =   7650
          Visible         =   0   'False
          Width           =   540
@@ -1634,7 +1634,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   37
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   36
-         TabIndex        =   198
+         TabIndex        =   195
          Top             =   7095
          Visible         =   0   'False
          Width           =   540
@@ -1652,7 +1652,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   37
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   36
-         TabIndex        =   197
+         TabIndex        =   194
          Top             =   6540
          Visible         =   0   'False
          Width           =   540
@@ -1670,7 +1670,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   37
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   36
-         TabIndex        =   196
+         TabIndex        =   193
          Top             =   5985
          Visible         =   0   'False
          Width           =   540
@@ -1688,7 +1688,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   37
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   36
-         TabIndex        =   195
+         TabIndex        =   192
          Top             =   5430
          Visible         =   0   'False
          Width           =   540
@@ -1706,7 +1706,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   37
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   36
-         TabIndex        =   194
+         TabIndex        =   191
          Top             =   4875
          Visible         =   0   'False
          Width           =   540
@@ -1724,7 +1724,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   37
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   36
-         TabIndex        =   193
+         TabIndex        =   190
          Top             =   4320
          Visible         =   0   'False
          Width           =   540
@@ -1742,7 +1742,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   30
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   22
-         TabIndex        =   191
+         TabIndex        =   189
          Top             =   3840
          Visible         =   0   'False
          Width           =   330
@@ -1760,7 +1760,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   30
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   22
-         TabIndex        =   190
+         TabIndex        =   188
          Top             =   4320
          Visible         =   0   'False
          Width           =   330
@@ -1778,7 +1778,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   30
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   22
-         TabIndex        =   189
+         TabIndex        =   187
          Top             =   4800
          Visible         =   0   'False
          Width           =   330
@@ -1796,7 +1796,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
-         TabIndex        =   188
+         TabIndex        =   186
          Top             =   360
          Visible         =   0   'False
          Width           =   1500
@@ -1814,7 +1814,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
-         TabIndex        =   186
+         TabIndex        =   184
          Top             =   0
          Visible         =   0   'False
          Width           =   1500
@@ -1832,7 +1832,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
-         TabIndex        =   185
+         TabIndex        =   183
          Top             =   120
          Visible         =   0   'False
          Width           =   1500
@@ -1850,7 +1850,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
-         TabIndex        =   184
+         TabIndex        =   182
          Top             =   240
          Visible         =   0   'False
          Width           =   1500
@@ -1868,7 +1868,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
-         TabIndex        =   183
+         TabIndex        =   181
          Top             =   360
          Visible         =   0   'False
          Width           =   1500
@@ -1886,7 +1886,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
-         TabIndex        =   182
+         TabIndex        =   180
          Top             =   240
          Visible         =   0   'False
          Width           =   1500
@@ -1904,7 +1904,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
-         TabIndex        =   181
+         TabIndex        =   179
          Top             =   120
          Visible         =   0   'False
          Width           =   1500
@@ -1922,7 +1922,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
-         TabIndex        =   180
+         TabIndex        =   178
          Top             =   0
          Visible         =   0   'False
          Width           =   1500
@@ -1940,7 +1940,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
-         TabIndex        =   178
+         TabIndex        =   176
          Top             =   0
          Visible         =   0   'False
          Width           =   1500
@@ -1958,7 +1958,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
-         TabIndex        =   177
+         TabIndex        =   175
          Top             =   120
          Visible         =   0   'False
          Width           =   1500
@@ -1976,7 +1976,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
-         TabIndex        =   176
+         TabIndex        =   174
          Top             =   240
          Visible         =   0   'False
          Width           =   1500
@@ -1993,7 +1993,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
-         TabIndex        =   175
+         TabIndex        =   173
          Top             =   360
          Visible         =   0   'False
          Width           =   1500
@@ -2010,7 +2010,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
-         TabIndex        =   174
+         TabIndex        =   172
          Top             =   240
          Visible         =   0   'False
          Width           =   1500
@@ -2027,7 +2027,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
-         TabIndex        =   173
+         TabIndex        =   171
          Top             =   120
          Visible         =   0   'False
          Width           =   1500
@@ -2044,7 +2044,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
-         TabIndex        =   172
+         TabIndex        =   170
          Top             =   0
          Visible         =   0   'False
          Width           =   1500
@@ -2062,7 +2062,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
-         TabIndex        =   170
+         TabIndex        =   168
          Top             =   240
          Visible         =   0   'False
          Width           =   1500
@@ -2080,7 +2080,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
-         TabIndex        =   171
+         TabIndex        =   169
          Top             =   120
          Visible         =   0   'False
          Width           =   1500
@@ -2098,7 +2098,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   33
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   169
+         TabIndex        =   167
          Top             =   480
          Visible         =   0   'False
          Width           =   270
@@ -2116,7 +2116,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   33
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   168
+         TabIndex        =   166
          Top             =   480
          Visible         =   0   'False
          Width           =   270
@@ -2134,7 +2134,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   33
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   167
+         TabIndex        =   165
          Top             =   480
          Visible         =   0   'False
          Width           =   270
@@ -2152,7 +2152,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   33
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   166
+         TabIndex        =   164
          Top             =   480
          Visible         =   0   'False
          Width           =   270
@@ -2170,7 +2170,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   33
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   165
+         TabIndex        =   163
          Top             =   1440
          Visible         =   0   'False
          Width           =   270
@@ -2188,7 +2188,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   33
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   164
+         TabIndex        =   162
          Top             =   1440
          Visible         =   0   'False
          Width           =   270
@@ -2206,7 +2206,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   33
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   163
+         TabIndex        =   161
          Top             =   1440
          Visible         =   0   'False
          Width           =   270
@@ -2224,7 +2224,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   33
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   162
+         TabIndex        =   160
          Top             =   1440
          Visible         =   0   'False
          Width           =   270
@@ -2242,7 +2242,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   33
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   161
+         TabIndex        =   159
          Top             =   1440
          Visible         =   0   'False
          Width           =   270
@@ -2260,7 +2260,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   33
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   160
+         TabIndex        =   158
          Top             =   0
          Visible         =   0   'False
          Width           =   270
@@ -2278,7 +2278,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   33
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   159
+         TabIndex        =   157
          Top             =   0
          Visible         =   0   'False
          Width           =   270
@@ -2296,7 +2296,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   33
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   158
+         TabIndex        =   156
          Top             =   0
          Visible         =   0   'False
          Width           =   270
@@ -2314,7 +2314,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   33
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   157
+         TabIndex        =   155
          Top             =   0
          Visible         =   0   'False
          Width           =   270
@@ -2332,7 +2332,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   33
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   156
+         TabIndex        =   154
          Top             =   0
          Visible         =   0   'False
          Width           =   270
@@ -2350,7 +2350,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   33
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   155
+         TabIndex        =   153
          Top             =   960
          Visible         =   0   'False
          Width           =   270
@@ -2368,7 +2368,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   33
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   154
+         TabIndex        =   152
          Top             =   960
          Visible         =   0   'False
          Width           =   270
@@ -2386,7 +2386,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   33
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   153
+         TabIndex        =   151
          Top             =   960
          Visible         =   0   'False
          Width           =   270
@@ -2404,7 +2404,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   33
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   152
+         TabIndex        =   150
          Top             =   960
          Visible         =   0   'False
          Width           =   270
@@ -2422,7 +2422,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   33
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   151
+         TabIndex        =   149
          Top             =   960
          Visible         =   0   'False
          Width           =   270
@@ -2440,7 +2440,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   30
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   22
-         TabIndex        =   149
+         TabIndex        =   148
          Top             =   4800
          Visible         =   0   'False
          Width           =   330
@@ -2458,7 +2458,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   30
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   22
-         TabIndex        =   148
+         TabIndex        =   147
          Top             =   4320
          Visible         =   0   'False
          Width           =   330
@@ -2476,7 +2476,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   30
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   22
-         TabIndex        =   147
+         TabIndex        =   146
          Top             =   3840
          Visible         =   0   'False
          Width           =   330
@@ -2494,7 +2494,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   30
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   22
-         TabIndex        =   146
+         TabIndex        =   145
          Top             =   4800
          Visible         =   0   'False
          Width           =   330
@@ -2512,7 +2512,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   30
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   22
-         TabIndex        =   145
+         TabIndex        =   144
          Top             =   4320
          Visible         =   0   'False
          Width           =   330
@@ -2530,7 +2530,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   30
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   22
-         TabIndex        =   144
+         TabIndex        =   143
          Top             =   3840
          Visible         =   0   'False
          Width           =   330
@@ -2548,7 +2548,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   30
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   30
-         TabIndex        =   143
+         TabIndex        =   142
          Top             =   2160
          Visible         =   0   'False
          Width           =   450
@@ -2566,7 +2566,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   30
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   30
-         TabIndex        =   142
+         TabIndex        =   141
          Top             =   2640
          Visible         =   0   'False
          Width           =   450
@@ -2584,7 +2584,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   30
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   30
-         TabIndex        =   141
+         TabIndex        =   140
          Top             =   3120
          Visible         =   0   'False
          Width           =   450
@@ -2602,7 +2602,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   30
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   30
-         TabIndex        =   140
+         TabIndex        =   139
          Top             =   3600
          Visible         =   0   'False
          Width           =   450
@@ -2620,7 +2620,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   30
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   30
-         TabIndex        =   139
+         TabIndex        =   138
          Top             =   4080
          Visible         =   0   'False
          Width           =   450
@@ -2638,7 +2638,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   30
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   30
-         TabIndex        =   138
+         TabIndex        =   137
          Top             =   2160
          Visible         =   0   'False
          Width           =   450
@@ -2656,7 +2656,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   30
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   30
-         TabIndex        =   137
+         TabIndex        =   136
          Top             =   2640
          Visible         =   0   'False
          Width           =   450
@@ -2674,7 +2674,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   30
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   30
-         TabIndex        =   136
+         TabIndex        =   135
          Top             =   3120
          Visible         =   0   'False
          Width           =   450
@@ -2692,7 +2692,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   30
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   30
-         TabIndex        =   135
+         TabIndex        =   134
          Top             =   3600
          Visible         =   0   'False
          Width           =   450
@@ -2710,7 +2710,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   30
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   30
-         TabIndex        =   134
+         TabIndex        =   133
          Top             =   4080
          Visible         =   0   'False
          Width           =   450
@@ -2727,7 +2727,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   133
+         TabIndex        =   132
          Top             =   4320
          Visible         =   0   'False
          Width           =   750
@@ -2745,7 +2745,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   132
+         TabIndex        =   131
          Top             =   1920
          Visible         =   0   'False
          Width           =   750
@@ -2763,7 +2763,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   131
+         TabIndex        =   130
          Top             =   1920
          Visible         =   0   'False
          Width           =   750
@@ -2781,7 +2781,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   130
+         TabIndex        =   129
          Top             =   1920
          Visible         =   0   'False
          Width           =   750
@@ -2799,7 +2799,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   129
+         TabIndex        =   128
          Top             =   4320
          Visible         =   0   'False
          Width           =   750
@@ -2817,7 +2817,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   128
+         TabIndex        =   127
          Top             =   4320
          Visible         =   0   'False
          Width           =   750
@@ -2835,7 +2835,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   127
+         TabIndex        =   126
          Top             =   4320
          Visible         =   0   'False
          Width           =   750
@@ -2852,7 +2852,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   126
+         TabIndex        =   125
          Top             =   1920
          Visible         =   0   'False
          Width           =   750
@@ -2869,7 +2869,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   125
+         TabIndex        =   124
          Top             =   4320
          Visible         =   0   'False
          Width           =   750
@@ -2886,7 +2886,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   124
+         TabIndex        =   123
          Top             =   1920
          Visible         =   0   'False
          Width           =   750
@@ -2904,7 +2904,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   123
+         TabIndex        =   122
          Top             =   4440
          Visible         =   0   'False
          Width           =   750
@@ -2922,7 +2922,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   122
+         TabIndex        =   121
          Top             =   4440
          Visible         =   0   'False
          Width           =   750
@@ -2940,7 +2940,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   121
+         TabIndex        =   120
          Top             =   4440
          Visible         =   0   'False
          Width           =   750
@@ -2957,7 +2957,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   116
+         TabIndex        =   115
          Top             =   4440
          Visible         =   0   'False
          Width           =   750
@@ -2974,7 +2974,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   114
+         TabIndex        =   113
          Top             =   4440
          Visible         =   0   'False
          Width           =   750
@@ -2991,7 +2991,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   113
+         TabIndex        =   112
          Top             =   4320
          Visible         =   0   'False
          Width           =   750
@@ -3009,7 +3009,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   112
+         TabIndex        =   111
          Top             =   1920
          Visible         =   0   'False
          Width           =   750
@@ -3027,7 +3027,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   111
+         TabIndex        =   110
          Top             =   1920
          Visible         =   0   'False
          Width           =   750
@@ -3045,7 +3045,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   110
+         TabIndex        =   109
          Top             =   1920
          Visible         =   0   'False
          Width           =   750
@@ -3063,7 +3063,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   109
+         TabIndex        =   108
          Top             =   4320
          Visible         =   0   'False
          Width           =   750
@@ -3081,7 +3081,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   108
+         TabIndex        =   107
          Top             =   4320
          Visible         =   0   'False
          Width           =   750
@@ -3099,7 +3099,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   107
+         TabIndex        =   106
          Top             =   4320
          Visible         =   0   'False
          Width           =   750
@@ -3116,7 +3116,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   106
+         TabIndex        =   105
          Top             =   1920
          Visible         =   0   'False
          Width           =   750
@@ -3133,7 +3133,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   105
+         TabIndex        =   104
          Top             =   4320
          Visible         =   0   'False
          Width           =   750
@@ -3150,7 +3150,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   104
+         TabIndex        =   103
          Top             =   1920
          Visible         =   0   'False
          Width           =   750
@@ -3168,7 +3168,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   103
+         TabIndex        =   102
          Top             =   4440
          Visible         =   0   'False
          Width           =   750
@@ -3186,7 +3186,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   102
+         TabIndex        =   101
          Top             =   4440
          Visible         =   0   'False
          Width           =   750
@@ -3204,7 +3204,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   101
+         TabIndex        =   100
          Top             =   4440
          Visible         =   0   'False
          Width           =   750
@@ -3221,7 +3221,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   96
+         TabIndex        =   95
          Top             =   4440
          Visible         =   0   'False
          Width           =   750
@@ -3238,7 +3238,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   50
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   50
-         TabIndex        =   94
+         TabIndex        =   93
          Top             =   4440
          Visible         =   0   'False
          Width           =   750
@@ -3256,7 +3256,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
-         TabIndex        =   88
+         TabIndex        =   87
          Top             =   5760
          Visible         =   0   'False
          Width           =   1500
@@ -3274,7 +3274,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
-         TabIndex        =   87
+         TabIndex        =   86
          Top             =   5760
          Visible         =   0   'False
          Width           =   1500
@@ -3292,7 +3292,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
-         TabIndex        =   86
+         TabIndex        =   85
          Top             =   5760
          Visible         =   0   'False
          Width           =   1500
@@ -3310,7 +3310,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
-         TabIndex        =   85
+         TabIndex        =   84
          Top             =   5760
          Visible         =   0   'False
          Width           =   1500
@@ -3328,7 +3328,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
-         TabIndex        =   84
+         TabIndex        =   83
          Top             =   5760
          Visible         =   0   'False
          Width           =   1500
@@ -3346,7 +3346,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   83
+         TabIndex        =   82
          Top             =   6720
          Visible         =   0   'False
          Width           =   270
@@ -3364,7 +3364,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   82
+         TabIndex        =   81
          Top             =   6720
          Visible         =   0   'False
          Width           =   270
@@ -3382,7 +3382,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   81
+         TabIndex        =   80
          Top             =   6720
          Visible         =   0   'False
          Width           =   270
@@ -3400,7 +3400,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   80
+         TabIndex        =   79
          Top             =   6720
          Visible         =   0   'False
          Width           =   270
@@ -3418,7 +3418,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   79
+         TabIndex        =   78
          Top             =   6720
          Visible         =   0   'False
          Width           =   270
@@ -3436,7 +3436,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   78
+         TabIndex        =   77
          Top             =   6720
          Visible         =   0   'False
          Width           =   270
@@ -3454,7 +3454,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   77
+         TabIndex        =   76
          Top             =   6720
          Visible         =   0   'False
          Width           =   270
@@ -3472,7 +3472,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   76
+         TabIndex        =   75
          Top             =   6720
          Visible         =   0   'False
          Width           =   270
@@ -3490,7 +3490,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   75
+         TabIndex        =   74
          Top             =   6720
          Visible         =   0   'False
          Width           =   270
@@ -3508,7 +3508,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   74
+         TabIndex        =   73
          Top             =   6720
          Visible         =   0   'False
          Width           =   270
@@ -3526,7 +3526,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   73
+         TabIndex        =   72
          Top             =   6720
          Visible         =   0   'False
          Width           =   270
@@ -3544,7 +3544,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   72
+         TabIndex        =   71
          Top             =   6720
          Visible         =   0   'False
          Width           =   270
@@ -3562,7 +3562,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   71
+         TabIndex        =   70
          Top             =   6720
          Visible         =   0   'False
          Width           =   270
@@ -3580,7 +3580,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   70
+         TabIndex        =   69
          Top             =   6720
          Visible         =   0   'False
          Width           =   270
@@ -3598,7 +3598,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   69
+         TabIndex        =   68
          Top             =   5760
          Visible         =   0   'False
          Width           =   270
@@ -3616,7 +3616,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   68
+         TabIndex        =   67
          Top             =   5760
          Visible         =   0   'False
          Width           =   270
@@ -3634,7 +3634,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   67
+         TabIndex        =   66
          Top             =   5760
          Visible         =   0   'False
          Width           =   270
@@ -3652,7 +3652,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   66
+         TabIndex        =   65
          Top             =   5760
          Visible         =   0   'False
          Width           =   270
@@ -3670,7 +3670,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   65
+         TabIndex        =   64
          Top             =   5760
          Visible         =   0   'False
          Width           =   270
@@ -3688,7 +3688,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   64
+         TabIndex        =   63
          Top             =   5760
          Visible         =   0   'False
          Width           =   270
@@ -3706,7 +3706,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   63
+         TabIndex        =   62
          Top             =   5760
          Visible         =   0   'False
          Width           =   270
@@ -3724,7 +3724,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   62
+         TabIndex        =   61
          Top             =   5760
          Visible         =   0   'False
          Width           =   270
@@ -3742,7 +3742,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   61
+         TabIndex        =   60
          Top             =   5760
          Visible         =   0   'False
          Width           =   270
@@ -3760,7 +3760,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   60
+         TabIndex        =   59
          Top             =   5760
          Visible         =   0   'False
          Width           =   270
@@ -3778,7 +3778,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   59
+         TabIndex        =   58
          Top             =   5760
          Visible         =   0   'False
          Width           =   270
@@ -3796,7 +3796,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   58
+         TabIndex        =   57
          Top             =   5760
          Visible         =   0   'False
          Width           =   270
@@ -3814,7 +3814,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   57
+         TabIndex        =   56
          Top             =   5760
          Visible         =   0   'False
          Width           =   270
@@ -3832,7 +3832,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   56
+         TabIndex        =   55
          Top             =   5760
          Visible         =   0   'False
          Width           =   270
@@ -3850,7 +3850,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   55
+         TabIndex        =   54
          Top             =   6240
          Visible         =   0   'False
          Width           =   270
@@ -3868,7 +3868,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   54
+         TabIndex        =   53
          Top             =   6240
          Visible         =   0   'False
          Width           =   270
@@ -3886,7 +3886,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   53
+         TabIndex        =   52
          Top             =   6240
          Visible         =   0   'False
          Width           =   270
@@ -3904,7 +3904,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   52
+         TabIndex        =   51
          Top             =   6240
          Visible         =   0   'False
          Width           =   270
@@ -3922,7 +3922,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   51
+         TabIndex        =   50
          Top             =   6240
          Visible         =   0   'False
          Width           =   270
@@ -3940,7 +3940,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   50
+         TabIndex        =   49
          Top             =   6240
          Visible         =   0   'False
          Width           =   270
@@ -3958,7 +3958,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   49
+         TabIndex        =   48
          Top             =   6240
          Visible         =   0   'False
          Width           =   270
@@ -3976,7 +3976,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   48
+         TabIndex        =   47
          Top             =   6240
          Visible         =   0   'False
          Width           =   270
@@ -3994,7 +3994,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   47
+         TabIndex        =   46
          Top             =   6240
          Visible         =   0   'False
          Width           =   270
@@ -4012,7 +4012,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   46
+         TabIndex        =   45
          Top             =   6240
          Visible         =   0   'False
          Width           =   270
@@ -4030,7 +4030,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   45
+         TabIndex        =   44
          Top             =   6240
          Visible         =   0   'False
          Width           =   270
@@ -4048,7 +4048,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   44
+         TabIndex        =   43
          Top             =   6240
          Visible         =   0   'False
          Width           =   270
@@ -4066,7 +4066,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   43
+         TabIndex        =   42
          Top             =   6240
          Visible         =   0   'False
          Width           =   270
@@ -4084,7 +4084,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   42
+         TabIndex        =   41
          Top             =   6240
          Visible         =   0   'False
          Width           =   270
@@ -4102,7 +4102,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   41
+         TabIndex        =   40
          Top             =   5760
          Visible         =   0   'False
          Width           =   270
@@ -4120,7 +4120,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   40
+         TabIndex        =   39
          Top             =   5760
          Visible         =   0   'False
          Width           =   270
@@ -4138,7 +4138,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   38
+         TabIndex        =   37
          Top             =   5280
          Visible         =   0   'False
          Width           =   270
@@ -4156,7 +4156,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   37
+         TabIndex        =   36
          Top             =   5280
          Visible         =   0   'False
          Width           =   270
@@ -4174,7 +4174,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   36
+         TabIndex        =   35
          Top             =   5280
          Visible         =   0   'False
          Width           =   270
@@ -4192,7 +4192,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   33
+         TabIndex        =   32
          Top             =   5760
          Visible         =   0   'False
          Width           =   270
@@ -4210,7 +4210,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   32
+         TabIndex        =   31
          Top             =   5760
          Visible         =   0   'False
          Width           =   270
@@ -4228,7 +4228,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   31
+         TabIndex        =   30
          Top             =   5760
          Visible         =   0   'False
          Width           =   270
@@ -4246,7 +4246,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   29
+         TabIndex        =   28
          Top             =   5280
          Visible         =   0   'False
          Width           =   270
@@ -4264,7 +4264,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   28
+         TabIndex        =   27
          Top             =   5280
          Visible         =   0   'False
          Width           =   270
@@ -4282,7 +4282,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   27
+         TabIndex        =   26
          Top             =   5280
          Visible         =   0   'False
          Width           =   270
@@ -4300,7 +4300,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   26
+         TabIndex        =   25
          Top             =   5280
          Visible         =   0   'False
          Width           =   270
@@ -4318,7 +4318,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   25
+         TabIndex        =   24
          Top             =   5280
          Visible         =   0   'False
          Width           =   270
@@ -4336,7 +4336,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   24
+         TabIndex        =   23
          Top             =   5280
          Visible         =   0   'False
          Width           =   270
@@ -4354,7 +4354,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   23
+         TabIndex        =   22
          Top             =   5280
          Visible         =   0   'False
          Width           =   270
@@ -4372,7 +4372,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   22
+         TabIndex        =   21
          Top             =   5280
          Visible         =   0   'False
          Width           =   270
@@ -4390,7 +4390,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   21
+         TabIndex        =   20
          Top             =   5280
          Visible         =   0   'False
          Width           =   270
@@ -4408,7 +4408,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   20
+         TabIndex        =   19
          Top             =   5280
          Visible         =   0   'False
          Width           =   270
@@ -4426,7 +4426,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   19
+         TabIndex        =   18
          Top             =   5280
          Visible         =   0   'False
          Width           =   270
@@ -4444,7 +4444,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   18
+         TabIndex        =   17
          Top             =   5280
          Visible         =   0   'False
          Width           =   270
@@ -4462,7 +4462,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   17
+         TabIndex        =   16
          Top             =   5280
          Visible         =   0   'False
          Width           =   270
@@ -4480,7 +4480,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   16
+         TabIndex        =   15
          Top             =   5280
          Visible         =   0   'False
          Width           =   270
@@ -4498,7 +4498,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   15
+         TabIndex        =   14
          Top             =   5280
          Visible         =   0   'False
          Width           =   270
@@ -4516,7 +4516,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   14
+         TabIndex        =   13
          Top             =   5280
          Visible         =   0   'False
          Width           =   270
@@ -4741,7 +4741,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
-         TabIndex        =   89
+         TabIndex        =   88
          Top             =   5040
          Visible         =   0   'False
          Width           =   1500
@@ -4758,7 +4758,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
-         TabIndex        =   90
+         TabIndex        =   89
          Top             =   5040
          Visible         =   0   'False
          Width           =   1500
@@ -4775,7 +4775,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
-         TabIndex        =   91
+         TabIndex        =   90
          Top             =   5040
          Visible         =   0   'False
          Width           =   1500
@@ -4792,7 +4792,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
-         TabIndex        =   92
+         TabIndex        =   91
          Top             =   5040
          Visible         =   0   'False
          Width           =   1500
@@ -4809,7 +4809,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
-         TabIndex        =   93
+         TabIndex        =   92
          Top             =   5040
          Visible         =   0   'False
          Width           =   1500
@@ -4827,7 +4827,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   30
+         TabIndex        =   29
          Top             =   5760
          Visible         =   0   'False
          Width           =   270
@@ -4845,7 +4845,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   34
+         TabIndex        =   33
          Top             =   5280
          Visible         =   0   'False
          Width           =   270
@@ -4863,7 +4863,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   35
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   18
-         TabIndex        =   35
+         TabIndex        =   34
          Top             =   5280
          Visible         =   0   'False
          Width           =   270
@@ -4881,7 +4881,7 @@ Begin VB.Form frmMain
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
-         TabIndex        =   179
+         TabIndex        =   177
          Top             =   360
          Visible         =   0   'False
          Width           =   1500
@@ -4899,75 +4899,11 @@ Begin VB.Form frmMain
          ScaleHeight     =   100
          ScaleMode       =   3  'Pixel
          ScaleWidth      =   100
-         TabIndex        =   187
+         TabIndex        =   185
          Top             =   360
          Visible         =   0   'False
          Width           =   1500
       End
-   End
-   Begin VB.Label lblLives 
-      Alignment       =   1  'Right Justify
-      AutoSize        =   -1  'True
-      BackStyle       =   0  'Transparent
-      Caption         =   "x3"
-      BeginProperty Font 
-         Name            =   "Arial Narrow"
-         Size            =   15.75
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H0000FF00&
-      Height          =   375
-      Left            =   11640
-      TabIndex        =   192
-      Top             =   120
-      Visible         =   0   'False
-      Width           =   300
-   End
-   Begin VB.Label lblMulti 
-      AutoSize        =   -1  'True
-      BackStyle       =   0  'Transparent
-      Caption         =   "Multiplier: 1x"
-      BeginProperty Font 
-         Name            =   "Arial Narrow"
-         Size            =   15.75
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H0000FF00&
-      Height          =   375
-      Left            =   150
-      TabIndex        =   150
-      Top             =   150
-      Visible         =   0   'False
-      Width           =   1665
-   End
-   Begin VB.Label lblScore 
-      AutoSize        =   -1  'True
-      BackStyle       =   0  'Transparent
-      Caption         =   "Score: 0000000"
-      BeginProperty Font 
-         Name            =   "Arial Narrow"
-         Size            =   15.75
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H0000FF00&
-      Height          =   375
-      Left            =   9240
-      TabIndex        =   13
-      Top             =   150
-      Visible         =   0   'False
-      Width           =   1950
    End
 End
 Attribute VB_Name = "frmMain"
@@ -4987,22 +4923,26 @@ Dim curMouse As POINTAPI
 Call GetCursorPos(curMouse)
 curMouse.x = curMouse.x * 15
 curMouse.y = curMouse.y * 15
-If curMouse.x < frmMain.Left + 120 Or curMouse.x > frmMain.Left + frmMain.width - 120 Or curMouse.y < frmMain.Top + 450 Or curMouse.y > frmMain.Top + frmMain.height - 120 Then
+If curMouse.x < frmMain.Left + 50 Or curMouse.x > frmMain.Left + frmMain.Width - 50 Or curMouse.y < frmMain.Top + 370 Or curMouse.y > frmMain.Top + frmMain.Height - 50 Then
     Call keyUp(27, False)
     tmrRefresh.Enabled = True
     If frmX <> frmMain.Left Or frmY <> frmMain.Top Then
-        tmrRefresh.Enabled = False
         frmX = frmMain.Left
         frmY = frmMain.Top
+        frmPause.Left = frmX + 50
+        frmPause.Top = frmY + 370
+        frmGUI.Left = frmX + 50
+        frmGUI.Top = frmY + 370
+        tmrRefresh.Enabled = False
     End If
 End If
 End Sub
 
 Private Sub tmrRefresh_Timer()
-frmPause.Left = frmMain.Left
-frmPause.Top = frmMain.Top
-frmGUI.Top = frmMain.Top + 450
-frmGUI.Left = frmMain.Left + 120
+frmPause.Left = frmMain.Left + 50
+frmPause.Top = frmMain.Top + 370
+frmGUI.Left = frmMain.Left + 50
+frmGUI.Top = frmMain.Top + 370
 End Sub
 
 Private Sub Form_KeyUp(KeyCode As Integer, Shift As Integer)
@@ -5040,18 +4980,18 @@ End If
 End Sub
 
 Private Sub Form_Resize()
-frmMain.width = formW
-frmMain.height = formH
+frmMain.Width = formW
+frmMain.Height = formH
 End Sub
 
 Private Sub Form_Load()
 frmGUI.Show
 frmGUI.SetFocus
 frmGUI.BackColor = vbCyan
-formW = frmMain.width
-formH = frmMain.height
-frmGUI.Top = frmMain.Top + 450
-frmGUI.Left = frmMain.Left + 120
+formW = frmMain.Width
+formH = frmMain.Height
+frmGUI.Top = frmMain.Top + 370
+frmGUI.Left = frmMain.Left + 50
 PaintPicture picBackground.Image, 0, 0, 800, 637, 0, 0, 800, 637, vbSrcCopy
 Set picBG = picBackground
 Call DrawMap(7, 7)

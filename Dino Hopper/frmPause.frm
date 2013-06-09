@@ -1,16 +1,18 @@
 VERSION 5.00
 Begin VB.Form frmPause 
+   Appearance      =   0  'Flat
+   BackColor       =   &H80000005&
    BorderStyle     =   0  'None
    Caption         =   "Game Paused"
-   ClientHeight    =   7635
+   ClientHeight    =   9555
    ClientLeft      =   4515
    ClientTop       =   1230
-   ClientWidth     =   11565
+   ClientWidth     =   12000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   7635
-   ScaleWidth      =   11565
+   ScaleHeight     =   9555
+   ScaleWidth      =   12000
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
    Begin VB.Label lblQuit 
@@ -27,9 +29,9 @@ Begin VB.Form frmPause
       EndProperty
       ForeColor       =   &H00C0C000&
       Height          =   495
-      Left            =   4440
+      Left            =   4320
       TabIndex        =   3
-      Top             =   5280
+      Top             =   5520
       Width           =   3375
    End
    Begin VB.Label lblMenu 
@@ -46,9 +48,9 @@ Begin VB.Form frmPause
       EndProperty
       ForeColor       =   &H00C0C000&
       Height          =   495
-      Left            =   4440
+      Left            =   4320
       TabIndex        =   2
-      Top             =   4560
+      Top             =   4800
       Width           =   3375
    End
    Begin VB.Label lblOpt 
@@ -65,9 +67,9 @@ Begin VB.Form frmPause
       EndProperty
       ForeColor       =   &H00C0C000&
       Height          =   495
-      Left            =   4440
+      Left            =   4320
       TabIndex        =   1
-      Top             =   3840
+      Top             =   4080
       Width           =   3375
    End
    Begin VB.Label lblGo 
@@ -84,9 +86,9 @@ Begin VB.Form frmPause
       EndProperty
       ForeColor       =   &H00C0C000&
       Height          =   495
-      Left            =   4440
+      Left            =   4320
       TabIndex        =   0
-      Top             =   3120
+      Top             =   3360
       Width           =   3375
    End
 End
@@ -125,10 +127,8 @@ Private Sub Form_Load()
     lblMenu.BackColor = vbCyan
     SetWindowLong Me.hWnd, GWL_EXSTYLE, GetWindowLong(Me.hWnd, GWL_EXSTYLE) Or WS_EX_LAYERED
     SetLayeredWindowAttributes Me.hWnd, vbCyan, 0&, LWA_COLORKEY
-    frmPause.Left = frmMain.Left
-    frmPause.height = frmMain.height
-    frmPause.width = frmMain.width
-    frmPause.Top = frmMain.Top
+    frmPause.Left = frmMain.Left + 50
+    frmPause.Top = frmMain.Top + 370
     Call ChangeTimers("Pause")
 End Sub
 Private Function ChangeTimers(ByVal io As String)
@@ -182,7 +182,7 @@ End With
 End Function
 
 Private Sub Form_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
-If y > lblGo.Top And y < (lblGo.Top + lblGo.height) And x > lblGo.Left And x < lblGo.Left + lblGo.width Then
+If y > lblGo.Top And y < (lblGo.Top + lblGo.Height) And x > lblGo.Left And x < lblGo.Left + lblGo.Width Then
     Call lblGo_Click
 End If
 End Sub
