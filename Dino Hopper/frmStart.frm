@@ -246,14 +246,15 @@ numCPU = 0
 lstPlayers.Clear
 lstPlayers.AddItem "Player 1"
 fraPlayers.Visible = False
-For X = 0 To 5
-    lblMenu(X).Enabled = True
-Next X
+For x = 0 To 5
+    lblMenu(x).Enabled = True
+Next x
 End Sub
 
 Private Sub cmdPlay_Click()
-frmStart.Hide
-mdiMain.Show
+frmMain.Show
+Unload frmStart
+Set frmStart = Nothing
 End Sub
 
 Private Sub cmdRemove_Click()
@@ -320,48 +321,48 @@ DefaultKey(14) = vbKeySeparator
 lblMenu(0).Caption = "MultiPlayer"
 lblMenu(1).Caption = "Single Player"
 lblMenu(2).Caption = "Options"
-frmStart.PaintPicture picTitleMainMask.Image, picTitleMainMask.Left, picTitleMainMask.Top, picTitleMainMask.Width, picTitleMainMask.Height, 0, 0, picTitleMainMask.Width, picTitleMainMask.Height, vbSrcAnd
-frmStart.PaintPicture picTitleMain.Image, picTitleMain.Left, picTitleMain.Top, picTitleMain.Width, picTitleMain.Height, 0, 0, picTitleMain.Width, picTitleMain.Height, vbSrcPaint
+frmStart.PaintPicture picTitleMainMask.Image, picTitleMainMask.Left, picTitleMainMask.Top, picTitleMainMask.width, picTitleMainMask.height, 0, 0, picTitleMainMask.width, picTitleMainMask.height, vbSrcAnd
+frmStart.PaintPicture picTitleMain.Image, picTitleMain.Left, picTitleMain.Top, picTitleMain.width, picTitleMain.height, 0, 0, picTitleMain.width, picTitleMain.height, vbSrcPaint
 End Sub
 
-Private Sub lblMenu_Click(index As Integer)
-If index = 0 Then 'left
+Private Sub lblMenu_Click(Index As Integer)
+If Index = 0 Then 'left
     lblMenu(3).Visible = False
     lblMenu(4).Visible = False
     lblMenu(5).Visible = False
-    For X = 0 To 2
-        If lblMenu(X).Caption = "Options" Then
-            lblMenu(X).Caption = "Single Player"
+    For x = 0 To 2
+        If lblMenu(x).Caption = "Options" Then
+            lblMenu(x).Caption = "Single Player"
             
-        ElseIf lblMenu(X).Caption = "Single Player" Then
-            lblMenu(X).Caption = "MultiPlayer"
+        ElseIf lblMenu(x).Caption = "Single Player" Then
+            lblMenu(x).Caption = "MultiPlayer"
             
-        ElseIf lblMenu(X).Caption = "MultiPlayer" Then
-            lblMenu(X).Caption = "Exit"
+        ElseIf lblMenu(x).Caption = "MultiPlayer" Then
+            lblMenu(x).Caption = "Exit"
             
         Else
-            lblMenu(X).Caption = "Options"
+            lblMenu(x).Caption = "Options"
         End If
-    Next X
-ElseIf index = 2 Then 'right
+    Next x
+ElseIf Index = 2 Then 'right
     lblMenu(3).Visible = False
     lblMenu(4).Visible = False
     lblMenu(5).Visible = False
-    For X = 0 To 2
-        If lblMenu(X).Caption = "MultiPlayer" Then
-            lblMenu(X).Caption = "Single Player"
+    For x = 0 To 2
+        If lblMenu(x).Caption = "MultiPlayer" Then
+            lblMenu(x).Caption = "Single Player"
             
-        ElseIf lblMenu(X).Caption = "Exit" Then
-            lblMenu(X).Caption = "MultiPlayer"
+        ElseIf lblMenu(x).Caption = "Exit" Then
+            lblMenu(x).Caption = "MultiPlayer"
             
-        ElseIf lblMenu(X).Caption = "Options" Then
-            lblMenu(X).Caption = "Exit"
+        ElseIf lblMenu(x).Caption = "Options" Then
+            lblMenu(x).Caption = "Exit"
             
         Else
-            lblMenu(X).Caption = "Options"
+            lblMenu(x).Caption = "Options"
         End If
-    Next X
-ElseIf index = 1 Then ' Select
+    Next x
+ElseIf Index = 1 Then ' Select
     If lblMenu(1).Caption = "Exit" Then
         End
     ElseIf lblMenu(1).Caption = "Exit" Then
@@ -380,22 +381,22 @@ ElseIf index = 1 Then ' Select
         lblMenu(4).Visible = True
         
     End If
-ElseIf index = 3 Then
+ElseIf Index = 3 Then
     gameMode = 0
     Call getPlayers
-ElseIf index = 4 Then
+ElseIf Index = 4 Then
     gameMode = 2
     Call getPlayers
-ElseIf index = 5 Then
+ElseIf Index = 5 Then
     gameMode = 1
     Call getPlayers
 End If
 End Sub
 
 Private Sub getPlayers()
-For X = 0 To 5
-    lblMenu(X).Enabled = False
-Next X
+For x = 0 To 5
+    lblMenu(x).Enabled = False
+Next x
 If lblMenu(1).Caption = "Single Player" Then
     cmdAdd.Caption = "Add CPU"
     cmdRemove.Caption = "Remove CPU"

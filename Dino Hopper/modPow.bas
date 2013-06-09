@@ -1,69 +1,70 @@
 Attribute VB_Name = "modPow"
-Public Sub getPowEffect(ByVal index As Integer, ByVal strType As String)
+Public Sub getPowEffect(ByVal Index As Integer, ByVal strType As String)
 With frmMain
-If .tmrPow(index).Tag <> "" Then
-    Call getPowExpire(index, .tmrPow(index).Tag)
+If .tmrPow(Index).Tag <> "" Then
+    Call getPowExpire(Index, .tmrPow(Index).Tag)
 End If
-.tmrPow(index).Tag = strType
-tmrPowCounter(index) = 0
+.tmrPow(Index).Tag = strType
+tmrPowCounter(Index) = 0
 If gameMode = 0 Then
-    .tmrPow(index).Enabled = True
+    .tmrPow(Index).Enabled = True
 End If
 If strType = "Scare" Then
-    If index = 0 Then
+    If Index = 0 Then
         isScared = True
     End If
 ElseIf strType = "Speed" Then
     If gameMode = 0 Then
-        .tmrChar(index).Interval = 20
-        If index > 0 Then
-            .tmrCPUMove(index).Interval = 150
+        .tmrChar(Index).Interval = 20
+        If Index > 0 Then
+            .tmrCPUMove(Index).Interval = 150
         End If
     Else
-        intMoves(index) = 2
+        intMoves(Index) = 2
         intMoveCount = 0
     End If
 ElseIf strType = "Freeze" Then
-    .tmrChar(index).Tag = strType
+    .tmrChar(Index).Tag = strType
 End If
 End With
 End Sub
 
-Public Sub getPowExpire(ByVal index As Integer, ByVal strPow As String)
+Public Sub getPowExpire(ByVal Index As Integer, ByVal strPow As String)
 With frmMain
-If .tmrPow(index).Tag = "Recover" Then
-    blnRecover(index) = False
-ElseIf .tmrPow(index).Tag = "Scare" Then
+If .tmrPow(Index).Tag = "Recover" Then
+    blnRecover(Index) = False
+    .tmrChar(Index).Tag = ""
+ElseIf .tmrPow(Index).Tag = "Scare" Then
     isScared = False
-ElseIf .tmrPow(index).Tag = "Speed" Then
+ElseIf .tmrPow(Index).Tag = "Speed" Then
     If gameMode = 0 Then
-        .tmrChar(index).Interval = 40
-        If index > 0 Then
-            .tmrCPUMove(index).Interval = 300
+        .tmrChar(Index).Interval = 40
+        If Index > 0 Then
+            .tmrCPUMove(Index).Interval = 300
         End If
     Else
-        intMoves(index) = 1
+        intMoves(Index) = 1
     End If
-ElseIf .tmrPow(index).Tag = "Freeze" Then
-    .tmrChar(index).Tag = ""
+ElseIf .tmrPow(Index).Tag = "Freeze" Then
+    .tmrChar(Index).Tag = ""
 End If
-.tmrPow(index).Enabled = False
+.tmrPow(Index).Enabled = False
 End With
 End Sub
 
-Public Sub getPowTick(ByVal index As Integer)
-tmrPowCounter(index) = tmrPowCounter(index) + 1
+Public Sub getPowTick(ByVal Index As Integer)
+tmrPowCounter(Index) = tmrPowCounter(Index) + 1
 With frmMain
-If tmrPowCounter(index) >= tmrPowLimit And .tmrChar(index).Tag <> "Recover" Then
-    Call getPowExpire(index, .tmrPow(index).Tag)
-    tmrPowCounter(index) = 0
-    .tmrPow(index).Tag = ""
-    .tmrPow(index).Enabled = False
-ElseIf .tmrChar(index).Tag = "Recover" And tmrPowCounter(index) >= tmrPowLimit * 0.75 Then
-    Call getPowExpire(index, .tmrPow(index).Tag)
-    tmrPowCounter(index) = 0
-    .tmrPow(index).Tag = ""
-    .tmrPow(index).Enabled = False
+If tmrPowCounter(Index) >= tmrPowLimit And .tmrChar(Index).Tag <> "Recover" Then
+    Call getPowExpire(Index, .tmrPow(Index).Tag)
+    tmrPowCounter(Index) = 0
+    .tmrPow(Index).Tag = ""
+    .tmrPow(Index).Enabled = False
+ElseIf .tmrChar(Index).Tag = "Recover" And tmrPowCounter(Index) >= tmrPowLimit * 0.75 Then
+    Call getPowExpire(Index, .tmrPow(Index).Tag)
+    tmrPowCounter(Index) = 0
+    .tmrPow(Index).Tag = ""
+    .tmrPow(Index).Enabled = False
 End If
 End With
 End Sub

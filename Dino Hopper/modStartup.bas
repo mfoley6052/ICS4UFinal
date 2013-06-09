@@ -1,21 +1,25 @@
 Attribute VB_Name = "modStartup"
 Public Sub gameStart()
 With frmGUI
+.Visible = True
 'gameMode = 2
-.lblScore.Visible = True
-.lblLives.Visible = True
-.lblMulti.Visible = True
-.PaintPicture frmMain.picEggMask(0).Image, .lblLives.Left - 24, .lblLives.Top - ((frmMain.picEggG(0).Height - .lblLives.Height) * 0.5), 22, 30, 0, 0, 22, 30, vbSrcAnd
-.PaintPicture frmMain.picEggG(0).Image, .lblLives.Left - 24, .lblLives.Top - ((frmMain.picEggG(0).Height - .lblLives.Height) * 0.5), 22, 30, 0, 0, 22, 30, vbSrcPaint
+For x = numPlayers - 1 To 0 Step -1
+    frmMain.tmrChar(x).Enabled = True
+    .lblScore(x).Visible = True
+    .lblLives(x).Visible = True
+    .lblMulti(x).Visible = True
+    .PaintPicture frmMain.picEggMask(0).Image, .lblLives(x).Left - 24, .lblLives(x).Top - (frmMain.picEggG(0).height - .lblLives(x).height), 22, 30, 0, 0, 22, 30, vbSrcAnd
+    .PaintPicture frmMain.picEggG(0).Image, .lblLives(x).Left - 24, .lblLives(x).Top - (frmMain.picEggG(0).height - .lblLives(x).height), 22, 30, 0, 0, 22, 30, vbSrcPaint
+    intLives(x) = 3
+    intMulti(x) = 1
+    intScore(x) = 0
+Next x
 End With
 With frmMain
-For X = 0 To numPlayers - 1
-    .tmrChar(X).Enabled = True
-Next X
 If numCPU > 0 Then
-    For Y = 1 To numCPU
-        .tmrChar(Y).Enabled = True
-    Next Y
+    For y = 1 To numCPU
+        .tmrChar(y).Enabled = True
+    Next y
 End If
 defaultTile(0) = tile(mapWidth - 1, mapHeight - 1)
 defaultTile(1) = tile(0, mapHeight - 1)
@@ -57,8 +61,8 @@ For dt = 0 To 3
     ElseIf dtVal(dt) = 3 Then
         strDir(dt) = "D"
     End If
-    spriteX(dt) = defaultTile(dtVal(dt)).X + 25
-    spriteY(dt) = defaultTile(dtVal(dt)).Y - 15
+    spriteX(dt) = defaultTile(dtVal(dt)).x + 25
+    spriteY(dt) = defaultTile(dtVal(dt)).y - 15
 Next dt
 .tmrObj.Enabled = True
 If gameMode = 0 Then
@@ -87,8 +91,6 @@ blnPlayerMoveable(0) = True
 blnPlayerMoveable(1) = True
 blnPlayerMoveable(2) = True
 blnPlayerMoveable(3) = True
-intLives(0) = 3
-intMulti(0) = 1
 strState(0) = "I"
 strState(1) = "I"
 strState(2) = "I"
@@ -104,25 +106,25 @@ frameProg(3) = 1
 End With
 End Sub
 
-Private Sub assignSprites(ByVal index As Integer)
+Private Sub assignSprites(ByVal Index As Integer)
 With frmMain
 Dim strPath As String
-If isPlayer(index) Then
-    If index = 1 Then
+If isPlayer(Index) Then
+    If Index = 1 Then
         strPath = "Y\"
-    ElseIf index = 2 Then
+    ElseIf Index = 2 Then
         strPath = "G\"
     End If
 Else
-    If index = 1 Then
+    If Index = 1 Then
         strPath = "R1\"
-    ElseIf index = 2 Then
+    ElseIf Index = 2 Then
         strPath = "R2\"
-    ElseIf index = 3 Then
+    ElseIf Index = 3 Then
         strPath = "R3\"
     End If
 End If
-If index = 1 Then
+If Index = 1 Then
     .picP2IR.Picture = LoadPicture(App.Path & "\Images\Char\" & strPath & "IdleR.gif")
     .picP2CR(1).Picture = LoadPicture(App.Path & "\Images\Char\" & strPath & "Crouch1R.gif")
     .picP2CR(2).Picture = LoadPicture(App.Path & "\Images\Char\" & strPath & "Crouch2R.gif")
@@ -143,7 +145,7 @@ If index = 1 Then
     .picP2CL(2).Picture = LoadPicture(App.Path & "\Images\Char\" & strPath & "Crouch2L.gif")
     .picP2CL(3).Picture = LoadPicture(App.Path & "\Images\Char\" & strPath & "Crouch3L.gif")
     .picP2JL.Picture = LoadPicture(App.Path & "\Images\Char\" & strPath & "JumpL.gif")
-ElseIf index = 2 Then
+ElseIf Index = 2 Then
     .picP3IR.Picture = LoadPicture(App.Path & "\Images\Char\" & strPath & "IdleR.gif")
     .picP3CR(1).Picture = LoadPicture(App.Path & "\Images\Char\" & strPath & "Crouch1R.gif")
     .picP3CR(2).Picture = LoadPicture(App.Path & "\Images\Char\" & strPath & "Crouch2R.gif")
@@ -164,7 +166,7 @@ ElseIf index = 2 Then
     .picP3CL(2).Picture = LoadPicture(App.Path & "\Images\Char\" & strPath & "Crouch2L.gif")
     .picP3CL(3).Picture = LoadPicture(App.Path & "\Images\Char\" & strPath & "Crouch3L.gif")
     .picP3JL.Picture = LoadPicture(App.Path & "\Images\Char\" & strPath & "JumpL.gif")
-ElseIf index = 3 Then
+ElseIf Index = 3 Then
     .picP4IR.Picture = LoadPicture(App.Path & "\Images\Char\" & strPath & "IdleR.gif")
     .picP4CR(1).Picture = LoadPicture(App.Path & "\Images\Char\" & strPath & "Crouch1R.gif")
     .picP4CR(2).Picture = LoadPicture(App.Path & "\Images\Char\" & strPath & "Crouch2R.gif")
@@ -186,5 +188,39 @@ ElseIf index = 3 Then
     .picP4CL(3).Picture = LoadPicture(App.Path & "\Images\Char\" & strPath & "Crouch3L.gif")
     .picP4JL.Picture = LoadPicture(App.Path & "\Images\Char\" & strPath & "JumpL.gif")
 End If
+End With
+End Sub
+
+Public Sub getGameEnd()
+With frmMain
+.tmrObjEvent.Enabled = False
+.tmrObj.Enabled = False
+.tmrAlternate.Enabled = False
+.tmrRefresh.Enabled = False
+intMoveCount = 0
+For x = 0 To 3
+    blnRecover(x) = False
+    tmrPowCounter(x) = False
+    .tmrChar(x).Enabled = False
+    .tmrPow(x).Enabled = False
+    .tmrStun(x).Enabled = False
+    If x > 0 Then
+        .tmrCPUMove(x).Enabled = False
+    End If
+    If x < 3 Then
+        frmGUI.lblLives(x).Enabled = False
+        frmGUI.lblMulti(x).Enabled = False
+        frmGUI.lblScore(x).Enabled = False
+    End If
+Next x
+For T = 0 To 100
+    tileSwitch(T) = False
+Next T
+frmMain.Hide
+Unload frmMain
+Set frmMain = Nothing
+frmGUI.Hide
+Unload frmGUI
+Set frmGUI = Nothing
 End With
 End Sub

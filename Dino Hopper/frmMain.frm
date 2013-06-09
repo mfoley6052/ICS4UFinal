@@ -3,18 +3,25 @@ Begin VB.Form frmMain
    Appearance      =   0  'Flat
    AutoRedraw      =   -1  'True
    BackColor       =   &H80000005&
-   BorderStyle     =   0  'None
+   BorderStyle     =   1  'Fixed Single
    Caption         =   "Dino Hopper"
    ClientHeight    =   9555
-   ClientLeft      =   4140
-   ClientTop       =   120
+   ClientLeft      =   4245
+   ClientTop       =   1230
    ClientWidth     =   12000
    LinkTopic       =   "Dino Hopper"
-   MDIChild        =   -1  'True
+   MaxButton       =   0   'False
+   MinButton       =   0   'False
    ScaleHeight     =   637
    ScaleMode       =   3  'Pixel
    ScaleWidth      =   800
-   ShowInTaskbar   =   0   'False
+   StartUpPosition =   2  'CenterScreen
+   Begin VB.Timer tmrRefresh 
+      Enabled         =   0   'False
+      Interval        =   5
+      Left            =   10080
+      Top             =   1080
+   End
    Begin VB.Timer tmrStun 
       Enabled         =   0   'False
       Index           =   3
@@ -4971,34 +4978,39 @@ Attribute VB_Exposed = False
 '2677 lines as of June 6
 Dim formW As Integer
 Dim formH As Integer
+Dim frmX As Integer
+Dim frmY As Integer
 
 Private Sub Form_GotFocus()
-frmGUI.SetFocus
-End Sub
-
-Private Sub Form_KeyUp(keyCode As Integer, Shift As Integer)
-If keyCode = 123 Then 'F12
-    If frmDbg.Visible = False Then
-        frmDbg.Visible = True
-        frmDbg.Show
-        Me.SetFocus
-    Else
-        frmDbg.Visible = False
-        frmDbg.Hide
+Dim curMouse As POINTAPI
+' Get the current mouse cursor coordinates:
+Call GetCursorPos(curMouse)
+curMouse.x = curMouse.x * 15
+curMouse.y = curMouse.y * 15
+If curMouse.x < frmMain.Left + 120 Or curMouse.x > frmMain.Left + frmMain.width - 120 Or curMouse.y < frmMain.Top + 450 Or curMouse.y > frmMain.Top + frmMain.height - 120 Then
+    Call keyUp(27, False)
+    tmrRefresh.Enabled = True
+    If frmX <> frmMain.Left Or frmY <> frmMain.Top Then
+        tmrRefresh.Enabled = False
+        frmX = frmMain.Left
+        frmY = frmMain.Top
     End If
-ElseIf keyCode = 122 Then 'F11
-        If frmSettings.Visible = False Then
-        frmSettings.Visible = True
-    Else
-        frmSettings.Visible = False
-    End If
-ElseIf keyCode = 27 Then 'Esc
-    frmPause.Show
 End If
 End Sub
 
-Private Sub Form_KeyDown(keyCode As Integer, Shift As Integer)
-Call keyHandler(keyCode, Shift)
+Private Sub tmrRefresh_Timer()
+frmPause.Left = frmMain.Left
+frmPause.Top = frmMain.Top
+frmGUI.Top = frmMain.Top + 450
+frmGUI.Left = frmMain.Left + 120
+End Sub
+
+Private Sub Form_KeyUp(KeyCode As Integer, Shift As Integer)
+Call keyUp(KeyCode, Shift)
+End Sub
+
+Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
+Call keyHandler(KeyCode, Shift)
 End Sub
 
 Private Sub tmrAlternate_Timer()
@@ -5011,40 +5023,46 @@ End If
 tmrAlternate.Tag = blnAlt
 End Sub
 
-Private Sub tmrCPUMove_Timer(index As Integer)
+Private Sub tmrCPUMove_Timer(Index As Integer)
 Static intCounter As Integer
 'if counter limit is not reached by counter
-If intCounter < counterLimit(index) Then
+If intCounter < counterLimit(Index) Then
     'increase counter
     intCounter = intCounter + 1
 'if counter limit is reached
 Else
     'initiate cpu movement
-    If blnPlayerMoveable(index) Then
-        Call cpuAI(index)
+    If blnPlayerMoveable(Index) Then
+        Call cpuAI(Index)
     End If
     intCounter = 0
 End If
 End Sub
 
 Private Sub Form_Resize()
-frmMain.Width = formW
-frmMain.Height = formH
+frmMain.width = formW
+frmMain.height = formH
 End Sub
 
 Private Sub Form_Load()
-formW = frmMain.Width
-formH = frmMain.Height
+frmGUI.Show
+frmGUI.SetFocus
+frmGUI.BackColor = vbCyan
+formW = frmMain.width
+formH = frmMain.height
+frmGUI.Top = frmMain.Top + 450
+frmGUI.Left = frmMain.Left + 120
 PaintPicture picBackground.Image, 0, 0, 800, 637, 0, 0, 800, 637, vbSrcCopy
 Set picBG = picBackground
-Call DrawMap(1)
+Call DrawMap(7, 7)
 blnClearPrevTile(0) = False
 blnClearPrevTile(1) = False
+blnClearPrevTile(2) = False
+blnClearPrevTile(3) = False
 blnPlayerMoveable(0) = False
 blnPlayerMoveable(1) = False
-For T = 0 To 100
-    tileSwitch(T) = False
-Next T
+blnPlayerMoveable(2) = False
+blnPlayerMoveable(3) = False
 limswitch = 1000
 End Sub
 
@@ -5105,51 +5123,51 @@ For o = 0 To tileCount - 1
 Next o
 End Sub
 
-Private Sub tmrChar_Timer(index As Integer)
+Private Sub tmrChar_Timer(Index As Integer)
 'reverse boolean for select
 Static blnRev(0 To 3) As Boolean
 'call selection paint
-Call PaintSelector(index, picCount(index))
-If frameCounter(index) = 0 Then
-    Call PaintCharSprite(index, spriteX(index), spriteY(index))
+Call PaintSelector(Index, picCount(Index))
+If frameCounter(Index) = 0 Then
+    Call PaintCharSprite(Index, spriteX(Index), spriteY(Index))
 End If
-If frameCounter(index) > 0 Then 'if jump timer is started
-    Call charAction(index, tile(nextX(index), nextY(index)))
+If frameCounter(Index) > 0 Then 'if jump timer is started
+    Call charAction(Index, tile(nextX(Index), nextY(Index)))
 Else
-    spriteX(index) = tile(curX(index), curY(index)).X + 25
-    spriteY(index) = tile(curX(index), curY(index)).Y - 15
+    spriteX(Index) = tile(curX(Index), curY(Index)).x + 25
+    spriteY(Index) = tile(curX(Index), curY(Index)).y - 15
 End If
-If blnRev(index) = False Then
-    picCount(index) = picCount(index) + 1
+If blnRev(Index) = False Then
+    picCount(Index) = picCount(Index) + 1
 End If
-If blnRev(index) = True Then
-    picCount(index) = picCount(index) - 1
+If blnRev(Index) = True Then
+    picCount(Index) = picCount(Index) - 1
 End If
-If picCount(index) >= 4 Or picCount(index) <= 0 Then
-    If blnRev(index) = False Then
-        blnRev(index) = True
+If picCount(Index) >= 4 Or picCount(Index) <= 0 Then
+    If blnRev(Index) = False Then
+        blnRev(Index) = True
     Else
-        blnRev(index) = False
+        blnRev(Index) = False
     End If
 End If
 End Sub
 
-Private Sub tmrStun_Timer(index As Integer)
-If isPlayer(index) Then
-    blnPlayerMoveable(index) = True
+Private Sub tmrStun_Timer(Index As Integer)
+If isPlayer(Index) Then
+    blnPlayerMoveable(Index) = True
 Else
-    tmrCPUMove(index).Enabled = True
+    tmrCPUMove(Index).Enabled = True
 End If
-tmrStun(index).Enabled = False
+tmrStun(Index).Enabled = False
 End Sub
 
 Private Sub tmrTileAnim_Timer()
 Static intCounter As Integer
-For X = 0 To tileCount - 1
-    If tileSwitch(X) = True And intCounter - (1 * ((tileCount - 1) - X)) <= 8 Then
-        Call getTileAnim(intCounter - (1 * ((tileCount - 1) - X)), tile(getTileFromInt(True, X), getTileFromInt(False, X)))
+For x = 0 To tileCount - 1
+    If tileSwitch(x) = True And intCounter - (1 * ((tileCount - 1) - x)) <= 8 Then
+        Call getTileAnim(intCounter - (1 * ((tileCount - 1) - x)), tile(getTileFromInt(True, x), getTileFromInt(False, x)))
     End If
-Next X
+Next x
 intCounter = intCounter + 1
 End Sub
 
@@ -5168,13 +5186,16 @@ ElseIf intX < mapWidth + ((mapHeight + 1) Mod 2) Then
     intX = intX + 1
 End If
 If intCounter >= ((mapWidth * mapHeight) + (Int(mapHeight / 2))) - 1 Then
+    intCounter = 0
+    intX = 0
+    intY = 0
     tmrTileAnimDelay.Enabled = False
 End If
 intCounter = intCounter + 1
 End Sub
 
-Public Sub tmrPow_Timer(index As Integer)
-Call getPowTick(index)
+Public Sub tmrPow_Timer(Index As Integer)
+Call getPowTick(Index)
 End Sub
 
 Public Sub tmrObjEvent_Timer()

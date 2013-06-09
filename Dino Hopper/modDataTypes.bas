@@ -1,5 +1,12 @@
 Attribute VB_Name = "modDataTypes"
- Public Type npc 'Data type for all characters in game
+Public Type POINTAPI
+    x As Long
+    y As Long
+End Type
+
+Public Declare Function GetCursorPos Lib "user32" (lpPoint As POINTAPI) As Long
+
+Public Type npc 'Data type for all characters in game
     health As Integer
     speed As Integer
     strength As Integer

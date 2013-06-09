@@ -8,7 +8,7 @@ Begin VB.MDIForm mdiMain
    ClientTop       =   660
    ClientWidth     =   12000
    LinkTopic       =   "MDIForm1"
-   Picture         =   "mdiMain.frx":0000
+   Moveable        =   0   'False
    StartUpPosition =   1  'CenterOwner
 End
 Attribute VB_Name = "mdiMain"
@@ -16,12 +16,4 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-Private Sub MDIForm_Load()
-frmMain.Top = 0
-frmMain.Show
-frmGUI.Top = 0
-frmGUI.Left = 0
-frmGUI.BackColor = vbCyan
-frmGUI.Show
-frmGUI.SetFocus
-End Sub
+

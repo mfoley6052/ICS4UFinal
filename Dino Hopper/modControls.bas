@@ -1,15 +1,15 @@
 Attribute VB_Name = "modControls"
-Public Sub keyHandler(ByVal keyCode As Integer, ByVal Shift As Integer)
+Public Sub keyHandler(ByVal KeyCode As Integer, ByVal Shift As Integer)
 Dim playerIndex As Integer
-If keyCode = key(0) Or keyCode = key(1) Or keyCode = key(2) Or keyCode = key(3) Or keyCode = key(4) Then
+If KeyCode = key(0) Or KeyCode = key(1) Or KeyCode = key(2) Or KeyCode = key(3) Or KeyCode = key(4) Then
     playerIndex = 0
-ElseIf keyCode = key(5) Or keyCode = key(6) Or keyCode = key(7) Or keyCode = key(8) Or keyCode = key(9) Then
+ElseIf KeyCode = key(5) Or KeyCode = key(6) Or KeyCode = key(7) Or KeyCode = key(8) Or KeyCode = key(9) Then
     playerIndex = 1
-ElseIf keyCode = key(10) Or keyCode = key(11) Or keyCode = key(12) Or keyCode = key(13) Or keyCode = key(14) Then
+ElseIf KeyCode = key(10) Or KeyCode = key(11) Or KeyCode = key(12) Or KeyCode = key(13) Or KeyCode = key(14) Then
     playerIndex = 2
 End If
 If blnPlayerMoveable(playerIndex) = True And frameCounter(playerIndex) = 0 Then
-    If keyCode = key(0 + (5 * playerIndex)) Then 'Left
+    If KeyCode = key(0 + (5 * playerIndex)) Then 'Left
         If gameMode = 0 Then
             Call getJump(playerIndex, "L", evalMove(playerIndex, "L"))
         ElseIf gameMode = 1 Or (gameMode = 2 And blnMoveOnTick(playerIndex)) Then
@@ -19,7 +19,7 @@ If blnPlayerMoveable(playerIndex) = True And frameCounter(playerIndex) = 0 Then
                 strDir(playerIndex) = "L"
             End If
         End If
-    ElseIf keyCode = key(1 + (5 * playerIndex)) Then 'Up
+    ElseIf KeyCode = key(1 + (5 * playerIndex)) Then 'Up
         If gameMode = 0 Then
             Call getJump(playerIndex, "U", evalMove(playerIndex, "U"))
         ElseIf gameMode = 1 Or (gameMode = 2 And blnMoveOnTick(playerIndex)) Then
@@ -29,7 +29,7 @@ If blnPlayerMoveable(playerIndex) = True And frameCounter(playerIndex) = 0 Then
                 strDir(playerIndex) = "U"
             End If
         End If
-    ElseIf keyCode = key(2 + (5 * playerIndex)) Then 'Right
+    ElseIf KeyCode = key(2 + (5 * playerIndex)) Then 'Right
         If gameMode = 0 Then
             Call getJump(playerIndex, "R", evalMove(playerIndex, "R"))
         ElseIf gameMode = 1 Or (gameMode = 2 And blnMoveOnTick(playerIndex)) Then
@@ -39,7 +39,7 @@ If blnPlayerMoveable(playerIndex) = True And frameCounter(playerIndex) = 0 Then
                 strDir(playerIndex) = "R"
             End If
         End If
-    ElseIf keyCode = key(3 + (5 * playerIndex)) Then 'Down
+    ElseIf KeyCode = key(3 + (5 * playerIndex)) Then 'Down
         If gameMode = 0 Then
             Call getJump(playerIndex, "D", evalMove(playerIndex, "D"))
         ElseIf gameMode = 1 Or (gameMode = 2 And blnMoveOnTick(playerIndex)) Then
@@ -49,12 +49,33 @@ If blnPlayerMoveable(playerIndex) = True And frameCounter(playerIndex) = 0 Then
                 strDir(playerIndex) = "D"
             End If
         End If
-    ElseIf keyCode = key(4 + (5 * playerIndex)) Then 'Action
+    ElseIf KeyCode = key(4 + (5 * playerIndex)) Then 'Action
         If gameMode = 0 Then
             Call getJump(playerIndex, strDir(playerIndex), evalMove(playerIndex, strDir(0)))
         ElseIf gameMode = 1 Or (gameMode = 2 And blnMoveOnTick(playerIndex)) Then
             Call getTick(playerIndex)
         End If
     End If
+End If
+End Sub
+
+Public Sub keyUp(ByVal KeyCode As Integer, ByVal Shift As Integer)
+If KeyCode = 123 Then 'F12
+    If frmDbg.Visible = False Then
+        frmDbg.Visible = True
+        frmDbg.Show
+        frmGUI.SetFocus
+    Else
+        frmDbg.Visible = False
+        frmDbg.Hide
+    End If
+ElseIf KeyCode = 122 Then 'F11
+        If frmSettings.Visible = False Then
+        frmSettings.Visible = True
+    Else
+        frmSettings.Visible = False
+    End If
+ElseIf KeyCode = 27 Then 'Esc
+    frmPause.Show
 End If
 End Sub

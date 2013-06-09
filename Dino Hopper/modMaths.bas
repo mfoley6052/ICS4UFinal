@@ -1,29 +1,29 @@
 Attribute VB_Name = "modMaths"
 Option Explicit
-Public Sub addScore(ByVal index As Integer, ByVal intAdd As Integer)
-intScore(index) = intScore(index) + (intMulti(index) * intAdd)
+Public Sub addScore(ByVal Index As Integer, ByVal intAdd As Integer)
+intScore(Index) = intScore(Index) + (intMulti(Index) * intAdd)
 End Sub
 
-Public Sub refreshLabels(ByVal blnScore As Boolean, ByVal blnLives As Boolean, ByVal blnMulti As Boolean)
+Public Sub refreshLabels(ByVal Index As Integer, ByVal blnScore As Boolean, ByVal blnLives As Boolean, ByVal blnMulti As Boolean)
 With frmGUI
 If blnScore Then
-    .lblScore = "Score: " & Format(intScore(0), "0000000")
+    .lblScore(Index) = "Score: " & Format(intScore(Index), "0000000")
 End If
 If blnLives Then
-    .lblLives = "x" & intLives(0)
+    .lblLives(Index) = "x" & intLives(Index)
 End If
 If blnMulti Then
-    .lblMulti = "Multiplier: " & intMulti(0) & "x"
+    .lblMulti(Index) = "Multiplier: " & intMulti(Index) & "x"
 End If
 End With
 End Sub
 
-Public Function charTouchingTile(ByVal index As Integer, tileInput As terrain) As Boolean
+Public Function charTouchingTile(ByVal Index As Integer, tileInput As terrain) As Boolean
 charTouchingTile = False
 Dim charCheck As Integer
 For charCheck = 0 To 3 Step 1
     With frmMain
-    If charCheck <> index And .tmrChar(charCheck).Enabled Then
+    If charCheck <> Index And .tmrChar(charCheck).Enabled Then
         If curX(charCheck) = tileInput.Xc And curY(charCheck) = tileInput.Yc Then
             charTouchingTile = True
         ElseIf oddRow(curY(charCheck)) Then
@@ -77,8 +77,8 @@ tile(inputTile.Xc, inputTile.Yc) = inputTile
 objTileCount = objTileCount - 1
 End Sub
 
-Public Function paintMask(tileInput As terrain, ByVal index As Integer) As Boolean
-If index < 0 Then
+Public Function paintMask(tileInput As terrain, ByVal Index As Integer) As Boolean
+If Index < 0 Then
     If gameMode = 0 Then
         Dim ratExpire As Single
         If tileInput.objTimer < 0.7 * objExpire Then
@@ -100,50 +100,50 @@ If index < 0 Then
             paintMask = True
         End If
     End If
-ElseIf blnRecover(index) Then
+ElseIf blnRecover(Index) Then
     With frmMain
         paintMask = .tmrAlternate.Tag
     End With
 End If
 End Function
 
-Public Function isPlayer(ByVal index As Integer) As Boolean
-If index <= numPlayers - 1 Then
+Public Function isPlayer(ByVal Index As Integer) As Boolean
+If Index <= numPlayers - 1 Then
     isPlayer = True
 Else
     isPlayer = False
 End If
 End Function
 
-Public Function getCharJumpAnim(ByVal index As Integer, ByVal curFrame As Integer, curTile As terrain, ByVal nextX As Integer, ByVal nextY As Integer)
+Public Function getCharJumpAnim(ByVal Index As Integer, ByVal curFrame As Integer, curTile As terrain, ByVal nextX As Integer, ByVal nextY As Integer)
 'if frame 5 to 10
 If curFrame >= 5 And curFrame <= 10 Then
-    spriteX(index) = curTile.X + ((curFrame - 5) * Int((nextX - curTile.X) / 5)) + 25
+    spriteX(Index) = curTile.X + ((curFrame - 5) * Int((nextX - curTile.X) / 5)) + 25
     '5 to 7 is jump up
     If curFrame < 8 Then
-        spriteY(index) = (curTile.Y + ((curFrame - 5) * Int((nextY - curTile.Y) / 5))) - (10 * (curFrame - 5)) - 15
+        spriteY(Index) = (curTile.Y + ((curFrame - 5) * Int((nextY - curTile.Y) / 5))) - (10 * (curFrame - 5)) - 15
     '8 to 10 is fall to ground
     ElseIf curFrame <= 10 Then
-        spriteY(index) = (curTile.Y + ((curFrame - 5) * Int((nextY - curTile.Y) / 5))) - (10 * (10 - curFrame)) - 15
+        spriteY(Index) = (curTile.Y + ((curFrame - 5) * Int((nextY - curTile.Y) / 5))) - (10 * (10 - curFrame)) - 15
     End If
     With frmMain
     If curFrame = 5 Then
-        If .tmrChar(index).Tag = "Freeze" Then 'if freeze, change terrain to ice and paint half-transparency ice tile
+        If .tmrChar(Index).Tag = "Freeze" Then 'if freeze, change terrain to ice and paint half-transparency ice tile
             Call getChangeTerrain(curTile, "I", False)
             .PaintPicture curTile.picTile.Image, curTile.X, curTile.Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
         End If
     ElseIf curFrame = 8 Then
-        If .tmrChar(index).Tag = "Freeze" Then 'if freeze power-up
+        If .tmrChar(Index).Tag = "Freeze" Then 'if freeze power-up
             'if terrain has no object (if it has an object yet the character is on it, the object is a terrain)
-            If Not tile(curX(index), curY(index)).hasObj Then
+            If Not tile(curX(Index), curY(Index)).hasObj Then
                 Call clearTile(curTile, False, -1, "ObjXYF") 'paint full-transparency ice tile
             End If
         End If
     End If
     End With
 ElseIf curFrame > 10 And curFrame <= 16 Then
-    spriteX(index) = curTile.X + ((curFrame - 5) * Int((nextX - curTile.X) / 5)) + 25
-    spriteY(index) = (nextY - 10) + ((curFrame - 10) * (curFrame * 2))
+    spriteX(Index) = curTile.X + ((curFrame - 5) * Int((nextX - curTile.X) / 5)) + 25
+    spriteY(Index) = (nextY - 10) + ((curFrame - 10) * (curFrame * 2))
 End If
 End Function
 
@@ -182,25 +182,25 @@ ElseIf blnX = False Then
 End If
 End Function
 
-Public Sub setCharRespawn(ByVal index As Integer, tileInput As terrain)
+Public Sub setCharRespawn(ByVal Index As Integer, tileInput As terrain)
 Dim newX As Integer
 Dim newY As Integer
-If curY(index) = mapHeight - 1 Then
-    newX = curX(index)
+If curY(Index) = mapHeight - 1 Then
+    newX = curX(Index)
     newY = 0
-ElseIf curY(index) = 0 Then
-    newX = curX(index)
+ElseIf curY(Index) = 0 Then
+    newX = curX(Index)
     newY = mapHeight - 1
-ElseIf curX(index) = 0 Then
-    If oddRow(curY(index)) Then
+ElseIf curX(Index) = 0 Then
+    If oddRow(curY(Index)) Then
         newX = mapWidth
     Else
         newX = mapWidth - 1
     End If
-    newY = curY(index)
+    newY = curY(Index)
 Else
     newX = 0
-    newY = curY(index)
+    newY = curY(Index)
 End If
 If tile(newX, newY).hasChar Then
     newY = 3
@@ -209,8 +209,8 @@ If tile(newX, newY).hasChar Then
         newX = 4
     End If
 End If
-nextX(index) = newX
-nextY(index) = newY
+nextX(Index) = newX
+nextY(Index) = newY
 End Sub
 
 Public Function getAbs(ByVal valInput As Single) As Integer

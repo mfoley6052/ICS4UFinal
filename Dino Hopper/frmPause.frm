@@ -1,16 +1,18 @@
 VERSION 5.00
 Begin VB.Form frmPause 
-   BorderStyle     =   1  'Fixed Single
+   BorderStyle     =   0  'None
    Caption         =   "Game Paused"
    ClientHeight    =   7635
-   ClientLeft      =   6360
-   ClientTop       =   2205
+   ClientLeft      =   4515
+   ClientTop       =   1230
    ClientWidth     =   11565
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
    ScaleHeight     =   7635
    ScaleWidth      =   11565
+   ShowInTaskbar   =   0   'False
+   StartUpPosition =   2  'CenterScreen
    Begin VB.Label lblQuit 
       Alignment       =   2  'Center
       Caption         =   "Quit"
@@ -94,16 +96,16 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Private Declare Function GetWindowLong Lib "user32" Alias "GetWindowLongA" ( _
-                ByVal hwnd As Long, _
+                ByVal hWnd As Long, _
                 ByVal nIndex As Long) As Long
 
 Private Declare Function SetWindowLong Lib "user32" Alias "SetWindowLongA" ( _
-                ByVal hwnd As Long, _
+                ByVal hWnd As Long, _
                 ByVal nIndex As Long, _
                 ByVal dwNewLong As Long) As Long
                 
 Private Declare Function SetLayeredWindowAttributes Lib "user32" ( _
-                ByVal hwnd As Long, _
+                ByVal hWnd As Long, _
                 ByVal crKey As Long, _
                 ByVal bAlpha As Byte, _
                 ByVal dwFlags As Long) As Long
@@ -121,11 +123,11 @@ Private Sub Form_Load()
     lblOpt.BackColor = vbCyan
     lblQuit.BackColor = vbCyan
     lblMenu.BackColor = vbCyan
-    SetWindowLong Me.hwnd, GWL_EXSTYLE, GetWindowLong(Me.hwnd, GWL_EXSTYLE) Or WS_EX_LAYERED
-    SetLayeredWindowAttributes Me.hwnd, vbCyan, 0&, LWA_COLORKEY
+    SetWindowLong Me.hWnd, GWL_EXSTYLE, GetWindowLong(Me.hWnd, GWL_EXSTYLE) Or WS_EX_LAYERED
+    SetLayeredWindowAttributes Me.hWnd, vbCyan, 0&, LWA_COLORKEY
     frmPause.Left = frmMain.Left
-    frmPause.Height = frmMain.Height
-    frmPause.Width = frmMain.Width
+    frmPause.height = frmMain.height
+    frmPause.width = frmMain.width
     frmPause.Top = frmMain.Top
     Call ChangeTimers("Pause")
 End Sub
@@ -159,36 +161,37 @@ With frmMain
         tempTag(4) = .tmrTileAnimDelay.Enabled
         .tmrTileAnimDelay.Enabled = setVal
     End If
-    For X = 0 To 3
-        If .tmrChar(X).Enabled = True Or tempTag(5 + X) = "True" Then
-            tempTag(5 + X) = .tmrChar(X).Enabled
-            .tmrChar(X).Enabled = setVal
+    For x = 0 To 3
+        If .tmrChar(x).Enabled = True Or tempTag(5 + x) = "True" Then
+            tempTag(5 + x) = .tmrChar(x).Enabled
+            .tmrChar(x).Enabled = setVal
         End If
-        If .tmrPow(X).Enabled = True Or tempTag(9 + X) = "True" Then
-            tempTag(9 + X) = .tmrPow(X).Enabled
-            .tmrPow(X).Enabled = setVal
+        If .tmrPow(x).Enabled = True Or tempTag(9 + x) = "True" Then
+            tempTag(9 + x) = .tmrPow(x).Enabled
+            .tmrPow(x).Enabled = setVal
         End If
-    Next X
-    For X = 1 To 3
-        If .tmrCPUMove(X).Enabled = True Or tempTag(12 + X) = "True" Then
-            tempTag(12 + X) = .tmrCPUMove(X).Enabled
-            .tmrCPUMove(X).Enabled = setVal
+    Next x
+    For x = 1 To 3
+        If .tmrCPUMove(x).Enabled = True Or tempTag(12 + x) = "True" Then
+            tempTag(12 + x) = .tmrCPUMove(x).Enabled
+            .tmrCPUMove(x).Enabled = setVal
         End If
-    Next X
+    Next x
     
 End With
 End Function
 
-Private Sub Form_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
-If Y > lblGo.Top And Y < (lblGo.Top + lblGo.Height) And X > lblGo.Left And X < lblGo.Left + lblGo.Width Then
+Private Sub Form_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
+If y > lblGo.Top And y < (lblGo.Top + lblGo.height) And x > lblGo.Left And x < lblGo.Left + lblGo.width Then
     Call lblGo_Click
 End If
 End Sub
 
-Private Sub lblGo_Click()
+Public Sub lblGo_Click()
+frmMain.tmrRefresh.Enabled = False
 Call ChangeTimers("Go")
 Me.Hide
-frmMain.Show
+frmGUI.SetFocus
 Unload Me
 End Sub
 
