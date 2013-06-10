@@ -1,6 +1,8 @@
 Attribute VB_Name = "modStartup"
 Public Sub gameStart()
 With frmGUI
+.Left = frmMain.Left
+.Top = frmMain.Top + 200
 .Visible = True
 'gameMode = 2
 For x = numPlayers - 1 To 0 Step -1
