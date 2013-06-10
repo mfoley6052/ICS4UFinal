@@ -1,6 +1,6 @@
 Attribute VB_Name = "modMaths"
 Option Explicit
-Public Sub addScore(ByVal Index As Integer, ByVal intAdd As Integer)
+Public Sub addScore(ByVal Index As Integer, ByVal intAdd As Long)
 intScore(Index) = intScore(Index) + (intMulti(Index) * intAdd)
 End Sub
 
@@ -118,19 +118,19 @@ End Function
 Public Function getCharJumpAnim(ByVal Index As Integer, ByVal curFrame As Integer, curTile As terrain, ByVal nextX As Integer, ByVal nextY As Integer)
 'if frame 5 to 10
 If curFrame >= 5 And curFrame <= 10 Then
-    spriteX(Index) = curTile.X + ((curFrame - 5) * Int((nextX - curTile.X) / 5)) + 25
+    spriteX(Index) = curTile.x + ((curFrame - 5) * Int((nextX - curTile.x) / 5)) + 25
     '5 to 7 is jump up
     If curFrame < 8 Then
-        spriteY(Index) = (curTile.Y + ((curFrame - 5) * Int((nextY - curTile.Y) / 5))) - (10 * (curFrame - 5)) - 15
+        spriteY(Index) = (curTile.y + ((curFrame - 5) * Int((nextY - curTile.y) / 5))) - (10 * (curFrame - 5)) - 15
     '8 to 10 is fall to ground
     ElseIf curFrame <= 10 Then
-        spriteY(Index) = (curTile.Y + ((curFrame - 5) * Int((nextY - curTile.Y) / 5))) - (10 * (10 - curFrame)) - 15
+        spriteY(Index) = (curTile.y + ((curFrame - 5) * Int((nextY - curTile.y) / 5))) - (10 * (10 - curFrame)) - 15
     End If
     With frmMain
     If curFrame = 5 Then
         If .tmrChar(Index).Tag = "Freeze" Then 'if freeze, change terrain to ice and paint half-transparency ice tile
             Call getChangeTerrain(curTile, "I", False)
-            .PaintPicture curTile.picTile.Image, curTile.X, curTile.Y, 100, 100, 0, 0, 100, 100, vbSrcPaint
+            .PaintPicture curTile.picTile.Image, curTile.x, curTile.y, 100, 100, 0, 0, 100, 100, vbSrcPaint
         End If
     ElseIf curFrame = 8 Then
         If .tmrChar(Index).Tag = "Freeze" Then 'if freeze power-up
@@ -142,7 +142,7 @@ If curFrame >= 5 And curFrame <= 10 Then
     End If
     End With
 ElseIf curFrame > 10 And curFrame <= 16 Then
-    spriteX(Index) = curTile.X + ((curFrame - 5) * Int((nextX - curTile.X) / 5)) + 25
+    spriteX(Index) = curTile.x + ((curFrame - 5) * Int((nextX - curTile.x) / 5)) + 25
     spriteY(Index) = (nextY - 10) + ((curFrame - 10) * (curFrame * 2))
 End If
 End Function
