@@ -263,7 +263,7 @@ Else
 End If
 End Function
 Public Sub getJumpComplete(ByVal Index As Integer)
-Dim pScore As Integer
+Dim pScore As Long
 Dim q As Integer
 With frmMain
 prevX(Index) = curX(Index)

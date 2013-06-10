@@ -15,7 +15,7 @@ Public intMoveCount As Integer
 Public strState(0 To 3) As String
 Public intScore(0 To 3) As Long
 Public intLives(0 To 3) As Integer
-Public intMulti(0 To 3) As Integer
+Public intMulti(0 To 3) As Long
 Public spriteX(0 To 3) As Integer
 Public spriteY(0 To 3) As Integer
 Public curX(0 To 3) As Integer
