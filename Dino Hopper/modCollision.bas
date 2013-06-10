@@ -20,9 +20,10 @@ If blnRecover(Index) = False Then
             frmMain.tmrCPUMove(Index).Enabled = False
         End If
         frmMain.tmrStun(Index).Enabled = True
-        blnRecover(Index) = True
-        Call getPowEffect(Index, "Recover")
     End If
+    blnRecover(Index) = True
+    frmMain.tmrChar(Index).Tag = "Recover"
+    Call getPowEffect(Index, "Recover")
     blnPlayerMoveable(Index) = True
 End If
 End Sub

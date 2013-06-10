@@ -24,6 +24,11 @@ If Not blnEdgeJump(Index) Then
                         frameProg(Index) = -1
                     End If
                     Call getCharJumpAnim(Index, frameCounter(Index), tile(curX(Index), curY(Index)), nextTile.x, nextTile.y)
+                ElseIf gameMode = 2 And curY(Index) > curY(charIndex) Then
+                    If frameCounter(Index) = 9 Then
+                        frameProg(Index) = -1
+                        Call getHurt(Index, charIndex)
+                    End If
                 End If
             ElseIf gameMode = 0 And frameCounter(Index) = 9 Then
                 If nextX(Index) = curX(charIndex) And nextY(Index) = curY(charIndex) Then
@@ -446,7 +451,7 @@ If .tmrChar(Index).Enabled And blnMoveOnTick(Index) Then
         blnMoveOnTick(Index) = False
         If isPlayer(Index + 1) Then
             blnMoveOnTick(Index + 1) = True
-        ElseIf numPlayers = 1 Then
+        ElseIf isPlayer(Index) And numPlayers = 1 Then
             Call getTick(Index + 1)
         End If
     End If

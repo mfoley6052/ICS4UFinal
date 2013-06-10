@@ -45,6 +45,8 @@ For dt = 0 To 3
     Else
         dtVal(dt) = randInt(0, 3)
     End If
+    prevX(dt) = -1
+    prevY(dt) = -1
     curX(dt) = defaultTile(dtVal(dt)).Xc
     curY(dt) = defaultTile(dtVal(dt)).Yc
     nextX(dt) = defaultTile(dtVal(dt)).Xc
@@ -193,6 +195,8 @@ End Sub
 
 Public Sub getGameEnd()
 With frmMain
+.tmrTileAnim.Enabled = False
+.tmrTileAnimDelay.Enabled = False
 .tmrObjEvent.Enabled = False
 .tmrObj.Enabled = False
 .tmrAlternate.Enabled = False
@@ -201,7 +205,9 @@ For x = 0 To 3
     blnRecover(x) = False
     tmrPowCounter(x) = False
     .tmrChar(x).Enabled = False
+    .tmrChar(x).Tag = ""
     .tmrPow(x).Enabled = False
+    .tmrPow(x).Tag = ""
     .tmrStun(x).Enabled = False
     If x > 0 Then
         .tmrCPUMove(x).Enabled = False
