@@ -371,7 +371,7 @@ ElseIf Index = 2 Then 'right
 ElseIf Index = 1 Then ' Select
     If lblMenu(1).Caption = "Exit" Then
         End
-    ElseIf lblMenu(1).Caption = "Exit" Then
+    ElseIf lblMenu(1).Caption = "Options" Then
         frmSettings.Show
     ElseIf lblMenu(1).Caption = "Single Player" Then
         lblMenu(3).Visible = True
