@@ -1,6 +1,4 @@
 Attribute VB_Name = "modPaint"
-Option Explicit
-
 Public Sub clearTile(tileInput As terrain, ByVal bypassForObj As Boolean, Optional Index As Integer, Optional callID As String)
 With frmMain
 Dim tilePic As Object
@@ -21,8 +19,7 @@ If Not tileInput.hasObj Or Not bypassForObj Then
                 .PaintPicture .picBuffer.Image, tileInput.x, tileInput.y, 100, 100, 0, 0, 100, 100, vbSrcPaint
             End If
         ElseIf callID = "ObjTopXY" Then 'if call is for top of tile
-            'paint top of tile
-            Call clearTileTop(tileInput)
+            Call clearTileTop(tileInput) 'paint top of tile
         Else 'no object on tile
             If callID = "ObjOddX-Y" Or callID = "ObjEven+X-Y" Then
                 'paint over bottom left half of tile
@@ -326,7 +323,7 @@ If Not killObj Then 'if object has not expired
     End If
 End If
 Call clearTile(tile(intObjX, intObjY), False, -1, "ObjXY")
-'Call clearVoid(tile(intObjX, intObjY), checkClearVoid(tile(intObjX, intObjY), True, False), checkClearVoid(tile(intObjX, intObjY), False, True))
+Call clearVoid(tile(intObjX, intObjY), checkClearVoid(tile(intObjX, intObjY), True, False), checkClearVoid(tile(intObjX, intObjY), False, True))
 If intObjY > 0 Then
     If oddRow(intObjY) Then
         If intObjX <= mapWidth - 1 Then
