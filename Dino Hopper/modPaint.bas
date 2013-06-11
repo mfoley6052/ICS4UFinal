@@ -263,24 +263,64 @@ If Not blnObjMask Then
         .picBuffer.PaintPicture tilePic.Image, 0, 0, 100, 50, 0, 0, 100, 50, vbSrcCopy
         .PaintPicture .picMaskTop.Image, tileInput.x, tileInput.y, 100, 50, 0, 0, 100, 50, vbSrcAnd
     ElseIf tileInput.Xc = 0 And oddRow(tileInput.Yc) Then
-        If callID = "ObjTopXY" Then
+        If callID = "ObjTopLeftXY" Then
+            .picBackground.PaintPicture tilePic.Image, tileInput.x, tileInput.y, 50, 50, 0, 0, 50, 50, vbSrcCopy
+            .picBuffer.PaintPicture tilePic.Image, 0, 0, 50, 50, 0, 0, 50, 50, vbSrcCopy
+        Else
             .picBackground.PaintPicture tilePic.Image, tileInput.x, tileInput.y, 100, 50, 0, 0, 100, 50, vbSrcCopy
             .picBuffer.PaintPicture tilePic.Image, 0, 0, 100, 50, 0, 0, 100, 50, vbSrcCopy
-            .PaintPicture .picMaskTopLR.Image, tileInput.x + 50, tileInput.y, 50, 50, 50, 0, paintWidth, 50, vbSrcAnd
+            .PaintPicture .picMaskTopLR.Image, tileInput.x + 50, tileInput.y, 50, 50, 50, 0, 50, 50, vbSrcAnd
         End If
-        .PaintPicture .picMaskTop.Image, tileInput.x, tileInput.y, paintWidth, 50, xStart, 0, paintWidth, 50, vbSrcAnd
+        .PaintPicture .picMaskTop.Image, tileInput.x, tileInput.y, 50, 50, 0, 0, 50, 50, vbSrcAnd
     ElseIf tileInput.Xc = mapWidth Then
-        .PaintPicture .picMaskTopLR.Image, tileInput.x, tileInput.y, 50, 50, xStart, 0, 50, 50, vbSrcAnd
+        If callID = "ObjTopRightXY" Then
+            .picBackground.PaintPicture tilePic.Image, tileInput.x + 50, tileInput.y, 50, 50, 50, 0, 50, 50, vbSrcCopy
+            .picBuffer.PaintPicture tilePic.Image, 0, 0, 50, 50, 50, 0, 50, 50, vbSrcCopy
+        Else
+            .picBackground.PaintPicture tilePic.Image, tileInput.x, tileInput.y, 100, 50, 0, 0, 100, 50, vbSrcCopy
+            .picBuffer.PaintPicture tilePic.Image, 0, 0, 100, 50, 0, 0, 100, 50, vbSrcCopy
+            .PaintPicture .picMaskTopLR.Image, tileInput.x, tileInput.y, 50, 50, 0, 0, 50, 50, vbSrcAnd
+        End If
         .PaintPicture .picMaskTop.Image, tileInput.x + 50, tileInput.y, 50, 50, 50, 0, 50, 50, vbSrcAnd
     Else
         .PaintPicture .picMaskTopLR.Image, tileInput.x, tileInput.y, 100, 50, 0, 0, 100, 50, vbSrcAnd
     End If
-    .PaintPicture .picBuffer.Image, tileInput.x, tileInput.y, 100, 50, 0, 0, 100, 50, vbSrcPaint
+    If callID = "ObjTopLeftXY" Or callID = "ObjTopRightXY" Then
+        If callID = "ObjTopLeftXY" Then
+            .PaintPicture .picBuffer.Image, tileInput.x, tileInput.y, 50, 50, 0, 0, 50, 50, vbSrcPaint
+        ElseIf callID = "ObjTopRightXY" Then
+            .PaintPicture .picBuffer.Image, tileInput.x + 50, tileInput.y, 50, 50, 50, 0, 50, 50, vbSrcPaint
+        End If
+    Else
+        .picBackground.PaintPicture tilePic.Image, tileInput.x, tileInput.y, 100, 50, 0, 0, 100, 50, vbSrcCopy
+        .picBuffer.PaintPicture tilePic.Image, 0, 0, 100, 50, 0, 0, 100, 50, vbSrcCopy
+        .PaintPicture .picBuffer.Image, tileInput.x, tileInput.y, 100, 50, 0, 0, 100, 50, vbSrcPaint
+    End If
 Else
     .picBackground.PaintPicture tilePic.Image, tileInput.x + tileInput.objXOffset, tileInput.y, 100 - tileInput.objXOffset, 50, tileInput.objXOffset, 0, 100 - tileInput.objXOffset, 50, vbSrcCopy
     .picBuffer.PaintPicture tilePic.Image, 0, 0, 100 - tileInput.objXOffset, 50, tileInput.objXOffset, 0, 100 - tileInput.objXOffset, 50, vbSrcCopy
     .PaintPicture tileInput.objMask.Image, tileInput.x + tileInput.objXOffset, tileInput.y, 100 - tileInput.objXOffset, 50, 0, 0, 100 - tileInput.objXOffset, 50, vbSrcAnd
     .PaintPicture .picBuffer.Image, tileInput.x + tileInput.objXOffset, tileInput.y, 100 - tileInput.objXOffset, 50, 0, 0, 100 - tileInput.objXOffset, 50, vbSrcPaint
+    If tileInput.Yc > 0 Then
+        If tileInput.Xc > 0 Or Not oddRow(tileInput.Yc) Then
+            Dim altTileL As terrain
+            If oddRow(tileInput.Yc) Then
+                altTileL = tile(tileInput.Yc - 1, tileInput.Xc - 1)
+            Else
+                altTileL = tile(tileInput.Yc - 1, tileInput.Xc)
+            End If
+            'paint coin on tile to top left
+        End If
+        If tileInput.Xc < mapWidth - 1 Or oddRow(tileInput.Yc) Then
+            Dim altTileR As terrain
+            If oddRow(tileInput.Yc) Then
+                altTileR = tile(tileInput.Yc - 1, tileInput.Xc)
+            Else
+                altTileR = tile(tileInput.Yc - 1, tileInput.Xc + 1)
+            End If
+            'paint coin on tile to top right
+        End If
+    End If
 End If
 End With
 End Sub
