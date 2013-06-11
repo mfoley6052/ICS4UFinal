@@ -22,6 +22,14 @@ Begin VB.Form frmSettings
       TabIndex        =   24
       Top             =   120
       Width           =   2415
+      Begin VB.CommandButton cmdScores 
+         Caption         =   "Show High Scores"
+         Height          =   375
+         Left            =   840
+         TabIndex        =   35
+         Top             =   5040
+         Width           =   1575
+      End
       Begin VB.TextBox txtCTR 
          Enabled         =   0   'False
          Height          =   285
@@ -370,6 +378,11 @@ Else
     Next x
     cmdMap.Caption = "Rebind Keys"
 End If
+End Sub
+
+Private Sub cmdScores_Click()
+frmHiscore.Show
+Me.Hide
 End Sub
 
 Private Sub Form_Load()
