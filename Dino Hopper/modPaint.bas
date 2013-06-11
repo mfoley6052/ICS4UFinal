@@ -9,8 +9,7 @@ If Not tileInput.hasObj Or Not bypassForObj Then
         If tileInput.hasObj And Mid(callID, 1, 5) = "ObjXY" Then
             'paint over object
             If tileInput.objType(0) <> "Terrain" Then
-                'paint top of tile
-                Call clearTileTop(tileInput)
+                Call clearTileTop(tileInput, True, callID) 'paint top of tile with object mask
             ElseIf tileInput.objType(0) = "Terrain" Then
                 'paint over full tile
                 .picBackground.PaintPicture tilePic.Image, tileInput.x, tileInput.y, 100, 100, 0, 0, 100, 100, vbSrcCopy
@@ -18,8 +17,8 @@ If Not tileInput.hasObj Or Not bypassForObj Then
                 .PaintPicture tileInput.picMask.Image, tileInput.x, tileInput.y, 100, 100, 0, 0, 100, 100, vbSrcAnd
                 .PaintPicture .picBuffer.Image, tileInput.x, tileInput.y, 100, 100, 0, 0, 100, 100, vbSrcPaint
             End If
-        ElseIf callID = "ObjTopXY" Then 'if call is for top of tile
-            Call clearTileTop(tileInput) 'paint top of tile
+        ElseIf Mid(callID, 1, 6) = "ObjTop" Then 'if call is for top of tile
+            Call clearTileTop(tileInput, False, callID) 'paint top of tile or top left or right according to callID
         Else 'no object on tile
             If callID = "ObjOddX-Y" Or callID = "ObjEven+X-Y" Then
                 'paint over bottom left half of tile
@@ -45,10 +44,10 @@ If Not tileInput.hasObj Or Not bypassForObj Then
                             Call clearVoid(tileInput, True, True) 'paint spacer
                             If tileInput.Xc > 0 Then
                                 tileAlt = tile(curX(Index) - 1, curY(Index))
-                                Call clearVoid(tileAlt, False, True) 'paint right spacer
+                                Call clearVoid(tileAlt, False, True, callID) 'paint right spacer
                             Else
                                 tileAlt = tile(curX(Index), curY(Index) + 1)
-                                Call clearVoid(tileAlt, True, False) 'paint left spacer
+                                Call clearVoid(tileAlt, True, False, callID) 'paint left spacer
                                 .PaintPicture picBG, tileInput.x - 50, tileInput.y - 99, 50, 49, tileInput.x - 50, tileInput.y - 99, 50, 49, vbSrcCopy
                                 .PaintPicture picBG, tileInput.x - 50, tileInput.y - 50, 50, 125, tileInput.x - 50, tileInput.y - 50, 50, 125, vbSrcCopy
                             End If
@@ -66,13 +65,13 @@ If Not tileInput.hasObj Or Not bypassForObj Then
                         End If
                     ElseIf frameCounter(Index) > 0 And strDir(Index) = "U" Then
                         If callID = "SelXY" Then
-                            Call clearVoid(tileInput, True, True) 'paint spacer
+                            Call clearVoid(tileInput, True, True, callID) 'paint spacer
                             If tileInput.Xc < mapWidth - 1 Then
                                 tileAlt = tile(curX(Index) + 1, curY(Index))
-                                Call clearVoid(tileAlt, True, False) 'paint left spacer
+                                Call clearVoid(tileAlt, True, False, callID) 'paint left spacer
                             Else
                                 tileAlt = tile(curX(Index), curY(Index) + 1)
-                                Call clearVoid(tileAlt, False, True) 'paint right spacer
+                                Call clearVoid(tileAlt, False, True, callID) 'paint right spacer
                                 .PaintPicture picBG, tileInput.x + 100, tileInput.y - 99, 50, 49, tileInput.x + 100, tileInput.y - 99, 50, 49, vbSrcCopy
                                 .PaintPicture picBG, tileInput.x + 100, tileInput.y - 50, 50, 125, tileInput.x + 100, tileInput.y - 50, 50, 125, vbSrcCopy
                             End If
@@ -89,13 +88,13 @@ If Not tileInput.hasObj Or Not bypassForObj Then
                             .PaintPicture .picBuffer.Image, tileAlt.x, tileAlt.y, 100, 100, 0, 0, 100, 100, vbSrcPaint
                         End If
                     Else
-                        Call clearVoid(tileInput, True, True) 'paint spacer
+                        Call clearVoid(tileInput, True, True, callID) 'paint spacer
                     End If
                 ElseIf tileInput.Yc = mapHeight - 1 Then '(x, mapHeight - 1)
                     If frameCounter(Index) > 0 And strDir(Index) = "R" Then
                         If callID = "CharBottom+X+Y" Then
                             If tileInput.Xc = mapWidth - 1 Then
-                                .PaintPicture picBG, tileInput.x + 50, tileInput.y, 50, 100, tileInput.x + 50, tileInput.y, 50, 100, vbSrcCopy
+                                .PaintPicture picBG, tileInput.x + 100, tileInput.y + 25, 50, 100, tileInput.x + 100, tileInput.y + 25, 50, 100, vbSrcCopy
                             Else
                                 tileAlt = tile(curX(Index) + 1, curY(Index))
                                 Set tilePic = tileAlt.picTile
@@ -111,7 +110,7 @@ If Not tileInput.hasObj Or Not bypassForObj Then
                     ElseIf frameCounter(Index) > 0 And strDir(Index) = "D" Then
                         If callID = "CharBottom-X+Y" Then
                             If tileInput.Xc = 0 Then
-                                .PaintPicture picBG, tileInput.x - 50, tileInput.y, 50, 100, tileInput.x - 50, tileInput.y, 50, 100, vbSrcCopy
+                                .PaintPicture picBG, tileInput.x - 50, tileInput.y + 25, 50, 100, tileInput.x - 50, tileInput.y + 25, 50, 100, vbSrcCopy
                             Else
                                 tileAlt = tile(curX(Index) - 1, curY(Index))
                                 Set tilePic = tileAlt.picTile
@@ -149,16 +148,16 @@ If Not tileInput.hasObj Or Not bypassForObj Then
                             End If
                         ElseIf frameCounter(Index) > 0 And strDir(Index) = "D" Then
                             If callID <> "CharSide-X+Y" Then
-                                Call clearVoid(tileInput, True, False) 'paint left spacer
+                                Call clearVoid(tileInput, True, False, callID) 'paint left spacer
                                 .PaintPicture picBG, tileInput.x, tileInput.y + 76, 50, 49, tileInput.x, tileInput.y + 76, 50, 49, vbSrcCopy
                             End If
                         Else
-                            Call clearVoid(tileInput, True, False) 'paint left spacer
+                            Call clearVoid(tileInput, True, False, callID) 'paint left spacer
                         End If
                     ElseIf tileInput.Xc = mapWidth Then 'if last column
                         If frameCounter(Index) > 0 And strDir(Index) = "U" Then 'if jumping off right side edge
                             If callID <> "CharSide+X-Y" Then 'if jumping off right edge
-                                Call clearVoid(tileInput, False, True) 'paint right spacer
+                                Call clearVoid(tileInput, False, True, callID) 'paint right spacer
                                 .PaintPicture picBG, tileInput.x + 50, tileInput.y - 74, 50, 24, tileInput.x + 50, tileInput.y - 74, 50, 24, vbSrcCopy
                                 If tileInput.Yc = 1 Then 'tilerow is 1
                                     .PaintPicture picBG, tileInput.x + 50, tileInput.y - 125, 50, 51, tileInput.x + 50, tileInput.y - 125, 50, 51, vbSrcCopy
@@ -178,7 +177,7 @@ If Not tileInput.hasObj Or Not bypassForObj Then
                             End If
                         ElseIf frameCounter(Index) > 0 And strDir(Index) = "R" Then
                             If callID <> "CharSide+X+Y" Then
-                                Call clearVoid(tileInput, False, True) 'paint right spacer
+                                Call clearVoid(tileInput, False, True, callID) 'paint right spacer
                                 .PaintPicture picBG, tileInput.x + 50, tileInput.y + 76, 50, 49, tileInput.x + 50, tileInput.y + 76, 50, 49, vbSrcCopy
                             End If
                         Else
@@ -195,14 +194,14 @@ If Not tileInput.hasObj Or Not bypassForObj Then
                         .PaintPicture tileInput.picMask.Image, tileInput.x, tileInput.y, 100, 100, 0, 0, 100, 100, vbSrcAnd
                         .PaintPicture .picBuffer.Image, tileInput.x, tileInput.y, 100, 100, 0, 0, 100, 100, vbSrcPaint
                     Else 'if touching a char, only paint over top of tile
-                        Call clearTileTop(tileInput)
+                        Call clearTileTop(tileInput, False, callID)
                     End If
                 End If
             End If
         Else 'if not character on tile
             'if coordinates match previous tile of character
             If (tileInput.Xc = prevX(Index) And tileInput.Yc = prevY(Index)) Then 'paint top of tile if previous
-                Call clearTileTop(tileInput)
+                Call clearTileTop(tileInput, False, callID)
             End If
             If callID = "CharEven+X-Y" Or callID = "CharOddX-Y" Then 'paint over bottom left of tile
                 .picBackground.PaintPicture tilePic.Image, tileInput.x, tileInput.y + 25, 50, 75, 0, 25, 50, 75, vbSrcCopy
@@ -215,7 +214,7 @@ If Not tileInput.hasObj Or Not bypassForObj Then
                 .PaintPicture .picMaskSides.Image, tileInput.x + 50, tileInput.y + 25, 50, 75, 50, 0, 50, 75, vbSrcAnd
                 .PaintPicture .picBuffer.Image, tileInput.x + 50, tileInput.y + 25, 50, 75, 0, 0, 50, 75, vbSrcPaint
             ElseIf callID = "CharTopNXNY" Or callID = "SelPXPY" Then 'paint over top of tile
-                Call clearTileTop(tileInput)
+                Call clearTileTop(tileInput, False, callID)
             Else 'paint over full tile
                 .picBackground.PaintPicture tilePic.Image, tileInput.x, tileInput.y, 100, 100, 0, 0, 100, 100, vbSrcCopy
                 .picBuffer.PaintPicture tilePic.Image, 0, 0, 100, 100, 0, 0, 100, 100, vbSrcCopy
@@ -235,7 +234,7 @@ End If
 End With
 End Sub
 
-Public Sub clearVoid(tileInput As terrain, ByVal blnL As Boolean, ByVal blnR As Boolean) 'clear empty spots on map
+Public Sub clearVoid(tileInput As terrain, ByVal blnL As Boolean, ByVal blnR As Boolean, Optional callID As String) 'clear empty spots on map
 With frmMain
     If blnL And blnR Then
         .PaintPicture picBG, tileInput.x, tileInput.y - 99, 100, 25, tileInput.x, tileInput.y - 99, 100, 25, vbSrcCopy
@@ -254,24 +253,35 @@ With frmMain
 End With
 End Sub
 
-Public Sub clearTileTop(tileInput As terrain)
+Public Sub clearTileTop(tileInput As terrain, ByVal blnObjMask As Boolean, Optional callID As String)
 Dim tilePic As Object
 Set tilePic = tileInput.picTile
 With frmMain
-.picBackground.PaintPicture tilePic.Image, tileInput.x, tileInput.y, 100, 50, 0, 0, 100, 50, vbSrcCopy
-.picBuffer.PaintPicture tilePic.Image, 0, 0, 100, 50, 0, 0, 100, 50, vbSrcCopy
-If tileInput.Yc = 0 Then
-    .PaintPicture .picMaskTop.Image, tileInput.x, tileInput.y, 100, 50, 0, 0, 100, 50, vbSrcAnd
-ElseIf tileInput.Xc = 0 And oddRow(tileInput.Yc) Then
-    .PaintPicture .picMaskTop.Image, tileInput.x, tileInput.y, 50, 50, 0, 0, 50, 50, vbSrcAnd
-    .PaintPicture .picMaskTopLR.Image, tileInput.x + 50, tileInput.y, 50, 50, 50, 0, 50, 50, vbSrcAnd
-ElseIf tileInput.Xc = mapWidth Then
-    .PaintPicture .picMaskTopLR.Image, tileInput.x, tileInput.y, 50, 50, 0, 0, 50, 50, vbSrcAnd
-    .PaintPicture .picMaskTop.Image, tileInput.x + 50, tileInput.y, 50, 50, 50, 0, 50, 50, vbSrcAnd
+If Not blnObjMask Then
+    If tileInput.Yc = 0 Then
+        .picBackground.PaintPicture tilePic.Image, tileInput.x, tileInput.y, 100, 50, 0, 0, 100, 50, vbSrcCopy
+        .picBuffer.PaintPicture tilePic.Image, 0, 0, 100, 50, 0, 0, 100, 50, vbSrcCopy
+        .PaintPicture .picMaskTop.Image, tileInput.x, tileInput.y, 100, 50, 0, 0, 100, 50, vbSrcAnd
+    ElseIf tileInput.Xc = 0 And oddRow(tileInput.Yc) Then
+        If callID = "ObjTopXY" Then
+            .picBackground.PaintPicture tilePic.Image, tileInput.x, tileInput.y, 100, 50, 0, 0, 100, 50, vbSrcCopy
+            .picBuffer.PaintPicture tilePic.Image, 0, 0, 100, 50, 0, 0, 100, 50, vbSrcCopy
+            .PaintPicture .picMaskTopLR.Image, tileInput.x + 50, tileInput.y, 50, 50, 50, 0, paintWidth, 50, vbSrcAnd
+        End If
+        .PaintPicture .picMaskTop.Image, tileInput.x, tileInput.y, paintWidth, 50, xStart, 0, paintWidth, 50, vbSrcAnd
+    ElseIf tileInput.Xc = mapWidth Then
+        .PaintPicture .picMaskTopLR.Image, tileInput.x, tileInput.y, 50, 50, xStart, 0, 50, 50, vbSrcAnd
+        .PaintPicture .picMaskTop.Image, tileInput.x + 50, tileInput.y, 50, 50, 50, 0, 50, 50, vbSrcAnd
+    Else
+        .PaintPicture .picMaskTopLR.Image, tileInput.x, tileInput.y, 100, 50, 0, 0, 100, 50, vbSrcAnd
+    End If
+    .PaintPicture .picBuffer.Image, tileInput.x, tileInput.y, 100, 50, 0, 0, 100, 50, vbSrcPaint
 Else
-    .PaintPicture .picMaskTopLR.Image, tileInput.x, tileInput.y, 100, 50, 0, 0, 100, 50, vbSrcAnd
+    .picBackground.PaintPicture tilePic.Image, tileInput.x + tileInput.objXOffset, tileInput.y, 100 - tileInput.objXOffset, 50, tileInput.objXOffset, 0, 100 - tileInput.objXOffset, 50, vbSrcCopy
+    .picBuffer.PaintPicture tilePic.Image, 0, 0, 100 - tileInput.objXOffset, 50, tileInput.objXOffset, 0, 100 - tileInput.objXOffset, 50, vbSrcCopy
+    .PaintPicture tileInput.objMask.Image, tileInput.x + tileInput.objXOffset, tileInput.y, 100 - tileInput.objXOffset, 50, 0, 0, 100 - tileInput.objXOffset, 50, vbSrcAnd
+    .PaintPicture .picBuffer.Image, tileInput.x + tileInput.objXOffset, tileInput.y, 100 - tileInput.objXOffset, 50, 0, 0, 100 - tileInput.objXOffset, 50, vbSrcPaint
 End If
-.PaintPicture .picBuffer.Image, tileInput.x, tileInput.y, 100, 50, 0, 0, 100, 50, vbSrcPaint
 End With
 End Sub
 
@@ -281,8 +291,8 @@ Dim intYOffset As Integer
 Dim intFrameOffset As Integer
 If Not killObj Then 'if object has not expired
     If strObjType = "Coin" Then
-        intXOffset = 41
-        intYOffset = -1
+        tile(intObjX, intObjY).objXOffset = 41
+        tile(intObjX, intObjY).objYOffset = 0
         If intFrame > 13 Then
             intFrameOffset = -14
         Else
@@ -290,20 +300,20 @@ If Not killObj Then 'if object has not expired
         End If
     ElseIf strObjType = "Pow" Then
         If strType = "Scare" Then
-            intXOffset = 35
-            intYOffset = -1
+            tile(intObjX, intObjY).objXOffset = 35
+            tile(intObjX, intObjY).objYOffset = 0
             If intFrame > 4 Then
                 intFrameOffset = (intFrame - (9 - intFrame)) * -1 'frames 5 - 9 will play in reverse
             Else
                 intFrameOffset = 0
             End If
         ElseIf strType = "Speed" Then
-            intXOffset = 41
-            intYOffset = -1
+            tile(intObjX, intObjY).objXOffset = 41
+            tile(intObjX, intObjY).objYOffset = 0
             intFrameOffset = 0
         ElseIf strType = "Freeze" Then
-            intXOffset = 32
-            intYOffset = -1
+            tile(intObjX, intObjY).objXOffset = 32
+            tile(intObjX, intObjY).objYOffset = 0
             If intFrame < 14 Then
                 intFrameOffset = -intFrame
             Else
@@ -311,8 +321,8 @@ If Not killObj Then 'if object has not expired
             End If
         End If
     ElseIf strObjType = "Egg" Then
-        intXOffset = 39
-        intYOffset = -1
+        tile(intObjX, intObjY).objXOffset = 39
+        tile(intObjX, intObjY).objYOffset = 0
         'multipliers are for gold eggs, where 3 animation cycles represents 1 frame cycle
         If intFrame - (8 * Int(intFrame / 8)) = 6 Or intFrame - (8 * Int(intFrame / 8)) = 7 Then
             'frames 6 and 7 will both use 2nd sprite (egg sprites play at half speed)
@@ -322,8 +332,53 @@ If Not killObj Then 'if object has not expired
         End If
     End If
 End If
-Call clearTile(tile(intObjX, intObjY), False, -1, "ObjXY")
-Call clearVoid(tile(intObjX, intObjY), checkClearVoid(tile(intObjX, intObjY), True, False), checkClearVoid(tile(intObjX, intObjY), False, True))
+intXOffset = tile(intObjX, intObjY).objXOffset
+intYOffset = tile(intObjX, intObjY).objYOffset
+If tile(intObjX, intObjY).objTimer > 0 Or killObj Then
+    Call clearVoid(tile(intObjX, intObjY), checkClearVoid(tile(intObjX, intObjY), True, False), checkClearVoid(tile(intObjX, intObjY), False, True), "ObjXY")
+    If checkClearVoid(tile(intObjX, intObjY), True, False) Then
+        Call clearTile(tile(intObjX, intObjY), False, -1, "ObjTopLeftXY")
+    End If
+    If checkClearVoid(tile(intObjX, intObjY), False, True) Then
+        Call clearTile(tile(intObjX, intObjY), False, -1, "ObjTopRightXY")
+    End If
+    Call clearTile(tile(intObjX, intObjY), False, -1, "ObjXY")
+End If
+With frmMain
+If Not killObj Then 'if object has not expired
+    If strObjType = "Coin" Then
+        'set coin pictures
+        Set tile(intObjX, intObjY).objMask = .picCoinMask(intFrame + intFrameOffset)
+        If strType = "Y" Then
+            Set tile(intObjX, intObjY).picObj = .picCoinY(intFrame + intFrameOffset)
+        ElseIf strType = "R" Then
+            Set tile(intObjX, intObjY).picObj = .picCoinR(intFrame + intFrameOffset)
+        ElseIf strType = "B" Then
+            Set tile(intObjX, intObjY).picObj = .picCoinB(intFrame + intFrameOffset)
+        End If
+    ElseIf strObjType = "Pow" Then
+        'set power-up pictures
+        If strType = "Scare" Then
+            Set tile(intObjX, intObjY).objMask = .picPowScareMask(intFrame + intFrameOffset)
+            Set tile(intObjX, intObjY).picObj = .picPowScare(intFrame + intFrameOffset)
+        ElseIf strType = "Speed" Then
+            Set tile(intObjX, intObjY).objMask = .picPowSpeedMask(intFrame + intFrameOffset)
+            Set tile(intObjX, intObjY).picObj = .picPowSpeed(intFrame + intFrameOffset)
+        ElseIf strType = "Freeze" Then
+            Set tile(intObjX, intObjY).objMask = .picPowFreezeMask(intFrame + intFrameOffset)
+            Set tile(intObjX, intObjY).picObj = .picPowFreeze(intFrame + intFrameOffset)
+        End If
+    ElseIf strObjType = "Egg" Then
+        'set egg pictures
+        If strType = "M" Then
+            Set tile(intObjX, intObjY).objMask = .picEggMask((intFrame \ 2) + (intFrameOffset \ 2))
+            Set tile(intObjX, intObjY).picObj = .picEgg((intFrame \ 2) + (intFrameOffset \ 2))
+        ElseIf strType = "G" Then
+            Set tile(intObjX, intObjY).objMask = .picEggMask(((intFrame - (8 * Int(intFrame / 8))) \ 2) + (intFrameOffset \ 2))
+            Set tile(intObjX, intObjY).picObj = .picEggG(((intFrame - (8 * Int(intFrame / 8))) \ 2) + (intFrameOffset \ 2))
+        End If
+    End If
+End If
 If intObjY > 0 Then
     If oddRow(intObjY) Then
         If intObjX <= mapWidth - 1 Then
@@ -345,75 +400,26 @@ If intObjY > 0 Then
         End If
     End If
 Else
-    Call clearVoid(tile(intObjX, intObjY), True, True)
+    Call clearVoid(tile(intObjX, intObjY), True, True, "ObjTopXY")
     Call clearTile(tile(intObjX, intObjY), False, -1, "ObjTopXY")
 End If
-If Not killObj Then 'if object has not expired
-    If strObjType = "Coin" Then
-        'paint coin
-        With frmMain
-        If paintMask(tile(intObjX, intObjY), -1) Then
-            .PaintPicture .picCoinMask(intFrame + intFrameOffset).Image, tile(intObjX, intObjY).x + intXOffset, tile(intObjX, intObjY).y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcAnd
-        End If
-        If strType = "Y" Then
-            .PaintPicture .picCoinY(intFrame + intFrameOffset).Image, tile(intObjX, intObjY).x + intXOffset, tile(intObjX, intObjY).y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcPaint
-        ElseIf strType = "R" Then
-            .PaintPicture .picCoinR(intFrame + intFrameOffset).Image, tile(intObjX, intObjY).x + intXOffset, tile(intObjX, intObjY).y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcPaint
-        ElseIf strType = "B" Then
-            .PaintPicture .picCoinB(intFrame + intFrameOffset).Image, tile(intObjX, intObjY).x + intXOffset, tile(intObjX, intObjY).y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcPaint
-        End If
-        'paint sparkle
+If Not killObj Then
+    If paintMask(tile(intObjX, intObjY), -1) Then 'if mask is to be painted, paint it
+        .PaintPicture tile(intObjX, intObjY).objMask.Image, tile(intObjX, intObjY).x + intXOffset, tile(intObjX, intObjY).y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcAnd
+    End If
+    'paint object
+    .PaintPicture tile(intObjX, intObjY).picObj.Image, tile(intObjX, intObjY).x + intXOffset, tile(intObjX, intObjY).y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcPaint
+    'for sparkling objects, paint sparkle effect
+    If strObjType = "Coin" Or (strObjType = "Egg" And strType = "G") Then
         If intFrame > 11 And intFrame < 19 Then
             If paintMask(tile(intObjX, intObjY), -1) Then
                 .PaintPicture .picSparkleMask(intFrame - 12).Image, tile(intObjX, intObjY).x + intXOffset, tile(intObjX, intObjY).y + (intYOffset + 2), 100, 100, 0, 0, 100, 100, vbSrcAnd
             End If
             .PaintPicture .picSparkle(intFrame - 12).Image, tile(intObjX, intObjY).x + intXOffset, tile(intObjX, intObjY).y + (intYOffset + 2), 100, 100, 0, 0, 100, 100, vbSrcPaint
         End If
-        End With
-    ElseIf strObjType = "Pow" Then
-        'paint power-up
-        With frmMain
-        If strType = "Scare" Then
-            If paintMask(tile(intObjX, intObjY), -1) Then
-                .PaintPicture .picPowScareMask(intFrame + intFrameOffset).Image, tile(intObjX, intObjY).x + intXOffset, tile(intObjX, intObjY).y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcAnd
-            End If
-            .PaintPicture .picPowScare(intFrame + intFrameOffset).Image, tile(intObjX, intObjY).x + intXOffset, tile(intObjX, intObjY).y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcPaint
-        ElseIf strType = "Speed" Then
-            If paintMask(tile(intObjX, intObjY), -1) Then
-                .PaintPicture .picPowSpeedMask(intFrame).Image, tile(intObjX, intObjY).x + intXOffset, tile(intObjX, intObjY).y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcAnd
-            End If
-            .PaintPicture .picPowSpeed(intFrame).Image, tile(intObjX, intObjY).x + intXOffset, tile(intObjX, intObjY).y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcPaint
-        ElseIf strType = "Freeze" Then
-            If paintMask(tile(intObjX, intObjY), -1) Then
-                .PaintPicture .picPowFreezeMask.Image, tile(intObjX, intObjY).x + intXOffset, tile(intObjX, intObjY).y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcAnd
-            End If
-            .PaintPicture .picPowFreeze(intFrame + intFrameOffset).Image, tile(intObjX, intObjY).x + intXOffset, tile(intObjX, intObjY).y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcPaint
-        End If
-        End With
-    ElseIf strObjType = "Egg" Then
-        'paint egg
-        With frmMain
-        If strType = "M" Then
-            If paintMask(tile(intObjX, intObjY), -1) Then
-                .PaintPicture .picEggMask((intFrame \ 2) + (intFrameOffset \ 2)).Image, tile(intObjX, intObjY).x + intXOffset, tile(intObjX, intObjY).y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcAnd
-            End If
-            .PaintPicture .picEgg((intFrame \ 2) + (intFrameOffset \ 2)).Image, tile(intObjX, intObjY).x + intXOffset, tile(intObjX, intObjY).y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcPaint
-        ElseIf strType = "G" Then
-            If paintMask(tile(intObjX, intObjY), -1) Then
-                .PaintPicture .picEggMask(((intFrame - (8 * Int(intFrame / 8))) \ 2) + (intFrameOffset \ 2)).Image, tile(intObjX, intObjY).x + intXOffset, tile(intObjX, intObjY).y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcAnd
-            End If
-            .PaintPicture .picEggG(((intFrame - (8 * Int(intFrame / 8))) \ 2) + (intFrameOffset \ 2)).Image, tile(intObjX, intObjY).x + intXOffset, tile(intObjX, intObjY).y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcPaint
-            'paint sparkle
-            If intFrame > 11 And intFrame < 19 Then
-                If paintMask(tile(intObjX, intObjY), -1) Then
-                    .PaintPicture .picSparkleMask(intFrame - 12).Image, tile(intObjX, intObjY).x + intXOffset, tile(intObjX, intObjY).y + (intYOffset + 2), 100, 100, 0, 0, 100, 100, vbSrcAnd
-                End If
-                .PaintPicture .picSparkle(intFrame - 12).Image, tile(intObjX, intObjY).x + intXOffset, tile(intObjX, intObjY).y + (intYOffset + 2), 100, 100, 0, 0, 100, 100, vbSrcPaint
-            End If
-        End If
-        End With
     End If
 End If
+End With
 End Function
 Public Function PaintSelector(ByVal Index As Integer, ByVal imgIndex As Integer) As Integer
 'paint over last sel

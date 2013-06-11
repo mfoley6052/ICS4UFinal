@@ -49,13 +49,13 @@ checkClearVoid = False
 If blnL Then
     If tileInput.Yc = 0 Then
         checkClearVoid = True
-    ElseIf tileInput.Xc = 0 Then
+    ElseIf tileInput.Xc = 0 And oddRow(tileInput.Yc) Then
         checkClearVoid = True
     End If
 ElseIf blnR Then
     If tileInput.Yc = 0 Then
         checkClearVoid = True
-    ElseIf (oddRow(tileInput.Yc) And tileInput.Xc = mapWidth) Or (Not oddRow(tileInput.Yc) And tileInput.Xc = mapWidth - 1) Then
+    ElseIf tileInput.Xc = mapWidth Then
         checkClearVoid = True
     End If
 End If

@@ -31,7 +31,11 @@ Public Type terrain ' data type for different terrains
     hasObj As Boolean
     objType(1) As String
     objTimer As Long
+    picObj As Object
     objFrame As Integer
+    objMask As Object
+    objXOffset As Single
+    objYOffset As Single
     terType As String
     cutoff As String
     tempPic As Object
