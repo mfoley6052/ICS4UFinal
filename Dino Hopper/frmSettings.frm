@@ -367,13 +367,13 @@ End Sub
 Private Sub cmdMap_Click()
 If cmdMap.Tag = "lock" Then
     cmdMap.Tag = "edit"
-    For x = txtCTR.lbound To txtCTR.ubound
+    For x = txtCTR.LBound To txtCTR.ubound
         txtCTR(x).Enabled = True
     Next x
     cmdMap.Caption = "Save Binding"
 Else
     cmdMap.Tag = "lock"
-    For x = txtCTR.lbound To txtCTR.ubound
+    For x = txtCTR.LBound To txtCTR.ubound
         txtCTR(x).Enabled = False
     Next x
     cmdMap.Caption = "Rebind Keys"
@@ -381,12 +381,12 @@ End If
 End Sub
 
 Private Sub cmdScores_Click()
-frmHiscore.Show
+frmHiscore.Show vbModal
 Me.Hide
 End Sub
 
 Private Sub Form_Load()
-For x = txtCTR.lbound To txtCTR.ubound
+For x = txtCTR.LBound To txtCTR.ubound
     If key(x) <> DefaultKey(x) Then
         txtCTR(x).Text = Chr(key(x))
     Else
