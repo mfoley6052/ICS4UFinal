@@ -297,29 +297,13 @@ If Not blnObjMask Then
         .PaintPicture .picBuffer.Image, tileInput.x, tileInput.y, 100, 50, 0, 0, 100, 50, vbSrcPaint
     End If
 Else
-    .picBackground.PaintPicture tilePic.Image, tileInput.x + tileInput.objXOffset, tileInput.y, 100 - tileInput.objXOffset, 50, tileInput.objXOffset, 0, 100 - tileInput.objXOffset, 50, vbSrcCopy
-    .picBuffer.PaintPicture tilePic.Image, 0, 0, 100 - tileInput.objXOffset, 50, tileInput.objXOffset, 0, 100 - tileInput.objXOffset, 50, vbSrcCopy
-    .PaintPicture tileInput.objMask.Image, tileInput.x + tileInput.objXOffset, tileInput.y, 100 - tileInput.objXOffset, 50, 0, 0, 100 - tileInput.objXOffset, 50, vbSrcAnd
-    .PaintPicture .picBuffer.Image, tileInput.x + tileInput.objXOffset, tileInput.y, 100 - tileInput.objXOffset, 50, 0, 0, 100 - tileInput.objXOffset, 50, vbSrcPaint
-    If tileInput.Yc > 0 Then
-        If tileInput.Xc > 0 Or Not oddRow(tileInput.Yc) Then
-            Dim altTileL As terrain
-            If oddRow(tileInput.Yc) Then
-                altTileL = tile(tileInput.Yc - 1, tileInput.Xc - 1)
-            Else
-                altTileL = tile(tileInput.Yc - 1, tileInput.Xc)
-            End If
-            'paint coin on tile to top left
-        End If
-        If tileInput.Xc < mapWidth - 1 Or oddRow(tileInput.Yc) Then
-            Dim altTileR As terrain
-            If oddRow(tileInput.Yc) Then
-                altTileR = tile(tileInput.Yc - 1, tileInput.Xc)
-            Else
-                altTileR = tile(tileInput.Yc - 1, tileInput.Xc + 1)
-            End If
-            'paint coin on tile to top right
-        End If
+    .picBackground.PaintPicture tilePic.Image, tileInput.x + tileInput.objXOffset, tileInput.y, 100 - tileInput.objXOffset, 50, tileInput.objXOffset, 0, 100 - (tileInput.objXOffset * 2), 50, vbSrcCopy
+    .picBuffer.PaintPicture tilePic.Image, 0, 0, 100 - (tileInput.objXOffset * 2), 50, tileInput.objXOffset, 0, 100 - (tileInput.objXOffset * 2), 50, vbSrcCopy
+    .PaintPicture tileInput.objMask.Image, tileInput.x + tileInput.objXOffset, tileInput.y, 100 - (tileInput.objXOffset * 2), 50, 0, 0, 100 - (tileInput.objXOffset * 2), 50, vbSrcAnd
+    .PaintPicture .picBuffer.Image, tileInput.x + tileInput.objXOffset, tileInput.y, 100 - (tileInput.objXOffset * 2), 50, 0, 0, 100 - (tileInput.objXOffset * 2), 50, vbSrcPaint
+    If tileInput.objSparkle And tileInput.objFrame >= 13 Then
+        .PaintPicture .picSparkleMask(tileInput.objFrame - 13).Image, tileInput.x + tileInput.objXOffset, tileInput.y + (tileInput.objYOffset + 3), 18, 35, 0, 0, 18, 35, vbSrcAnd
+        .PaintPicture .picBuffer.Image, tileInput.x + tileInput.objXOffset, tileInput.y + (tileInput.objYOffset + 3), 18, 35, tileInput.x + tileInput.objXOffset, tileInput.y + (tileInput.objYOffset + 3), 18, 35, vbSrcPaint
     End If
 End If
 End With
@@ -374,7 +358,7 @@ If Not killObj Then 'if object has not expired
 End If
 intXOffset = tile(intObjX, intObjY).objXOffset
 intYOffset = tile(intObjX, intObjY).objYOffset
-If tile(intObjX, intObjY).objTimer > 0 Or killObj Then
+If (gameMode = 0 And tile(intObjX, intObjY).objTimer > 0) Or (gameMode <> 0 And (intFrame > 0)) Or killObj Then
     Call clearVoid(tile(intObjX, intObjY), checkClearVoid(tile(intObjX, intObjY), True, False), checkClearVoid(tile(intObjX, intObjY), False, True), "ObjXY")
     If checkClearVoid(tile(intObjX, intObjY), True, False) Then
         Call clearTile(tile(intObjX, intObjY), False, -1, "ObjTopLeftXY")
@@ -405,7 +389,7 @@ If Not killObj Then 'if object has not expired
             Set tile(intObjX, intObjY).objMask = .picPowSpeedMask(intFrame + intFrameOffset)
             Set tile(intObjX, intObjY).picObj = .picPowSpeed(intFrame + intFrameOffset)
         ElseIf strType = "Freeze" Then
-            Set tile(intObjX, intObjY).objMask = .picPowFreezeMask(intFrame + intFrameOffset)
+            Set tile(intObjX, intObjY).objMask = .picPowFreezeMask
             Set tile(intObjX, intObjY).picObj = .picPowFreeze(intFrame + intFrameOffset)
         End If
     ElseIf strObjType = "Egg" Then
@@ -452,11 +436,16 @@ If Not killObj Then
     'for sparkling objects, paint sparkle effect
     If strObjType = "Coin" Or (strObjType = "Egg" And strType = "G") Then
         If intFrame > 11 And intFrame < 19 Then
+            tile(intObjX, intObjY).objSparkle = True
             If paintMask(tile(intObjX, intObjY), -1) Then
-                .PaintPicture .picSparkleMask(intFrame - 12).Image, tile(intObjX, intObjY).x + intXOffset, tile(intObjX, intObjY).y + (intYOffset + 2), 100, 100, 0, 0, 100, 100, vbSrcAnd
+                .PaintPicture .picSparkleMask(intFrame - 12).Image, tile(intObjX, intObjY).x + intXOffset, tile(intObjX, intObjY).y + (intYOffset + 3), 100, 100, 0, 0, 100, 100, vbSrcAnd
             End If
-            .PaintPicture .picSparkle(intFrame - 12).Image, tile(intObjX, intObjY).x + intXOffset, tile(intObjX, intObjY).y + (intYOffset + 2), 100, 100, 0, 0, 100, 100, vbSrcPaint
+            .PaintPicture .picSparkle(intFrame - 12).Image, tile(intObjX, intObjY).x + intXOffset, tile(intObjX, intObjY).y + (intYOffset + 3), 100, 100, 0, 0, 100, 100, vbSrcPaint
+        Else
+            tile(intObjX, intObjY).objSparkle = False
         End If
+    Else
+        tile(intObjX, intObjY).objSparkle = False
     End If
 End If
 End With

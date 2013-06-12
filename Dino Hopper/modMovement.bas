@@ -110,11 +110,6 @@ If Not blnEdgeJump(Index) Then
             Next getNext
         ElseIf gameMode = 2 Then
             Call getTickComplete(Index)
-            If Index < 3 Then
-                If Not isPlayer(Index + 1) Then
-                    Call getTick(Index + 1)
-                End If
-            End If
         End If
     Else
         frameCounter(Index) = frameCounter(Index) + frameProg(Index)
@@ -186,11 +181,6 @@ Else 'jump off edge
             Next getNext
         ElseIf gameMode = 2 Then
             Call getTickComplete(Index)
-            If Index < 3 Then
-                If Not isPlayer(Index + 1) Then
-                    Call getTick(Index + 1)
-                End If
-            End If
         End If
     Else
         frameCounter(Index) = frameCounter(Index) + frameProg(Index)

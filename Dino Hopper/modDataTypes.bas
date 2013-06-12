@@ -34,6 +34,7 @@ Public Type terrain ' data type for different terrains
     picObj As Object
     objFrame As Integer
     objMask As Object
+    objSparkle As Boolean
     objXOffset As Single
     objYOffset As Single
     terType As String
