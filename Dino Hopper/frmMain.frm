@@ -5069,7 +5069,7 @@ Static blnRev(0 To 3) As Boolean
 'call selection paint
 Call PaintSelector(Index, picCount(Index))
 If frameCounter(Index) = 0 Then
-    Call PaintCharSprite(Index, spriteX(Index), spriteY(Index))
+    Call PaintCharSprite(Index, spriteX(Index), spriteY(Index), False)
 End If
 If frameCounter(Index) > 0 Then 'if jump timer is started
     Call charAction(Index, tile(nextX(Index), nextY(Index)))

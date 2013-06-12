@@ -96,7 +96,7 @@ If Not blnEdgeJump(Index) Then
     If targIndex(Index) < 0 Then
         Call getCharJumpAnim(Index, frameCounter(Index), tile(curX(Index), curY(Index)), tile(nextX(Index), nextY(Index)).x, tile(nextX(Index), nextY(Index)).y)
     End If
-    Call PaintCharSprite(Index, spriteX(Index), spriteY(Index))
+    Call PaintCharSprite(Index, spriteX(Index), spriteY(Index), False)
     If frameCounter(Index) = 10 Then
         strState(Index) = "I"
     End If
@@ -122,7 +122,7 @@ Else 'jump off edge
         Call getCharJumpAnim(Index, frameCounter(Index), tile(curX(Index), curY(Index)), tile(curX(Index), curY(Index)).x - 50, tile(curX(Index), curY(Index)).y - 75)
         If curY(Index) = 0 Then
             If spriteY(Index) < curTile.y + 50 Or (spriteX(Index) > -35 And spriteX(Index) < tile(mapWidth - 1, 0).x + 135 And spriteY(Index) < curTile.y + 25) Then
-                Call PaintCharSprite(Index, spriteX(Index), spriteY(Index))
+                Call PaintCharSprite(Index, spriteX(Index), spriteY(Index), False)
             End If
             Call clearTile(curTile, True, Index, "CharTop+X-Y")
             If curX(Index) > 0 Then
@@ -133,13 +133,13 @@ Else 'jump off edge
             End If
         ElseIf curX(Index) = 0 And curY(Index) > 0 Then
             Call clearTile(curTile, True, Index, "CharSide-X-Y")
-            Call PaintCharSprite(Index, spriteX(Index), spriteY(Index))
+            Call PaintCharSprite(Index, spriteX(Index), spriteY(Index), False)
         End If
     ElseIf strDir(Index) = "U" Then
         Call getCharJumpAnim(Index, frameCounter(Index), curTile, curTile.x + 50, curTile.y - 75)
         If curY(Index) = 0 Then
             If spriteY(Index) < curTile.y + 50 Or (spriteX(Index) > -35 And spriteX(Index) < tile(mapWidth - 1, 0).x + 135 And spriteY(Index) < curTile.y + 25) Then
-                Call PaintCharSprite(Index, spriteX(Index), spriteY(Index))
+                Call PaintCharSprite(Index, spriteX(Index), spriteY(Index), False)
             End If
             Call clearTile(curTile, True, Index, "CharTop+X-Y")
             If curX(Index) < mapWidth - 1 Then
@@ -150,7 +150,7 @@ Else 'jump off edge
             End If
         ElseIf curX(Index) = mapWidth And curY(Index) > 0 Then
             Call clearTile(curTile, True, Index, "CharSide+X-Y")
-            Call PaintCharSprite(Index, spriteX(Index), spriteY(Index))
+            Call PaintCharSprite(Index, spriteX(Index), spriteY(Index), False)
         End If
     ElseIf strDir(Index) = "R" Then
         Call getCharJumpAnim(Index, frameCounter(Index), curTile, curTile.x + 50, curTile.y + 75)
@@ -159,7 +159,7 @@ Else 'jump off edge
         ElseIf curY(Index) = mapHeight - 1 Then
             Call clearTile(curTile, True, Index, "CharBottom+X+Y")
         End If
-        Call PaintCharSprite(Index, spriteX(Index), spriteY(Index))
+        Call PaintCharSprite(Index, spriteX(Index), spriteY(Index), False)
     ElseIf strDir(Index) = "D" Then
         Call getCharJumpAnim(Index, frameCounter(Index), curTile, curTile.x - 50, curTile.y + 75)
         If curX(Index) = 0 And (curY(Index) > 0 And curY(Index) < mapHeight - 1) Then
@@ -167,7 +167,7 @@ Else 'jump off edge
         ElseIf curY(Index) = mapHeight - 1 Then
             Call clearTile(curTile, True, Index, "CharBottom-X+Y")
         End If
-        Call PaintCharSprite(Index, spriteX(Index), spriteY(Index))
+        Call PaintCharSprite(Index, spriteX(Index), spriteY(Index), False)
     End If
     If frameCounter(Index) = frameLimit(Index) * 1.6 Then
         spriteX(Index) = tile(nextX(Index), nextY(Index)).x + 25
@@ -253,7 +253,7 @@ Else
 End If
 End Function
 Public Sub getJumpComplete(ByVal Index As Integer)
-Dim pScore As Long
+Dim Pscore As Long
 Dim q As Integer
 With frmMain
 prevX(Index) = curX(Index)
@@ -292,21 +292,21 @@ If isPlayer(Index) Then
         If inputTile.objType(0) = "Coin" Then
             'play coin sound
             If inputTile.objType(1) = "Y" Then
-                pScore = 100
+                Pscore = 100
             ElseIf inputTile.objType(1) = "R" Then
-                pScore = 250
+                Pscore = 250
             ElseIf inputTile.objType(1) = "B" Then
-                pScore = 500
+                Pscore = 500
             End If
         ElseIf inputTile.objType(0) = "Pow" Then
             'play scare power-up sound
             If inputTile.objType(1) = "Scare" Then
-                pScore = 200
+                Pscore = 200
             End If
         ElseIf inputTile.objType(0) = "Egg" Then
             If inputTile.objType(1) = "M" Then
                 intMulti(Index) = intMulti(Index) + 1
-                pScore = 1000
+                Pscore = 1000
                 blnMulti = True
             ElseIf inputTile.objType(1) = "G" Then
                 intLives(Index) = intLives(Index) + 1
@@ -314,13 +314,13 @@ If isPlayer(Index) Then
             End If
         End If
     ElseIf blnBounceJump(Index) Then 'jumping on enemy
-        pScore = 1000
+        Pscore = 1000
     End If
     If inputTile.terType = "G" Then
-        pScore = pScore + 25
+        Pscore = Pscore + 25
     End If
     If Not blnEdgeJump(Index) Then
-        Call addScore(Index, pScore)
+        Call addScore(Index, Pscore)
     End If
     Call refreshLabels(Index, True, blnLives, blnMulti)
 End If
