@@ -310,14 +310,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-Dim gameMode As String
-Dim playerChoice As String
-Dim playMode As String
-Dim score(9) As Record
-Private Type Record
-    score As Long
-    nam As String * 3
-End Type
+
 
 Private Sub cmdAdd_Click()
 Call WriteScore(InputBox("playerName: "), InputBox("score"))
@@ -337,7 +330,7 @@ For x = 0 To 9
     txtScore(x).Text = ""
 Next x
 playerChoice = cmbPlayers.Text
-gameMode = cmbGameMode.Text
+gMode = cmbGameMode.Text
 playMode = cmbPlayMode.Text
 Call LoadScore
 End Sub
@@ -347,7 +340,7 @@ Dim temp As Integer
 temp = MsgBox("Are you sure you want to reset the hiscore?", vbYesNo)
 If temp = vbYes Then
     If playMode <> "SOLO" Then
-        Open App.Path & "\Scores\" & playMode & "\" & gameMode & "\" & playerChoice & ".sav" For Output As #1
+        Open App.Path & "\Scores\" & playMode & "\" & gMode & "\" & playerChoice & ".sav" For Output As #1
     Else
         Open App.Path & "\Scores\" & playMode & "\" & playerChoice & ".sav" For Output As #1
     End If
@@ -361,7 +354,7 @@ Call LoadScore
 End Sub
 
 Private Sub Form_Load()
-gameMode = "Arcade"
+gMode = "Arcade"
 playerChoice = "1"
 playMode = "SP"
 Call LoadScore
@@ -370,22 +363,22 @@ End Sub
 Private Sub LoadScore()
 Dim temp As String
 If playMode <> "SOLO" Then
-    cmbGameMode.Enabled = True
-    Open App.Path & "\Scores\" & playMode & "\" & gameMode & "\" & playerChoice & ".sav" For Input As #1
+    frmHiscore.cmbGameMode.Enabled = True
+    Open App.Path & "\Scores\" & playMode & "\" & gMode & "\" & playerChoice & ".sav" For Input As #1
 Else
-    cmbGameMode.Enabled = False
+    frmHiscore.cmbGameMode.Enabled = False
     Open App.Path & "\Scores\" & playMode & "\" & playerChoice & ".sav" For Input As #1
 End If
 For x = 0 To 9
-    txtNam(x).Text = ""
-    txtScore(x).Text = ""
+    frmHiscore.txtNam(x).Text = ""
+    frmHiscore.txtScore(x).Text = ""
     If Not EOF(1) Then
         Line Input #1, temp
-        txtNam(x).Text = temp
+        frmHiscore.txtNam(x).Text = temp
         score(x).nam = temp
         Line Input #1, temp
         score(x).score = Val(temp)
-        txtScore(x).Text = temp
+        frmHiscore.txtScore(x).Text = temp
     End If
 Next x
 Close #1
@@ -410,89 +403,8 @@ Do Until sorted
 Loop
 Dim count As Integer
 For x = 9 To 0 Step -1
-txtNam(count).Text = score(x).nam
-txtScore(count).Text = score(x).score
+frmHiscore.txtNam(count).Text = score(x).nam
+frmHiscore.txtScore(count).Text = score(x).score
 count = count + 1
 Next x
-End Sub
-
-Public Sub WriteScore(ByVal playerName As String, ByVal Pscore As Long)
-Dim dump As String
-Dim count As Integer
-Dim sorted As Boolean
-Dim upper As Long
-Dim temp As Record
-Open App.Path & "\Scores\" & playMode & "\" & gameMode & "\" & playerChoice & ".sav" For Input As #1
-    Do Until EOF(1)
-        Line Input #1, dump
-        count = count + 1
-    Loop
-Close #1
-    If count <= 18 Then
-        Open App.Path & "\Scores\" & playMode & "\" & gameMode & "\" & playerChoice & ".sav" For Append As #1
-            Print #1, playerName
-            Print #1, Pscore
-        Close #1
-    Else
-        'Find the lowest score, compare it to the score to be added, and then choose which one to keep
-        Open App.Path & "\Scores\" & playMode & "\" & gameMode & "\" & playerChoice & ".sav" For Input As #1
-        For x = 0 To 9
-            If Not EOF(1) Then
-                Line Input #1, dump
-                score(x).nam = dump
-                Line Input #1, dump
-                score(x).score = dump
-            End If
-        Next x
-        Close #1
-        upper = UBound(score) - 1
-        Do Until sorted
-            sorted = True
-            For y = LBound(score) To upper 'Step - 1
-                If score(y + 1).score < score(y).score Then
-                    temp.score = score(y).score
-                    temp.nam = score(y).nam
-                    score(y).score = score(y + 1).score
-                    score(y).nam = score(y + 1).nam
-                    score(y + 1).score = temp.score
-                    score(y + 1).nam = temp.nam
-                    sorted = False
-                End If
-            Next y
-            upper = upper - 1
-        Loop
-        If score(0).score < Pscore Then
-            Dim temporary() As Record
-            'BUG:Deletes any scores that share the name of the lowest score
-            'Delete the low score AND the name of the player that got that score, then add the new score
-            Open App.Path & "\Scores\" & playMode & "\" & gameMode & "\" & playerChoice & ".sav" For Input As #1
-                count = 0
-                Do Until EOF(1)
-                    Line Input #1, dump
-                    If Not IsNumeric(dump) Then
-                        If dump <> score(0).nam Then
-                            ReDim Preserve temporary(count) As Record
-                            temporary(count).nam = dump
-                        End If
-                    Else
-                        If dump <> score(0).score Then
-                            ReDim Preserve temporary(count) As Record
-                            temporary(count).score = dump
-                            count = count + 1
-                        End If
-                    End If
-                Loop
-            Close #1
-            Open App.Path & "\Scores\" & playMode & "\" & gameMode & "\" & playerChoice & ".sav" For Output As #1
-                For x = 0 To UBound(temporary)
-                    Print #1, temporary(x).nam
-                    Print #1, temporary(x).score
-                Next x
-                Print #1, playerName
-                Print #1, Pscore
-            Close #1
-        Else
-            MsgBox ("Score didnt get into top 10")
-        End If
-    End If
 End Sub
