@@ -12,6 +12,16 @@ Begin VB.Form frmHiscore
    ScaleHeight     =   5850
    ScaleWidth      =   4485
    ShowInTaskbar   =   0   'False
+   Begin VB.ComboBox cmbPlayMode 
+      Height          =   315
+      ItemData        =   "frmHiscore.frx":0000
+      Left            =   2160
+      List            =   "frmHiscore.frx":000D
+      TabIndex        =   25
+      Text            =   "SP"
+      Top             =   240
+      Width           =   1335
+   End
    Begin VB.CommandButton cmdLoad 
       Caption         =   "Load"
       Height          =   375
@@ -22,23 +32,23 @@ Begin VB.Form frmHiscore
    End
    Begin VB.ComboBox cmbGameMode 
       Height          =   315
-      ItemData        =   "frmHiscore.frx":0000
-      Left            =   1560
-      List            =   "frmHiscore.frx":000D
+      ItemData        =   "frmHiscore.frx":001F
+      Left            =   720
+      List            =   "frmHiscore.frx":002C
       TabIndex        =   23
       Text            =   "Arcade"
       Top             =   240
-      Width           =   1935
+      Width           =   1335
    End
    Begin VB.ComboBox cmbPlayers 
       Height          =   315
-      ItemData        =   "frmHiscore.frx":002D
+      ItemData        =   "frmHiscore.frx":004C
       Left            =   120
-      List            =   "frmHiscore.frx":003A
+      List            =   "frmHiscore.frx":0059
       TabIndex        =   22
       Text            =   "1"
       Top             =   240
-      Width           =   1335
+      Width           =   495
    End
    Begin VB.CommandButton cmdBack 
       Caption         =   "Back"
@@ -295,6 +305,11 @@ Attribute VB_Exposed = False
 Dim gameMode As String
 Dim playerChoice As String
 Dim playMode As String
+Dim score(9) As Record
+Private Type Record
+    score As Long
+    nam As String * 3
+End Type
 
 Private Sub cmdBack_Click()
 frmStart.Show
@@ -304,6 +319,7 @@ End Sub
 Private Sub cmdLoad_Click()
 playerChoice = cmbPlayers.Text
 gameMode = cmbGameMode.Text
+playMode = cmbPlayMode.Text
 Call LoadScore
 End Sub
 
@@ -316,28 +332,73 @@ End Sub
 
 Private Sub LoadScore()
 Dim temp As String
-If Val(playerChoice) > 1 Then
-    playMode = "MP"
+If playMode <> "SOLO" Then
+    Open App.Path & "\Scores\" & playMode & "\" & gameMode & "\" & playerChoice & ".sav" For Input As #1
 Else
-    playMode = "SP"
+    Open App.Path & "\Scores\" & playMode & "\" & playerChoice & ".sav" For Input As #1
 End If
-If numCPU = 0 Then
-    playMode = "SOLO"
-End If
-Open App.Path & "\Scores\" & playMode & "\" & gameMode & "\" & playerChoice & ".sav" For Input As #1
 For x = 0 To 9
+    txtNam(x).Text = ""
+    txtScore(x).Text = ""
     If Not EOF(1) Then
         Line Input #1, temp
         txtNam(x).Text = temp
+        score(x).nam = Val(temp)
         Line Input #1, temp
+        score(x).score = Val(temp)
         txtScore(x).Text = temp
     End If
 Next x
 Close #1
 End Sub
 
-Public Sub WriteScore()
-Open App.Path & "\Scores\SP\" & gameMode & "\" & playerChoice & ".sav" For Output As #1
-
+Public Sub WriteScore(ByVal playerName As String, ByVal Pscore As Long)
+Dim dump As String
+Dim count As Integer
+Dim sorted As Boolean
+Dim upper As Long
+Dim temp As Record
+Open App.Path & "\Scores\" & playMode & "\" & gameMode & "\" & playerChoice & ".sav" For Input As #1
+    Do Until EOF(1)
+        Line Input #1, dump
+        count = count + 1
+    Loop
 Close #1
+    If count <= 16 Then
+        Open App.Path & "\Scores\" & playMode & "\" & gameMode & "\" & playerChoice & ".sav" For Append As #1
+            Print #1, playerName
+            Print #1, Pscore
+        Close #1
+    Else
+        'Find the lowest score, compare it to the score to be added, and then choose which one to keep
+        Open App.Path & "\Scores\" & playMode & "\" & gameMode & "\" & playerChoice & ".sav" For Input As #1
+        For x = 0 To 9
+            Line Input #1, dump
+            score(x).nam = dump
+            Line Input #1, dump
+            score(x).score = dump
+        Next x
+        Close #1
+        Do Until sorted
+            sorted = True
+            For y = LBound(score) To upper 'Step - 1
+                If score(y + 1).score < score(y).score Then
+                    temp.score = score(y).score
+                    temp.nam = score(y).nam
+                    score(y).score = score(y + 1).score
+                    score(y).nam = score(y + 1).nam
+                    score(y + 1).score = temp.score
+                    score(y + 1).nam = temp.nam
+                    sorted = False
+                End If
+            Next y
+            upper = upper - 1
+        Loop
+        If score(0).score < Pscore Then
+            'Delete the low score AND the name of the player that got that score, then add the new score
+            
+        Else
+            MsgBox ("Score didnt get into top 10")
+        End If
+    End If
 End Sub
