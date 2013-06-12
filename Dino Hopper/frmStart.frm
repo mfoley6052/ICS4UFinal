@@ -389,12 +389,15 @@ ElseIf Index = 1 Then ' Select
     End If
 ElseIf Index = 3 Then
     gameMode = 0
+    gMode = "Arcade"
     Call getPlayers
 ElseIf Index = 4 Then
     gameMode = 2
+    gMode = "Turn-Based"
     Call getPlayers
 ElseIf Index = 5 Then
     gameMode = 1
+    gMode = "Puzzle"
     Call getPlayers
 End If
 End Sub

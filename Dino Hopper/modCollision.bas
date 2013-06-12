@@ -7,6 +7,16 @@ If blnRecover(Index) = False Then
             intLives(Index) = intLives(Index) - 1
         Else
             MsgBox ("Game Over")
+            If numPlayers = 1 And numCPU = 0 Then
+                playMode = "SOLO"
+            ElseIf numPlayers = 1 Then
+                playMode = "SP"
+            Else
+                playMode = "MP"
+            End If
+            For x = 0 To numPlayers
+                Call WriteScore(InputBox("Please enter your name(3 character max): ", "HiScore Entry", "RST"), intScore(x))
+            Next x
             frmStart.Show
             Call getGameEnd
             Exit Sub
