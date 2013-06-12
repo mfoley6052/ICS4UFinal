@@ -15,7 +15,6 @@ Begin VB.Form frmMain
    ScaleHeight     =   637
    ScaleMode       =   3  'Pixel
    ScaleWidth      =   800
-   StartUpPosition =   2  'CenterScreen
    Begin VB.Timer tmrRefresh 
       Enabled         =   0   'False
       Interval        =   5

@@ -441,7 +441,7 @@ If .tmrChar(Index).Enabled And blnMoveOnTick(Index) Then
         blnMoveOnTick(Index) = False
         If isPlayer(Index + 1) Then
             blnMoveOnTick(Index + 1) = True
-        ElseIf isPlayer(Index) And numPlayers = 1 Then
+        ElseIf numPlayers = 1 Then
             Call getTick(Index + 1)
         End If
     End If
@@ -534,12 +534,14 @@ If gameMode = 1 Or (gameMode = 2 And Index = 3) Then
     If highestMove - intMoveCount <= 0 Then 'reset intMoveCount if it, subtracted from the highest move, is below default speed
         intMoveCount = 0
     End If
-    For T = 0 To tileCount - 1 'check each tile for object, if it has one, call an object timer tick
-        If tile(getTileFromInt(True, T), getTileFromInt(False, T)).hasObj Then
-            tile(getTileFromInt(True, T), getTileFromInt(False, T)).objTimer = tile(getTileFromInt(True, T), getTileFromInt(False, T)).objTimer + 1
-        End If
-    Next T
-    Call .tmrObjEvent_Timer 'call an object to appear
+    If gameMode = 1 Or (gameMode = 2 And intMoveCount = 0) Then
+        For T = 0 To tileCount - 1 'check each tile for object, if it has one, call an object timer tick
+            If tile(getTileFromInt(True, T), getTileFromInt(False, T)).hasObj Then
+                tile(getTileFromInt(True, T), getTileFromInt(False, T)).objTimer = tile(getTileFromInt(True, T), getTileFromInt(False, T)).objTimer + 1
+            End If
+        Next T
+        Call .tmrObjEvent_Timer 'call an object to appear
+    End If
     If gameMode = 2 Then
         blnMoveOnTick(0) = True
     End If
