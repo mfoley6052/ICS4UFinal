@@ -458,7 +458,7 @@ If .tmrChar(Index).Enabled And blnMoveOnTick(Index) Then
         blnMoveOnTick(Index) = False
         If isPlayer(Index + 1) Then
             blnMoveOnTick(Index + 1) = True
-        ElseIf numPlayers = 1 Then
+        Else
             Call getTick(Index + 1)
         End If
     End If
@@ -503,7 +503,9 @@ For moveCheck2 = loopMin To loopMax 'disable blnMove for characters that are not
 Next moveCheck2
 For setMove = loopMin To loopMax
     If isPlayer(setMove) Then 'if setMove is a player, call getJump (direction change and next values set)
-        Call getJump(setMove, strDir(setMove), evalMove(setMove, strDir(setMove)))
+        If gameMode = 1 Or blnMoveOnTick(setMove) Then
+            Call getJump(setMove, strDir(setMove), evalMove(setMove, strDir(setMove)))
+        End If
     ElseIf gameMode = 1 Or (gameMode = 2 And blnMoveOnTick(setMove)) Then
         Call cpuAI(setMove) 'if computer player, call AI (direction change and next values)
     End If
@@ -541,8 +543,12 @@ For getMove = loopMin To loopMax 'get movement (or not)
             blnPlayerMoveable(getMove) = True
             If Index < 3 Then
                 If isPlayer(Index + 1) Then
-                    blnMoveOnTick(Index + 1) = True
-                ElseIf numPlayers = 1 Then
+                    If intMoves(Index + 1) >= highestMove - intMoveCount Then
+                        blnMoveOnTick(Index + 1) = True
+                    Else
+                        Call getTick(Index + 1)
+                    End If
+                Else
                     Call getTick(Index + 1)
                 End If
             End If
@@ -563,19 +569,24 @@ If gameMode = 1 Or (gameMode = 2 And Index = 3) Then
         Call .tmrObjEvent_Timer 'call an object to appear
     End If
     If gameMode = 2 Then
-        Dim startChar As Integer
-        For startChar = 0 To 3
-            If .tmrChar(startChar).Enabled Then
-                If intMoveCount = 0 Or intMoves(startChar) = highestMove Then
-                    If isPlayer(startChar) Then
-                        blnMoveOnTick(startChar) = True
-                    Else
-                        Call getTick(startChar)
+        If intMoveCount = 0 Then
+            blnMoveOnTick(0) = True
+        Else
+            Dim startChar As Integer
+            For startChar = 0 To 3
+                If .tmrChar(startChar).Enabled Then
+                    If intMoves(startChar) >= highestMove Then
+                        If isPlayer(startChar) Then
+                            blnMoveOnTick(startChar) = True
+                            Exit Sub
+                        Else
+                            Call getTick(startChar)
+                        End If
+                        Exit Sub
                     End If
-                    Exit Sub
                 End If
-            End If
-        Next startChar
+            Next startChar
+        End If
     End If
 End If
 End With
