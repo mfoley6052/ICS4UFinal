@@ -14,8 +14,8 @@ If blnRecover(Index) = False Then
             Else
                 playMode = "MP"
             End If
-            For x = 0 To numPlayers
-                Call WriteScore(InputBox("Please enter your name(3 character max): ", "HiScore Entry", "RST"), intScore(x))
+            For x = 0 To numPlayers - 1
+                Call WriteScore(InputBox("Please enter your initials(3 character max): ", "Player " & x + 1, "RST"), intScore(x))
             Next x
             frmStart.Show
             Call getGameEnd

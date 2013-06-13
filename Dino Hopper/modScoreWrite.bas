@@ -13,9 +13,7 @@ Dim count As Integer
 Dim sorted As Boolean
 Dim upper As Long
 Dim temp As Record
-If playMode = "SOLO" Then
-    playerChoice = 1
-End If
+playerChoice = numPlayers
 If playMode <> "SOLO" Then
     Open App.Path & "\Scores\" & playMode & "\" & gMode & "\" & playerChoice & ".sav" For Input As #1
 Else
