@@ -15,7 +15,6 @@ Dim xStart As Integer
 Dim yStart As Integer
 yStart = 87
 Randomize Timer
-frmDbg.lstMap.Clear
 mapHeight = intWidth
 mapWidth = intHeight
 For y = yStart To ((mapHeight - 1) * 75) + yStart Step 75

@@ -5010,10 +5010,8 @@ Dim frameCount As Integer
 Dim frameLim As Integer
 Dim intObjTimer As Long
 Dim curTile As terrain
-frmDbg.lstCoin.Clear
 For o = 0 To tileCount - 1
     curTile = tile(getTileFromInt(True, o), getTileFromInt(False, o))
-    'frmDbg.lstCoin.AddItem (o & ": " & Tile(getTileFromInt(True, o), getTileFromInt(False, o)).hasObj & ", " & Tile(getTileFromInt(True, c), getTileFromInt(False, c)).objTimer)
     If curTile.hasObj Then
         If curTile.objType(0) = "Coin" Then
             frameLim = 28 'frame limit for coin

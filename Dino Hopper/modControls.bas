@@ -57,6 +57,15 @@ If blnPlayerMoveable(playerIndex) = True And frameCounter(playerIndex) = 0 Then
         End If
     End If
 End If
+If KeyCode = 112 Then 'f1
+    If Not blnDebug Then
+        frmDbg.Show
+        blnDebug = True
+    Else
+        frmDbg.Hide
+        blnDebug = False
+    End If
+End If
 End Sub
 
 Public Sub keyUp(ByVal KeyCode As Integer, ByVal Shift As Integer)

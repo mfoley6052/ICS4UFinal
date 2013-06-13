@@ -1,5 +1,17 @@
 Attribute VB_Name = "modMovement"
 Public Sub charAction(ByVal Index As Integer, nextTile As terrain)
+If blnDebug Then
+    With frmDbg
+    .lblTest(0) = "P1 curTile: (" & curX(0) & ", " & curY(0) & ")"
+    .lblTest(1) = "P1 nextTile: (" & nextX(0) & ", " & nextY(0) & ")"
+    .lblTest(2) = "P2 curTile: (" & curX(1) & ", " & curY(1) & ")"
+    .lblTest(3) = "P2 nextTile: (" & nextX(1) & ", " & nextY(1) & ")"
+    .lblTest(4) = "P3 curTile: (" & curX(2) & ", " & curY(2) & ")"
+    .lblTest(5) = "P3 nextTile: (" & nextX(2) & ", " & nextY(2) & ")"
+    .lblTest(6) = "P4 curTile: (" & curX(3) & ", " & curY(3) & ")"
+    .lblTest(7) = "P4 nextTile: (" & nextX(3) & ", " & nextY(3) & ")"
+    End With
+End If
 If frameCounter(Index) = 1 Then
     strState(Index) = "C"
 ElseIf frameCounter(Index) = 5 Then
@@ -193,7 +205,7 @@ With frmMain
     If frameCounter(Index) = 0 Then
         strDir(Index) = strDirJ
         blnEdgeJump(Index) = Not blnTile
-        If blnPlayerMoveable(Index) Or (gameMode <> 0 And blnMoveOnTick(Index)) Then
+        If (gameMode = 0 And blnPlayerMoveable(Index)) Or (gameMode <> 0 And blnMoveOnTick(Index)) Then
             blnPlayerMoveable(Index) = False
             If blnTile Then
                 If strDir(Index) = "L" Then
@@ -263,10 +275,12 @@ strState(Index) = "I"
 frameCounter(Index) = 0
 blnPlayerMoveable(Index) = True
 
-tile(curX(Index), curY(Index)).hasChar = False
-If blnBounceJump(Index) And targIndex(Index) >= 0 Then
+If nextX(Index) <> curX(Index) Or nextY(Index) <> curY(Index) Then
+    tile(curX(Index), curY(Index)).hasChar = False
+End If
+If blnBounceJump(Index) Then
     blnBounceJump(Index) = False
-    tile(curX(targIndex(Index)), curY(targIndex(Index))).hasChar = False
+    tile(prevX(Index), prevY(Index)).hasChar = True
 End If
 If blnEdgeJump(Index) Then
     tile(curX(Index), curY(Index)).hasChar = False
@@ -435,8 +449,11 @@ If .tmrChar(Index).Enabled And blnMoveOnTick(Index) Then
         If Not blnRecover(targIndex(Index)) Then
             Call getHurt(targIndex(Index), Index)
         End If
-        Call getJump(Index, strDir(Index), evalMove(Index, strDir(Index)))
-        frameCounter(Index) = 1
+        intMoves(Index) = 2
+        Call getTick(Index)
+        intMoves(Index) = 1
+        'Call getJump(Index, strDir(Index), evalMove(Index, strDir(Index)))
+        'frameCounter(Index) = 1
     ElseIf gameMode = 2 And Index < 3 Then
         blnMoveOnTick(Index) = False
         If isPlayer(Index + 1) Then
@@ -520,11 +537,14 @@ For getMove = loopMin To loopMax 'get movement (or not)
     Else 'if not, set next values to current values
         nextX(getMove) = curX(getMove)
         nextY(getMove) = curY(getMove)
-        If gameMode = 2 And Index < 3 Then
-            If isPlayer(Index + 1) Then
-                blnMoveOnTick(Index + 1) = True
-            ElseIf numPlayers = 1 Then
-                Call getTick(Index + 1)
+        If gameMode = 2 Then
+            blnPlayerMoveable(getMove) = True
+            If Index < 3 Then
+                If isPlayer(Index + 1) Then
+                    blnMoveOnTick(Index + 1) = True
+                ElseIf numPlayers = 1 Then
+                    Call getTick(Index + 1)
+                End If
             End If
         End If
     End If
@@ -543,7 +563,18 @@ If gameMode = 1 Or (gameMode = 2 And Index = 3) Then
         Call .tmrObjEvent_Timer 'call an object to appear
     End If
     If gameMode = 2 Then
-        blnMoveOnTick(0) = True
+        For x = 0 To 3
+            If .tmrChar(x).Enabled Then
+                If intMoveCount = 0 Or intMoves(x) = highestMove Then
+                    If isPlayer(x) Then
+                        blnMoveOnTick(x) = True
+                    Else
+                        Call getTick(x)
+                    End If
+                    Exit Sub
+                End If
+            End If
+        Next x
     End If
 End If
 End With
