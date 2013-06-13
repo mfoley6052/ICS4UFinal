@@ -1,6 +1,7 @@
 Attribute VB_Name = "modVars"
 Public gameMode As Integer
 Public blnDebug As Boolean
+Public blnGame As Boolean
 Public selType(0 To 3) As String
 Public picCount(0 To 3) As Integer
 Public strDir(0 To 3) As String

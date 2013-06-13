@@ -19,6 +19,12 @@ If blnRecover(Index) = False Then
             Next x
             frmStart.Show
             Call getGameEnd
+            frmMain.Hide
+            Unload frmMain
+            Set frmMain = Nothing
+            frmGUI.Hide
+            Unload frmGUI
+            Set frmGUI = Nothing
             Exit Sub
         End If
         Call refreshLabels(Index, False, True, False)

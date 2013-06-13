@@ -4984,25 +4984,27 @@ frmMain.Height = formH
 End Sub
 
 Private Sub Form_Load()
-frmGUI.Show
-frmGUI.SetFocus
-frmGUI.BackColor = vbCyan
-formW = frmMain.Width
-formH = frmMain.Height
-frmGUI.Top = frmMain.Top + 370
-frmGUI.Left = frmMain.Left + 50
-PaintPicture picBackground.Image, 0, 0, 800, 637, 0, 0, 800, 637, vbSrcCopy
-Set picBG = picBackground
-Call DrawMap(7, 7)
-blnClearPrevTile(0) = False
-blnClearPrevTile(1) = False
-blnClearPrevTile(2) = False
-blnClearPrevTile(3) = False
-blnPlayerMoveable(0) = False
-blnPlayerMoveable(1) = False
-blnPlayerMoveable(2) = False
-blnPlayerMoveable(3) = False
-limswitch = 1000
+If Not blnGame Then
+    frmGUI.Show
+    frmGUI.SetFocus
+    frmGUI.BackColor = vbCyan
+    formW = frmMain.Width
+    formH = frmMain.Height
+    frmGUI.Top = frmMain.Top + 370
+    frmGUI.Left = frmMain.Left + 50
+    PaintPicture picBackground.Image, 0, 0, 800, 637, 0, 0, 800, 637, vbSrcCopy
+    Set picBG = picBackground
+    Call DrawMap(7, 7)
+    blnClearPrevTile(0) = False
+    blnClearPrevTile(1) = False
+    blnClearPrevTile(2) = False
+    blnClearPrevTile(3) = False
+    blnPlayerMoveable(0) = False
+    blnPlayerMoveable(1) = False
+    blnPlayerMoveable(2) = False
+    blnPlayerMoveable(3) = False
+    limswitch = 1000
+End If
 End Sub
 
 Private Sub tmrObj_Timer()
@@ -5070,6 +5072,9 @@ If frameCounter(Index) = 0 Then
 End If
 If frameCounter(Index) > 0 Then 'if jump timer is started
     Call charAction(Index, tile(nextX(Index), nextY(Index)))
+    If Not blnGame Then
+        Exit Sub
+    End If
 Else
     spriteX(Index) = tile(curX(Index), curY(Index)).x + 25
     spriteY(Index) = tile(curX(Index), curY(Index)).y - 15

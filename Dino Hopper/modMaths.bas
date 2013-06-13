@@ -1,5 +1,4 @@
 Attribute VB_Name = "modMaths"
-Option Explicit
 Public Sub addScore(ByVal Index As Integer, ByVal intAdd As Long)
 intScore(Index) = intScore(Index) + (intMulti(Index) * intAdd)
 End Sub
@@ -113,6 +112,17 @@ If Index <= numPlayers - 1 Then
 Else
     isPlayer = False
 End If
+End Function
+
+Public Function getCharFromTile(tileInput As terrain) As Integer
+For x = 0 To 3
+    If frmMain.tmrChar(x).Enabled Then
+        If curX(x) = tileInput.Xc And curY(x) = tileInput.Yc Then
+            getCharFromTile = Index
+            Exit Function
+        End If
+    End If
+Next x
 End Function
 
 Public Function getCharJumpAnim(ByVal Index As Integer, ByVal curFrame As Integer, curTile As terrain, ByVal nextX As Integer, ByVal nextY As Integer)

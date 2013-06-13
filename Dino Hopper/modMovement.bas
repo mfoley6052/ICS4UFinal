@@ -40,6 +40,9 @@ If Not blnEdgeJump(Index) Then
                     If frameCounter(Index) = 9 Then
                         frameProg(Index) = -1
                         Call getHurt(Index, charIndex)
+                        If Not blnGame Then
+                            Exit Sub
+                        End If
                     End If
                 End If
             ElseIf gameMode = 0 And frameCounter(Index) = 9 Then
@@ -51,9 +54,15 @@ If Not blnEdgeJump(Index) Then
                         End If
                         If Not blnRecover(charIndex) Then
                             Call getHurt(charIndex, Index)
+                            If Not blnGame Then
+                                Exit Sub
+                            End If
                         End If
                         If Not blnRecover(Index) And frameCounter(charIndex) = 9 Then
                             Call getHurt(Index, charIndex)
+                            If Not blnGame Then
+                                Exit Sub
+                            End If
                         End If
                     Else
                         If Not blnRecover(charIndex) Then
@@ -68,6 +77,9 @@ If Not blnEdgeJump(Index) Then
                                 strDir(charIndex) = "U"
                             End If
                             Call getHurt(charIndex, Index)
+                            If Not blnGame Then
+                                Exit Sub
+                            End If
                             frameCounter(charIndex) = 6
                         End If
                     End If
@@ -85,19 +97,31 @@ If Not blnEdgeJump(Index) Then
                                 strDir(charIndex) = "U"
                             End If
                             Call getHurt(charIndex, Index)
+                            If Not blnGame Then
+                                Exit Sub
+                            End If
                             frameCounter(charIndex) = 6
                         Else
                             frameProg(Index) = -1
                             Call getHurt(Index, charIndex)
+                            If Not blnGame Then
+                                Exit Sub
+                            End If
                         End If
                     ElseIf frameCounter(Index) = frameCounter(charIndex) Then 'both chars at same frame; head-on collision
                         frameProg(Index) = -1
                         frameProg(charIndex) = -1
                         If Not blnRecover(Index) Then
                             Call getHurt(Index, charIndex)
+                            If Not blnGame Then
+                                Exit Sub
+                            End If
                         End If
                         If Not blnRecover(charIndex) Then
                             Call getHurt(charIndex, Index)
+                            If Not blnGame Then
+                                Exit Sub
+                            End If
                         End If
                     End If
                 End If
@@ -286,6 +310,9 @@ End If
 If blnEdgeJump(Index) Then
     tile(curX(Index), curY(Index)).hasChar = False
     Call getHurt(Index, Index)
+    If Not blnGame Then
+        Exit Sub
+    End If
 End If
 
 If gameMode = 0 And frameProg(Index) <= 0 Then
@@ -449,6 +476,9 @@ If .tmrChar(Index).Enabled And blnMoveOnTick(Index) Then
         blnBounceJump(Index) = True
         If Not blnRecover(targIndex(Index)) Then
             Call getHurt(targIndex(Index), Index)
+            If Not blnGame Then
+                Exit Sub
+            End If
         End If
         intMoves(targIndex(Index)) = intMoves(targIndex(Index)) - 1
         Call getTick(Index)

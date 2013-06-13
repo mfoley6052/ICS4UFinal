@@ -107,6 +107,7 @@ frameProg(0) = 1
 frameProg(1) = 1
 frameProg(2) = 1
 frameProg(3) = 1
+blnGame = True
 End With
 End Sub
 
@@ -231,11 +232,6 @@ For T = 0 To intTileCount
     End If
 Next T
 intMoveCount = 0
-frmMain.Hide
-Unload frmMain
-Set frmMain = Nothing
-frmGUI.Hide
-Unload frmGUI
-Set frmGUI = Nothing
+blnGame = False
 End With
 End Sub

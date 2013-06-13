@@ -11,10 +11,10 @@ If Not tileInput.hasObj Or Not bypassForObj Then 'check if clear is for an objec
             If tileInput.objType(0) <> "Terrain" Then
                 Call clearTileTop(tileInput, True, callID) 'paint top of tile with object mask
             ElseIf tileInput.objType(0) = "Terrain" Then
-                .picBackground.PaintPicture tilePic.Image, tileInput.x, tileInput.y, 100, 100, 0, 0, 100, 100, vbSrcCopy
-                .picBuffer.PaintPicture tilePic.Image, 0, 0, 100, 100, 0, 0, 100, 100, vbSrcCopy
-                .PaintPicture tileInput.picMask.Image, tileInput.x, tileInput.y, 100, 100, 0, 0, 100, 100, vbSrcAnd
-                .PaintPicture .picBuffer.Image, tileInput.x, tileInput.y, 100, 100, 0, 0, 100, 100, vbSrcPaint
+                '.picBackground.PaintPicture tilePic.Image, tileInput.x, tileInput.y, 100, 100, 0, 0, 100, 100, vbSrcCopy
+                '.picBuffer.PaintPicture tilePic.Image, 0, 0, 100, 100, 0, 0, 100, 100, vbSrcCopy
+                '.PaintPicture tileInput.picMask.Image, tileInput.x, tileInput.y, 100, 100, 0, 0, 100, 100, vbSrcAnd
+                '.PaintPicture .picBuffer.Image, tileInput.x, tileInput.y, 100, 100, 0, 0, 100, 100, vbSrcPaint
             End If
         ElseIf Mid(callID, 1, 6) = "ObjTop" Then 'if call is for top of tile
             Call clearTileTop(tileInput, False, callID) 'paint top of tile or top left or right according to callID
@@ -68,7 +68,7 @@ If Not tileInput.hasObj Or Not bypassForObj Then 'check if clear is for an objec
                             tileAlt = tile(curX(Index) + 1, curY(Index))
                             Call clearVoid(tileAlt, True, False, callID) 'paint left spacer
                         Else
-                            tileAlt = tile(curX(Index), curY(Index) + 1)
+                            tileAlt = tile(curX(Index) + 1, curY(Index) + 1)
                             Call clearVoid(tileAlt, False, True, callID) 'paint right spacer
                             .PaintPicture picBG, tileInput.x + 100, tileInput.y - 99, 50, 49, tileInput.x + 100, tileInput.y - 99, 50, 49, vbSrcCopy
                             .PaintPicture picBG, tileInput.x + 100, tileInput.y - 50, 50, 125, tileInput.x + 100, tileInput.y - 50, 50, 125, vbSrcCopy
@@ -77,7 +77,7 @@ If Not tileInput.hasObj Or Not bypassForObj Then 'check if clear is for an objec
                         If tileInput.Xc < mapWidth - 1 Then
                             tileAlt = tile(curX(Index) + 1, curY(Index))
                         Else
-                            tileAlt = tile(curX(Index), curY(Index) + 1)
+                            tileAlt = tile(curX(Index) + 1, curY(Index) + 1)
                         End If
                         Set tilePic = tileAlt.picTile
                         .picBackground.PaintPicture tilePic.Image, tileAlt.x, tileAlt.y, 100, 100, 0, 0, 100, 100, vbSrcCopy
@@ -205,33 +205,50 @@ If Not tileInput.hasObj Or Not bypassForObj Then 'check if clear is for an objec
             If (tileInput.Xc = prevX(Index) And tileInput.Yc = prevY(Index)) And Not tileInput.hasChar Then 'paint top of tile if previous and no char on tile
                 Call clearTileTop(tileInput, False, callID)
             End If
+            Dim altIndex As Integer
             If callID = "CharEven+X-Y" Or callID = "CharOddX-Y" Or callID = "CharNOddNXN-Y" Or callID = "CharNEvenN+XN-Y" Or callID = "CharNOddNXN+Y" Or callID = "CharNEvenN+XN+Y" Then 'paint over bottom left of tile
                 .picBackground.PaintPicture tilePic.Image, tileInput.x, tileInput.y + 25, 50, 75, 0, 25, 50, 75, vbSrcCopy
                 .picBuffer.PaintPicture tilePic.Image, 0, 0, 50, 75, 0, 25, 50, 75, vbSrcCopy
                 .PaintPicture .picMaskSides.Image, tileInput.x, tileInput.y + 25, 50, 75, 0, 0, 50, 75, vbSrcAnd
                 .PaintPicture .picBuffer.Image, tileInput.x, tileInput.y + 25, 50, 75, 0, 0, 50, 75, vbSrcPaint
-                If oddRow(tileInput.Yc) And targIndex(Index) > 0 Then
-                    'If tile(tileInput.Xc - 1, tileInput.Yc + 1).hasChar Then
-                        'Call PaintCharSprite(targIndex(Index), spriteX(targIndex(Index)), spriteY(targIndex(Index)), True)
-                    'End If
-                Else
-                    'If tile(tileInput.Xc, tileInput.Yc + 1).hasChar Then
-                        'Call PaintCharSprite(targIndex(Index), spriteX(targIndex(Index)), spriteY(targIndex(Index)), True)
-                    'End If
+                If tileInput.Yc < mapHeight - 1 And (curX(Index) <> tileInput.Xc Or curY(Index) <> tileInput.Yc) Then
+                    If oddRow(tileInput.Yc) Then
+                        If tileInput.Xc > 0 Then
+                            If tile(tileInput.Xc - 1, tileInput.Yc + 1).hasChar And (curX(Index) <> tileInput.Xc - 1 Or curY(Index) <> tileInput.Yc + 1) Then
+                                altIndex = getCharFromTile(tile(tileInput.Xc - 1, tileInput.Yc + 1))
+                                Call PaintCharSprite(Index, spriteX(Index), spriteY(Index), True)
+                                Call PaintCharSprite(altIndex, spriteX(altIndex), spriteY(altIndex), True)
+                            End If
+                        End If
+                    Else
+                        If tile(tileInput.Xc, tileInput.Yc + 1).hasChar And (curX(Index) <> tileInput.Xc Or curY(Index) <> tileInput.Yc + 1) Then
+                            altIndex = getCharFromTile(tile(tileInput.Xc, tileInput.Yc + 1))
+                            Call PaintCharSprite(Index, spriteX(Index), spriteY(Index), True)
+                            Call PaintCharSprite(altIndex, spriteX(altIndex), spriteY(altIndex), True)
+                        End If
+                    End If
                 End If
             ElseIf callID = "CharEvenX-Y" Or callID = "CharOdd-X-Y" Or callID = "CharNOddN-XN+Y" Or callID = "CharNEvenNXN+Y" Or callID = "CharNOddN-XN-Y" Or callID = "CharNEvenNXN-Y" Then 'paint over bottom right of tile
                 .picBackground.PaintPicture tilePic.Image, tileInput.x + 50, tileInput.y + 25, 50, 75, 50, 25, 50, 75, vbSrcCopy
                 .picBuffer.PaintPicture tilePic.Image, 0, 0, 50, 75, 50, 25, 50, 75, vbSrcCopy
                 .PaintPicture .picMaskSides.Image, tileInput.x + 50, tileInput.y + 25, 50, 75, 50, 0, 50, 75, vbSrcAnd
                 .PaintPicture .picBuffer.Image, tileInput.x + 50, tileInput.y + 25, 50, 75, 0, 0, 50, 75, vbSrcPaint
-                If oddRow(tileInput.Yc) And targIndex(Index) > 0 Then
-                    'If tile(tileInput.Xc, tileInput.Yc + 1).hasChar Then
-                        'Call PaintCharSprite(targIndex(Index), spriteX(targIndex(Index)), spriteY(targIndex(Index)), True)
-                    'End If
-                Else
-                    'If tile(tileInput.Xc + 1, tileInput.Yc + 1).hasChar Then
-                        'Call PaintCharSprite(targIndex(Index), spriteX(targIndex(Index)), spriteY(targIndex(Index)), True)
-                    'End If
+                If tileInput.Yc < mapHeight - 1 Then
+                    If oddRow(tileInput.Yc) Then
+                        If tile(tileInput.Xc, tileInput.Yc + 1).hasChar And (curX(Index) <> tileInput.Xc Or curY(Index) <> tileInput.Yc + 1) Then
+                            altIndex = getCharFromTile(tile(tileInput.Xc, tileInput.Yc + 1))
+                            Call PaintCharSprite(Index, spriteX(Index), spriteY(Index), True)
+                            Call PaintCharSprite(altIndex, spriteX(altIndex), spriteY(altIndex), True)
+                        End If
+                    Else
+                        If tileInput.Xc < mapWidth - 1 Then
+                            If tile(tileInput.Xc + 1, tileInput.Yc + 1).hasChar And (curX(Index) <> tileInput.Xc + 1 Or curY(Index) <> tileInput.Yc + 1) Then
+                                altIndex = getCharFromTile(tile(tileInput.Xc + 1, tileInput.Yc + 1))
+                                Call PaintCharSprite(Index, spriteX(Index), spriteY(Index), True)
+                                Call PaintCharSprite(altIndex, spriteX(altIndex), spriteY(altIndex), True)
+                            End If
+                        End If
+                    End If
                 End If
             ElseIf callID = "CharTopNXNY" Or callID = "SelPXPY" Then 'paint over top of tile
                 If Not tileInput.hasChar Then
@@ -445,20 +462,16 @@ If intObjY > 0 Then
     If oddRow(intObjY) Then
         If intObjX <= mapWidth - 1 Then
             Call clearTile(tile(intObjX, intObjY - 1), False, -1, "ObjOddX-Y")
-            'Call clearVoid(tile(intObjX, intObjY - 1), checkClearVoid(tile(intObjX, intObjY - 1), True, False), checkClearVoid(tile(intObjX, intObjY - 1), False, True))
         End If
         If intObjX > 0 Then
             Call clearTile(tile(intObjX - 1, intObjY - 1), False, -1, "ObjOdd-X-Y")
-            'Call clearVoid(tile(intObjX - 1, intObjY - 1), checkClearVoid(tile(intObjX - 1, intObjY - 1), True, False), False)
         End If
     Else
         If intObjX <= mapWidth Then
             Call clearTile(tile(intObjX, intObjY - 1), False, -1, "ObjEvenX-Y")
-            'Call clearVoid(tile(intObjX, intObjY - 1), checkClearVoid(tile(intObjX, intObjY - 1), True, False), checkClearVoid(tile(intObjX, intObjY - 1), False, True))
         End If
         If intObjX < mapWidth Then
             Call clearTile(tile(intObjX + 1, intObjY - 1), False, -1, "ObjEven+X-Y")
-            'Call clearVoid(tile(intObjX + 1, intObjY - 1), False, checkClearVoid(tile(intObjX + 1, intObjY - 1), False, True))
         End If
     End If
 Else
