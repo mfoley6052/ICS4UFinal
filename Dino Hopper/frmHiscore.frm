@@ -311,6 +311,7 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 
+Dim ran As Boolean
 
 Private Sub cmdAdd_Click()
 Call WriteScore(InputBox("playerName: "), InputBox("score"))
@@ -354,14 +355,18 @@ Call LoadScore
 End Sub
 
 Private Sub Form_Load()
-gMode = "Arcade"
-playerChoice = "1"
-playMode = "SP"
+
 Call LoadScore
 End Sub
 
 Private Sub LoadScore()
 Dim temp As String
+If Not ran Then
+    gMode = "Arcade"
+    playerChoice = "1"
+    playMode = "SP"
+    ran = True
+End If
 If playMode <> "SOLO" Then
     frmHiscore.cmbGameMode.Enabled = True
     Open App.Path & "\Scores\" & playMode & "\" & gMode & "\" & playerChoice & ".sav" For Input As #1
