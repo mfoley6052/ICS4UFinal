@@ -563,18 +563,19 @@ If gameMode = 1 Or (gameMode = 2 And Index = 3) Then
         Call .tmrObjEvent_Timer 'call an object to appear
     End If
     If gameMode = 2 Then
-        For x = 0 To 3
-            If .tmrChar(x).Enabled Then
-                If intMoveCount = 0 Or intMoves(x) = highestMove Then
-                    If isPlayer(x) Then
-                        blnMoveOnTick(x) = True
+        Dim startChar As Integer
+        For startChar = 0 To 3
+            If .tmrChar(startChar).Enabled Then
+                If intMoveCount = 0 Or intMoves(startChar) = highestMove Then
+                    If isPlayer(startChar) Then
+                        blnMoveOnTick(startChar) = True
                     Else
-                        Call getTick(x)
+                        Call getTick(startChar)
                     End If
                     Exit Sub
                 End If
             End If
-        Next x
+        Next startChar
     End If
 End If
 End With
