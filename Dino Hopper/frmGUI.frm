@@ -256,6 +256,8 @@ SetLayeredWindowAttributes Me.hWnd, vbCyan, 0&, LWA_COLORKEY
 End Sub
 
 Private Sub Form_LostFocus()
-frmGUI.SetFocus
+If frmMain.Visible Then
+    frmGUI.SetFocus
+End If
 End Sub
 

@@ -270,10 +270,8 @@ Dim q As Integer
 With frmMain
 prevX(Index) = curX(Index)
 prevY(Index) = curY(Index)
-
 strState(Index) = "I"
 frameCounter(Index) = 0
-blnPlayerMoveable(Index) = True
 
 If nextX(Index) <> curX(Index) Or nextY(Index) <> curY(Index) Then
     tile(curX(Index), curY(Index)).hasChar = False
@@ -281,6 +279,9 @@ End If
 If blnBounceJump(Index) Then
     blnBounceJump(Index) = False
     tile(prevX(Index), prevY(Index)).hasChar = True
+    blnPlayerMoveable(Index) = True
+ElseIf gameMode <> 2 Or targIndex(Index) < 0 Then
+    blnPlayerMoveable(Index) = True
 End If
 If blnEdgeJump(Index) Then
     tile(curX(Index), curY(Index)).hasChar = False
@@ -449,14 +450,13 @@ If .tmrChar(Index).Enabled And blnMoveOnTick(Index) Then
         If Not blnRecover(targIndex(Index)) Then
             Call getHurt(targIndex(Index), Index)
         End If
-        intMoves(Index) = 2
+        intMoves(targIndex(Index)) = intMoves(targIndex(Index)) - 1
         Call getTick(Index)
-        intMoves(Index) = 1
         'Call getJump(Index, strDir(Index), evalMove(Index, strDir(Index)))
         'frameCounter(Index) = 1
     ElseIf gameMode = 2 And Index < 3 Then
         blnMoveOnTick(Index) = False
-        If isPlayer(Index + 1) Then
+        If isPlayer(Index + 1) And (intMoves(Index) <= intMoves(Index + 1) Or intMoveCount > 0) Then
             blnMoveOnTick(Index + 1) = True
         Else
             Call getTick(Index + 1)
@@ -497,19 +497,27 @@ Next moveCheck
 For moveCheck2 = loopMin To loopMax 'disable blnMove for characters that are not set to move according to higher character speeds
     If intMoves(moveCheck2) < highestMove - intMoveCount Then
         blnMoveOnTick(moveCheck2) = False
+        If gameMode = 2 And (intMoves(moveCheck2) = 0 Or (.tmrPow(moveCheck2).Tag = "Speed" And intMoves(moveCheck2) = 1)) Then
+            intMoves(moveCheck2) = intMoves(moveCheck2) + 1
+        End If
     ElseIf .tmrChar(moveCheck2).Enabled Then
         blnMoveOnTick(moveCheck2) = True
     End If
 Next moveCheck2
-For setMove = loopMin To loopMax
-    If isPlayer(setMove) Then 'if setMove is a player, call getJump (direction change and next values set)
-        If gameMode = 1 Or blnMoveOnTick(setMove) Then
-            Call getJump(setMove, strDir(setMove), evalMove(setMove, strDir(setMove)))
+If Not blnBounceJump(Index) Or gameMode = 1 Then
+    For setMove = loopMin To loopMax
+        If isPlayer(setMove) Then 'if setMove is a player, call getJump (direction change and next values set)
+            If gameMode = 1 Or blnMoveOnTick(setMove) Then
+                Call getJump(setMove, strDir(setMove), evalMove(setMove, strDir(setMove)))
+            End If
+        ElseIf gameMode = 1 Or (gameMode = 2 And blnMoveOnTick(setMove)) Then
+            Call cpuAI(setMove) 'if computer player, call AI (direction change and next values)
         End If
-    ElseIf gameMode = 1 Or (gameMode = 2 And blnMoveOnTick(setMove)) Then
-        Call cpuAI(setMove) 'if computer player, call AI (direction change and next values)
-    End If
-Next setMove
+    Next setMove
+Else
+    blnMoveOnTick(Index) = True
+    Call getJump(Index, strDir(Index), evalMove(Index, strDir(Index)))
+End If
 For moveCheck3 = loopMin To loopMax
     If blnMoveOnTick(moveCheck3) Then 'if character can move
         For checkTarg = 0 To 3
@@ -521,10 +529,6 @@ For moveCheck3 = loopMin To loopMax
                             blnMoveOnTick(checkTarg) = False 'checkTarg char can no longer move
                         End If
                     End If
-                ElseIf gameMode = 2 Then
-                    If prevX(checkTarg) = curX(moveCheck3) And prevY(checkTarg) = curY(moveCheck3) Then
-                        blnMoveOnTick(moveCheck3) = False 'checkTarg char can no longer move
-                    End If
                 End If
             End If
         Next checkTarg
@@ -535,7 +539,11 @@ For getMove = loopMin To loopMax 'get movement (or not)
         Call getPowTick(getMove)
     End If
     If blnMoveOnTick(getMove) Then 'if char can move, set it to start animation
-        frameCounter(getMove) = 1
+        If Not blnBounceJump(getMove) Then
+            frameCounter(getMove) = 1
+        Else
+            frameCounter(getMove) = 5
+        End If
     Else 'if not, set next values to current values
         nextX(getMove) = curX(getMove)
         nextY(getMove) = curY(getMove)
@@ -569,7 +577,7 @@ If gameMode = 1 Or (gameMode = 2 And Index = 3) Then
         Call .tmrObjEvent_Timer 'call an object to appear
     End If
     If gameMode = 2 Then
-        If intMoveCount = 0 Then
+        If intMoveCount = highestMove - 1 Or highestMove = 1 Then
             blnMoveOnTick(0) = True
         Else
             Dim startChar As Integer
@@ -581,6 +589,7 @@ If gameMode = 1 Or (gameMode = 2 And Index = 3) Then
                             Exit Sub
                         Else
                             Call getTick(startChar)
+                            Exit Sub
                         End If
                         Exit Sub
                     End If
