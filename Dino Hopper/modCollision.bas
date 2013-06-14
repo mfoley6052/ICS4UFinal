@@ -6,9 +6,18 @@ If blnRecover(Index) = False Then
         If intLives(Index) > 1 Then
             intLives(Index) = intLives(Index) - 1
         Else
-            Call getGameEnd
-            frmMain.tmrGameOver.Enabled = True
-            Exit Sub
+            If numPlayers = 1 Then
+                Call getGameEnd
+                frmMain.tmrGameOver.Enabled = True
+                Exit Sub
+            Else
+                frmMain.tmrChar(Index).Enabled = False
+                'repaint the tile that the character was on
+                frmGUI.lblLives(Index).Visible = False
+                frmGUI.lblMulti(Index).Visible = False
+                frmGUI.lblScore(Index).Visible = False
+                'Clear egg from gui
+            End If
         End If
         Call refreshLabels(Index, False, True, False)
     End If
