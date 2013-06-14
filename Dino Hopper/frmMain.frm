@@ -5044,9 +5044,11 @@ Dim curMouse As POINTAPI
 Call GetCursorPos(curMouse)
 curMouse.x = curMouse.x * 15
 curMouse.y = curMouse.y * 15
+'check if mouse is on main form
 If curMouse.x < frmMain.Left + 50 Or curMouse.x > frmMain.Left + frmMain.Width - 50 Or curMouse.y < frmMain.Top + 370 Or curMouse.y > frmMain.Top + frmMain.Height - 50 And gameStarted Then
     Call keyUp(27, False)
     tmrRefresh.Enabled = True
+    'move other forms to middle of form
     If frmX <> frmMain.Left Or frmY <> frmMain.Top Then
         frmX = frmMain.Left
         frmY = frmMain.Top
@@ -5059,6 +5061,7 @@ If curMouse.x < frmMain.Left + 50 Or curMouse.x > frmMain.Left + frmMain.Width -
 End If
 End Sub
 
+'refresh positions of forms on frmMain
 Private Sub tmrRefresh_Timer()
 frmPause.Left = frmMain.Left + 50
 frmPause.Top = frmMain.Top + 370
@@ -5066,17 +5069,21 @@ frmGUI.Left = frmMain.Left + 50
 frmGUI.Top = frmMain.Top + 370
 End Sub
 
+'send key input to key handler
 Private Sub Form_KeyUp(KeyCode As Integer, Shift As Integer)
 Call keyUp(KeyCode, Shift)
 End Sub
 
+'send key up input to key up handler
 Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
 Call keyHandler(KeyCode, Shift)
 End Sub
 
+'shows game over sequence, asks for high score, then ends game
 Private Sub tmrGameOver_Timer()
 Static intCounter As Integer
 If intCounter = 10 Then
+    'set play mode
     If numPlayers = 1 And numCPU = 0 Then
         playMode = "SOLO"
     ElseIf numPlayers = 1 Then
@@ -5099,6 +5106,7 @@ If intCounter = 10 Then
     Exit Sub
 End If
 With frmMain
+'game over blinks on screen
 If intCounter / 2 - Int(intCounter / 2) = 0 Then
     PaintPicture .picGameOverMask.Image, (.ScaleWidth * 0.5) - (.picGameOver.ScaleWidth * 0.5), (.ScaleHeight * 0.5) - (.picGameOver.ScaleHeight * 0.5), .picGameOver.ScaleWidth, .picGameOver.ScaleHeight, 0, 0, picGameOver.ScaleWidth, .picGameOver.ScaleHeight, vbSrcAnd
     PaintPicture .picGameOver.Image, (.ScaleWidth * 0.5) - (.picGameOver.ScaleWidth * 0.5), (.ScaleHeight * 0.5) - (.picGameOver.ScaleHeight * 0.5), .picGameOver.ScaleWidth, .picGameOver.ScaleHeight, 0, 0, picGameOver.ScaleWidth, .picGameOver.ScaleHeight, vbSrcPaint
@@ -5109,6 +5117,7 @@ End With
 intCounter = intCounter + 1
 End Sub
 
+'alternating timer for blinking objects
 Private Sub tmrAlternate_Timer()
 Static blnAlt As Boolean
 If blnAlt Then
@@ -5119,6 +5128,7 @@ End If
 tmrAlternate.Tag = blnAlt
 End Sub
 
+'makes cpu move every certain interval
 Private Sub tmrCPUMove_Timer(Index As Integer)
 Static intCounter As Integer
 'if counter limit is not reached by counter
@@ -5130,9 +5140,11 @@ Else
     'initiate cpu movement
     If blnPlayerMoveable(Index) Then
         Call cpuAI(Index)
+        'enemy is attacking
         If targIndex(AI) >= 0 Then
             Dim attackCounter As Integer
             attackCounter = attackCounter + 1
+            'enemy attacks according to set attack speed
             If attackCounter = CPUWait(Index) Then
                 Call cpuAI(Index)
                 attackCounter = 0
@@ -5143,11 +5155,13 @@ Else
 End If
 End Sub
 
+'set form to default size if resized
 Private Sub Form_Resize()
 frmMain.Width = formW
 frmMain.Height = formH
 End Sub
 
+'prepares form for a new game (sounds, paint background, draw map, etc.)
 Private Sub Form_Load()
 mmcPow(0).FileName = App.Path & "\Sounds\speed.mp3"
 mmcPow(1).FileName = App.Path & "\Sounds\scare.mp3"
@@ -5161,6 +5175,7 @@ Next x
 mmcJump.Command = "open"
 mmcHit.Command = "open"
 mmcCoin.Command = "open"
+'don't execute preparations if a game hasn't started yet
 If Not blnGame Then
     frmGUI.Show
     frmGUI.SetFocus
@@ -5172,6 +5187,7 @@ If Not blnGame Then
     Dim randomInt As Integer
     Randomize Timer
     randomInt = randInt(1, 10)
+    '1 in 10 chance of space background
     If randomInt = 1 Then
         Set frmMain.picBackground = LoadPicture(App.Path & "\Images\Space.jpg")
     Else
@@ -5192,11 +5208,13 @@ If Not blnGame Then
 End If
 End Sub
 
+'update for every object frame
 Private Sub tmrObj_Timer()
 Dim frameCount As Integer
 Dim frameLim As Integer
 Dim intObjTimer As Long
 Dim curTile As terrain
+'go through each tile and if it has an object, get new frame and paint
 For o = 0 To tileCount - 1
     curTile = tile(getTileFromInt(True, o), getTileFromInt(False, o))
     If curTile.hasObj Then
@@ -5235,27 +5253,29 @@ For o = 0 To tileCount - 1
         Else
             Call clearTile(curTile, False, 0, "ObjXY")
         End If
-        'if objTimer (frame advancements on obj) is under objExpire, add 1 to it
+        'object increases a tick or expires if limit reached
         If intObjTimer < objExpire Then
             If gameMode = 0 Then
                 tile(getTileFromInt(True, o), getTileFromInt(False, o)).objTimer = intObjTimer + 1
             End If
-        Else 'if objTimer is objExpire (or greater), disable obj and clear tile
+        Else
             Call killObj(tile(getTileFromInt(True, o), getTileFromInt(False, o)))
         End If
     End If
 Next o
 End Sub
 
+'update for every character frame (tile select image, character coordinates, paint character)
 Private Sub tmrChar_Timer(Index As Integer)
-'reverse boolean for select
 Static blnRev(0 To 3) As Boolean
-'call selection paint
+'call select paint
 Call PaintSelector(Index, picCount(Index))
+'paint character sprite if character is idle
 If frameCounter(Index) = 0 Then
     Call PaintCharSprite(Index, spriteX(Index), spriteY(Index), False)
 End If
-If frameCounter(Index) > 0 Then 'if jump timer is started
+'if character is set to start jumping, call jump
+If frameCounter(Index) > 0 Then
     Call charAction(Index, tile(nextX(Index), nextY(Index)))
     If Not blnGame Then
         Exit Sub
@@ -5279,6 +5299,7 @@ If picCount(Index) >= 4 Or picCount(Index) <= 0 Then
 End If
 End Sub
 
+'character is no longer stunned
 Private Sub tmrStun_Timer(Index As Integer)
 If isPlayer(Index) Then
     blnPlayerMoveable(Index) = True
@@ -5288,6 +5309,7 @@ End If
 tmrStun(Index).Enabled = False
 End Sub
 
+'for each tile, start its fall animation if it's activated
 Private Sub tmrTileAnim_Timer()
 Static intCounter As Integer
 For x = 0 To tileCount - 1
@@ -5298,35 +5320,31 @@ Next x
 intCounter = intCounter + 1
 End Sub
 
+'delay between tiles falling in start animation; turn on tiles
 Private Sub tmrTileAnimDelay_Timer()
 Static intCounter As Integer
-Static intX As Integer
-Static intY As Integer
 frmMain.tmrTileAnim.Enabled = True
+'turn tiles on
 For z = 0 To intCounter - getAbs(intCounter - ((mapWidth * mapHeight) + (Int(mapHeight / 2))) - 1)
     tileSwitch((tileCount - 1) - z) = True
 Next z
-If intX = mapWidth - ((intY + 1) Mod 2) Then
-    intY = intY + 1
-    intX = 0
-ElseIf intX < mapWidth + ((mapHeight + 1) Mod 2) Then
-    intX = intX + 1
-End If
+'check if tiles are all set and turn this timer off if so
 If intCounter >= ((mapWidth * mapHeight) + (Int(mapHeight / 2))) - 1 Then
     intCounter = 0
-    intX = 0
-    intY = 0
     tmrTileAnimDelay.Enabled = False
 End If
 intCounter = intCounter + 1
 End Sub
 
+'get a pow tick
 Public Sub tmrPow_Timer(Index As Integer)
 Call getPowTick(Index)
 End Sub
 
+'add a new object to the map
 Public Sub tmrObjEvent_Timer()
 Dim intRand As Integer
+'if there is room for an object, get a new object using random numbers to get type
 If objTileCount < tileCount - 4 Then
     intRand = randInt(1, 100)
     Dim intType As Integer
