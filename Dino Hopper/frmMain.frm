@@ -5078,7 +5078,7 @@ If Not blnGame Then
     Dim randomInt As Integer
     Randomize Timer
     randomInt = randInt(1, 10)
-    If randomInt < 10 Then
+    If randomInt = 1 Then
         Set frmMain.picBackground = LoadPicture(App.Path & "\Images\Space.jpg")
     Else
         Set frmMain.picBackground = LoadPicture(App.Path & "\Images\backgroundMDI.gif")
