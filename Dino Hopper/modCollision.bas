@@ -6,25 +6,8 @@ If blnRecover(Index) = False Then
         If intLives(Index) > 1 Then
             intLives(Index) = intLives(Index) - 1
         Else
-            MsgBox ("Game Over")
-            If numPlayers = 1 And numCPU = 0 Then
-                playMode = "SOLO"
-            ElseIf numPlayers = 1 Then
-                playMode = "SP"
-            Else
-                playMode = "MP"
-            End If
-            For x = 0 To numPlayers - 1
-                Call WriteScore(InputBox("Please enter your initials(3 character max): ", "Player " & x + 1, "RST"), intScore(x))
-            Next x
-            frmStart.Show
             Call getGameEnd
-            frmMain.Hide
-            Unload frmMain
-            Set frmMain = Nothing
-            frmGUI.Hide
-            Unload frmGUI
-            Set frmGUI = Nothing
+            frmMain.tmrGameOver.Enabled = True
             Exit Sub
         End If
         Call refreshLabels(Index, False, True, False)

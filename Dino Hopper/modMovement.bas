@@ -365,6 +365,7 @@ If isPlayer(Index) Then
         Call addScore(Index, Pscore)
     End If
     Call refreshLabels(Index, True, blnLives, blnMulti)
+Else
 End If
 If inputTile.hasObj Then
     If inputTile.objType(0) <> "Terrain" Then

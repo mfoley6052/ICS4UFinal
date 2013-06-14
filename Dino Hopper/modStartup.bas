@@ -21,6 +21,8 @@ With frmMain
 If numCPU > 0 Then
     For y = 1 To numCPU
         .tmrChar(y).Enabled = True
+        attackMode(y) = randInt(0, 2)
+        CPUWait(y) = attackMode(y)
     Next y
 End If
 defaultTile(0) = tile(mapWidth - 1, mapHeight - 1)
@@ -198,6 +200,8 @@ End Sub
 
 Public Sub getGameEnd()
 With frmMain
+numPlayers = 1
+numCPU = 0
 .tmrTileAnim.Enabled = False
 .tmrTileAnimDelay.Enabled = False
 .tmrObjEvent.Enabled = False
