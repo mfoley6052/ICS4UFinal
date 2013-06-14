@@ -27,6 +27,8 @@ Public prevY(0 To 3) As Integer
 Public nextX(0 To 3) As Integer
 Public nextY(0 To 3) As Integer
 Public targIndex(0 To 3) As Integer
+Public attackMode(1 To 3) As Integer
+Public CPUWait(1 To 3) As Integer
 Public defaultTile(0 To 3) As terrain
 Public intMoves(0 To 3) As Integer
 Public blnRecover(0 To 3) As Boolean
@@ -47,7 +49,4 @@ Public picBG As Object
 Public numPlayers As Integer
 Public numCPU As Integer
 Public isScared As Boolean
-Public gameStarted As Boolean
-Public attackMode(1 To 3) As Integer
-Public CPUWait(1 To 3) As Integer
 
