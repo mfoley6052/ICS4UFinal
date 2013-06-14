@@ -5075,10 +5075,11 @@ If Not blnGame Then
     formH = frmMain.Height
     frmGUI.Top = frmMain.Top + 370
     frmGUI.Left = frmMain.Left + 50
-    Dim randomInt
+    Dim randomInt As Integer
+    Randomize Timer
     randomInt = randInt(1, 10)
     If randomInt = 1 Then
-        Set frmMain.picBackground = LoadPicture(App.Path & "\Images\Space.jpg", (frmW))
+        Set frmMain.picBackground = LoadPicture(App.Path & "\Images\Space.jpg", (frmw))
     Else
         Set frmMain.picBackground = LoadPicture(App.Path & "\Images\backgroundMDI.gif")
     End If

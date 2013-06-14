@@ -200,6 +200,7 @@ End Sub
 
 Public Sub getGameEnd()
 With frmMain
+gameStarted = False
 numPlayers = 1
 numCPU = 0
 .tmrTileAnim.Enabled = False
@@ -237,5 +238,11 @@ For T = 0 To intTileCount
 Next T
 intMoveCount = 0
 blnGame = False
+frmGUI.Visible = False
+frmMain.picBackground.Picture = LoadPicture(App.Path & "\Images\Space.jpg")
+frmMain.PaintPicture frmMain.picBackground.Image, 0, 0, frmMain.Width, frmMain.Height, 0, 0, frmMain.Width, frmMain.Height, vbSrcCopy
+frmMain.PaintPicture frmMain.picGameOverMask, frmMain.Width / 2 - frmMain.picGameOver.Width, frmMain.Height / 2 - frmMain.picGameOver.Height, frmMain.picGameOver.Width, frmMain.picGameOver.Height, 0, 0, frmMain.picGameOver.Width, frmMain.picGameOver.Height, vbSrcAnd
+frmMain.PaintPicture frmMain.picGameOver, frmMain.Width / 2 - frmMain.picGameOver.Width, frmMain.Height / 2 - frmMain.picGameOver.Height, frmMain.picGameOver.Width, frmMain.picGameOver.Height, 0, 0, frmMain.picGameOver.Width, frmMain.picGameOver.Height, vbSrcPaint
+
 End With
 End Sub

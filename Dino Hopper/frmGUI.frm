@@ -256,7 +256,7 @@ SetLayeredWindowAttributes Me.hWnd, vbCyan, 0&, LWA_COLORKEY
 End Sub
 
 Private Sub Form_LostFocus()
-If frmMain.Visible Then
+If frmMain.Visible And gameStarted Then
     frmGUI.SetFocus
 End If
 End Sub
