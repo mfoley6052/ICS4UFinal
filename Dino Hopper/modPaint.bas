@@ -4,17 +4,15 @@ Public Sub clearTile(tileInput As terrain, ByVal bypassForObj As Boolean, Option
 With frmMain
 Dim tilePic As Object
 Set tilePic = tileInput.picTile
-If Not tileInput.hasObj Or Not bypassForObj Then 'check if clear is for an object or the tile has no object
-    If Not bypassForObj Then 'if object is caller of function
+'check if clear is for an object or the tile has no object
+If Not tileInput.hasObj Or Not bypassForObj Then
+    'check if object is caller of function
+    If Not bypassForObj Then
+        'check if object is on tile and call is for object tile
         If tileInput.hasObj And Mid(callID, 1, 5) = "ObjXY" Then
-            'if object isn't a terrain, paint over the tile top, if it is, paint full file
+            'check if object isn't a terrain
             If tileInput.objType(0) <> "Terrain" Then
                 Call clearTileTop(tileInput, True, callID) 'paint top of tile with object mask
-            ElseIf tileInput.objType(0) = "Terrain" Then
-                '.picBackground.PaintPicture tilePic.Image, tileInput.x, tileInput.y, 100, 100, 0, 0, 100, 100, vbSrcCopy
-                '.picBuffer.PaintPicture tilePic.Image, 0, 0, 100, 100, 0, 0, 100, 100, vbSrcCopy
-                '.PaintPicture tileInput.picMask.Image, tileInput.x, tileInput.y, 100, 100, 0, 0, 100, 100, vbSrcAnd
-                '.PaintPicture .picBuffer.Image, tileInput.x, tileInput.y, 100, 100, 0, 0, 100, 100, vbSrcPaint
             End If
         ElseIf Mid(callID, 1, 6) = "ObjTop" Then 'if call is for top of tile
             Call clearTileTop(tileInput, False, callID) 'paint top of tile or top left or right according to callID
@@ -34,7 +32,8 @@ If Not tileInput.hasObj Or Not bypassForObj Then 'check if clear is for an objec
             End If
         End If
     Else 'called by character
-        If (tileInput.Xc = curX(Index) And tileInput.Yc = curY(Index)) Then 'if character on tile is character that called clear
+        'if character on tile is character that called clear, paint tile over spots character is covering based on tile location and character direction
+        If (tileInput.Xc = curX(Index) And tileInput.Yc = curY(Index)) Then
             Dim tileAlt As terrain
             If tileInput.Yc = 0 Then '(x, 0)
                 If frameCounter(Index) > 0 And strDir(Index) = "L" Then
@@ -186,6 +185,7 @@ If Not tileInput.hasObj Or Not bypassForObj Then 'check if clear is for an objec
             Set tilePic = tileInput.picTile
             If frameCounter(Index) = 0 Or (curX(Index) <> nextX(Index) And curY(Index) <> nextY(Index)) Or callID = "SelXY" Then
                 If frameCounter(Index) > 0 Then 'if frame is greater than 0
+                    'cover sides of tiles where character is touching (based on character direction)
                     If strDir(Index) = "R" Then
                         .picBackground.PaintPicture tilePic.Image, tileInput.x + 50, tileInput.y + 25, 50, 75, 50, 25, 50, 75, vbSrcCopy
                         .picBuffer.PaintPicture tilePic.Image, 0, 0, 50, 75, 50, 25, 50, 75, vbSrcCopy
@@ -198,15 +198,18 @@ If Not tileInput.hasObj Or Not bypassForObj Then 'check if clear is for an objec
                         .PaintPicture .picBuffer.Image, tileInput.x, tileInput.y + 25, 50, 75, 0, 0, 50, 75, vbSrcPaint
                     End If
                 End If
+                'clear top of tile
                 Call clearTileTop(tileInput, False, callID)
             End If
         Else 'if tile does not hold character that called clear
-            'if coordinates match previous tile of character
-            If (tileInput.Xc = prevX(Index) And tileInput.Yc = prevY(Index)) And Not tileInput.hasChar Then 'paint top of tile if previous and no char on tile
-                Call clearTileTop(tileInput, False, callID)
+            'if coordinates match previous tile of character and tile has no character
+            If (tileInput.Xc = prevX(Index) And tileInput.Yc = prevY(Index)) And Not tileInput.hasChar Then
+                Call clearTileTop(tileInput, False, callID) 'paint top of tile
             End If
             Dim altIndex As Integer
+            'cover areas of tiles that characters touch for new character frame
             If callID = "CharEven+X-Y" Or callID = "CharOddX-Y" Or callID = "CharNOddNXN-Y" Or callID = "CharNEvenN+XN-Y" Or callID = "CharNOddNXN+Y" Or callID = "CharNEvenN+XN+Y" Then 'paint over bottom left of tile
+                'cases that call bottom left paint
                 .picBackground.PaintPicture tilePic.Image, tileInput.x, tileInput.y + 25, 50, 75, 0, 25, 50, 75, vbSrcCopy
                 .picBuffer.PaintPicture tilePic.Image, 0, 0, 50, 75, 0, 25, 50, 75, vbSrcCopy
                 .PaintPicture .picMaskSides.Image, tileInput.x, tileInput.y + 25, 50, 75, 0, 0, 50, 75, vbSrcAnd
@@ -228,7 +231,8 @@ If Not tileInput.hasObj Or Not bypassForObj Then 'check if clear is for an objec
                         End If
                     End If
                 End If
-            ElseIf callID = "CharEvenX-Y" Or callID = "CharOdd-X-Y" Or callID = "CharNOddN-XN+Y" Or callID = "CharNEvenNXN+Y" Or callID = "CharNOddN-XN-Y" Or callID = "CharNEvenNXN-Y" Then 'paint over bottom right of tile
+            ElseIf callID = "CharEvenX-Y" Or callID = "CharOdd-X-Y" Or callID = "CharNOddN-XN+Y" Or callID = "CharNEvenNXN+Y" Or callID = "CharNOddN-XN-Y" Or callID = "CharNEvenNXN-Y" Then
+                'cases that call bottom right paint
                 .picBackground.PaintPicture tilePic.Image, tileInput.x + 50, tileInput.y + 25, 50, 75, 50, 25, 50, 75, vbSrcCopy
                 .picBuffer.PaintPicture tilePic.Image, 0, 0, 50, 75, 50, 25, 50, 75, vbSrcCopy
                 .PaintPicture .picMaskSides.Image, tileInput.x + 50, tileInput.y + 25, 50, 75, 50, 0, 50, 75, vbSrcAnd
@@ -250,10 +254,12 @@ If Not tileInput.hasObj Or Not bypassForObj Then 'check if clear is for an objec
                         End If
                     End If
                 End If
+            'top of next tile or last select
             ElseIf callID = "CharTopNXNY" Or callID = "SelPXPY" Then 'paint over top of tile
                 If Not tileInput.hasChar Then
                     Call clearTileTop(tileInput, False, callID)
                 End If
+            'next tile
             ElseIf callID = "CharNXNY" Then
                 If strDir(Index) = "L" Then
                     .picBackground.PaintPicture tilePic.Image, tileInput.x + 50, tileInput.y + 25, 50, 75, 50, 25, 50, 75, vbSrcCopy

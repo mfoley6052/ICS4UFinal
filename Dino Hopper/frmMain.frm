@@ -5344,7 +5344,7 @@ End Sub
 'add a new object to the map
 Public Sub tmrObjEvent_Timer()
 Dim intRand As Integer
-'if there is room for an object, get a new object using random numbers to get type
+'if there is room for an object, get a new object using random numbers to get type and location; repeat if location is taken
 If objTileCount < tileCount - 4 Then
     intRand = randInt(1, 100)
     Dim intType As Integer
@@ -5373,6 +5373,7 @@ If objTileCount < tileCount - 4 Then
         If intType <= 60 Then 'Speed: 9%
             tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).objType(1) = "Speed"
         ElseIf intType > 60 And intType <= 90 Then 'Scare: 4.5%
+            'replace scare power-up with yellow coin in multiplayer because it only works on CPU players
             If playMode = "SP" Then
                 tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).objType(1) = "Scare"
             Else

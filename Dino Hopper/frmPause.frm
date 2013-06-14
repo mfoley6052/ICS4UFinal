@@ -97,6 +97,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+'transparency declarations
 Private Declare Function GetWindowLong Lib "user32" Alias "GetWindowLongA" ( _
                 ByVal hWnd As Long, _
                 ByVal nIndex As Long) As Long
@@ -131,6 +132,8 @@ Private Sub Form_Load()
     frmPause.Top = frmMain.Top + 370
     Call ChangeTimers("Pause")
 End Sub
+
+'pause game
 Private Function ChangeTimers(ByVal io As String)
 Dim setVal As Boolean
 Static tempTag(15) As Boolean
@@ -181,12 +184,14 @@ With frmMain
 End With
 End Function
 
+'check if game is to start from pause
 Private Sub Form_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
 If y > lblGo.Top And y < (lblGo.Top + lblGo.Height) And x > lblGo.Left And x < lblGo.Left + lblGo.Width Then
     Call lblGo_Click
 End If
 End Sub
 
+'start from pause
 Public Sub lblGo_Click()
 frmMain.tmrRefresh.Enabled = False
 Call ChangeTimers("Go")
@@ -195,6 +200,7 @@ frmGUI.SetFocus
 Unload Me
 End Sub
 
+'go to menu and end game
 Private Sub lblMenu_Click()
 frmStart.Show
 Call getGameEnd
@@ -208,10 +214,12 @@ Set frmGUI = Nothing
 Unload Me
 End Sub
 
+'get options
 Private Sub lblOpt_Click()
 frmSettings.Show vbModal
 End Sub
 
+'quit game
 Private Sub lblQuit_Click()
 End
 End Sub
