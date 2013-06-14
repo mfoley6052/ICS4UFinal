@@ -5,6 +5,7 @@ Public blnGame As Boolean
 Public selType(0 To 3) As String
 Public picCount(0 To 3) As Integer
 Public strDir(0 To 3) As String
+Public altDir(0 To 3) As String
 Public blnPlayerMoveable(0 To 3) As Boolean
 Public blnEdgeJump(0 To 3) As Boolean
 Public blnBounceJump(0 To 3) As Boolean

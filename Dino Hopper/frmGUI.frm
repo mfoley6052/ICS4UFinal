@@ -14,6 +14,23 @@ Begin VB.Form frmGUI
    ScaleMode       =   3  'Pixel
    ScaleWidth      =   800
    ShowInTaskbar   =   0   'False
+   Begin VB.PictureBox picCyan 
+      Appearance      =   0  'Flat
+      AutoRedraw      =   -1  'True
+      BackColor       =   &H80000005&
+      BorderStyle     =   0  'None
+      ForeColor       =   &H80000008&
+      Height          =   855
+      Left            =   2400
+      Picture         =   "frmGUI.frx":0000
+      ScaleHeight     =   57
+      ScaleMode       =   3  'Pixel
+      ScaleWidth      =   105
+      TabIndex        =   9
+      Top             =   120
+      Visible         =   0   'False
+      Width           =   1575
+   End
    Begin VB.Label lblLives 
       Alignment       =   1  'Right Justify
       AutoSize        =   -1  'True

@@ -615,8 +615,14 @@ If Not byPassClear Then
     End If
 End If
 Static counterC As Integer
+Dim charDir As String
+If altDir(Index) = "" Then
+    charDir = strDir(Index)
+Else
+    charDir = altDir(Index)
+End If
 If strState(Index) = "I" Then
-    If strDir(Index) = "L" Then
+    If charDir = "L" Then
         If Not blnRecover(Index) Or paintMask(tile(curX(Index), curY(Index)), Index) Then
             .PaintPicture .picCharMaskIL.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
         End If
@@ -629,7 +635,7 @@ If strState(Index) = "I" Then
         ElseIf Index = 3 Then
             .PaintPicture .picP4IL.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
         End If
-    ElseIf strDir(Index) = "U" Then
+    ElseIf charDir = "U" Then
         If Not blnRecover(Index) Or paintMask(tile(curX(Index), curY(Index)), Index) Then
             .PaintPicture .picCharMaskIU.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
         End If
@@ -642,7 +648,7 @@ If strState(Index) = "I" Then
         ElseIf Index = 3 Then
             .PaintPicture .picP4IU.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
         End If
-    ElseIf strDir(Index) = "R" Then
+    ElseIf charDir = "R" Then
         If Not blnRecover(Index) Or paintMask(tile(curX(Index), curY(Index)), Index) Then
             .PaintPicture .picCharMaskIR.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
         End If
@@ -655,7 +661,7 @@ If strState(Index) = "I" Then
         ElseIf Index = 3 Then
             .PaintPicture .picP4IR.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
         End If
-    ElseIf strDir(Index) = "D" Then
+    ElseIf charDir = "D" Then
         If Not blnRecover(Index) Or paintMask(tile(curX(Index), curY(Index)), Index) Then
             .PaintPicture .picCharMaskID.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
         End If
@@ -676,7 +682,7 @@ Else
         End If
         Dim frameC As Integer
         frameC = Int((counterC + 1) / 2)
-        If strDir(Index) = "L" Then
+        If charDir = "L" Then
             If Not blnRecover(Index) Or paintMask(tile(curX(Index), curY(Index)), Index) Then
                 .PaintPicture .picCharMaskCL(frameC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
             End If
@@ -689,7 +695,7 @@ Else
             ElseIf Index = 3 Then
                 .PaintPicture .picP4CL(frameC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
             End If
-        ElseIf strDir(Index) = "U" Then
+        ElseIf charDir = "U" Then
             If Not blnRecover(Index) Or paintMask(tile(curX(Index), curY(Index)), Index) Then
                 .PaintPicture .picCharMaskCU(frameC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
             End If
@@ -702,7 +708,7 @@ Else
             ElseIf Index = 3 Then
                 .PaintPicture .picP4CU(frameC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
             End If
-        ElseIf strDir(Index) = "R" Then
+        ElseIf charDir = "R" Then
             If Not blnRecover(Index) Or paintMask(tile(curX(Index), curY(Index)), Index) Then
                 .PaintPicture .picCharMaskCR(frameC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
             End If
@@ -715,7 +721,7 @@ Else
             ElseIf Index = 3 Then
                 .PaintPicture .picP4CR(frameC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
             End If
-        ElseIf strDir(Index) = "D" Then
+        ElseIf charDir = "D" Then
             If Not blnRecover(Index) Or paintMask(tile(curX(Index), curY(Index)), Index) Then
                 .PaintPicture .picCharMaskCD(frameC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
             End If
@@ -731,7 +737,7 @@ Else
         End If
     ElseIf strState(Index) = "J" Then
         counterC = 0
-        If strDir(Index) = "L" Then
+        If charDir = "L" Then
             If Not blnRecover(Index) Or paintMask(tile(curX(Index), curY(Index)), Index) Then
                 .PaintPicture .picCharMaskJL.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
             End If
@@ -744,7 +750,7 @@ Else
             ElseIf Index = 3 Then
                 .PaintPicture .picP4JL.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
             End If
-        ElseIf strDir(Index) = "U" Then
+        ElseIf charDir = "U" Then
             If Not blnRecover(Index) Or paintMask(tile(curX(Index), curY(Index)), Index) Then
                 .PaintPicture .picCharMaskJU.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
             End If
@@ -757,7 +763,7 @@ Else
             ElseIf Index = 3 Then
                 .PaintPicture .picP4JU.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
             End If
-        ElseIf strDir(Index) = "R" Then
+        ElseIf charDir = "R" Then
             If Not blnRecover(Index) Or paintMask(tile(curX(Index), curY(Index)), Index) Then
                 .PaintPicture .picCharMaskJR.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
             End If
@@ -770,7 +776,7 @@ Else
             ElseIf Index = 3 Then
                 .PaintPicture .picP4JR.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
             End If
-        ElseIf strDir(Index) = "D" Then
+        ElseIf charDir = "D" Then
             If Not blnRecover(Index) Or paintMask(tile(curX(Index), curY(Index)), Index) Then
                 .PaintPicture .picCharMaskJD.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
             End If

@@ -68,13 +68,13 @@ If Not blnEdgeJump(Index) Then
                         If Not blnRecover(charIndex) Then
                             Call getJump(charIndex, strDir(Index), evalMove(charIndex, strDir(Index)))
                             If strDir(Index) = "L" Then
-                                strDir(charIndex) = "R"
+                                altDir(charIndex) = "R"
                             ElseIf strDir(Index) = "U" Then
-                                strDir(charIndex) = "D"
+                                altDir(charIndex) = "D"
                             ElseIf strDir(Index) = "R" Then
-                                strDir(charIndex) = "L"
+                                altDir(charIndex) = "L"
                             ElseIf strDir(Index) = "D" Then
-                                strDir(charIndex) = "U"
+                                altDir(charIndex) = "U"
                             End If
                             Call getHurt(charIndex, Index)
                             If Not blnGame Then
@@ -88,13 +88,13 @@ If Not blnEdgeJump(Index) Then
                         If Not blnRecover(charIndex) Then
                             Call getJump(charIndex, strDir(Index), evalMove(charIndex, strDir(Index)))
                             If strDir(Index) = "L" Then
-                                strDir(charIndex) = "R"
+                                altDir(charIndex) = "R"
                             ElseIf strDir(Index) = "U" Then
-                                strDir(charIndex) = "D"
+                                altDir(charIndex) = "D"
                             ElseIf strDir(Index) = "R" Then
-                                strDir(charIndex) = "L"
+                                altDir(charIndex) = "L"
                             ElseIf strDir(Index) = "D" Then
-                                strDir(charIndex) = "U"
+                                altDir(charIndex) = "U"
                             End If
                             Call getHurt(charIndex, Index)
                             If Not blnGame Then
@@ -294,6 +294,10 @@ Dim q As Integer
 With frmMain
 prevX(Index) = curX(Index)
 prevY(Index) = curY(Index)
+If altDir(Index) <> "" Then
+    strDir(Index) = altDir(Index)
+    altDir(Index) = ""
+End If
 strState(Index) = "I"
 frameCounter(Index) = 0
 
