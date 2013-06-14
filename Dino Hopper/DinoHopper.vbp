@@ -1,5 +1,5 @@
 Type=Exe
-Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\..\..\Windows\SysWOW64\stdole2.tlb#OLE Automation
+Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#C:\WINDOWS\system32\STDOLE2.TLB#OLE Automation
 Form=frmMain.frm
 Module=modDataTypes; modDataTypes.bas
 Module=modDrawMap; DrawMap.bas
@@ -20,6 +20,7 @@ Module=modControls; modControls.bas
 Form=frmHiscore.frm
 Module=modScoreWrite; modScoreWrite.bas
 Form=frmHelp.frm
+Object={C1A8AF28-1257-101B-8FB0-0020AF039CA3}#1.1#0; MCI32.OCX
 IconForm="frmMain"
 Startup="frmStart"
 HelpFile=""
