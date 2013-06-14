@@ -19,7 +19,7 @@ If numPlayers <> 1 Then
 End If
 'If the ai isnt already jumping on a player then determine the best move
 If Not blnBounceJump(Index) Then
-    'if the player is to the right and below the ai
+    'if the player is to the left and below the ai
     If curX(Index) > curX(target) And curY(Index) > curY(target) Then
         'If this direction is a possible move
         If evalMove(Index, "L") Then
@@ -33,7 +33,7 @@ If Not blnBounceJump(Index) Then
         Else
             Call getJump(Index, temp, evalMove(Index, temp))
         End If
-    'if player is right and above ai
+    'if player is left and above ai
     ElseIf curX(Index) > curX(target) And curY(Index) < curY(target) Then
         'If this direction is a possible move
         If evalMove(Index, "D") Then
@@ -46,7 +46,7 @@ If Not blnBounceJump(Index) Then
         Else
             Call getJump(Index, temp, evalMove(Index, temp))
         End If
-    'if player is left and below ai
+    'if player is right and below ai
     ElseIf curX(Index) < curX(target) And curY(Index) > curY(target) Then
         'If this direction is a possible move
         If evalMove(Index, "U") Then
@@ -59,7 +59,7 @@ If Not blnBounceJump(Index) Then
         Else
             Call getJump(Index, temp, evalMove(Index, temp))
         End If
-    'if the player is left and above ai
+    'if the player is right and above ai
     ElseIf curX(Index) < curX(target) And curY(Index) < curY(target) Then
         'if the move is possible
         If evalMove(Index, "R") Then
@@ -72,7 +72,7 @@ If Not blnBounceJump(Index) Then
         Else
             Call getJump(Index, temp, evalMove(Index, temp))
         End If
-    
+   'if the player is above the ai and the x values are the same then head in a vertical direction
     ElseIf curY(Index) > curY(target) And curX(Index) = curX(target) Then
         If evalMove(Index, "L") Then
             If Not isScared Then
@@ -83,6 +83,7 @@ If Not blnBounceJump(Index) Then
         Else
             Call getJump(Index, temp, evalMove(Index, temp))
         End If
+    'Do the opposite vertical move of the previous elseif
     ElseIf curY(Index) < curY(target) And curX(Index) = curX(target) Then
         If evalMove(Index, "R") Then
             If Not isScared Then
@@ -93,6 +94,7 @@ If Not blnBounceJump(Index) Then
         Else
             Call getJump(Index, temp, evalMove(Index, temp))
         End If
+    'If the y values are the same, and the playeris left of the ai
     ElseIf curX(Index) > curX(target) And curY(Index) = curY(target) Then
         If evalMove(Index, "D") Then
             If Not isScared Then
