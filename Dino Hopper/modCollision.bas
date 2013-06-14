@@ -3,9 +3,10 @@ Public Sub getHurt(ByVal Index As Integer, ByVal enemyIndex As Integer)
 frmMain.mmcHit.Command = "prev"
 frmMain.mmcHit.Command = "open"
 frmMain.mmcHit.Command = "play"
+'player gets damaged if not recovering
 If blnRecover(Index) = False Then
     If isPlayer(Index) Then
-        'check if all lives lost
+        'check if all lives lost, subtract life if not
         If intLives(Index) > 1 Then
             intLives(Index) = intLives(Index) - 1
         Else
@@ -50,6 +51,7 @@ If blnRecover(Index) = False Then
         End If
         frmMain.tmrStun(Index).Enabled = True
     End If
+    'player is recovering, moveable
     blnRecover(Index) = True
     frmMain.tmrChar(Index).Tag = "Recover"
     Call getPowEffect(Index, "Recover")

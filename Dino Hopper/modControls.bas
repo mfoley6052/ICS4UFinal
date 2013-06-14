@@ -1,5 +1,7 @@
 Attribute VB_Name = "modControls"
+'handler for key presses
 Public Sub keyHandler(ByVal KeyCode As Integer, ByVal Shift As Integer)
+'get index from which keys are pressed (multiplayer)
 Dim playerIndex As Integer
 If KeyCode = key(0) Or KeyCode = key(1) Or KeyCode = key(2) Or KeyCode = key(3) Or KeyCode = key(4) Then
     playerIndex = 0
@@ -8,6 +10,7 @@ ElseIf KeyCode = key(5) Or KeyCode = key(6) Or KeyCode = key(7) Or KeyCode = key
 ElseIf KeyCode = key(10) Or KeyCode = key(11) Or KeyCode = key(12) Or KeyCode = key(13) Or KeyCode = key(14) Then
     playerIndex = 2
 End If
+'if player is moveable, change direction or call a jump if already in that direction (slight differences between modes)
 If blnPlayerMoveable(playerIndex) = True And frameCounter(playerIndex) = 0 Then
     If KeyCode = key(0 + (5 * playerIndex)) Then 'Left
         If gameMode = 0 Then
@@ -57,33 +60,28 @@ If blnPlayerMoveable(playerIndex) = True And frameCounter(playerIndex) = 0 Then
         End If
     End If
 End If
-If KeyCode = 112 Then 'f1
-    If Not blnDebug Then
-        frmDbg.Show
-        blnDebug = True
-    Else
-        frmDbg.Hide
-        blnDebug = False
-    End If
-End If
 End Sub
 
+'key up handler
 Public Sub keyUp(ByVal KeyCode As Integer, ByVal Shift As Integer)
+'call debug (disabled)
 If KeyCode = 123 Then 'F12
-    If frmDbg.Visible = False Then
-        frmDbg.Visible = True
-        frmDbg.Show
-        frmGUI.SetFocus
-    Else
-        frmDbg.Visible = False
-        frmDbg.Hide
-    End If
+    'If frmDbg.Visible = False Then
+        'frmDbg.Visible = True
+        'frmDbg.Show
+        'frmGUI.SetFocus
+    'Else
+        'frmDbg.Visible = False
+        'frmDbg.Hide
+    'End If
+'call settings on f11 press
 ElseIf KeyCode = 122 Then 'F11
         If frmSettings.Visible = False Then
         frmSettings.Visible = True
     Else
         frmSettings.Visible = False
     End If
+'pause on Esc press
 ElseIf KeyCode = 27 Then 'Esc
     frmPause.Show
 End If

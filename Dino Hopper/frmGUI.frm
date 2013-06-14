@@ -238,6 +238,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+'declarations for transparency
 Private Declare Function GetWindowLong Lib "user32" Alias "GetWindowLongA" ( _
                 ByVal hWnd As Long, _
                 ByVal nIndex As Long) As Long
@@ -259,21 +260,25 @@ Private Const WS_EX_LAYERED = &H80000
 Private Const LWA_COLORKEY = &H1
 Private Const LWA_ALPHA = &H2
 
+'send key input to key handler
 Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
 Call keyHandler(KeyCode, Shift)
 End Sub
 
+'send key up input to key up handler
 Private Sub Form_KeyUp(KeyCode As Integer, Shift As Integer)
 Call keyUp(KeyCode, Shift)
 End Sub
 
 Private Sub Form_Load()
+'for transparency
 SetWindowLong Me.hWnd, GWL_EXSTYLE, GetWindowLong(Me.hWnd, GWL_EXSTYLE) Or WS_EX_LAYERED
 SetLayeredWindowAttributes Me.hWnd, vbCyan, 0&, LWA_COLORKEY
 End Sub
 
 Private Sub Form_LostFocus()
-If frmMain.Visible And gameStarted Then
+'if game is started set focus to GUI so it stays above frmMain
+If gameStarted Then
     frmGUI.SetFocus
 End If
 End Sub
