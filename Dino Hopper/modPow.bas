@@ -1,6 +1,8 @@
 Attribute VB_Name = "modPow"
+'power-up effect
 Public Sub getPowEffect(ByVal Index As Integer, ByVal strType As String)
 With frmMain
+'if character had another power-up, end that one
 If .tmrPow(Index).Tag <> "" Then
     Call getPowExpire(Index, .tmrPow(Index).Tag)
 End If
@@ -9,17 +11,22 @@ tmrPowCounter(Index) = 0
 If gameMode = 0 Then
     .tmrPow(Index).Enabled = True
 End If
+'set power-ups to do what they do; play sounds
 If strType = "Scare" Then
     If Index = 0 Then
         isScared = True
-        frmMain.mmcPow(1).Command = "prev"
-        frmMain.mmcPow(1).Command = "open"
-        frmMain.mmcPow(1).Command = "play"
+        If canPlay Then
+            frmMain.mmcPow(1).Command = "prev"
+            frmMain.mmcPow(1).Command = "open"
+            frmMain.mmcPow(1).Command = "play"
+        End If
     End If
 ElseIf strType = "Speed" Then
-    frmMain.mmcPow(0).Command = "prev"
-    frmMain.mmcPow(0).Command = "open"
-    frmMain.mmcPow(0).Command = "play"
+    If canPlay Then
+        frmMain.mmcPow(0).Command = "prev"
+        frmMain.mmcPow(0).Command = "open"
+        frmMain.mmcPow(0).Command = "play"
+    End If
     If gameMode = 0 Then
         .tmrChar(Index).Interval = 20
         If Index > 0 Then
@@ -29,22 +36,22 @@ ElseIf strType = "Speed" Then
         intMoves(Index) = 2
     End If
 ElseIf strType = "Freeze" Then
-    frmMain.mmcPow(2).Command = "prev"
-    frmMain.mmcPow(2).Command = "open"
-    frmMain.mmcPow(2).Command = "play"
     .tmrChar(Index).Tag = strType
 End If
 End With
 End Sub
 
+'power-up has expired
 Public Sub getPowExpire(ByVal Index As Integer, ByVal strPow As String)
 With frmMain
+'if character's recover has ended, set those effects to end
 If strPow = "Recover" Then
     blnRecover(Index) = False
     .tmrChar(Index).Tag = ""
     If gameMode = 0 Then
         .tmrStun(Index).Enabled = False
     End If
+'end power-up effects depending on type of power-up
 ElseIf strPow = "Scare" Then
     isScared = False
 ElseIf strPow = "Speed" Then
@@ -63,6 +70,7 @@ End If
 End With
 End Sub
 
+'tick for power-up; power-up expires when limit is reached
 Public Sub getPowTick(ByVal Index As Integer)
 tmrPowCounter(Index) = tmrPowCounter(Index) + 1
 With frmMain
@@ -82,6 +90,7 @@ End If
 End With
 End Sub
 
+'change terrain type and picture (for ice tiles); treat this type as an object
 Public Sub getChangeTerrain(inputTile As terrain, strType As String, blnKill As Boolean)
 If Not blnKill Then
     inputTile.hasObj = True

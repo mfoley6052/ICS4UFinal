@@ -1,10 +1,11 @@
 Attribute VB_Name = "modStartup"
+'prepare map for game
 Public Sub gameStart()
 With frmGUI
 .Left = frmMain.Left
 .Top = frmMain.Top + 200
 .Visible = True
-'gameMode = 2
+'set timer to enabled and GUI values for every input-controlled player
 For x = numPlayers - 1 To 0 Step -1
     frmMain.tmrChar(x).Enabled = True
     .lblScore(x).Visible = True
@@ -18,6 +19,7 @@ For x = numPlayers - 1 To 0 Step -1
 Next x
 End With
 With frmMain
+'set timer enabled and attack mode/speed for computer playrs
 If numCPU > 0 Then
     For y = 1 To numCPU
         .tmrChar(y).Enabled = True
@@ -30,6 +32,7 @@ defaultTile(1) = tile(0, mapHeight - 1)
 defaultTile(2) = tile(0, 0)
 defaultTile(3) = tile(mapWidth - 1, 0)
 Dim dtVal(0 To 3) As Integer
+'get random default tiles for each character
 For dt = 0 To 3
     If dt > 0 Then
         Dim openVal As Boolean
@@ -49,15 +52,18 @@ For dt = 0 To 3
     Else
         dtVal(dt) = randInt(0, 3)
     End If
+    'set tile values for each player
     prevX(dt) = -1
     prevY(dt) = -1
     curX(dt) = defaultTile(dtVal(dt)).Xc
     curY(dt) = defaultTile(dtVal(dt)).Yc
     nextX(dt) = defaultTile(dtVal(dt)).Xc
     nextY(dt) = defaultTile(dtVal(dt)).Yc
+    'set tile to have a character on it if the character is enabled
     If .tmrChar(dt).Enabled Then
         tile(defaultTile(dtVal(dt)).Xc, defaultTile(dtVal(dt)).Yc).hasChar = True
     End If
+    'choose character directions to face middle based on chosen tile
     If dtVal(dt) = 0 Then
         strDir(dt) = "L"
     ElseIf dtVal(dt) = 1 Then
@@ -67,21 +73,33 @@ For dt = 0 To 3
     ElseIf dtVal(dt) = 3 Then
         strDir(dt) = "D"
     End If
+    blnBounceJump(dt) = False
+    blnEdgeJump(dt) = False
+    'set character sprite location
     spriteX(dt) = defaultTile(dtVal(dt)).x + 25
     spriteY(dt) = defaultTile(dtVal(dt)).y - 15
+    'set characters to moveable and idle, to land jumps at frame 10 and to jump forward
+    blnPlayerMoveable(dt) = True
+    strState(dt) = "I"
+    frameLimit(dt) = 10
+    frameProg(dt) = 1
 Next dt
 .tmrObj.Enabled = True
+'in arcade mode, set objects to appear and expire in real time
 If gameMode = 0 Then
     .tmrObjEvent.Enabled = True
     objExpire = 125
+    'enable CPU timers in real time if the CPU's are enabled
     If numCPU > 0 Then
         For enableCPU = 1 To numCPU
             .tmrCPUMove(enableCPU).Enabled = True
             counterLimit(enableCPU) = 1 'cpu 1 moves every (counterLimit + 1) seconds
         Next enableCPU
     End If
+    'power up time limit
     tmrPowLimit = 20
 Else
+    'for turn-based modes (turn-based, puzzle), set values for expiry and ticks
     objExpire = 8
     tmrPowLimit = 8
     intMoves(0) = 1
@@ -93,36 +111,27 @@ Else
     End If
 End If
 .tmrAlternate.Enabled = True
-blnPlayerMoveable(0) = True
-blnPlayerMoveable(1) = True
-blnPlayerMoveable(2) = True
-blnPlayerMoveable(3) = True
-strState(0) = "I"
-strState(1) = "I"
-strState(2) = "I"
-strState(3) = "I"
-frameLimit(0) = 10
-frameLimit(1) = 10
-frameLimit(2) = 10
-frameLimit(3) = 10
-frameProg(0) = 1
-frameProg(1) = 1
-frameProg(2) = 1
-frameProg(3) = 1
-blnGame = True
+'game is started
+gameStarted = True
+'GUI is displayed on top (GUI form takes key input)
+frmGUI.SetFocus
 End With
 End Sub
 
+'set sprite for characters where players 2, 3, and 4 will have different colours if they are controlled by a player or by CPU
 Private Sub assignSprites(ByVal Index As Integer)
 With frmMain
 Dim strPath As String
 If isPlayer(Index) Then
+    'player 2 is yellow if player-controlled
     If Index = 1 Then
         strPath = "Y\"
+    'player 3 is green if player-controlled
     ElseIf Index = 2 Then
         strPath = "G\"
     End If
 Else
+    'CPU controlled players are different brightnesses of red
     If Index = 1 Then
         strPath = "R1\"
     ElseIf Index = 2 Then
@@ -131,6 +140,7 @@ Else
         strPath = "R3\"
     End If
 End If
+'load all images to their pictureboxes on main form
 If Index = 1 Then
     .picP2IR.Picture = LoadPicture(App.Path & "\Images\Char\" & strPath & "IdleR.gif")
     .picP2CR(1).Picture = LoadPicture(App.Path & "\Images\Char\" & strPath & "Crouch1R.gif")
@@ -198,17 +208,20 @@ End If
 End With
 End Sub
 
+'game end
 Public Sub getGameEnd()
 With frmMain
-gameStarted = False
 numPlayers = 1
 numCPU = 0
+'turn off timers
 .tmrTileAnim.Enabled = False
 .tmrTileAnimDelay.Enabled = False
 .tmrObjEvent.Enabled = False
 .tmrObj.Enabled = False
 .tmrAlternate.Enabled = False
 .tmrRefresh.Enabled = False
+intMoveCount = 0
+'set character values false
 For x = 0 To 3
     blnRecover(x) = False
     tmrPowCounter(x) = False
@@ -226,6 +239,7 @@ For x = 0 To 3
         frmGUI.lblScore(x).Enabled = False
     End If
 Next x
+'set object values false
 Dim curTile As terrain
 For T = 0 To intTileCount
     tileSwitch(T) = False
@@ -236,10 +250,17 @@ For T = 0 To intTileCount
         tile(getTileFromInt(True, T), getTileFromInt(False, T)).hasObj = False
     End If
 Next T
-intMoveCount = 0
-blnGame = False
+'GUI not visible
 frmGUI.Visible = False
+'game is not started
+gameStarted = False
+If canPlay Then
+    frmMain.mmcLose.Command = "prev"
+    frmMain.mmcLose.Command = "open"
+    frmMain.mmcLose.Command = "play"
+End If
 frmMain.picBackground.Picture = picBG
+'paint game over on screen
 frmMain.PaintPicture frmMain.picBackground.Image, 0, 0, frmMain.Width, frmMain.Height, 0, 0, frmMain.Width, frmMain.Height, vbSrcCopy
 frmMain.PaintPicture frmMain.picGameOverMask, frmMain.Width / 2 - frmMain.picGameOver.Width, frmMain.Height / 2 - frmMain.picGameOver.Height, frmMain.picGameOver.Width, frmMain.picGameOver.Height, 0, 0, frmMain.picGameOver.Width, frmMain.picGameOver.Height, vbSrcAnd
 frmMain.PaintPicture frmMain.picGameOver, frmMain.Width / 2 - frmMain.picGameOver.Width, frmMain.Height / 2 - frmMain.picGameOver.Height, frmMain.picGameOver.Width, frmMain.picGameOver.Height, 0, 0, frmMain.picGameOver.Width, frmMain.picGameOver.Height, vbSrcPaint

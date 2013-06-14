@@ -1,8 +1,10 @@
 Attribute VB_Name = "modCollision"
 Public Sub getHurt(ByVal Index As Integer, ByVal enemyIndex As Integer)
-frmMain.mmcHit.Command = "prev"
-frmMain.mmcHit.Command = "open"
-frmMain.mmcHit.Command = "play"
+If canPlay Then
+    frmMain.mmcHit.Command = "prev"
+    frmMain.mmcHit.Command = "open"
+    frmMain.mmcHit.Command = "play"
+End If
 'player gets damaged if not recovering
 If blnRecover(Index) = False Then
     If isPlayer(Index) Then

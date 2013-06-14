@@ -134,6 +134,15 @@ Begin VB.Form frmSettings
       TabIndex        =   13
       Top             =   120
       Width           =   2415
+      Begin VB.CommandButton cmdSounds 
+         Caption         =   "Sounds: ON"
+         Height          =   375
+         Left            =   480
+         TabIndex        =   37
+         Tag             =   "1"
+         Top             =   4560
+         Width           =   1335
+      End
       Begin VB.CommandButton cmdHelp 
          Caption         =   "Help"
          Height          =   375
@@ -365,18 +374,21 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+'Mitchell: I found out puzzle mode has A LOT of glitches. I fixed some but there are still a lot, especially where CPU's will disappear
+'when they jump off edges. I don't know if this might even happen in other modes. Another one is that on the game over screen, you'll see
+'unmasked tiles everywhere and it looks ugly (happened to me multiple times in puzzle mode). Just try your best with this, thanks.
+
 Private Sub cmdDef_Click()
-'Change keys to default keys
 For x = LBound(key) To UBound(key)
     key(x) = DefaultKey(x)
     txtCTR(x).Text = txtCTR(x).Tag
 Next x
 End Sub
-'show help form
+
 Private Sub cmdHelp_Click()
 frmHelp.Show vbModal
 End Sub
-'Allows editing/saves key bindings
+
 Private Sub cmdMap_Click()
 If cmdMap.Tag = "lock" Then
     cmdMap.Tag = "edit"
@@ -392,12 +404,26 @@ Else
     cmdMap.Caption = "Rebind Keys"
 End If
 End Sub
-'shows hiscores form
+
 Private Sub cmdScores_Click()
 frmHiscore.Show vbModal
 Me.Hide
 End Sub
-'displays default keys
+
+Private Sub cmdSounds_Click()
+If cmdSounds.Tag = 1 Then
+    cmdSounds.Tag = 0
+    cmdSounds.Caption = "Sounds: OFF"
+    canPlay = False
+    frmStart.mmcTitle.Command = "stop"
+Else
+    cmdSounds.Caption = "Sounds: ON"
+    canPlay = True
+    cmdSounds.Tag = 1
+    frmStart.mmcTitle.Command = "play"
+End If
+End Sub
+
 Private Sub Form_Load()
 For x = txtCTR.LBound To txtCTR.UBound
     If key(x) <> DefaultKey(x) Then
@@ -411,7 +437,5 @@ End Sub
 Private Sub txtCTR_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
 key(Index) = KeyCode
 txtCTR(Index).Enabled = False
-'this doesnt do what i wanted it to, i wanted it to show the key name of the key you pressed, this is the best i could find.
 txtCTR(Index).Text = Chr(KeyCode)
-'MsgBox (KeyCode & ": " & Chr(KeyCode))
 End Sub

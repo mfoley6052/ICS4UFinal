@@ -1,6 +1,8 @@
 Attribute VB_Name = "modMovement"
+'execute character jump (or any other action)
 Public Sub charAction(ByVal Index As Integer, nextTile As terrain)
 If blnDebug Then
+    'debug data for character locations if debug is activated
     With frmDbg
     .lblTest(0) = "P1 curTile: (" & curX(0) & ", " & curY(0) & ")"
     .lblTest(1) = "P1 nextTile: (" & nextX(0) & ", " & nextY(0) & ")"
@@ -13,64 +15,79 @@ If blnDebug Then
     End With
 End If
 If frameCounter(Index) = 1 Then
-    If frameProg(Index) = 1 Then
-        'frmMain.mmcJump.Command = "prev"
-        'frmMain.mmcJump.Command = "open"
-        'frmMain.mmcJump.Command = "play"
-    End If
-    strState(Index) = "C"
+    strState(Index) = "C" 'character is crouching on frame 1
 ElseIf frameCounter(Index) = 5 Then
-    strState(Index) = "J"
+    strState(Index) = "J" 'character is jumping on frame 5 and on
 End If
+'if game mode isn't 0 then target value is set to -1 so it isn't use with an index
 If gameMode <> 0 Then
     targIndex(Index) = -1
 End If
+'if not jumping off edge
 If Not blnEdgeJump(Index) Then
+    'get new location for character in jump
     If gameMode = 0 Then
         Call getCharJumpAnim(Index, frameCounter(Index), tile(curX(Index), curY(Index)), nextTile.x, nextTile.y)
     End If
     For charIndex = 0 To 3
         With frmMain
         If charIndex <> Index And .tmrChar(charIndex).Enabled Then
+            'character and target are jumping to same tile
             If nextX(Index) = nextX(charIndex) And nextY(Index) = nextY(charIndex) And gameMode <> 0 Then
+                'if character at higher tile than target, jump on character
                 If curY(Index) < curY(charIndex) Then
                     targIndex(Index) = charIndex
                     Call getCharJumpAnim(Index, frameCounter(Index), tile(curX(Index), curY(Index)), nextTile.x, spriteY(targIndex(Index)))
+                'character collision in puzzle mode
                 ElseIf gameMode = 1 And curY(Index) = curY(charIndex) Then
+                    'index character jumps back to its tile (set to reverse)
                     If frameCounter(Index) = 9 Then
                         frameProg(Index) = -1
                     End If
                     Call getCharJumpAnim(Index, frameCounter(Index), tile(curX(Index), curY(Index)), nextTile.x, nextTile.y)
+                'character hit in turn-based mode
                 ElseIf gameMode = 2 And curY(Index) > curY(charIndex) Then
                     If frameCounter(Index) = 9 Then
                         frameProg(Index) = -1
-                        Call getHurt(Index, charIndex)
-                        If Not blnGame Then
-                            Exit Sub
-                        End If
-                    End If
-                End If
-            ElseIf gameMode = 0 And frameCounter(Index) = 9 Then
-                If nextX(Index) = curX(charIndex) And nextY(Index) = curY(charIndex) Then
-                    frameProg(Index) = -1
-                    If frameCounter(charIndex) > 5 Then
-                        If (strDir(Index) = "L" And strDir(charIndex) = "R") Or (strDir(Index) = "U" And strDir(charIndex) = "D") Or (strDir(Index) = "R" And strDir(charIndex) = "U") Or (strDir(Index) = "D" And strDir(charIndex) = "U") Then
-                            frameProg(charIndex) = -1
-                        End If
+                        'target is damaged if not recovering
                         If Not blnRecover(charIndex) Then
-                            Call getHurt(charIndex, Index)
-                            If Not blnGame Then
+                            Call getHurt(Index, charIndex)
+                            'this ends the sub to end codes when a game over is reached
+                            If Not gameStarted Then
                                 Exit Sub
                             End If
                         End If
+                    End If
+                End If
+            'arcade mode and character is at frame 9
+            ElseIf gameMode = 0 And frameCounter(Index) = 9 Then
+                'characters jumping to same tile
+                If nextX(Index) = curX(charIndex) And nextY(Index) = curY(charIndex) Then
+                    frameProg(Index) = -1
+                    'target has started jumping too
+                    If frameCounter(charIndex) > 5 Then
+                        'target moves back if facing attacking character
+                        If (strDir(Index) = "L" And strDir(charIndex) = "R") Or (strDir(Index) = "U" And strDir(charIndex) = "D") Or (strDir(Index) = "R" And strDir(charIndex) = "U") Or (strDir(Index) = "D" And strDir(charIndex) = "U") Then
+                            frameProg(charIndex) = -1
+                        End If
+                        'target is damaged if not recovering
+                        If Not blnRecover(charIndex) Then
+                            Call getHurt(charIndex, Index)
+                            If Not gameStarted Then
+                                Exit Sub
+                            End If
+                        End If
+                        'if characters collide (target jumped at same time), character is damaged if not recovering
                         If Not blnRecover(Index) And frameCounter(charIndex) = 9 Then
                             Call getHurt(Index, charIndex)
-                            If Not blnGame Then
+                            If Not gameStarted Then
                                 Exit Sub
                             End If
                         End If
                     Else
+                        'target is on ground
                         If Not blnRecover(charIndex) Then
+                            'character is set to get pushed backward to the tile behind
                             Call getJump(charIndex, strDir(Index), evalMove(charIndex, strDir(Index)))
                             If strDir(Index) = "L" Then
                                 altDir(charIndex) = "R"
@@ -81,15 +98,17 @@ If Not blnEdgeJump(Index) Then
                             ElseIf strDir(Index) = "D" Then
                                 altDir(charIndex) = "U"
                             End If
-                            Call getHurt(charIndex, Index)
-                            If Not blnGame Then
-                                Exit Sub
+                            If Not blnRecover(charIndex) Then
+                                Call getHurt(charIndex, Index)
+                                If Not gameStarted Then
+                                    Exit Sub
+                                End If
                             End If
                             frameCounter(charIndex) = 6
                         End If
                     End If
                 ElseIf nextX(Index) = nextX(charIndex) And nextY(Index) = nextY(charIndex) Then 'going toward same tile
-                    If frameCounter(Index) < frameCounter(charIndex) Then 'current char ahead of charIndex char
+                    If frameCounter(Index) < frameCounter(charIndex) Then 'character ahead of target
                         If Not blnRecover(charIndex) Then
                             Call getJump(charIndex, strDir(Index), evalMove(charIndex, strDir(Index)))
                             If strDir(Index) = "L" Then
@@ -101,15 +120,17 @@ If Not blnEdgeJump(Index) Then
                             ElseIf strDir(Index) = "D" Then
                                 altDir(charIndex) = "U"
                             End If
-                            Call getHurt(charIndex, Index)
-                            If Not blnGame Then
-                                Exit Sub
+                            If Not blnRecover(charIndex) Then
+                                Call getHurt(charIndex, Index)
+                                If Not gameStarted Then
+                                    Exit Sub
+                                End If
                             End If
                             frameCounter(charIndex) = 6
                         Else
                             frameProg(Index) = -1
                             Call getHurt(Index, charIndex)
-                            If Not blnGame Then
+                            If Not gameStarted Then
                                 Exit Sub
                             End If
                         End If
@@ -118,29 +139,40 @@ If Not blnEdgeJump(Index) Then
                         frameProg(charIndex) = -1
                         If Not blnRecover(Index) Then
                             Call getHurt(Index, charIndex)
-                            If Not blnGame Then
+                            If Not gameStarted Then
                                 Exit Sub
                             End If
                         End If
                         If Not blnRecover(charIndex) Then
                             Call getHurt(charIndex, Index)
-                            If Not blnGame Then
+                            If Not gameStarted Then
                                 Exit Sub
                             End If
                         End If
                     End If
                 End If
+                'target is jumping to character's tile current and character is moving backward, push target back to avoid a glitch
+            ElseIf gameMode = 1 And curX(Index) = nextX(charIndex) And curY(Index) = nextY(charIndex) And frameProg(Index) < 0 Then
+                'index character jumps back to its tile (set to reverse)
+                If frameCounter(Index) = 9 Then
+                    frameProg(Index) = -1
+                End If
+                Call getCharJumpAnim(Index, frameCounter(Index), tile(curX(Index), curY(Index)), nextTile.x, nextTile.y)
             End If
         End If
         End With
     Next charIndex
+    'if character has no target, jump to tile as normal
     If targIndex(Index) < 0 Then
         Call getCharJumpAnim(Index, frameCounter(Index), tile(curX(Index), curY(Index)), tile(nextX(Index), nextY(Index)).x, tile(nextX(Index), nextY(Index)).y)
     End If
+    'paint character sprite
     Call PaintCharSprite(Index, spriteX(Index), spriteY(Index), False)
+    'character is idle at frame 10
     If frameCounter(Index) = 10 Then
         strState(Index) = "I"
     End If
+    'if frame limit is reached, get jump completion or tick completion depending on mode
     If (frameCounter(Index) = frameLimit(Index)) Or (frameProg(Index) < 0 And frameCounter(Index) <= 5) Then
         If gameMode = 0 Then
             Call getJumpComplete(Index)
@@ -152,13 +184,14 @@ If Not blnEdgeJump(Index) Then
         ElseIf gameMode = 2 Then
             Call getTickComplete(Index)
         End If
-    Else
+    Else 'if not reached, next frame
         frameCounter(Index) = frameCounter(Index) + frameProg(Index)
     End If
 Else 'jump off edge
     Dim curTile As terrain
     curTile = tile(curX(Index), curY(Index))
     Dim altTile As terrain
+    'get painting for jumping off edges in each direction
     If strDir(Index) = "L" Then
         Call getCharJumpAnim(Index, frameCounter(Index), tile(curX(Index), curY(Index)), tile(curX(Index), curY(Index)).x - 50, tile(curX(Index), curY(Index)).y - 75)
         If curY(Index) = 0 Then
@@ -210,9 +243,12 @@ Else 'jump off edge
         End If
         Call PaintCharSprite(Index, spriteX(Index), spriteY(Index), False)
     End If
+    'if edge jump frame limit reached (normal limit * 1.6), set character to go to next tile (tile jumped from if recovering, respawn tile if not)
     If frameCounter(Index) = frameLimit(Index) * 1.6 Then
+        'set character to new coordinates
         spriteX(Index) = tile(nextX(Index), nextY(Index)).x + 25
         spriteY(Index) = tile(nextX(Index), nextY(Index)).y - 15
+        'get jump complete or tick complete
         If gameMode = 0 Then
             Call getJumpComplete(Index)
             frameProg(Index) = 1
@@ -223,17 +259,19 @@ Else 'jump off edge
         ElseIf gameMode = 2 Then
             Call getTickComplete(Index)
         End If
-    Else
+    Else 'if not, next frame
         frameCounter(Index) = frameCounter(Index) + frameProg(Index)
     End If
 End If
 End Sub
 
+'get character jump
 Public Function getJump(ByVal Index As Integer, ByVal strDirJ As String, ByVal blnTile As Boolean)
 With frmMain
     If frameCounter(Index) = 0 Then
         strDir(Index) = strDirJ
         blnEdgeJump(Index) = Not blnTile
+        'if character can jump, set next tiles and direction change
         If (gameMode = 0 And blnPlayerMoveable(Index)) Or (gameMode <> 0 And blnMoveOnTick(Index)) Then
             blnPlayerMoveable(Index) = False
             If blnTile Then
@@ -270,9 +308,11 @@ With frmMain
                     End If
                     nextY(Index) = curY(Index) + 1
                 End If
+            'set char to move to respawn tile if jumping off edge
             ElseIf Not blnRecover(Index) Then
                 Call setCharRespawn(Index, tile(curX(Index), curY(Index)))
             End If
+            'if arcade mode, set character to begin jump animation
             If gameMode = 0 Then
                 frameCounter(Index) = 1
             End If
@@ -280,6 +320,8 @@ With frmMain
     End If
 End With
 End Function
+
+'get a random direction
 Public Function randDir() As String
 Dim temp As Integer
 temp = Int(Rnd() * 4) + 1
@@ -293,58 +335,73 @@ Else
     randDir = "D"
 End If
 End Function
+
+'get jump completion
 Public Sub getJumpComplete(ByVal Index As Integer)
 Dim Pscore As Long
 Dim q As Integer
 With frmMain
+'set previous tile coordinates
 prevX(Index) = curX(Index)
 prevY(Index) = curY(Index)
+'if character is not facing the direction it jumped, character changes to the direction it was facing
 If altDir(Index) <> "" Then
     strDir(Index) = altDir(Index)
     altDir(Index) = ""
 End If
+
 strState(Index) = "I"
 frameCounter(Index) = 0
 
+'if character has moved
 If nextX(Index) <> curX(Index) Or nextY(Index) <> curY(Index) Then
     tile(curX(Index), curY(Index)).hasChar = False
 End If
+'if jump is the character bouncing off another, character can move and last tile has a character
 If blnBounceJump(Index) Then
     blnBounceJump(Index) = False
     tile(prevX(Index), prevY(Index)).hasChar = True
     blnPlayerMoveable(Index) = True
+'if not a bounce jump and mode is not turn based and character has no target, character can move
 ElseIf gameMode <> 2 Or targIndex(Index) < 0 Then
     blnPlayerMoveable(Index) = True
 End If
+'if jumping off edge, its tile has no character and damage character
 If blnEdgeJump(Index) Then
     tile(curX(Index), curY(Index)).hasChar = False
     Call getHurt(Index, Index)
-    If Not blnGame Then
+    If Not gameStarted Then
         Exit Sub
     End If
 End If
 
+'if character is moving backward in arcade mode, set next coordinate to its last tile
 If gameMode = 0 And frameProg(Index) <= 0 Then
     nextX(Index) = curX(Index)
     nextY(Index) = curY(Index)
 End If
 
+'set current coordinate to next coordinates
 curX(Index) = nextX(Index)
 curY(Index) = nextY(Index)
 
 Dim inputTile As terrain
 inputTile = tile(curX(Index), curY(Index))
 
+'current tile has a character
 tile(curX(Index), curY(Index)).hasChar = True
+'player-oriented updates (sounds, add points, object scores, etc.)
 If isPlayer(Index) Then
     If inputTile.hasObj Then
         Dim blnMulti As Boolean
         Dim blnLives As Boolean
         If inputTile.objType(0) = "Coin" Then
             'play coin sound
-            frmMain.mmcCoin.Command = "prev"
-            frmMain.mmcCoin.Command = "open"
-            frmMain.mmcCoin.Command = "play"
+            If canPlay Then
+                frmMain.mmcCoin.Command = "prev"
+                frmMain.mmcCoin.Command = "open"
+                frmMain.mmcCoin.Command = "play"
+            End If
             If inputTile.objType(1) = "Y" Then
                 Pscore = 100
             ElseIf inputTile.objType(1) = "R" Then
@@ -379,6 +436,7 @@ If isPlayer(Index) Then
     Call refreshLabels(Index, True, blnLives, blnMulti)
 Else
 End If
+'collect object
 If inputTile.hasObj Then
     If inputTile.objType(0) <> "Terrain" Then
         strState(Index) = "I"
@@ -387,18 +445,21 @@ If inputTile.hasObj Then
             Call getPowEffect(Index, inputTile.objType(1))
         End If
     Else
+        'jump again on an ice tile
         If inputTile.objType(1) = "I" Then
             Call getJump(Index, strDir(Index), evalMove(Index, strDir(Index)))
             frameCounter(Index) = 1
         End If
     End If
 End If
+'as long as character is not bouncing on another, set last tile to clear the select image
 If Not blnBounceJump(Index) Then
     blnClearPrevTile(Index) = True
 End If
 End With
 End Sub
 
+'return whether a given direction will take a given character to a tile or off the edge
 Public Function evalMove(ByVal Index As Integer, ByVal strDirMove As String) As Boolean
 If strDirMove = "L" Then
     If oddRow(curY(Index)) Then
@@ -453,6 +514,7 @@ ElseIf strDirMove = "D" Then
 End If
 End Function
 
+'check and return whether all characters have jumped
 Public Function checkTickComplete() As Boolean
 checkTickComplete = True
 With frmMain
@@ -476,27 +538,37 @@ Next checkCharJump
 End With
 End Function
 
+'get a complete tick ,call jump complete for a given character
+'also call tick for next character as long as it isn't player-controlled and able to move
 Public Sub getTickComplete(ByVal Index As Integer)
 With frmMain
 If .tmrChar(Index).Enabled And blnMoveOnTick(Index) Then
+    'if moving backward, set to move forward and set next tile to current tile
     If frameProg(Index) < 0 Then
         frameProg(Index) = 1
         nextX(Index) = curX(Index)
         nextY(Index) = curY(Index)
     End If
     Call getJumpComplete(Index)
-    If Not blnBounceJump(Index) And targIndex(Index) >= 0 Then
+    'if character has a target, get bounce jump and target can't move for the next turn
+    If targIndex(Index) >= 0 Then
         blnBounceJump(Index) = True
         If Not blnRecover(targIndex(Index)) Then
             Call getHurt(targIndex(Index), Index)
-            If Not blnGame Then
+            If Not gameStarted Then
                 Exit Sub
             End If
         End If
-        intMoves(targIndex(Index)) = intMoves(targIndex(Index)) - 1
-        Call getTick(Index)
-        'Call getJump(Index, strDir(Index), evalMove(Index, strDir(Index)))
-        'frameCounter(Index) = 1
+        If gameMode = 2 Then
+            'for turn-based mode
+            intMoves(targIndex(Index)) = intMoves(targIndex(Index)) - 1 'target can't move the turn after being jumped on
+            Call getTick(Index) 'get tick
+        ElseIf curX(Index) = curX(targIndex(Index)) And curY(Index) = curY(targIndex(Index)) Then
+            'for puzzle mode, get jump (if char is on top of target)
+            Call getJump(Index, strDir(Index), evalMove(Index, strDir(Index)))
+            frameCounter(Index) = 1
+        End If
+    'for turn based mode, next player-controlled character can move if fast enough, otherwise skip turn (get tick)
     ElseIf gameMode = 2 And Index < 3 Then
         blnMoveOnTick(Index) = False
         If isPlayer(Index + 1) And (intMoves(Index) <= intMoves(Index + 1) Or intMoveCount > 0) Then
@@ -509,17 +581,19 @@ End If
 End With
 End Sub
 
+'get a tick for turn-based modes
 Public Sub getTick(Optional Index As Integer)
 Dim loopMin As Integer
 Dim loopMax As Integer
-If gameMode = 1 Then
+If gameMode = 1 Then 'arcade mode uses one tick and executes all movements
     Index = -1
     loopMin = 0
     loopMax = 3
-ElseIf gameMode = 2 Then
+ElseIf gameMode = 2 Then 'turn-based mode uses one index per tick and goes through one character per call
     loopMin = Index
     loopMax = Index
     With frmMain
+    'disable character move if not enabled
     For disableMove = 0 To 3
         If disableMove <> Index And .tmrChar(disableMove).Enabled Then
             blnMoveOnTick(disableMove) = False
@@ -530,14 +604,16 @@ End If
 With frmMain
 Dim highestMove As Integer 'highest move count out of all characters
 highestMove = 1 'set highest move to default
+'check for highest move and set it
 For moveCheck = 0 To 3
-    If .tmrChar(moveCheck).Enabled Then 'check for highest move and set it
+    If .tmrChar(moveCheck).Enabled Then
         If intMoves(moveCheck) > highestMove Then
             highestMove = intMoves(moveCheck)
         End If
     End If
 Next moveCheck
-For moveCheck2 = loopMin To loopMax 'disable blnMove for characters that are not set to move according to higher character speeds
+'disable move for characters that are not set to move according to higher character speeds, enable otherwise (as long as they are enabled)
+For moveCheck2 = loopMin To loopMax
     If intMoves(moveCheck2) < highestMove - intMoveCount Then
         blnMoveOnTick(moveCheck2) = False
         If gameMode = 2 And (intMoves(moveCheck2) = 0 Or (.tmrPow(moveCheck2).Tag = "Speed" And intMoves(moveCheck2) = 1)) Then
@@ -547,25 +623,27 @@ For moveCheck2 = loopMin To loopMax 'disable blnMove for characters that are not
         blnMoveOnTick(moveCheck2) = True
     End If
 Next moveCheck2
-If Not blnBounceJump(Index) Or gameMode = 1 Then
-    For setMove = loopMin To loopMax
-        If isPlayer(setMove) Then 'if setMove is a player, call getJump (direction change and next values set)
-            If gameMode = 1 Or blnMoveOnTick(setMove) Then
-                Call getJump(setMove, strDir(setMove), evalMove(setMove, strDir(setMove)))
+For setmove = loopMin To loopMax
+    'if not bounce jumping in turn-based or in puzzle, characters get next tile values
+    If Not blnBounceJump(setmove) Or gameMode = 1 Then
+        If isPlayer(setmove) Then 'if setMove is a player, call getJump (direction change and next values set)
+            If gameMode = 1 Or blnMoveOnTick(setmove) Then
+                Call getJump(setmove, strDir(setmove), evalMove(setmove, strDir(setmove)))
             End If
-        ElseIf gameMode = 1 Or (gameMode = 2 And blnMoveOnTick(setMove)) Then
-            Call cpuAI(setMove) 'if computer player, call AI (direction change and next values)
+        ElseIf gameMode = 1 Or (gameMode = 2 And blnMoveOnTick(setmove)) Then
+            Call cpuAI(setmove) 'if computer player, call AI (direction change and next values)
         End If
-    Next setMove
-Else
-    blnMoveOnTick(Index) = True
-    Call getJump(Index, strDir(Index), evalMove(Index, strDir(Index)))
-End If
-For moveCheck3 = loopMin To loopMax
-    If blnMoveOnTick(moveCheck3) Then 'if character can move
-        For checkTarg = 0 To 3
-            If checkTarg <> moveCheck3 And .tmrChar(checkTarg).Enabled Then 'if index is different and checkTarg char is active
-                If gameMode = 1 Then
+    Else 'if bounce jumping in turn-based mode, character set to jump
+        blnMoveOnTick(setmove) = True
+        Call getJump(setmove, strDir(setmove), evalMove(setmove, strDir(setmove)))
+    End If
+Next setmove
+'in puzzle mode, characters can't move if they are being jumped on and are trying to jump towards an attacking character
+If gameMode = 1 Then
+    For moveCheck3 = loopMin To loopMax
+        If blnMoveOnTick(moveCheck3) Then 'if character can move
+            For checkTarg = 0 To 3
+                If checkTarg <> moveCheck3 And .tmrChar(checkTarg).Enabled Then 'if index is different and checkTarg char is active
                     'if checkMove3 char and checkTarg char are moving toward eachother
                     If nextX(moveCheck3) = curX(checkTarg) And nextY(moveCheck3) = curY(checkTarg) And curX(moveCheck3) = nextX(checkTarg) And curY(moveCheck3) = nextY(checkTarg) Then
                         If curY(moveCheck3) < curY(checkTarg) Then 'if checkTarg char is lower on map
@@ -573,10 +651,10 @@ For moveCheck3 = loopMin To loopMax
                         End If
                     End If
                 End If
-            End If
-        Next checkTarg
-    End If
-Next moveCheck3
+            Next checkTarg
+        End If
+    Next moveCheck3
+End If
 For getMove = loopMin To loopMax 'get movement (or not)
     If .tmrPow(getMove).Tag <> "" Then 'if corresponding pow timer has a tag (power-up activated), call a tick
         Call getPowTick(getMove)
@@ -594,20 +672,23 @@ For getMove = loopMin To loopMax 'get movement (or not)
             blnPlayerMoveable(getMove) = True
             If Index < 3 Then
                 If isPlayer(Index + 1) Then
+                    'next player-controlled character can move if it is fast enough
                     If intMoves(Index + 1) >= highestMove - intMoveCount Then
                         blnMoveOnTick(Index + 1) = True
                     Else
+                        'call a tick (skip char) if not fast enough
                         Call getTick(Index + 1)
                     End If
                 Else
-                    Call getTick(Index + 1)
+                    Call getTick(Index + 1) 'call tick for CPU players
                 End If
             End If
         End If
     End If
 Next getMove
+'if all characters have made their moves
 If gameMode = 1 Or (gameMode = 2 And Index = 3) Then
-    intMoveCount = intMoveCount + 1 'move count increases by one
+    intMoveCount = intMoveCount + 1
     If highestMove - intMoveCount <= 0 Then 'reset intMoveCount if it, subtracted from the highest move, is below default speed
         intMoveCount = 0
     End If
@@ -619,7 +700,7 @@ If gameMode = 1 Or (gameMode = 2 And Index = 3) Then
         Next T
         Call .tmrObjEvent_Timer 'call an object to appear
     End If
-    If gameMode = 2 Then
+    If gameMode = 2 Then 'for turn-based mode, get starting character if player 1 is not guarenteed to be moveable
         If intMoveCount = highestMove - 1 Or highestMove = 1 Then
             blnMoveOnTick(0) = True
         Else

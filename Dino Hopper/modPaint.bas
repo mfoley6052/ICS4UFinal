@@ -284,8 +284,9 @@ If Not tileInput.hasObj Or Not bypassForObj Then
             End If
         End If
     End If
+'caller of function isn't an object but tile has object
 ElseIf bypassForObj And tileInput.hasObj Then
-    'paint tile
+    'paint full tile and object over top
     .picBackground.PaintPicture tilePic.Image, tileInput.x, tileInput.y, 100, 100, 0, 0, 100, 100, vbSrcCopy
     .picBuffer.PaintPicture tilePic.Image, 0, 0, 100, 100, 0, 0, 100, 100, vbSrcCopy
     .PaintPicture tileInput.picMask.Image, tileInput.x, tileInput.y, 100, 100, 0, 0, 100, 100, vbSrcAnd
@@ -295,7 +296,8 @@ End If
 End With
 End Sub
 
-Public Sub clearVoid(tileInput As terrain, ByVal blnL As Boolean, ByVal blnR As Boolean, Optional callID As String) 'clear empty spots on map
+'clear the void area on the corners of tiles that don't touch other tiles (left, right, or all top area is covered based on boolean values given)
+Public Sub clearVoid(tileInput As terrain, ByVal blnL As Boolean, ByVal blnR As Boolean, Optional callID As String)
 With frmMain
     If blnL And blnR Then
         .PaintPicture picBG, tileInput.x, tileInput.y - 99, 100, 25, tileInput.x, tileInput.y - 99, 100, 25, vbSrcCopy
@@ -314,10 +316,12 @@ With frmMain
 End With
 End Sub
 
+'clear top of tile
 Public Sub clearTileTop(tileInput As terrain, ByVal blnObjMask As Boolean, Optional callID As String)
 Dim tilePic As Object
 Set tilePic = tileInput.picTile
 With frmMain
+'if not painting with an object mask, paint area based on call code (paints top left, top right, or full top)
 If Not blnObjMask Then
     If tileInput.Yc = 0 Then
         .picBackground.PaintPicture tilePic.Image, tileInput.x, tileInput.y, 100, 50, 0, 0, 100, 50, vbSrcCopy
@@ -357,7 +361,7 @@ If Not blnObjMask Then
     Else
         .PaintPicture .picBuffer.Image, tileInput.x, tileInput.y, 100, 50, 0, 0, 100, 50, vbSrcPaint
     End If
-Else
+Else 'paint with object mask (only cover object)
     .picBackground.PaintPicture tilePic.Image, tileInput.x + tileInput.objXOffset, tileInput.y, 100 - (tileInput.objXOffset * 2), 50, tileInput.objXOffset, 0, 100 - (tileInput.objXOffset * 2), 50, vbSrcCopy
     .picBuffer.PaintPicture tilePic.Image, 0, 0, 100 - (tileInput.objXOffset * 2), 50, tileInput.objXOffset, 0, 100 - (tileInput.objXOffset * 2), 50, vbSrcCopy
     .PaintPicture tileInput.objMask.Image, tileInput.x + tileInput.objXOffset, tileInput.y, 100 - (tileInput.objXOffset * 2), 50, 0, 0, 100 - (tileInput.objXOffset * 2), 50, vbSrcAnd
@@ -370,11 +374,12 @@ End If
 End With
 End Sub
 
+'paint an object on a given tile
 Public Function PaintObj(ByVal strObjType As String, ByVal strType As String, ByVal intFrame As Integer, ByVal intObjX As Integer, ByVal intObjY As Integer, ByVal killObj As Boolean)
 Dim intXOffset As Integer
 Dim intYOffset As Integer
 Dim intFrameOffset As Integer
-If Not killObj Then 'if object has not expired
+If Not killObj Then 'if object has not expired, set values based on object type
     If strObjType = "Coin" Then
         tile(intObjX, intObjY).objXOffset = 41
         tile(intObjX, intObjY).objYOffset = 0
@@ -417,8 +422,10 @@ If Not killObj Then 'if object has not expired
         End If
     End If
 End If
+'set coordinate offsets (y offset not used)
 intXOffset = tile(intObjX, intObjY).objXOffset
 intYOffset = tile(intObjX, intObjY).objYOffset
+'clear tile area for object so the old frame is covered
 If (gameMode = 0 And tile(intObjX, intObjY).objTimer > 0) Or (gameMode <> 0 And (intFrame > 0)) Or killObj Then
     Call clearVoid(tile(intObjX, intObjY), checkClearVoid(tile(intObjX, intObjY), True, False), checkClearVoid(tile(intObjX, intObjY), False, True), "ObjXY")
     If checkClearVoid(tile(intObjX, intObjY), True, False) Then
@@ -430,7 +437,7 @@ If (gameMode = 0 And tile(intObjX, intObjY).objTimer > 0) Or (gameMode <> 0 And 
     Call clearTile(tile(intObjX, intObjY), False, -1, "ObjXY")
 End If
 With frmMain
-If Not killObj Then 'if object has not expired
+If Not killObj Then 'if object has not expired, set picture values based on objct type
     If strObjType = "Coin" Then
         'set coin pictures
         Set tile(intObjX, intObjY).objMask = .picCoinMask(intFrame + intFrameOffset)
@@ -464,6 +471,7 @@ If Not killObj Then 'if object has not expired
         End If
     End If
 End If
+'clear tiles object is touching so that all parts of old frame still remaining are cleared
 If intObjY > 0 Then
     If oddRow(intObjY) Then
         If intObjX <= mapWidth - 1 Then
@@ -484,11 +492,13 @@ Else
     Call clearVoid(tile(intObjX, intObjY), True, True, "ObjTopXY")
     Call clearTile(tile(intObjX, intObjY), False, -1, "ObjTopXY")
 End If
+'paint character if character is jumping to an object as previous clears have covered areas of the sprite
 For charPaint = 0 To 3
     If frmMain.tmrChar(charPaint).Enabled And nextX(charPaint) = intObjX And nextY(charPaint) = intObjY Then
         Call PaintCharSprite(charPaint, spriteX(charPaint), spriteY(charPaint), True)
     End If
 Next charPaint
+'if object is not being killed and is not a terrain, paint it with the given picture values
 If Not killObj And strObjType <> "Terrain" Then
     If paintMask(tile(intObjX, intObjY), -1) Then 'if mask is to be painted, paint it
         .PaintPicture tile(intObjX, intObjY).objMask.Image, tile(intObjX, intObjY).x + intXOffset, tile(intObjX, intObjY).y + intYOffset, 100, 100, 0, 0, 100, 100, vbSrcAnd
@@ -512,6 +522,8 @@ If Not killObj And strObjType <> "Terrain" Then
 End If
 End With
 End Function
+
+'paint selector (tile outline when character is on it)
 Public Function PaintSelector(ByVal Index As Integer, ByVal imgIndex As Integer) As Integer
 'paint over last sel
 If blnClearPrevTile(Index) = True Then
@@ -520,7 +532,7 @@ If blnClearPrevTile(Index) = True Then
 End If
 'paint over frame
 Call clearTile(tile(curX(Index), curY(Index)), True, Index, "SelXY")
-'paint sel
+'paint sel with color dependant on whether player is input-controlled or a CPU
 With frmMain
     If isPlayer(Index) Then
         .PaintPicture .picSelMask(imgIndex).Image, tile(curX(Index), curY(Index)).x, tile(curX(Index), curY(Index)).y, 100, 100, 0, 0, 100, 100, vbSrcAnd
@@ -532,8 +544,11 @@ With frmMain
 End With
 End Function
 
+
+'paint character sprite
 Public Sub PaintCharSprite(ByVal Index As Integer, ByVal charX As Integer, ByVal charY As Integer, ByVal byPassClear As Boolean)
 With frmMain
+'if call is not set to skip clears, clear tile area on previous frame
 If Not byPassClear Then
     'clear tiles character may be touching
     If curY(Index) > 0 Then
@@ -553,6 +568,7 @@ If Not byPassClear Then
             End If
         End If
     End If
+    'if character is set to jump to another tile, clear tiles that the sprite will touch to remove previous sprite
     If (curX(Index) <> nextX(Index) Or curY(Index) <> nextY(Index)) Then
         Call clearTile(tile(nextX(Index), nextY(Index)), True, Index, "CharNXNY") 'clear (nextX, nextY)
         If nextY(Index) > 0 Then
@@ -627,8 +643,10 @@ If altDir(Index) = "" Then
 Else
     charDir = altDir(Index)
 End If
+'if character is idle, paint idle sprites for the character's direction
 If strState(Index) = "I" Then
     If charDir = "L" Then
+        'paint mask if mask is to be painted (mask is not painted if character is set to blink from stun)
         If Not blnRecover(Index) Or paintMask(tile(curX(Index), curY(Index)), Index) Then
             .PaintPicture .picCharMaskIL.Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcAnd
         End If
@@ -682,6 +700,7 @@ If strState(Index) = "I" Then
         End If
     End If
 Else
+    'paint crouch sprites using a counter to get the correct frames
     If strState(Index) = "C" Then
         If counterC < 3 Then
             counterC = counterC + 1
@@ -741,6 +760,7 @@ Else
                 .PaintPicture .picP4CD(frameC).Image, charX, charY, 100, 100, 0, 0, 100, 100, vbSrcPaint
             End If
         End If
+    'paint jump sprites
     ElseIf strState(Index) = "J" Then
         counterC = 0
         If charDir = "L" Then
@@ -801,8 +821,10 @@ End If
 End With
 End Sub
 
+'paint tiles for tile-falling animation on startup
 Public Sub getTileAnim(ByVal intFrame As Integer, tileInput As terrain)
 With frmMain
+    'paint background over previous tile placement
     If ((tileInput.y - 400) + intFrame * 50) >= 0 Then
         .picBuffer.PaintPicture picBG.Image, 0, 0, 100, 100, tileInput.x, (tileInput.y - 400) + (intFrame - 1) * 50, 100, 100, vbSrcCopy
         .PaintPicture .picBuffer.Image, tileInput.x, (tileInput.y - 400) + (intFrame - 1) * 50, 100, 100, 0, 0, 100, 100, vbSrcCopy
@@ -811,6 +833,7 @@ With frmMain
     .PaintPicture tileInput.picMask.Image, tileInput.x, (tileInput.y - 400) + intFrame * 50, 100, 100, 0, 0, 100, 100, vbSrcAnd
     'paint tile with new y
     .PaintPicture tileInput.picTile.Image, tileInput.x, (tileInput.y - 400) + intFrame * 50, 100, 100, 0, 0, 100, 100, vbSrcPaint
+    'if call tiles are placed, start game and end startup animation
     If intFrame >= 8 And tileInput.Xc = tile(0, 0).Xc And tileInput.Yc = tile(0, 0).Yc Then
         Call gameStart
         .tmrTileAnim.Enabled = False

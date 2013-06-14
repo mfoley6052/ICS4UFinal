@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{C1A8AF28-1257-101B-8FB0-0020AF039CA3}#1.1#0"; "MCI32.OCX"
+Object = "{C1A8AF28-1257-101B-8FB0-0020AF039CA3}#1.1#0"; "mci32.ocx"
 Begin VB.Form frmStart 
    AutoRedraw      =   -1  'True
    Caption         =   "Dino Hopper"
@@ -333,6 +333,7 @@ End If
 End Sub
 
 Private Sub Form_Load()
+canPlay = True
 'load sounds
 mmcButton.FileName = App.Path & "\Sounds\button.mp3"
 mmcTitle.FileName = App.Path & "\Sounds\title.mp3"
@@ -379,14 +380,18 @@ lblMenu(2).Caption = "Options"
 'Paint the title graphic
 frmStart.PaintPicture picTitleMainMask.Image, picTitleMainMask.Left, picTitleMainMask.Top, picTitleMainMask.Width, picTitleMainMask.Height, 0, 0, picTitleMainMask.Width, picTitleMainMask.Height, vbSrcAnd
 frmStart.PaintPicture picTitleMain.Image, picTitleMain.Left, picTitleMain.Top, picTitleMain.Width, picTitleMain.Height, 0, 0, picTitleMain.Width, picTitleMain.Height, vbSrcPaint
-mmcTitle.Command = "play"
+If canPlay Then
+    mmcTitle.Command = "play"
+End If
 End Sub
 
 Private Sub lblMenu_Click(Index As Integer)
 'Play button sound
-mmcButton.Command = "Prev"
-mmcButton.Command = "open"
-mmcButton.Command = "play"
+If canPlay Then
+    mmcButton.Command = "Prev"
+    mmcButton.Command = "open"
+    mmcButton.Command = "play"
+End If
 'rotate left
 If Index = 0 Then 'left
     lblMenu(3).Visible = False

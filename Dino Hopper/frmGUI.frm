@@ -277,8 +277,8 @@ SetLayeredWindowAttributes Me.hWnd, vbCyan, 0&, LWA_COLORKEY
 End Sub
 
 Private Sub Form_LostFocus()
-'if game is started set focus to GUI so it stays above frmMain
-If gameStarted Then
+'if game is started and main form is visible, set focus to GUI so it stays above frmMain
+If gameStarted And frmMain.Visible Then
     frmGUI.SetFocus
 End If
 End Sub

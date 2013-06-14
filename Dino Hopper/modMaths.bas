@@ -1,9 +1,12 @@
 Attribute VB_Name = "modMaths"
+'for adding a given value to a player's score
 Public Sub addScore(ByVal Index As Integer, ByVal intAdd As Long)
 intScore(Index) = intScore(Index) + (intMulti(Index) * intAdd)
+'just in case value is somehow disabled, game is started
 gameStarted = True
 End Sub
 
+'refresh all values on GUI for a player
 Public Sub refreshLabels(ByVal Index As Integer, ByVal blnScore As Boolean, ByVal blnLives As Boolean, ByVal blnMulti As Boolean)
 With frmGUI
 If blnScore Then
@@ -18,32 +21,7 @@ End If
 End With
 End Sub
 
-Public Function charTouchingTile(ByVal Index As Integer, tileInput As terrain) As Boolean
-charTouchingTile = False
-Dim charCheck As Integer
-For charCheck = 0 To 3 Step 1
-    With frmMain
-    If charCheck <> Index And .tmrChar(charCheck).Enabled Then
-        If curX(charCheck) = tileInput.Xc And curY(charCheck) = tileInput.Yc Then
-            charTouchingTile = True
-        ElseIf oddRow(curY(charCheck)) Then
-            If curY(charCheck) = tileInput.Yc + 1 Then
-                If curX(charCheck) = tileInput.Xc Or curX(charCheck) - 1 = tileInput.Xc Then
-                    charTouchingTile = True
-                End If
-            End If
-        Else
-            If curY(charCheck) = tileInput.Yc + 1 Then
-                If curX(charCheck) = tileInput.Xc Or curX(charCheck) + 1 = tileInput.Xc Then
-                    charTouchingTile = True
-                End If
-            End If
-        End If
-    End If
-    End With
-Next charCheck
-End Function
-
+'check if area on tile corner should be cleared (check for left or right based on boolean balues)
 Public Function checkClearVoid(tileInput As terrain, ByVal blnL As Boolean, ByVal blnR As Boolean) As Boolean
 checkClearVoid = False
 If blnL Then
@@ -61,12 +39,15 @@ ElseIf blnR Then
 End If
 End Function
 
+'kill an object from the map
 Public Sub killObj(inputTile As terrain)
 inputTile.objTimer = 0
 inputTile.objFrame = 0
+'if object isn't a terrain, paint it with kill value true
 If inputTile.objType(0) <> "Terrain" Then
     Call PaintObj(inputTile.objType(0), inputTile.objType(1), 0, inputTile.Xc, inputTile.Yc, True)
 Else
+    'if object is a terrain, change terrain back to normal and clear
     Call getChangeTerrain(inputTile, Mid(inputTile.terType, 2, 1), True)
     Call clearTile(inputTile, False, -1, "ObjXYF")
 End If
@@ -77,10 +58,12 @@ tile(inputTile.Xc, inputTile.Yc) = inputTile
 objTileCount = objTileCount - 1
 End Sub
 
+'mask is set to appear or not, if object is set to blink (before object expiry), mask is false and object is painted translucent
 Public Function paintMask(tileInput As terrain, ByVal Index As Integer) As Boolean
 If Index < 0 Then
     If gameMode = 0 Then
         Dim ratExpire As Single
+        'gradual speed-up of the blinking
         If tileInput.objTimer < 0.7 * objExpire Then
             paintMask = True
         Else
@@ -92,14 +75,17 @@ If Index < 0 Then
             End If
         End If
     Else
+        'objects expire with turns (turn-based modes)
         If tileInput.objTimer = objExpire - 1 Then
             With frmMain
+            'use value from alternating timer
             paintMask = .tmrAlternate.Tag
             End With
         Else
             paintMask = True
         End If
     End If
+'blink for character mask if character is stunned; use value from alternating timer
 ElseIf blnRecover(Index) Then
     With frmMain
         paintMask = .tmrAlternate.Tag
@@ -107,6 +93,7 @@ ElseIf blnRecover(Index) Then
 End If
 End Function
 
+'return whether an index is a player (true) or a cpu (false)
 Public Function isPlayer(ByVal Index As Integer) As Boolean
 If Index <= numPlayers - 1 Then
     isPlayer = True
@@ -115,6 +102,7 @@ Else
 End If
 End Function
 
+'get the index of a character that is on a given tile
 Public Function getCharFromTile(tileInput As terrain) As Integer
 For x = 0 To 3
     If frmMain.tmrChar(x).Enabled Then
@@ -126,6 +114,7 @@ For x = 0 To 3
 Next x
 End Function
 
+'get location of character for jumping animation
 Public Function getCharJumpAnim(ByVal Index As Integer, ByVal curFrame As Integer, curTile As terrain, ByVal nextX As Integer, ByVal nextY As Integer)
 'if frame 5 to 10
 If curFrame >= 5 And curFrame <= 10 Then
@@ -140,6 +129,12 @@ If curFrame >= 5 And curFrame <= 10 Then
     With frmMain
     If curFrame = 5 Then
         If .tmrChar(Index).Tag = "Freeze" Then 'if freeze, change terrain to ice and paint half-transparency ice tile
+            'ice sound
+            If canPlay Then
+                frmMain.mmcPow(2).Command = "prev"
+                frmMain.mmcPow(2).Command = "open"
+                frmMain.mmcPow(2).Command = "play"
+            End If
             Call getChangeTerrain(curTile, "I", False)
             .PaintPicture curTile.picTile.Image, curTile.x, curTile.y, 100, 100, 0, 0, 100, 100, vbSrcPaint
         End If
@@ -152,14 +147,16 @@ If curFrame >= 5 And curFrame <= 10 Then
         End If
     End If
     End With
+'for edge jump, make character fall off edge
 ElseIf curFrame > 10 And curFrame <= 16 Then
     spriteX(Index) = curTile.x + ((curFrame - 5) * Int((nextX - curTile.x) / 5)) + 25
     spriteY(Index) = (nextY - 10) + ((curFrame - 10) * (curFrame * 2))
 End If
 End Function
 
-
+'get a tile x or y value from a tile order number (3 = (2,0), 9 = (2,1), etc.)
 Public Function getTileFromInt(ByVal blnX As Boolean, ByVal intInput As Integer) As Integer
+'get x or y depending on which one the function is set to return
 If blnX = True Then
     If intInput >= mapWidth Then
         If intInput >= (mapWidth * 2) + 1 Then
@@ -193,6 +190,7 @@ ElseIf blnX = False Then
 End If
 End Function
 
+'get respawn tile for a character jumping off an edge
 Public Sub setCharRespawn(ByVal Index As Integer, tileInput As terrain)
 Dim newX As Integer
 Dim newY As Integer
@@ -213,9 +211,11 @@ Else
     newX = 0
     newY = curY(Index)
 End If
+'set respawn to middle if set tile is taken
 If tile(newX, newY).hasChar Then
     newY = 3
     newX = 3
+    'if middle is taken, set respawn to one tile right from the middle
     If tile(3, newY).hasChar Then
         newX = 4
     End If
@@ -224,6 +224,7 @@ nextX(Index) = newX
 nextY(Index) = newY
 End Sub
 
+'get an absolute value
 Public Function getAbs(ByVal valInput As Single) As Integer
 If valInput < 0 Then
     valInput = 0
@@ -231,10 +232,12 @@ End If
 getAbs = valInput
 End Function
 
+'get a random integer with a minimum and maximum value
 Public Function randInt(ByVal min As Integer, ByVal max As Integer) As Integer
 randInt = Int(Rnd() * (max + 1)) + min
 End Function
 
+'return whether the tile row is odd or not; necessary where even rows have one less tile in a row than odd rows
 Public Function oddRow(ByVal intY As Integer) As Boolean
 If (intY + 1) Mod 2 = 0 Then
     oddRow = True

@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{C1A8AF28-1257-101B-8FB0-0020AF039CA3}#1.1#0"; "MCI32.OCX"
+Object = "{C1A8AF28-1257-101B-8FB0-0020AF039CA3}#1.1#0"; "mci32.ocx"
 Begin VB.Form frmMain 
    Appearance      =   0  'Flat
    AutoRedraw      =   -1  'True
@@ -16,6 +16,19 @@ Begin VB.Form frmMain
    ScaleHeight     =   637
    ScaleMode       =   3  'Pixel
    ScaleWidth      =   800
+   Begin MCI.MMControl mmcLose 
+      Height          =   330
+      Left            =   7200
+      TabIndex        =   275
+      Top             =   360
+      Visible         =   0   'False
+      Width           =   3540
+      _ExtentX        =   6244
+      _ExtentY        =   582
+      _Version        =   393216
+      DeviceType      =   ""
+      FileName        =   ""
+   End
    Begin MCI.MMControl mmcHit 
       Height          =   330
       Left            =   4320
@@ -5168,15 +5181,17 @@ mmcPow(1).FileName = App.Path & "\Sounds\scare.mp3"
 mmcPow(2).FileName = App.Path & "\Sounds\ice.mp3"
 mmcJump.FileName = App.Path & "\Sounds\jump.mp3"
 mmcHit.FileName = App.Path & "\Sounds\hit.mp3"
+mmcLose.FileName = App.Path & "\Sounds\lose.mp3"
 mmcCoin.FileName = App.Path & "\Sounds\coin.mp3"
 For x = 0 To 2
     mmcPow(x).Command = "open"
 Next x
+mmcLose.Command = "open"
 mmcJump.Command = "open"
 mmcHit.Command = "open"
 mmcCoin.Command = "open"
 'don't execute preparations if a game hasn't started yet
-If Not blnGame Then
+If Not gameStarted Then
     frmGUI.Show
     frmGUI.SetFocus
     frmGUI.BackColor = vbCyan
@@ -5277,13 +5292,14 @@ End If
 'if character is set to start jumping, call jump
 If frameCounter(Index) > 0 Then
     Call charAction(Index, tile(nextX(Index), nextY(Index)))
-    If Not blnGame Then
+    If Not gameStarted Then
         Exit Sub
     End If
 Else
     spriteX(Index) = tile(curX(Index), curY(Index)).x + 25
     spriteY(Index) = tile(curX(Index), curY(Index)).y - 15
 End If
+'play and alternate select animation between inward and outward
 If blnRev(Index) = False Then
     picCount(Index) = picCount(Index) + 1
 End If
@@ -5396,7 +5412,7 @@ If objTileCount < tileCount - 4 Then
             tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).objType(1) = "G"
         End If
     End If
-    objTileCount = objTileCount + 1
+    objTileCount = objTileCount + 1 '1 added to object count
 End If
 End Sub
 
