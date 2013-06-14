@@ -27,7 +27,7 @@ Begin VB.Form frmSettings
          Height          =   375
          Left            =   840
          TabIndex        =   35
-         Top             =   5040
+         Top             =   4920
          Width           =   1575
       End
       Begin VB.TextBox txtCTR 
@@ -134,6 +134,14 @@ Begin VB.Form frmSettings
       TabIndex        =   13
       Top             =   120
       Width           =   2415
+      Begin VB.CommandButton cmdHelp 
+         Caption         =   "Help"
+         Height          =   375
+         Left            =   480
+         TabIndex        =   36
+         Top             =   4920
+         Width           =   1335
+      End
       Begin VB.TextBox txtCTR 
          Enabled         =   0   'False
          Height          =   285
@@ -364,16 +372,20 @@ For x = LBound(key) To UBound(key)
 Next x
 End Sub
 
+Private Sub cmdHelp_Click()
+frmHelp.Show vbModal
+End Sub
+
 Private Sub cmdMap_Click()
 If cmdMap.Tag = "lock" Then
     cmdMap.Tag = "edit"
-    For x = txtCTR.LBound To txtCTR.ubound
+    For x = txtCTR.LBound To txtCTR.UBound
         txtCTR(x).Enabled = True
     Next x
     cmdMap.Caption = "Save Binding"
 Else
     cmdMap.Tag = "lock"
-    For x = txtCTR.LBound To txtCTR.ubound
+    For x = txtCTR.LBound To txtCTR.UBound
         txtCTR(x).Enabled = False
     Next x
     cmdMap.Caption = "Rebind Keys"
@@ -386,7 +398,7 @@ Me.Hide
 End Sub
 
 Private Sub Form_Load()
-For x = txtCTR.LBound To txtCTR.ubound
+For x = txtCTR.LBound To txtCTR.UBound
     If key(x) <> DefaultKey(x) Then
         txtCTR(x).Text = Chr(key(x))
     Else
@@ -400,5 +412,4 @@ key(Index) = KeyCode
 txtCTR(Index).Enabled = False
 txtCTR(Index).Text = Chr(KeyCode)
 'MsgBox (KeyCode & ": " & Chr(KeyCode))
-
 End Sub

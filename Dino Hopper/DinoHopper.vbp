@@ -19,6 +19,7 @@ Form=frmGUI.frm
 Module=modControls; modControls.bas
 Form=frmHiscore.frm
 Module=modScoreWrite; modScoreWrite.bas
+Form=frmHelp.frm
 IconForm="frmMain"
 Startup="frmStart"
 HelpFile=""
