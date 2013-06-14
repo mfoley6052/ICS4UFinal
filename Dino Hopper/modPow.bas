@@ -12,8 +12,14 @@ End If
 If strType = "Scare" Then
     If Index = 0 Then
         isScared = True
+        frmMain.mmcPow(1).Command = "prev"
+        frmMain.mmcPow(1).Command = "open"
+        frmMain.mmcPow(1).Command = "play"
     End If
 ElseIf strType = "Speed" Then
+    frmMain.mmcPow(0).Command = "prev"
+    frmMain.mmcPow(0).Command = "open"
+    frmMain.mmcPow(0).Command = "play"
     If gameMode = 0 Then
         .tmrChar(Index).Interval = 20
         If Index > 0 Then
@@ -23,6 +29,9 @@ ElseIf strType = "Speed" Then
         intMoves(Index) = 2
     End If
 ElseIf strType = "Freeze" Then
+    frmMain.mmcPow(2).Command = "prev"
+    frmMain.mmcPow(2).Command = "open"
+    frmMain.mmcPow(2).Command = "play"
     .tmrChar(Index).Tag = strType
 End If
 End With

@@ -13,6 +13,11 @@ If blnDebug Then
     End With
 End If
 If frameCounter(Index) = 1 Then
+    If frameProg(Index) = 1 Then
+        'frmMain.mmcJump.Command = "prev"
+        'frmMain.mmcJump.Command = "open"
+        'frmMain.mmcJump.Command = "play"
+    End If
     strState(Index) = "C"
 ElseIf frameCounter(Index) = 5 Then
     strState(Index) = "J"
@@ -337,6 +342,9 @@ If isPlayer(Index) Then
         Dim blnLives As Boolean
         If inputTile.objType(0) = "Coin" Then
             'play coin sound
+            frmMain.mmcCoin.Command = "prev"
+            frmMain.mmcCoin.Command = "open"
+            frmMain.mmcCoin.Command = "play"
             If inputTile.objType(1) = "Y" Then
                 Pscore = 100
             ElseIf inputTile.objType(1) = "R" Then

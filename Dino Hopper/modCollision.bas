@@ -1,5 +1,8 @@
 Attribute VB_Name = "modCollision"
 Public Sub getHurt(ByVal Index As Integer, ByVal enemyIndex As Integer)
+frmMain.mmcHit.Command = "prev"
+frmMain.mmcHit.Command = "open"
+frmMain.mmcHit.Command = "play"
 If blnRecover(Index) = False Then
     If isPlayer(Index) Then
         'check if all lives lost

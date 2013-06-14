@@ -1,4 +1,5 @@
 VERSION 5.00
+Object = "{C1A8AF28-1257-101B-8FB0-0020AF039CA3}#1.1#0"; "MCI32.OCX"
 Begin VB.Form frmStart 
    AutoRedraw      =   -1  'True
    Caption         =   "Dino Hopper"
@@ -10,6 +11,32 @@ Begin VB.Form frmStart
    ScaleMode       =   3  'Pixel
    ScaleWidth      =   800
    StartUpPosition =   2  'CenterScreen
+   Begin MCI.MMControl mmcButton 
+      Height          =   495
+      Left            =   240
+      TabIndex        =   15
+      Top             =   4560
+      Visible         =   0   'False
+      Width           =   3540
+      _ExtentX        =   6244
+      _ExtentY        =   873
+      _Version        =   393216
+      DeviceType      =   ""
+      FileName        =   ""
+   End
+   Begin MCI.MMControl mmcTitle 
+      Height          =   495
+      Left            =   6360
+      TabIndex        =   14
+      Top             =   2400
+      Visible         =   0   'False
+      Width           =   3540
+      _ExtentX        =   6244
+      _ExtentY        =   873
+      _Version        =   393216
+      DeviceType      =   ""
+      FileName        =   ""
+   End
    Begin VB.Frame fraPlayers 
       Caption         =   "Player Options"
       Height          =   4815
@@ -254,6 +281,15 @@ Next x
 End Sub
 
 Private Sub cmdPlay_Click()
+If numPlayers = 1 Then
+    If numCPU = 0 Then
+        playMode = "SOLO"
+    Else
+        playMode = "SP"
+    End If
+Else
+    playMode = "MP"
+End If
 frmMain.Show
 Unload frmStart
 Set frmStart = Nothing
@@ -290,6 +326,10 @@ End If
 End Sub
 
 Private Sub Form_Load()
+mmcButton.FileName = App.Path & "\Sounds\button.wav"
+mmcTitle.FileName = App.Path & "\Sounds\title.mp3"
+mmcButton.Command = "open"
+mmcTitle.Command = "open"
 ReDim DefaultKey(14) As Integer
 ReDim key(14) As Integer
 numPlayers = 1
@@ -329,9 +369,13 @@ lblMenu(1).Caption = "Single Player"
 lblMenu(2).Caption = "Options"
 frmStart.PaintPicture picTitleMainMask.Image, picTitleMainMask.Left, picTitleMainMask.Top, picTitleMainMask.Width, picTitleMainMask.Height, 0, 0, picTitleMainMask.Width, picTitleMainMask.Height, vbSrcAnd
 frmStart.PaintPicture picTitleMain.Image, picTitleMain.Left, picTitleMain.Top, picTitleMain.Width, picTitleMain.Height, 0, 0, picTitleMain.Width, picTitleMain.Height, vbSrcPaint
+mmcTitle.Command = "play"
 End Sub
 
 Private Sub lblMenu_Click(Index As Integer)
+mmcButton.Command = "Prev"
+mmcButton.Command = "open"
+mmcButton.Command = "play"
 If Index = 0 Then 'left
     lblMenu(3).Visible = False
     lblMenu(4).Visible = False

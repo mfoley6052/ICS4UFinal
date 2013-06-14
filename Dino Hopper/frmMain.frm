@@ -1,4 +1,5 @@
 VERSION 5.00
+Object = "{C1A8AF28-1257-101B-8FB0-0020AF039CA3}#1.1#0"; "MCI32.OCX"
 Begin VB.Form frmMain 
    Appearance      =   0  'Flat
    AutoRedraw      =   -1  'True
@@ -15,6 +16,59 @@ Begin VB.Form frmMain
    ScaleHeight     =   637
    ScaleMode       =   3  'Pixel
    ScaleWidth      =   800
+   Begin MCI.MMControl mmcHit 
+      Height          =   330
+      Left            =   4320
+      TabIndex        =   274
+      Top             =   120
+      Visible         =   0   'False
+      Width           =   3975
+      _ExtentX        =   7011
+      _ExtentY        =   582
+      _Version        =   393216
+      DeviceType      =   ""
+      FileName        =   ""
+   End
+   Begin MCI.MMControl mmcJump 
+      Height          =   330
+      Left            =   3600
+      TabIndex        =   273
+      Top             =   360
+      Visible         =   0   'False
+      Width           =   3540
+      _ExtentX        =   6244
+      _ExtentY        =   582
+      _Version        =   393216
+      DeviceType      =   ""
+      FileName        =   ""
+   End
+   Begin MCI.MMControl mmcCoin 
+      Height          =   330
+      Left            =   0
+      TabIndex        =   272
+      Top             =   360
+      Visible         =   0   'False
+      Width           =   3615
+      _ExtentX        =   6376
+      _ExtentY        =   582
+      _Version        =   393216
+      DeviceType      =   ""
+      FileName        =   ""
+   End
+   Begin MCI.MMControl mmcPow 
+      Height          =   330
+      Index           =   0
+      Left            =   0
+      TabIndex        =   269
+      Top             =   0
+      Visible         =   0   'False
+      Width           =   4095
+      _ExtentX        =   7223
+      _ExtentY        =   582
+      _Version        =   393216
+      DeviceType      =   ""
+      FileName        =   ""
+   End
    Begin VB.Timer tmrGameOver 
       Enabled         =   0   'False
       Interval        =   500
@@ -4944,6 +4998,34 @@ Begin VB.Form frmMain
          Width           =   1500
       End
    End
+   Begin MCI.MMControl mmcPow 
+      Height          =   330
+      Index           =   1
+      Left            =   0
+      TabIndex        =   270
+      Top             =   0
+      Visible         =   0   'False
+      Width           =   4095
+      _ExtentX        =   7223
+      _ExtentY        =   582
+      _Version        =   393216
+      DeviceType      =   ""
+      FileName        =   ""
+   End
+   Begin MCI.MMControl mmcPow 
+      Height          =   330
+      Index           =   2
+      Left            =   0
+      TabIndex        =   271
+      Top             =   0
+      Visible         =   0   'False
+      Width           =   4095
+      _ExtentX        =   7223
+      _ExtentY        =   582
+      _Version        =   393216
+      DeviceType      =   ""
+      FileName        =   ""
+   End
 End
 Attribute VB_Name = "frmMain"
 Attribute VB_GlobalNameSpace = False
@@ -5067,6 +5149,18 @@ frmMain.Height = formH
 End Sub
 
 Private Sub Form_Load()
+mmcPow(0).FileName = App.Path & "\Sounds\speed.mp3"
+mmcPow(1).FileName = App.Path & "\Sounds\scare.mp3"
+mmcPow(2).FileName = App.Path & "\Sounds\ice.mp3"
+mmcJump.FileName = App.Path & "\Sounds\jump.mp3"
+mmcHit.FileName = App.Path & "\Sounds\hit.mp3"
+mmcCoin.FileName = App.Path & "\Sounds\coin.mp3"
+For x = 0 To 2
+    mmcPow(x).Command = "open"
+Next x
+mmcJump.Command = "open"
+mmcHit.Command = "open"
+mmcCoin.Command = "open"
 If Not blnGame Then
     frmGUI.Show
     frmGUI.SetFocus
@@ -5261,7 +5355,12 @@ If objTileCount < tileCount - 4 Then
         If intType <= 60 Then 'Speed: 9%
             tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).objType(1) = "Speed"
         ElseIf intType > 60 And intType <= 90 Then 'Scare: 4.5%
-            tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).objType(1) = "Scare"
+            If playMode = "SP" Then
+                tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).objType(1) = "Scare"
+            Else
+                tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).objType(0) = "Coin"
+                tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).objType(1) = "Y"
+            End If
         ElseIf intType > 90 Then 'Freeze: 1.5%
             tile(getTileFromInt(True, intRand), getTileFromInt(False, intRand)).objType(1) = "Freeze"
         End If
