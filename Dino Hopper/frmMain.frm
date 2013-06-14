@@ -4962,7 +4962,7 @@ Dim curMouse As POINTAPI
 Call GetCursorPos(curMouse)
 curMouse.x = curMouse.x * 15
 curMouse.y = curMouse.y * 15
-If curMouse.x < frmMain.Left + 50 Or curMouse.x > frmMain.Left + frmMain.Width - 50 Or curMouse.y < frmMain.Top + 370 Or curMouse.y > frmMain.Top + frmMain.Height - 50 Then
+If curMouse.x < frmMain.Left + 50 Or curMouse.x > frmMain.Left + frmMain.Width - 50 Or curMouse.y < frmMain.Top + 370 Or curMouse.y > frmMain.Top + frmMain.Height - 50 And gameStarted Then
     Call keyUp(27, False)
     tmrRefresh.Enabled = True
     If frmX <> frmMain.Left Or frmY <> frmMain.Top Then
