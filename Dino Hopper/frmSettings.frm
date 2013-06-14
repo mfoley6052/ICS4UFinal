@@ -366,16 +366,17 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Private Sub cmdDef_Click()
+'Change keys to default keys
 For x = LBound(key) To UBound(key)
     key(x) = DefaultKey(x)
     txtCTR(x).Text = txtCTR(x).Tag
 Next x
 End Sub
-
+'show help form
 Private Sub cmdHelp_Click()
 frmHelp.Show vbModal
 End Sub
-
+'Allows editing/saves key bindings
 Private Sub cmdMap_Click()
 If cmdMap.Tag = "lock" Then
     cmdMap.Tag = "edit"
@@ -391,12 +392,12 @@ Else
     cmdMap.Caption = "Rebind Keys"
 End If
 End Sub
-
+'shows hiscores form
 Private Sub cmdScores_Click()
 frmHiscore.Show vbModal
 Me.Hide
 End Sub
-
+'displays default keys
 Private Sub Form_Load()
 For x = txtCTR.LBound To txtCTR.UBound
     If key(x) <> DefaultKey(x) Then
@@ -410,6 +411,7 @@ End Sub
 Private Sub txtCTR_KeyDown(Index As Integer, KeyCode As Integer, Shift As Integer)
 key(Index) = KeyCode
 txtCTR(Index).Enabled = False
+'this doesnt do what i wanted it to, i wanted it to show the key name of the key you pressed, this is the best i could find.
 txtCTR(Index).Text = Chr(KeyCode)
 'MsgBox (KeyCode & ": " & Chr(KeyCode))
 End Sub

@@ -110,7 +110,6 @@ frameProg(1) = 1
 frameProg(2) = 1
 frameProg(3) = 1
 blnGame = True
-frmGUI.SetFocus
 End With
 End Sub
 

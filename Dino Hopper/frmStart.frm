@@ -247,9 +247,11 @@ Attribute VB_Exposed = False
 Dim players() As Integer
 Dim cpus() As Integer
 Private Sub cmdAdd_Click()
+'Add a player or cpu
 If (numPlayers + numCPU < 3 And cmdAdd.Caption = "Add Player") Or (numPlayers + numCPU < 4 And cmdAdd.Caption = "Add CPU") Then
     cmdRemove.Enabled = True
     If cmdAdd.Caption = "Add Player" Then
+        'if the number of players is less than the max then add a player
         If numPlayers < 3 Then
             numPlayers = numPlayers + 1
             lstPlayers.AddItem "Player " & numPlayers
@@ -263,6 +265,7 @@ If (numPlayers + numCPU < 3 And cmdAdd.Caption = "Add Player") Or (numPlayers + 
         cpus(numCPU) = lstPlayers.ListCount
     End If
 End If
+'disable buttons if at max
 If (numPlayers + numCPU >= 3 And cmdAdd.Caption = "Add Player") Or (numPlayers + numCPU >= 4 And cmdAdd.Caption = "Add CPU") Then
     cmdAdd.Enabled = False
     cmdRemove.Enabled = True
@@ -270,17 +273,20 @@ End If
 End Sub
 
 Private Sub cmdCancel_Click()
+'remove player select
 numPlayers = 1
 numCPU = 0
 lstPlayers.Clear
 lstPlayers.AddItem "Player 1"
 fraPlayers.Visible = False
+'reenable menu
 For x = 0 To 5
     lblMenu(x).Enabled = True
 Next x
 End Sub
 
 Private Sub cmdPlay_Click()
+'Set variables for later use in hiscores
 If numPlayers = 1 Then
     If numCPU = 0 Then
         playMode = "SOLO"
@@ -290,11 +296,12 @@ If numPlayers = 1 Then
 Else
     playMode = "MP"
 End If
+'change forms
 frmMain.Show
 Unload frmStart
 Set frmStart = Nothing
 End Sub
-
+'Remove a player from the selection
 Private Sub cmdRemove_Click()
 If numPlayers + numCPU > 1 Then
     cmdAdd.Enabled = True
@@ -326,10 +333,12 @@ End If
 End Sub
 
 Private Sub Form_Load()
-mmcButton.FileName = App.Path & "\Sounds\button.wav"
+'load sounds
+mmcButton.FileName = App.Path & "\Sounds\button.mp3"
 mmcTitle.FileName = App.Path & "\Sounds\title.mp3"
 mmcButton.Command = "open"
 mmcTitle.Command = "open"
+'set keys and defaults
 ReDim DefaultKey(14) As Integer
 ReDim key(14) As Integer
 numPlayers = 1
@@ -367,19 +376,23 @@ DefaultKey(14) = vbKeySeparator
 lblMenu(0).Caption = "MultiPlayer"
 lblMenu(1).Caption = "Single Player"
 lblMenu(2).Caption = "Options"
+'Paint the title graphic
 frmStart.PaintPicture picTitleMainMask.Image, picTitleMainMask.Left, picTitleMainMask.Top, picTitleMainMask.Width, picTitleMainMask.Height, 0, 0, picTitleMainMask.Width, picTitleMainMask.Height, vbSrcAnd
 frmStart.PaintPicture picTitleMain.Image, picTitleMain.Left, picTitleMain.Top, picTitleMain.Width, picTitleMain.Height, 0, 0, picTitleMain.Width, picTitleMain.Height, vbSrcPaint
 mmcTitle.Command = "play"
 End Sub
 
 Private Sub lblMenu_Click(Index As Integer)
+'Play button sound
 mmcButton.Command = "Prev"
 mmcButton.Command = "open"
 mmcButton.Command = "play"
+'rotate left
 If Index = 0 Then 'left
     lblMenu(3).Visible = False
     lblMenu(4).Visible = False
     lblMenu(5).Visible = False
+    'change labels to appear its rotating
     For x = 0 To 2
         If lblMenu(x).Caption = "Options" Then
             lblMenu(x).Caption = "Single Player"
@@ -394,6 +407,7 @@ If Index = 0 Then 'left
             lblMenu(x).Caption = "Options"
         End If
     Next x
+'rotate right
 ElseIf Index = 2 Then 'right
     lblMenu(3).Visible = False
     lblMenu(4).Visible = False
@@ -412,6 +426,7 @@ ElseIf Index = 2 Then 'right
             lblMenu(x).Caption = "Options"
         End If
     Next x
+'select the middle menu option and determine what you need to do with it
 ElseIf Index = 1 Then ' Select
     If lblMenu(1).Caption = "Exit" Then
         End

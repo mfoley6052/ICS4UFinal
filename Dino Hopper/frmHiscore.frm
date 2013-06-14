@@ -18,6 +18,7 @@ Begin VB.Form frmHiscore
       Left            =   3000
       TabIndex        =   26
       Top             =   5520
+      Visible         =   0   'False
       Width           =   615
    End
    Begin VB.ComboBox cmbPlayMode 
@@ -314,59 +315,70 @@ Attribute VB_Exposed = False
 Dim ran As Boolean
 
 Private Sub cmdAdd_Click()
+'for testing
 Call WriteScore(InputBox("playerName: "), InputBox("score"))
 Call LoadScore
 End Sub
 
 Private Sub cmdBack_Click()
+'back to main menu
 Me.Hide
 frmStart.Show
 End Sub
 
 Private Sub cmdLoad_Click()
+'reset variables
 For x = 0 To 9
     score(x).score = 0
     score(x).nam = ""
     txtNam(x).Text = ""
     txtScore(x).Text = ""
 Next x
+'get dropdown choices
 playerChoice = cmbPlayers.Text
 gMode = cmbGameMode.Text
 playMode = cmbPlayMode.Text
+'load the score
 Call LoadScore
 End Sub
 
 Private Sub cmdReset_Click()
 Dim temp As Integer
+'make sure they want to erase the hiscores
 temp = MsgBox("Are you sure you want to reset the hiscore?", vbYesNo)
 If temp = vbYes Then
+'Solo has a different path which is annoying, but its because it doesnt need as many save files
     If playMode <> "SOLO" Then
         Open App.Path & "\Scores\" & playMode & "\" & gMode & "\" & playerChoice & ".sav" For Output As #1
     Else
         Open App.Path & "\Scores\" & playMode & "\" & playerChoice & ".sav" For Output As #1
     End If
+    'write a default score set
         For x = 0 To 9
             Print #1, "RST"
             Print #1, x * 1000
         Next x
     Close #1
 End If
+'load the scores
 Call LoadScore
 End Sub
 
 Private Sub Form_Load()
-
+'load the scores
 Call LoadScore
 End Sub
 
 Private Sub LoadScore()
 Dim temp As String
+'the first time you load, use default values
 If Not ran Then
     gMode = "Arcade"
     playerChoice = "1"
     playMode = "SP"
     ran = True
 End If
+'open file
 If playMode <> "SOLO" Then
     frmHiscore.cmbGameMode.Enabled = True
     Open App.Path & "\Scores\" & playMode & "\" & gMode & "\" & playerChoice & ".sav" For Input As #1
@@ -374,6 +386,7 @@ Else
     frmHiscore.cmbGameMode.Enabled = False
     Open App.Path & "\Scores\" & playMode & "\" & playerChoice & ".sav" For Input As #1
 End If
+'clear text boxes, and read in the name and score of each record
 For x = 0 To 9
     frmHiscore.txtNam(x).Text = ""
     frmHiscore.txtScore(x).Text = ""
@@ -391,9 +404,10 @@ Dim sorted As Boolean
 Dim upper As Long
 Dim tempo As Record
 upper = UBound(score) - 1
+'better bubble sort on scores
 Do Until sorted
     sorted = True
-    For y = LBound(score) To upper 'Step - 1
+    For y = LBound(score) To upper
         If score(y + 1).score < score(y).score Then
             tempo.score = score(y).score
             tempo.nam = score(y).nam
@@ -407,6 +421,7 @@ Do Until sorted
     upper = upper - 1
 Loop
 Dim count As Integer
+'output the scores to the textboxes
 For x = 9 To 0 Step -1
 frmHiscore.txtNam(count).Text = score(x).nam
 frmHiscore.txtScore(count).Text = score(x).score
