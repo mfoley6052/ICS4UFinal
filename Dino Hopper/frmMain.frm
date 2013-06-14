@@ -5021,7 +5021,7 @@ If intCounter / 2 - Int(intCounter / 2) = 0 Then
     PaintPicture .picGameOverMask.Image, (.ScaleWidth * 0.5) - (.picGameOver.ScaleWidth * 0.5), (.ScaleHeight * 0.5) - (.picGameOver.ScaleHeight * 0.5), .picGameOver.ScaleWidth, .picGameOver.ScaleHeight, 0, 0, picGameOver.ScaleWidth, .picGameOver.ScaleHeight, vbSrcAnd
     PaintPicture .picGameOver.Image, (.ScaleWidth * 0.5) - (.picGameOver.ScaleWidth * 0.5), (.ScaleHeight * 0.5) - (.picGameOver.ScaleHeight * 0.5), .picGameOver.ScaleWidth, .picGameOver.ScaleHeight, 0, 0, picGameOver.ScaleWidth, .picGameOver.ScaleHeight, vbSrcPaint
 Else
-    PaintPicture picBackground.Image, 0, 0, 800, 637, 0, 0, 800, 637, vbSrcCopy
+    .PaintPicture picBG.Image, 0, 0, 800, 637, 0, 0, 800, 637, vbSrcCopy
 End If
 End With
 intCounter = intCounter + 1
@@ -5078,13 +5078,13 @@ If Not blnGame Then
     Dim randomInt As Integer
     Randomize Timer
     randomInt = randInt(1, 10)
-    If randomInt = 1 Then
-        Set frmMain.picBackground = LoadPicture(App.Path & "\Images\Space.jpg", (frmw))
+    If randomInt < 10 Then
+        Set frmMain.picBackground = LoadPicture(App.Path & "\Images\Space.jpg")
     Else
         Set frmMain.picBackground = LoadPicture(App.Path & "\Images\backgroundMDI.gif")
     End If
-    PaintPicture picBackground.Image, 0, 0, 800, 637, 0, 0, 800, 637, vbSrcCopy
-    Set picBG = picBackground
+    Set picBG = frmMain.picBackground
+    frmMain.PaintPicture picBG.Image, 0, 0, 800, 637, 0, 0, 800, 637, vbSrcCopy
     Call DrawMap(7, 7)
     blnClearPrevTile(0) = False
     blnClearPrevTile(1) = False

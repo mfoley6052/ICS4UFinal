@@ -198,6 +198,13 @@ End Sub
 Private Sub lblMenu_Click()
 frmStart.Show
 Call getGameEnd
+frmStart.Show
+frmMain.Hide
+Unload frmMain
+Set frmMain = Nothing
+frmGUI.Hide
+Unload frmGUI
+Set frmGUI = Nothing
 Unload Me
 End Sub
 

@@ -792,7 +792,7 @@ End Sub
 Public Sub getTileAnim(ByVal intFrame As Integer, tileInput As terrain)
 With frmMain
     If ((tileInput.y - 400) + intFrame * 50) >= 0 Then
-        .picBuffer.PaintPicture .picBackground.Image, 0, 0, 100, 100, tileInput.x, (tileInput.y - 400) + intFrame * 50, 100, 100, vbSrcCopy
+        .picBuffer.PaintPicture picBG.Image, 0, 0, 100, 100, tileInput.x, (tileInput.y - 400) + (intFrame - 1) * 50, 100, 100, vbSrcCopy
         .PaintPicture .picBuffer.Image, tileInput.x, (tileInput.y - 400) + (intFrame - 1) * 50, 100, 100, 0, 0, 100, 100, vbSrcCopy
     End If
     'paint tile mask with new y
