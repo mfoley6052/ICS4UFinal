@@ -1,6 +1,7 @@
 Attribute VB_Name = "modMaths"
 Public Sub addScore(ByVal Index As Integer, ByVal intAdd As Long)
 intScore(Index) = intScore(Index) + (intMulti(Index) * intAdd)
+gameStarted = True
 End Sub
 
 Public Sub refreshLabels(ByVal Index As Integer, ByVal blnScore As Boolean, ByVal blnLives As Boolean, ByVal blnMulti As Boolean)
